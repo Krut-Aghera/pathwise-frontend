@@ -16,12 +16,14 @@ const useAuthInitializer = () => {
     useEffect(() => {
 
         const initializeAuth = async () => {
+
             try {
                 const response = await getCurrentUser()
                 dispatch(setAuthSession(response.data))
 
             } catch (error) {
                 dispatch(clearAuthSession())
+
             } finally {
                 dispatch(setAuthInitializationComplete())
 

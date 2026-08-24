@@ -36,7 +36,7 @@ const routerConfig = createBrowserRouter(
             </Route>
 
             <Route element={<ProtectedRoutes allowedRoles={[USER_ROLE.STUDENT]} />}>
-                <Route path="test-protected" element={<ProtectedTestPage />} />
+                <Route path="/test-protected" element={<ProtectedTestPage />} />
             </Route>
         </>
     )

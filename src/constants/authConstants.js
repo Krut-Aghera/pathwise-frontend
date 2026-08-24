@@ -5,7 +5,7 @@ const AUTH_ERROR_CODES = Object.freeze({
     ACCESS_TOKEN_NOT_ACTIVE: "ACCESS_TOKEN_NOT_ACTIVE",
 })
 
-AUTH_INTERCEPTOR_CONFIG = {
+const AUTH_INTERCEPTOR_CONFIG = {
     RETRY_FLAG: "_authRetry",
     ROTATE_ENDPOINT: "/auth/tokens/rotate",
 }

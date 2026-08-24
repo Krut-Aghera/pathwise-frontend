@@ -1,11 +1,8 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
 
 import * as authService from "../services/auth.service.js"
 import { clearAuthSession, setAuthSession } from "../state/authSlice.js"
-import normalizeHttpError from "../../../services/http/errors/normalizeHttpError.js"
-import HttpError from "../../../services/http/errors/httpError.js"
 
 
 const LoginPage = () => {
@@ -14,8 +11,6 @@ const LoginPage = () => {
     const [password, setPassword] = useState("")
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
-
     const { user } = useSelector((state) => state.auth)
 
     const handleLogin = async (e) => {
@@ -27,15 +22,11 @@ const LoginPage = () => {
         }
 
         try {
-
             const response = await authService.login({
                 email,
                 password,
             })
-
             dispatch(setAuthSession(response.data))
-
-            navigate("/", { replace: true })
 
         } catch (error) {
 
