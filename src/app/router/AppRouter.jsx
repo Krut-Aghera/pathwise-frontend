@@ -15,7 +15,7 @@ import GuestOnlyRoutes from "./GuestOnlyRoutes"
 import ProtectedRoutes from "./ProtectedRoutes"
 import ProtectedTestPage from "../../pages/ProtectedTestPage"
 import UnauthorizedPage from "../../pages/UnauthorizedPage"
-import { USER_ROLE } from "../../constants/userConstant"
+import { USER_ROLE } from "../../constants/userConstants"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(

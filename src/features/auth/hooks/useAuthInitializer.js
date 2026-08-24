@@ -10,7 +10,7 @@ import {
 
 
 const useAuthInitializer = () => {
-    
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -22,7 +22,6 @@ const useAuthInitializer = () => {
 
             } catch (error) {
                 dispatch(clearAuthSession())
-
             } finally {
                 dispatch(setAuthInitializationComplete())
 

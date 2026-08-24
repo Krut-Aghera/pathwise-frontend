@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 import * as authService from "../services/auth.service.js"
-import { setAuthSession } from "../state/authSlice.js"
+import { clearAuthSession, setAuthSession } from "../state/authSlice.js"
+import normalizeHttpError from "../../../services/http/errors/normalizeHttpError.js"
+import HttpError from "../../../services/http/errors/httpError.js"
 
 
 const LoginPage = () => {
@@ -37,7 +39,7 @@ const LoginPage = () => {
 
         } catch (error) {
 
-            console.log("Backend error:", error.response?.data)
+            dispatch(clearAuthSession())
 
         }
     }
