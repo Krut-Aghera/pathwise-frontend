@@ -5,6 +5,8 @@ import {
     createRoutesFromElements,
 } from "react-router-dom"
 
+import { USER_ROLE } from "../../constants/userConstants"
+
 import AppLayout from "../../layouts/AppLayout"
 import HomePage from "../../pages/HomePage"
 import CoursesPage from "../../features/course/pages/CoursesPage"
@@ -15,7 +17,7 @@ import GuestOnlyRoutes from "./GuestOnlyRoutes"
 import ProtectedRoutes from "./ProtectedRoutes"
 import ProtectedTestPage from "../../pages/ProtectedTestPage"
 import UnauthorizedPage from "../../pages/UnauthorizedPage"
-import { USER_ROLE } from "../../constants/userConstants"
+import ComponentPreviewPage from '../../pages/ComponentPreviewPage'
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -23,6 +25,7 @@ const routerConfig = createBrowserRouter(
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<HomePage />} />
                 <Route path="courses" element={<CoursesPage />} />
+                <Route path="preview" element={<ComponentPreviewPage />} />
             </Route>
 
             <Route path="unauthorized" element={<UnauthorizedPage />} />

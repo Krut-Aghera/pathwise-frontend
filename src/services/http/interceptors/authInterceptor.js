@@ -1,5 +1,5 @@
 import store from "../../../app/store/store.js"
-import { rotateTokens } from "../../../features/auth/services/auth.service.js"
+import { rotateTokens } from "../../../features/auth/services/authService.js"
 import { clearAuthSession } from "../../../features/auth/state/authSlice.js"
 import { AUTH_INTERCEPTOR_CONFIG } from "../../../constants/authConstants.js"
 

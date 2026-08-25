@@ -21,7 +21,7 @@ const useAuthInitializer = () => {
                 const response = await getCurrentUser()
                 dispatch(setAuthSession(response.data))
 
-            } catch (error) {
+            } catch {
                 dispatch(clearAuthSession())
 
             } finally {
