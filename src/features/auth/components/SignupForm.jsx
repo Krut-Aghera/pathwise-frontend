@@ -47,7 +47,26 @@ const SignupForm = () => {
 
         } catch (error) {
 
+            // Backend validation errors
+            if (
+                error.statusCode === 400 &&
+                Array.isArray(error.errors)
+            ) {
+                error.errors.forEach(({ field, message }) => {
+
+                    setError(field, {
+                        type: "server",
+                        message,
+                    })
+
+                })
+
+                return
+            }
+
+            // Duplicate email
             if (error.statusCode === 409) {
+
                 setError("email", {
                     type: "server",
                     message: error.message,
@@ -56,12 +75,14 @@ const SignupForm = () => {
                 return
             }
 
+            // General / unexpected error
             setError("root", {
                 type: "server",
                 message:
                     error.message ||
                     "Unable to create your account. Please try again.",
             })
+
         }
     }
 

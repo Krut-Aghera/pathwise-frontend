@@ -37,7 +37,7 @@ const FormField = ({
                 {label}
 
                 {required && (
-                    <span className="ml-1 text-status-danger">
+                    <span className="ml-1 text-[10px] text-status-danger">
                         *
                     </span>
                 )}

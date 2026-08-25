@@ -45,11 +45,25 @@ const LoginForm = () => {
 
             dispatch(setAuthSession(response.data))
 
-        } catch {
+        } catch (error) {
+
+            if (
+                error.statusCode === 400 ||
+                error.statusCode === 401
+            ) {
+                setError("root", {
+                    type: "server",
+                    message: "Invalid credentials.",
+                })
+
+                return
+            }
 
             setError("root", {
                 type: "server",
-                message: "Invalid credentials"
+                message:
+                    error.message ||
+                    "Unable to sign in. Please try again.",
             })
         }
     }
