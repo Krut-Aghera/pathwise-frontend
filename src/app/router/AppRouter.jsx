@@ -18,17 +18,19 @@ import ProtectedRoutes from "./ProtectedRoutes"
 import ProtectedTestPage from "../../pages/ProtectedTestPage"
 import UnauthorizedPage from "../../pages/UnauthorizedPage"
 import ComponentPreviewPage from '../../pages/ComponentPreviewPage'
+import AboutPage from "../../pages/AboutPage"
+import NotFoundPage from "../../pages/NotFoundPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
         <>
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<HomePage />} />
+                <Route path="about" element={<AboutPage />} />
                 <Route path="courses" element={<CoursesPage />} />
                 <Route path="preview" element={<ComponentPreviewPage />} />
             </Route>
 
-            <Route path="unauthorized" element={<UnauthorizedPage />} />
 
             {/* Auth */}
             <Route path="auth" element={<AuthLayout />}>
@@ -38,10 +40,15 @@ const routerConfig = createBrowserRouter(
                 </Route>
             </Route>
 
-            <Route element={<ProtectedRoutes allowedRoles={[USER_ROLE.STUDENT]} />}>
+            <Route element={<ProtectedRoutes allowedRoles={[USER_ROLE.INSTRUCTOR]} />}>
                 <Route path="/test-protected" element={<ProtectedTestPage />} />
             </Route>
+
+
+            <Route path="unauthorized" element={<UnauthorizedPage />} />
+            <Route path="*" element={<NotFoundPage />} />
         </>
+
     )
 )
 

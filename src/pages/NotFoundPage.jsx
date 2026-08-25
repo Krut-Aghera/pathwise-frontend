@@ -1,13 +1,7 @@
 import { Link } from "react-router-dom"
-import {
-    ArrowLeft,
-    ArrowRight,
-    CircleAlert,
-    Home,
-    ShieldAlert,
-} from "lucide-react"
+import { ArrowLeft, Compass, Home, Search } from "lucide-react"
 
-const UnauthorizedPage = () => {
+const NotFoundPage = () => {
     return (
         <main className="
             flex
@@ -37,13 +31,13 @@ const UnauthorizedPage = () => {
                     justify-center
                     rounded-2xl
                     border
-                    border-status-warning/20
-                    bg-status-warning/5
-                    text-status-warning
+                    border-border-subtle
+                    bg-background-surface
+                    text-accent-primary
                     shadow-lg
-                    shadow-status-warning/5
+                    shadow-accent-primary/5
                 ">
-                    <ShieldAlert
+                    <Compass
                         size={30}
                         strokeWidth={1.8}
                     />
@@ -59,9 +53,9 @@ const UnauthorizedPage = () => {
                     font-semibold
                     uppercase
                     tracking-[0.2em]
-                    text-status-warning
+                    text-accent-primary
                 ">
-                    Error 403
+                    Error 404
                 </p>
 
 
@@ -76,7 +70,7 @@ const UnauthorizedPage = () => {
                     text-text-primary
                     sm:text-4xl
                 ">
-                    Access restricted
+                    Page not found
                 </h1>
 
 
@@ -92,50 +86,9 @@ const UnauthorizedPage = () => {
                     text-text-secondary
                     sm:text-base
                 ">
-                    You don't have permission to access this page.
-                    If you believe this is a mistake, make sure you're
-                    signed in with the correct account.
+                    The page you're looking for doesn't exist, may have
+                    been moved, or the URL might be incorrect.
                 </p>
-
-
-                {/* Notice */}
-
-                <div className="
-                    mx-auto
-                    mt-6
-                    flex
-                    max-w-md
-                    items-start
-                    gap-3
-                    rounded-lg
-                    border
-                    border-border-subtle
-                    bg-background-surface
-                    px-4
-                    py-3
-                    text-left
-                ">
-
-                    <CircleAlert
-                        size={17}
-                        className="
-                            mt-0.5
-                            shrink-0
-                            text-text-muted
-                        "
-                    />
-
-                    <p className="
-                        font-body
-                        text-xs
-                        leading-5
-                        text-text-muted
-                    ">
-                        Pathwise protects restricted resources using
-                        role-based authorization and authenticated access.
-                    </p>
-
-                </div>
 
 
                 {/* Actions */}
@@ -204,8 +157,8 @@ const UnauthorizedPage = () => {
                             focus:ring-accent-primary/30
                         "
                     >
+                        <Search size={16} />
                         Browse courses
-                        <ArrowRight size={16} />
                     </Link>
 
                 </div>
@@ -223,9 +176,6 @@ const UnauthorizedPage = () => {
                         cursor-pointer
                         items-center
                         gap-1.5
-                        rounded-md
-                        px-2
-                        py-1
                         font-body
                         text-xs
                         text-text-muted
@@ -234,6 +184,9 @@ const UnauthorizedPage = () => {
                         focus:outline-none
                         focus:ring-2
                         focus:ring-accent-primary/30
+                        rounded-md
+                        px-2
+                        py-1
                     "
                 >
                     <ArrowLeft size={14} />
@@ -246,4 +199,4 @@ const UnauthorizedPage = () => {
     )
 }
 
-export default UnauthorizedPage
+export default NotFoundPage

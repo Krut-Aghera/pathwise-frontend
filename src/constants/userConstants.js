@@ -1,6 +1,6 @@
 const USER_ROLE = Object.freeze({
     ADMIN: "admin",
-    INNSTRUCTOR: "instructor",
+    INSTRUCTOR: "instructor",
     STUDENT: "student",
 })
 
