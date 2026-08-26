@@ -36,8 +36,7 @@ const ForgotPasswordForm = () => {
             const response = await requestPasswordReset({
                 email: formData.email,
             })
-
-            console.log(response)
+            
             setPasswordResponse(response.message)
             // toast
 

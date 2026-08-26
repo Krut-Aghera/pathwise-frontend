@@ -21,6 +21,8 @@ import ForgotPasswordPage from "../../features/auth/pages/ForgotPasswordPage"
 import UserDashboardPage from "../../features/user/pages/UserDashboardPage"
 import WishlistPage from "../../features/wishlist/pages/WishlistPage"
 import InstructorDashboardPage from "../../features/user/pages/InstructorDashboardPage"
+import CourseDetailsPage from "../../features/course/pages/CourseDetailsPage"
+import CourseCreatePage from "../../features/course/pages/CourseCreatePage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -30,6 +32,7 @@ const routerConfig = createBrowserRouter(
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<HomePage />} />
                 <Route path="about" element={<AboutPage />} />
+                <Route path="courses/:courseId" element={<CourseDetailsPage />} />
                 {/* <Route path="courses" element={<CoursesPage />} /> */}
                 {/* <Route path="preview" element={<ComponentPreviewPage />} /> */}
             </Route>
@@ -64,6 +67,7 @@ const routerConfig = createBrowserRouter(
                         element={<WishlistPage />}
                     />
 
+
                 </Route>
             </Route>
 
@@ -79,6 +83,11 @@ const routerConfig = createBrowserRouter(
                     <Route
                         path="instructor/dashboard"
                         element={<InstructorDashboardPage />}
+                    />
+
+                    <Route
+                        path="instructor/courses/create"
+                        element={<CourseCreatePage />}
                     />
                 </Route>
                 {/* <Route
