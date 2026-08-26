@@ -20,6 +20,7 @@ import NotFoundPage from "../../pages/NotFoundPage"
 import ForgotPasswordPage from "../../features/auth/pages/ForgotPasswordPage"
 import UserDashboardPage from "../../features/user/pages/UserDashboardPage"
 import WishlistPage from "../../features/wishlist/pages/WishlistPage"
+import InstructorDashboardPage from "../../features/user/pages/InstructorDashboardPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -52,13 +53,13 @@ const routerConfig = createBrowserRouter(
                 USER_ROLE.INSTRUCTOR,
                 USER_ROLE.ADMIN,
             ]} />}>
-                
+
                 <Route element={<AppLayout />}>
                     <Route
                         path="dashboard"
                         element={<UserDashboardPage />}
                     />
-                    <Route 
+                    <Route
                         path="wishlist"
                         element={<WishlistPage />}
                     />
@@ -74,6 +75,12 @@ const routerConfig = createBrowserRouter(
                 USER_ROLE.ADMIN,
             ]} />}>
 
+                <Route element={<AppLayout />}>
+                    <Route
+                        path="instructor/dashboard"
+                        element={<InstructorDashboardPage />}
+                    />
+                </Route>
                 {/* <Route
                     path="instructor"
                     element={<InstructorLayout />}

@@ -107,7 +107,7 @@ const InstructorAccessCard = () => {
                 <Link
                     to={
                         hasInstructorAccess
-                            ? "/instructor"
+                            ? "/instructor/dashboard"
                             : "/instructor/access"
                     }
                     className="
