@@ -24,11 +24,14 @@ const FeaturedCourses = () => {
                 lg:px-8
             ">
 
+                {/* Section Header */}
+
                 <div className="
                     mb-8
                     flex
                     flex-col
                     gap-4
+
                     sm:mb-10
                     sm:flex-row
                     sm:items-end
@@ -36,6 +39,7 @@ const FeaturedCourses = () => {
                 ">
 
                     <div>
+
                         <span className="
                             font-body
                             text-xs
@@ -47,16 +51,19 @@ const FeaturedCourses = () => {
                             Featured learning
                         </span>
 
+
                         <h2 className="
                             mt-2
                             font-accent
                             text-2xl
                             font-bold
                             text-text-primary
+
                             sm:text-3xl
                         ">
                             Explore popular courses
                         </h2>
+
 
                         <p className="
                             mt-2
@@ -69,12 +76,14 @@ const FeaturedCourses = () => {
                             Start with courses learners are using to
                             develop practical, real-world skills.
                         </p>
+
                     </div>
 
 
                     <Link
                         to="/courses"
                         className="
+                            shrink-0
                             font-body
                             text-sm
                             font-medium
@@ -89,19 +98,26 @@ const FeaturedCourses = () => {
                 </div>
 
 
+                {/* Course Grid */}
+
                 <div className="
                     grid
                     grid-cols-1
                     gap-5
+
                     md:grid-cols-2
                     lg:grid-cols-3
                 ">
+
                     {featuredCourses.map((course) => (
+
                         <CourseCard
                             key={course.id}
                             course={course}
                         />
+
                     ))}
+
                 </div>
 
             </div>

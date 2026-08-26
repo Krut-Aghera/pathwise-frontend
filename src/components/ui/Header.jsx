@@ -73,7 +73,7 @@ const Header = () => {
             z-50
             border-b
             border-border-subtle
-            bg-background-base/90
+            bg-background-base/70
             py-2
             backdrop-blur-md
         ">
@@ -277,9 +277,9 @@ const Header = () => {
 
 
                             <NavLink
-                                to="/account"
-                                aria-label="Account"
-                                title="Account"
+                                to="/dashboard"
+                                aria-label="User Dashboard"
+                                title="User Dashboard"
                                 className={({ isActive }) => `
                                     inline-flex
                                     items-center
