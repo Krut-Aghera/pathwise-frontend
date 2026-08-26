@@ -8,21 +8,30 @@ import {
 import { USER_ROLE } from "../../constants/userConstants"
 
 import AppLayout from "../../layouts/AppLayout"
-import HomePage from "../../pages/HomePage"
 import AuthLayout from "../../layouts/AuthLayout"
-import LoginPage from "../../features/auth/pages/LoginPage"
-import SignupPage from "../../features/auth/pages/SignupPage"
+
 import GuestOnlyRoutes from "./GuestOnlyRoutes"
 import ProtectedRoutes from "./ProtectedRoutes"
+
 import UnauthorizedPage from "../../pages/UnauthorizedPage"
-import AboutPage from "../../pages/AboutPage"
 import NotFoundPage from "../../pages/NotFoundPage"
+
+import HomePage from "../../pages/HomePage"
+import AboutPage from "../../pages/AboutPage"
+import CourseDetailsPage from "../../features/course/pages/CourseDetailsPage"
+
+import LoginPage from "../../features/auth/pages/LoginPage"
+import SignupPage from "../../features/auth/pages/SignupPage"
 import ForgotPasswordPage from "../../features/auth/pages/ForgotPasswordPage"
+
 import UserDashboardPage from "../../features/user/pages/UserDashboardPage"
 import WishlistPage from "../../features/wishlist/pages/WishlistPage"
 import InstructorDashboardPage from "../../features/user/pages/InstructorDashboardPage"
-import CourseDetailsPage from "../../features/course/pages/CourseDetailsPage"
+
 import CourseCreatePage from "../../features/course/pages/CourseCreatePage"
+import InstructorCoursesPage from "../../features/course/pages/InstructorCoursesPage"
+import CourseEditPage from "../../features/course/pages/CourseEditPage"
+import CourseThumbnailEditPage from "../../features/course/pages/CourseThumbnailEditPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -89,6 +98,22 @@ const routerConfig = createBrowserRouter(
                         path="instructor/courses/create"
                         element={<CourseCreatePage />}
                     />
+
+                    <Route
+                        path="instructor/courses"
+                        element={<InstructorCoursesPage />}
+                    />
+
+                    <Route
+                        path="instructor/courses/:courseId/edit"
+                        element={<CourseEditPage />}            
+                    />
+
+                    <Route 
+                        path="instructor/courses/:courseId/thumbnail"
+                        element={<CourseThumbnailEditPage />}
+                    />
+
                 </Route>
                 {/* <Route
                     path="instructor"

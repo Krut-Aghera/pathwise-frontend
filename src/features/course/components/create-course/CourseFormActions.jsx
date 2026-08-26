@@ -2,8 +2,8 @@ import Button from "../../../../components/ui/Button"
 
 
 const CourseFormActions = ({
-    isLoading = false,
     onCancel,
+    loading = false,
 }) => {
 
     return (
@@ -14,10 +14,9 @@ const CourseFormActions = ({
 
             border-t
             border-border-subtle
-            pt-6
+            pt-5
 
             sm:flex-row
-            sm:items-center
             sm:justify-end
         ">
 
@@ -26,9 +25,25 @@ const CourseFormActions = ({
             <Button
                 type="button"
                 onClick={onCancel}
-                disabled={isLoading}
+                disabled={loading}
                 className="
                     w-full
+                    border
+                    border-border-subtle
+                    bg-transparent
+                    text-text-secondary
+
+                    transition-all
+                    duration-200
+
+                    hover:border-text-muted
+                    hover:bg-background-elevated
+                    hover:text-text-primary
+
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-border-subtle
+                    focus-visible:ring-offset-2
 
                     sm:w-auto
                 "
@@ -37,18 +52,38 @@ const CourseFormActions = ({
             </Button>
 
 
-            {/* Create */}
+            {/* Submit */}
 
             <Button
                 type="submit"
-                loading={isLoading}
+                loading={loading}
+                disabled={loading}
                 className="
                     w-full
+
+                    border
+                    border-accent-primary
+
+                    bg-accent-primary
+                    text-text-primary
+
+                    shadow-sm
+
+                    transition-all
+                    duration-200
+
+                    hover:opacity-90
+                    hover:shadow-md
+
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-accent-primary
+                    focus-visible:ring-offset-2
 
                     sm:w-auto
                 "
             >
-                Create Course
+                Save Changes
             </Button>
 
         </div>
