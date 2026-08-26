@@ -20,6 +20,7 @@ import UnauthorizedPage from "../../pages/UnauthorizedPage"
 import ComponentPreviewPage from '../../pages/ComponentPreviewPage'
 import AboutPage from "../../pages/AboutPage"
 import NotFoundPage from "../../pages/NotFoundPage"
+import ForgotPasswordPage from "../../features/auth/pages/ForgotPasswordPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -37,6 +38,7 @@ const routerConfig = createBrowserRouter(
                 <Route element={<GuestOnlyRoutes />}>
                     <Route path="login" element={<LoginPage />} />
                     <Route path="signup" element={<SignupPage />} />
+                    <Route path="forgot-password" element={<ForgotPasswordPage />} />
                 </Route>
             </Route>
 

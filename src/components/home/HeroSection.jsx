@@ -109,7 +109,7 @@ const HeroSection = () => {
                         <br />
 
                         <span className="
-                            bg-gradient-to-r
+                            bg-linear-to-r
                             from-accent-primary
                             via-accent-unique
                             to-accent-secondary

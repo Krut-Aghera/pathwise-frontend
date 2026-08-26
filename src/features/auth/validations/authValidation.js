@@ -75,7 +75,22 @@ const loginValidationRules = {
 }
 
 
+const forgotPasswordValidationRules = {
+    email: {
+        required: {
+            value: true,
+            message: "Email is required",
+        },
+
+        pattern: {
+            value: SIGNUP_REGEX_VALIDATIONS.email.PATTERN,
+            message: SIGNUP_REGEX_VALIDATIONS.email.MESSAGE,
+        },
+    },
+}
+
 export {
     signupValidationRules,
-    loginValidationRules
+    loginValidationRules,
+    forgotPasswordValidationRules
 }

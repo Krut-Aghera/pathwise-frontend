@@ -256,7 +256,7 @@ const AboutPage = () => {
                                 <span className="
                                     mt-2
                                     block
-                                    bg-gradient-to-r
+                                    bg-linear-to-r
                                     from-accent-primary
                                     via-accent-unique
                                     to-accent-secondary

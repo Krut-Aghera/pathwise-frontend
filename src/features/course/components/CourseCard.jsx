@@ -35,7 +35,7 @@ const CourseCard = ({
                     flex
                     items-center
                     justify-center
-                    bg-gradient-to-br
+                   bg-linear-to-br
                     from-accent-primary/20
                     via-background-elevated
                     to-accent-secondary/10
@@ -127,7 +127,6 @@ const CourseCard = ({
                     border-t
                     border-border-subtle
                     pt-4
-                    mt-5
                 ">
 
                     <span className="
