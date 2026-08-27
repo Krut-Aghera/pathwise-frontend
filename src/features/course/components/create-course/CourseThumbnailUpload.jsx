@@ -1,9 +1,11 @@
-import FormField from "../../../../components/form/FormField"
+import FormField from "../../../../components/form/FormField.jsx"
+import Input from "../../../../components/form/Input.jsx"
 
 
 const CourseThumbnailUpload = ({
     register,
     errors,
+    validationRules,
 }) => {
 
     return (
@@ -20,6 +22,7 @@ const CourseThumbnailUpload = ({
             {/* Section Header */}
 
             <div className="mb-6">
+
                 <h2 className="
                     font-accent
                     text-lg
@@ -38,8 +41,11 @@ const CourseThumbnailUpload = ({
                 ">
                     Upload an image that represents your course.
                 </p>
+
             </div>
 
+
+            {/* Thumbnail */}
 
             <FormField
                 label="Thumbnail"
@@ -47,26 +53,19 @@ const CourseThumbnailUpload = ({
                 required
                 error={errors.thumbnail?.message}
             >
-                <input
+
+                <Input
                     id="thumbnail"
                     type="file"
                     accept="image/*"
-                    aria-invalid={!!errors.thumbnail}
-                    {...register("thumbnail")}
-                    className={`
-                        block
-                        w-full
-
-                        rounded-md
-                        border
-                        bg-background-surface
-
-                        px-3
-                        py-2
-
-                        font-body
-                        text-sm
-                        text-text-secondary
+                    error={Boolean(errors.thumbnail)}
+                    aria-describedby={
+                        errors.thumbnail
+                            ? "thumbnail-error"
+                            : undefined
+                    }
+                    className="
+                        cursor-pointer
 
                         file:mr-4
                         file:rounded-md
@@ -79,14 +78,14 @@ const CourseThumbnailUpload = ({
                         file:font-medium
                         file:text-text-primary
 
-                        ${errors.thumbnail
-                            ? "border-status-danger"
-                            : "border-border-subtle"
-                        }
-
-                        focus:outline-none
-                    `}
+                        hover:file:bg-background-elevated
+                    "
+                    {...register(
+                        "thumbnail",
+                        validationRules
+                    )}
                 />
+
             </FormField>
 
         </section>

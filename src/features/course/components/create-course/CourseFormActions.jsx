@@ -28,16 +28,18 @@ const CourseFormActions = ({
                 disabled={loading}
                 className="
                     w-full
+
                     border
                     border-border-subtle
-                    bg-transparent
+
+                    bg-background-elevated
                     text-text-secondary
 
                     transition-all
                     duration-200
 
                     hover:border-text-muted
-                    hover:bg-background-elevated
+                    hover:bg-background-surface
                     hover:text-text-primary
 
                     focus-visible:outline-none
@@ -57,33 +59,31 @@ const CourseFormActions = ({
             <Button
                 type="submit"
                 loading={loading}
-                disabled={loading}
                 className="
-                    w-full
+        w-full
 
-                    border
-                    border-accent-primary
+        border
+        border-status-success
+        bg-status-success
+        text-background-base
 
-                    bg-accent-primary
-                    text-text-primary
+        shadow-sm
 
-                    shadow-sm
+        transition-all
+        duration-200
 
-                    transition-all
-                    duration-200
+        hover:opacity-90
+        hover:shadow-md
 
-                    hover:opacity-90
-                    hover:shadow-md
+        focus-visible:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-status-success
+        focus-visible:ring-offset-2
 
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-accent-primary
-                    focus-visible:ring-offset-2
-
-                    sm:w-auto
-                "
+        sm:w-auto
+    "
             >
-                Save Changes
+                Save Details
             </Button>
 
         </div>

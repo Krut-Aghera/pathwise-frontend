@@ -5,6 +5,7 @@ import {
     Edit3,
     Layers3,
     PlayCircle,
+    Trash2,
     UserRound,
 } from "lucide-react"
 
@@ -12,11 +13,14 @@ import { Link } from "react-router-dom"
 
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
+import Button from "../../../../components/ui/Button"
+
 
 const InstructorCourseCard = ({
     course,
     onPublish,
     onDraft,
+    onRemove,
 }) => {
 
     ///////////////////////////////////////////////////////////////
@@ -70,6 +74,9 @@ const InstructorCourseCard = ({
     const LevelIcon = currentLevel.icon
 
 
+    ///////////////////////////////////////////////////////////////
+    // Render
+
     return (
         <article className="
             group
@@ -86,8 +93,8 @@ const InstructorCourseCard = ({
             transition-all
             duration-300
 
-            hover:border-accent-primary/50
-            hover:bg-background-elevated
+            hover:border-accent-primary/30
+            hover:bg-background-elevated/90
         ">
 
             {/* Thumbnail */}
@@ -136,12 +143,12 @@ const InstructorCourseCard = ({
                 py-4
             ">
 
-                {/* Title + Status */}
+                {/* Title + Status + Remove */}
 
                 <div className="
                     flex
                     items-start
-                    gap-3
+                    gap-2
                 ">
 
                     {/* Title */}
@@ -184,7 +191,7 @@ const InstructorCourseCard = ({
                         py-1
 
                         font-body
-                        text-[10px]
+                        text-[12px]
                         font-semibold
 
                         ${
@@ -209,19 +216,62 @@ const InstructorCourseCard = ({
 
                     </span>
 
+
+                    {/* Remove */}
+
+                    <Button
+                        type="button"
+                        onClick={() => onRemove?.(course)}
+                        aria-label={`Remove ${course.title}`}
+                        title="Remove course"
+                        className="
+                            h-7
+                            w-7
+                            shrink-0
+
+                            rounded-md
+                            border
+                            border-status-danger/20
+
+                            bg-status-danger/10
+
+                            p-0
+
+                            text-status-danger
+
+                            transition-all
+                            duration-200
+
+                            hover:bg-status-danger/20
+                            hover:text-status-danger
+
+                            focus-visible:outline-none
+                            focus-visible:ring-2
+                            focus-visible:ring-status-danger/50
+                            focus-visible:ring-offset-0
+                        "
+                    >
+
+                        <Trash2
+                            size={15}
+                            strokeWidth={1.8}
+                        />
+
+                    </Button>
+
                 </div>
 
 
                 {/* Instructor */}
 
                 <div className="
-                    mt-2.5
+                    mt-4
                     flex
                     items-center
                     gap-1.5
 
                     font-body
-                    text-xs
+                    text-[12px]
                     text-text-secondary
                 ">
 
@@ -240,7 +290,7 @@ const InstructorCourseCard = ({
                 {/* Metadata */}
 
                 <div className="
-                    mt-3
+                    mt-4
 
                     flex
                     flex-wrap
@@ -316,7 +366,7 @@ const InstructorCourseCard = ({
                     border-t
                     border-border-subtle
 
-                    pt-3.5
+                    pt-3
                 ">
 
                     <div className="
@@ -360,17 +410,12 @@ const InstructorCourseCard = ({
 
                         {isPublished ? (
 
-                            <button
+                            <Button
                                 type="button"
                                 onClick={() => onDraft?.(course)}
                                 className="
-                                    inline-flex
-                                    items-center
-                                    gap-1.5
-
-                                    cursor-pointer
-
                                     rounded-md
+
                                     border
                                     border-status-warning/30
 
@@ -387,27 +432,25 @@ const InstructorCourseCard = ({
                                     transition-all
                                     duration-200
 
-                                    hover:bg-status-warning/15
+                                    hover:bg-status-warning/20
+                                    hover:text-status-warning
+
+                                    active:brightness-95
                                 "
                             >
 
-                                Save Draft
+                                Save as Draft
 
-                            </button>
+                            </Button>
 
                         ) : (
 
-                            <button
+                            <Button
                                 type="button"
                                 onClick={() => onPublish?.(course)}
                                 className="
-                                    inline-flex
-                                    items-center
-                                    gap-1.5
-
-                                    cursor-pointer
-
                                     rounded-md
+
                                     bg-accent-primary
 
                                     px-3
@@ -430,7 +473,7 @@ const InstructorCourseCard = ({
 
                                 Publish Course
 
-                            </button>
+                            </Button>
 
                         )}
 

@@ -1,14 +1,15 @@
 import { useFieldArray } from "react-hook-form"
 
-import FormField from "../../../../components/form/FormField"
-import Button from "../../../../components/ui/Button"
-import Input from "../../../../components/form/Input"
+import FormField from "../../../../components/form/FormField.jsx"
+import Button from "../../../../components/ui/Button.jsx"
+import Input from "../../../../components/form/Input.jsx"
 
 
 const CourseTargetAudience = ({
     control,
     register,
     errors,
+    validationRules,
 }) => {
 
     const {
@@ -18,6 +19,8 @@ const CourseTargetAudience = ({
     } = useFieldArray({
         control,
         name: "targetAudience",
+
+        rules: validationRules.targetAudience,
     })
 
 
@@ -62,88 +65,151 @@ const CourseTargetAudience = ({
 
             <div className="space-y-4">
 
-                {fields.map((field, index) => (
+                {fields.map((field, index) => {
 
-                    <div
-                        key={field.id}
-                        className="
-                            flex
-                            flex-col
-                            gap-2
+                    const fieldError =
+                        errors.targetAudience?.[index]
 
-                            sm:flex-row
-                            sm:items-start
-                        "
-                    >
 
-                        {/* Input */}
+                    return (
+                        <div
+                            key={field.id}
+                            className="
+                                flex
+                                flex-col
+                                gap-2
 
-                        <div className="
-                            min-w-0
-                            flex-1
-                        ">
+                                sm:flex-row
+                                sm:items-start
+                            "
+                        >
 
-                            <FormField
-                                label={`Audience ${index + 1}`}
-                                htmlFor={`targetAudience-${field.id}`}
-                                error={
-                                    errors.targetAudience?.[index]?.message
-                                }
-                            >
+                            {/* Input */}
 
-                                <Input
-                                    id={`targetAudience-${field.id}`}
-                                    placeholder="Who is this course for?"
-                                    error={
-                                        !!errors.targetAudience?.[index]
-                                    }
-                                    {...register(
-                                        `targetAudience.${index}`
-                                    )}
-                                />
+                            <div className="
+                                min-w-0
+                                flex-1
+                            ">
 
-                            </FormField>
+                                <FormField
+                                    label={`Audience ${index + 1}`}
+                                    htmlFor={`targetAudience-${field.id}`}
+                                    required
+                                    error={fieldError?.message}
+                                >
+
+                                    <Input
+                                        id={`targetAudience-${field.id}`}
+                                        placeholder="Who is this course for?"
+                                        error={Boolean(fieldError)}
+                                        {...register(
+                                            `targetAudience.${index}`,
+                                            validationRules
+                                                .targetAudience
+                                                .item
+                                        )}
+                                    />
+
+                                </FormField>
+
+                            </div>
+
+
+                            {/* Remove */}
+
+                            {fields.length > 1 && (
+
+                                <Button
+                                    type="button"
+                                    onClick={() => remove(index)}
+                                    className="
+                                        shrink-0
+                                        self-end
+                                        px-3
+
+                                        border
+                                        border-status-danger/30
+                                        bg-background-surface
+                                        text-status-danger
+
+                                        transition-all
+                                        duration-200
+
+                                        hover:bg-status-danger/15
+                                        hover:border-status-danger/50
+
+                                        focus-visible:outline-none
+                                        focus-visible:ring-2
+                                        focus-visible:ring-status-danger
+                                        focus-visible:ring-offset-2
+
+                                        sm:mt-7
+                                    "
+                                >
+                                    Remove
+                                </Button>
+
+                            )}
 
                         </div>
+                    )
+
+                })}
 
 
-                        {/* Remove */}
+                {/* Array-level error */}
 
-                        {fields.length > 1 && (
-                            <Button
-                                type="button"
-                                onClick={() => remove(index)}
-                                className="
-                                    shrink-0
-                                    self-end
-                                    px-3
+                {errors.targetAudience?.root?.message && (
 
-                                    sm:mt-7
-                                "
-                            >
-                                Remove
-                            </Button>
-                        )}
+                    <p
+                        role="alert"
+                        className="
+                            font-body
+                            text-xs
+                            leading-5
+                            text-status-danger
+                        "
+                    >
+                        {errors.targetAudience.root.message}
+                    </p>
 
-                    </div>
-
-                ))}
+                )}
 
 
                 {/* Add */}
 
-                {fields.length < 20 && (
+                {fields.length < 10 && (
+
                     <Button
                         type="button"
                         onClick={() => append("")}
                         className="
                             w-full
 
+                            border
+                            border-accent-primary/30
+                            bg-background-surface
+                            text-accent-primary/90
+
+                            shadow-sm
+
+                            transition-all
+                            duration-200
+
+                            hover:bg-accent-primary/15
+                            hover:border-accent-primary/50
+
+                            focus-visible:outline-none
+                            focus-visible:ring-2
+                            focus-visible:ring-accent-primary
+                            focus-visible:ring-offset-2
+
                             sm:w-auto
                         "
                     >
                         + Add Target Audience
                     </Button>
+
                 )}
 
             </div>

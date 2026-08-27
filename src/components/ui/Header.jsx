@@ -496,7 +496,7 @@ const Header = () => {
 
 
                                 <NavLink
-                                    to="/account"
+                                    to="/dashboard"
                                     onClick={closeMobileMenu}
                                     className={({ isActive }) => `
                                         flex

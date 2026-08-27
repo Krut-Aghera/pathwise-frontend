@@ -14,11 +14,12 @@ const InstructorCourseError = ({
             flex-col
             items-center
             justify-center
-
+            
             rounded-xl
             border
             border-border-subtle
             bg-background-surface
+
 
             px-5
             py-10

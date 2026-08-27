@@ -1,17 +1,12 @@
 import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
+
+import CourseCreateForm from "../components/forms/CourseCreateForm.jsx"
+import { useCreateCourseMutation } from "../courseApi.js"
 
 import {
-    useCreateCourseMutation,
-} from "../courseApi.js"
-
-import CourseBasicInformation from "../components/create-course/CourseBasicInformation"
-import CourseDetails from "../components/create-course/CourseDetails"
-import CourseThumbnailUpload from "../components/create-course/CourseThumbnailUpload"
-import CourseLearningOutcomes from "../components/create-course/CourseLearningOutcomes"
-import CourseTargetAudience from "../components/create-course/CourseTargetAudience"
-import CourseRequirements from "../components/create-course/CourseRequirements"
-import CourseFormActions from "../components/create-course/CourseFormActions"
+    courseValidationRules,
+    courseThumbnailValidationRules,
+} from "../courseValidations.js"
 
 
 const CourseCreatePage = () => {
@@ -23,146 +18,36 @@ const CourseCreatePage = () => {
         createCourse,
         {
             isLoading,
-            isError,
-            error,
         },
     ] = useCreateCourseMutation()
 
 
-    const {
-        register,
-        control,
-        handleSubmit,
-        formState: {
-            errors,
-        },
-    } = useForm({
-        defaultValues: {
-            title: "",
-            subtitle: "",
-            description: "",
-            price: "",
-            language: "",
-            level: "",
-            learningOutcomes: [""],
-            targetAudience: [""],
-            requirements: [],
-            thumbnail: null,
-        },
-    })
+    ///////////////////////////////////////////////////////////////
+    // Validation rules
+
+    const validationRules = {
+        ...courseValidationRules,
+
+        thumbnail: courseThumbnailValidationRules,
+    }
 
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
-    const onSubmit = async (formData) => {
+    const handleSubmit = async (multipartFormData) => {
 
-        const multipartFormData = new FormData()
+        await createCourse(
+            multipartFormData
+        ).unwrap()
 
 
-        // Basic information
+        ///////////////////////////////////////////////////////////
+        // Success
 
-        multipartFormData.append(
-            "title",
-            formData.title
+        navigate(
+            "/instructor/courses"
         )
-
-        multipartFormData.append(
-            "subtitle",
-            formData.subtitle
-        )
-
-        multipartFormData.append(
-            "description",
-            formData.description
-        )
-
-        // Course details
-
-        multipartFormData.append(
-            "price",
-            formData.price
-        )
-
-        multipartFormData.append(
-            "language",
-            formData.language
-        )
-
-        multipartFormData.append(
-            "level",
-            formData.level
-        )
-
-        // Learning outcomes
-
-        formData.learningOutcomes.forEach((outcome) => {
-
-            multipartFormData.append(
-                "learningOutcomes",
-                outcome
-            )
-
-        })
-
-        // Target audience
-
-        formData.targetAudience.forEach((audience) => {
-
-            multipartFormData.append(
-                "targetAudience",
-                audience
-            )
-
-        })
-
-        // Requirements
-
-        formData.requirements.forEach((requirement) => {
-
-            multipartFormData.append(
-                "requirements",
-                requirement
-            )
-
-        })
-
-        // Thumbnail
-
-        const thumbnail = formData.thumbnail?.[0]
-
-        if (thumbnail) {
-
-            multipartFormData.append(
-                "thumbnail",
-                thumbnail
-            )
-
-        }
-
-        // API request
-
-        try {
-
-            const response = await createCourse(
-                multipartFormData
-            ).unwrap()
-
-            console.log(
-                "Course created successfully:",
-                response
-            )
-
-            navigate("/instructor/courses")
-
-        } catch (error) {
-
-            console.error(
-                "Course creation failed:",
-                error
-            )
-
-        }
 
     }
 
@@ -171,7 +56,11 @@ const CourseCreatePage = () => {
     // Cancel
 
     const handleCancel = () => {
-        navigate("/instructor/dashboard")
+
+        navigate(
+            "/instructor/dashboard"
+        )
+
     }
 
 
@@ -220,82 +109,14 @@ const CourseCreatePage = () => {
             </header>
 
 
-            {/* API Error */}
+            {/* Form */}
 
-            {isError && (
-                <div className="
-                    mb-6
-                    rounded-lg
-                    border
-                    border-status-danger/30
-                    bg-status-danger/10
-                    px-4
-                    py-3
-
-                    font-body
-                    text-sm
-                    leading-5
-                    text-status-danger
-                ">
-                    {error?.errors?.[0]?.message ||
-                        error?.message ||
-                        "Unable to create course. Please try again."}
-                </div>
-            )}
-
-
-            {/* Course Form */}
-
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="space-y-6"
-            >
-
-                <CourseBasicInformation
-                    register={register}
-                    errors={errors}
-                />
-
-
-                <CourseDetails
-                    register={register}
-                    errors={errors}
-                />
-
-
-                <CourseThumbnailUpload
-                    register={register}
-                    errors={errors}
-                />
-
-
-                <CourseLearningOutcomes
-                    control={control}
-                    register={register}
-                    errors={errors}
-                />
-
-
-                <CourseTargetAudience
-                    control={control}
-                    register={register}
-                    errors={errors}
-                />
-
-
-                <CourseRequirements
-                    control={control}
-                    register={register}
-                    errors={errors}
-                />
-
-
-                <CourseFormActions
-                    isLoading={isLoading}
-                    onCancel={handleCancel}
-                />
-
-            </form>
+            <CourseCreateForm
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+                loading={isLoading}
+                validationRules={validationRules}
+            />
 
         </main>
     )

@@ -1,17 +1,21 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useForm } from "react-hook-form"
 
 import {
     useFetchInstructorCourseQuery,
-    useUpdateCourseThumbnailMutation,
 } from "../courseApi.js"
 
-import CourseThumbnailUpload from "../components/create-course/CourseThumbnailUpload"
+import {
+    courseThumbnailValidationRules,
+} from "../courseValidations.js"
 
-import InstructorCourseLoadingSkeleton from "../components/course-manage/InstructorCourseLoadingSkeleton"
-import InstructorCourseError from "../components/course-manage/InstructorCourseError"
+import CourseThumbnailEditForm
+    from "../components/forms/CourseThumbnailEditForm.jsx"
 
-import Button from "../../../components/ui/Button"
+import InstructorCourseLoadingSkeleton
+    from "../components/course-manage/InstructorCourseLoadingSkeleton"
+
+import InstructorCourseError
+    from "../components/course-manage/InstructorCourseError"
 
 
 const CourseThumbnailEditPage = () => {
@@ -22,42 +26,12 @@ const CourseThumbnailEditPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Form
-
-    const {
-        register,
-        handleSubmit,
-        formState: {
-            errors,
-        },
-    } = useForm({
-        defaultValues: {
-            thumbnail: null,
-        },
-    })
-
-
-    ///////////////////////////////////////////////////////////////
     // Fetch course
 
     const {
         data,
         isLoading,
-        isError,
-        error,
-        refetch,
     } = useFetchInstructorCourseQuery(courseId)
-
-
-    ///////////////////////////////////////////////////////////////
-    // Thumbnail mutation
-
-    const [
-        updateCourseThumbnail,
-        {
-            isLoading: isUpdating,
-        },
-    ] = useUpdateCourseThumbnailMutation()
 
 
     ///////////////////////////////////////////////////////////////
@@ -67,36 +41,20 @@ const CourseThumbnailEditPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Submit
+    // Validation rules
 
-    const onSubmit = async (formData) => {
-
-        const thumbnailFile = formData.thumbnail?.[0]
-
-
-        if (!thumbnailFile) {
-            return
-        }
+    const validationRules =
+        courseThumbnailValidationRules
 
 
-        try {
+    ///////////////////////////////////////////////////////////////
+    // Success
 
-            await updateCourseThumbnail({
-                courseId,
-                thumbnail: thumbnailFile,
-            }).unwrap()
+    const handleSuccess = () => {
 
-
-            navigate("/instructor/courses")
-
-        } catch (error) {
-
-            console.error(
-                "Failed to update course thumbnail:",
-                error
-            )
-
-        }
+        navigate(
+            "/instructor/courses"
+        )
 
     }
 
@@ -105,7 +63,11 @@ const CourseThumbnailEditPage = () => {
     // Cancel
 
     const handleCancel = () => {
-        navigate(`/instructor/courses/${course._id}/edit`)
+
+        navigate(
+            `/instructor/courses/${course.slug}/edit`
+        )
+
     }
 
 
@@ -118,7 +80,7 @@ const CourseThumbnailEditPage = () => {
             <main className="
                 mx-auto
                 w-full
-                max-w-5xl
+                max-w-4xl
 
                 px-4
                 py-6
@@ -138,44 +100,6 @@ const CourseThumbnailEditPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Error
-
-    if (isError) {
-
-        const errorMessage =
-            error?.errors?.[0]?.message ||
-            error?.message ||
-            "Unable to load the course."
-
-
-        return (
-            <main className="
-                mx-auto
-                w-full
-                max-w-5xl
-
-                px-4
-                py-6
-
-                sm:px-6
-                sm:py-8
-
-                lg:px-8
-                lg:py-10
-            ">
-
-                <InstructorCourseError
-                    title="Unable to load course"
-                    message={errorMessage}
-                    onRetry={refetch}
-                />
-
-            </main>
-        )
-    }
-
-
-    ///////////////////////////////////////////////////////////////
     // Course not found
 
     if (!course) {
@@ -184,7 +108,7 @@ const CourseThumbnailEditPage = () => {
             <main className="
                 mx-auto
                 w-full
-                max-w-5xl
+                max-w-4xl
 
                 px-4
                 py-6
@@ -256,56 +180,13 @@ const CourseThumbnailEditPage = () => {
 
             {/* Form */}
 
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="space-y-6"
-            >
-
-                <CourseThumbnailUpload
-                    register={register}
-                    errors={errors}
-                    currentThumbnail={course.thumbnail?.url}
-                />
-
-
-                {/* Actions */}
-
-                <div className="
-                    flex
-                    flex-col-reverse
-                    gap-3
-
-                    sm:flex-row
-                    sm:justify-end
-                ">
-
-                    <Button
-                        type="button"
-                        onClick={handleCancel}
-                        disabled={isUpdating}
-                        className="
-                            w-full
-                            sm:w-auto
-                        "
-                    >
-                        Cancel
-                    </Button>
-
-
-                    <Button
-                        type="submit"
-                        loading={isUpdating}
-                        className="
-                            w-full
-                            sm:w-auto
-                        "
-                    >
-                        Update Thumbnail
-                    </Button>
-
-                </div>
-
-            </form>
+            <CourseThumbnailEditForm
+                courseId={courseId}
+                currentThumbnail={course.thumbnail?.url}
+                onSuccess={handleSuccess}
+                onCancel={handleCancel}
+                validationRules={validationRules}
+            />
 
         </main>
     )

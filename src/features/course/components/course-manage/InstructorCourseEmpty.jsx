@@ -1,10 +1,7 @@
-import { BookOpen, Plus } from "lucide-react"
-import Button from "../../../../components/ui/Button"
+import { BookOpen,} from "lucide-react"
 
 
-const InstructorCourseEmpty = ({
-    onCreateCourse,
-}) => {
+const InstructorCourseEmpty = () => {
 
     return (
         <section className="
@@ -20,6 +17,7 @@ const InstructorCourseEmpty = ({
             border-border-subtle
             bg-background-surface
 
+            mt-6
             px-5
             py-10
             text-center
@@ -84,26 +82,6 @@ const InstructorCourseEmpty = ({
                 </p>
 
             </div>
-
-
-            {/* Action */}
-
-            <Button
-                type="button"
-                onClick={onCreateCourse}
-                className="
-                    mt-6
-                    w-full
-
-                    sm:w-auto
-                "
-            >
-
-                <Plus size={16} />
-
-                Create Your First Course
-
-            </Button>
 
         </section>
     )

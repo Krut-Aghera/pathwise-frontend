@@ -30,7 +30,7 @@ import InstructorDashboardPage from "../../features/user/pages/InstructorDashboa
 
 import CourseCreatePage from "../../features/course/pages/CourseCreatePage"
 import InstructorCoursesPage from "../../features/course/pages/InstructorCoursesPage"
-import CourseEditPage from "../../features/course/pages/CourseEditPage"
+import CourseUpdatePage from "../../features/course/pages/CourseUpdatePage"
 import CourseThumbnailEditPage from "../../features/course/pages/CourseThumbnailEditPage"
 
 const routerConfig = createBrowserRouter(
@@ -106,7 +106,7 @@ const routerConfig = createBrowserRouter(
 
                     <Route
                         path="instructor/courses/:courseId/edit"
-                        element={<CourseEditPage />}            
+                        element={<CourseUpdatePage />}            
                     />
 
                     <Route 
