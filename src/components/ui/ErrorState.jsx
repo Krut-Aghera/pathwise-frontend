@@ -1,8 +1,14 @@
-import { AlertTriangle, RefreshCw } from "lucide-react"
-import Button from "../../../../components/ui/Button"
+import {
+    AlertTriangle,
+    RefreshCw,
+} from "lucide-react"
 
-const InstructorCourseError = ({
-    message = "Unable to load your courses.",
+import Button from "./Button"
+
+
+const ErrorState = ({
+    title = "Something went wrong",
+    message = "Unable to load the requested data.",
     onRetry,
 }) => {
 
@@ -14,12 +20,11 @@ const InstructorCourseError = ({
             flex-col
             items-center
             justify-center
-            
+
             rounded-xl
             border
             border-border-subtle
             bg-background-surface
-
 
             px-5
             py-10
@@ -67,7 +72,7 @@ const InstructorCourseError = ({
                     font-semibold
                     text-text-primary
                 ">
-                    Unable to load courses
+                    {title}
                 </h2>
 
 
@@ -87,26 +92,28 @@ const InstructorCourseError = ({
 
             {/* Retry */}
 
-            <Button
-                type="button"
-                onClick={onRetry}
-                className="
-                    mt-6
-                    w-full
+            {onRetry && (
+                <Button
+                    type="button"
+                    onClick={onRetry}
+                    className="
+                        mt-6
+                        w-full
 
-                    sm:w-auto
-                "
-            >
+                        sm:w-auto
+                    "
+                >
 
-                <RefreshCw size={15} />
+                    <RefreshCw size={15} />
 
-                Try Again
+                    Try Again
 
-            </Button>
+                </Button>
+            )}
 
         </section>
     )
 }
 
 
-export default InstructorCourseError
+export default ErrorState

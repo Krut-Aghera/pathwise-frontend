@@ -7,12 +7,11 @@ import {
 } from "../courseApi.js"
 
 import Button from "../../../components/ui/Button.jsx"
-import InstructorCourseError from "../components/course-manage/InstructorCourseError.jsx"
-
 import CourseUpdateLoadingSkeleton from "../components/skeletons/CourseUpdateLoadingSkeleton.jsx"
 
 import { courseValidationRules, } from "../courseValidations.js"
 import CourseUpdateForm from "../components/forms/CourseUpdateForm.jsx"
+import ErrorState from "../../../components/ui/ErrorState.jsx"
 
 
 const CourseUpdatePage = () => {
@@ -92,7 +91,7 @@ const CourseUpdatePage = () => {
     const handleCancel = () => {
 
         navigate(
-            "/instructor/courses"
+            `/instructor/courses/${course._id}`
         )
 
     }
@@ -148,7 +147,7 @@ const CourseUpdatePage = () => {
                 lg:py-10
             ">
 
-                <InstructorCourseError
+                <ErrorState
                     title="Course not found"
                     message="The course you're trying to edit could not be found."
                 />

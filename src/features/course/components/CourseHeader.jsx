@@ -59,7 +59,7 @@ const CourseHeader = ({ course }) => {
 
                 <img
                     src={
-                        course?.thumbnail ||
+                        course?.thumbnail.url ||
                         "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80"
                     }
                     alt={course?.title || "Course thumbnail"}
@@ -180,8 +180,7 @@ const CourseHeader = ({ course }) => {
                     />
 
                     <span>
-                        {course?.instructor?.name ||
-                            course?.instructor ||
+                        {course?.instructor?.username ||
                             "Instructor"}
                     </span>
 

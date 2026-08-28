@@ -1,11 +1,6 @@
 import {
     ArrowRight,
-    Award,
     BookOpen,
-    Edit3,
-    Layers3,
-    PlayCircle,
-    Trash2,
     UserRound,
 } from "lucide-react"
 
@@ -13,14 +8,9 @@ import { Link } from "react-router-dom"
 
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-import Button from "../../../../components/ui/Button"
-
 
 const InstructorCourseCard = ({
     course,
-    onPublish,
-    onDraft,
-    onRemove,
 }) => {
 
     ///////////////////////////////////////////////////////////////
@@ -28,50 +18,6 @@ const InstructorCourseCard = ({
 
     const isPublished =
         course.status === RESOURCE_STATUS.PUBLISHED
-
-
-    ///////////////////////////////////////////////////////////////
-    // Level configuration
-
-    const levelConfig = {
-        beginner: {
-            label: "Beginner",
-            icon: BookOpen,
-            classes: `
-                border-accent-primary/20
-                bg-accent-primary/10
-                text-accent-primary
-            `,
-        },
-
-        intermediate: {
-            label: "Intermediate",
-            icon: Layers3,
-            classes: `
-                border-accent-primary/30
-                bg-accent-primary/15
-                text-accent-primary
-            `,
-        },
-
-        advanced: {
-            label: "Advanced",
-            icon: Award,
-            classes: `
-                border-accent-primary/40
-                bg-accent-primary/20
-                text-accent-primary
-            `,
-        },
-    }
-
-
-    const currentLevel =
-        levelConfig[course.level?.toLowerCase()] ||
-        levelConfig.beginner
-
-
-    const LevelIcon = currentLevel.icon
 
 
     ///////////////////////////////////////////////////////////////
@@ -143,7 +89,7 @@ const InstructorCourseCard = ({
                 py-4
             ">
 
-                {/* Title + Status + Remove */}
+                {/* Title + Status */}
 
                 <div className="
                     flex
@@ -216,49 +162,6 @@ const InstructorCourseCard = ({
 
                     </span>
 
-
-                    {/* Remove */}
-
-                    <Button
-                        type="button"
-                        onClick={() => onRemove?.(course)}
-                        aria-label={`Remove ${course.title}`}
-                        title="Remove course"
-                        className="
-                            h-7
-                            w-7
-                            shrink-0
-
-                            rounded-md
-                            border
-                            border-status-danger/20
-
-                            bg-status-danger/10
-
-                            p-0
-
-                            text-status-danger
-
-                            transition-all
-                            duration-200
-
-                            hover:bg-status-danger/20
-                            hover:text-status-danger
-
-                            focus-visible:outline-none
-                            focus-visible:ring-2
-                            focus-visible:ring-status-danger/50
-                            focus-visible:ring-offset-0
-                        "
-                    >
-
-                        <Trash2
-                            size={15}
-                            strokeWidth={1.8}
-                        />
-
-                    </Button>
-
                 </div>
 
 
@@ -302,13 +205,16 @@ const InstructorCourseCard = ({
 
                     {/* Level */}
 
-                    <span className={`
+                    <span className="
                         inline-flex
                         items-center
                         gap-1.5
 
                         rounded-md
                         border
+                        border-accent-primary/20
+
+                        bg-accent-primary/10
 
                         px-2
                         py-1
@@ -316,13 +222,12 @@ const InstructorCourseCard = ({
                         font-body
                         text-[10px]
                         font-medium
+                        text-accent-primary
+                    ">
 
-                        ${currentLevel.classes}
-                    `}>
+                        <BookOpen size={11} />
 
-                        <LevelIcon size={11} />
-
-                        {currentLevel.label}
+                        {course.level}
 
                     </span>
 
@@ -369,161 +274,53 @@ const InstructorCourseCard = ({
                     pt-3
                 ">
 
-                    <div className="
-                        flex
-                        items-center
-                        justify-between
-                        gap-3
-                    ">
+                    {/* View Course */}
 
-                        {/* Edit */}
+                    <Link
+                        to={`/instructor/courses/${course._id}`}
+                        className="
+                            flex
+                            w-full
+                            items-center
+                            justify-between
 
-                        <Link
-                            to={`/instructor/courses/${course._id}/edit`}
+                            rounded-md
+                            border
+                            border-accent-primary/20
+
+                            bg-accent-primary/10
+
+                            px-3
+                            py-2.5
+
+                            font-body
+                            text-xs
+                            font-medium
+                            text-accent-primary
+
+                            transition-all
+                            duration-200
+
+                            hover:border-accent-primary/30
+                            hover:bg-accent-primary/15
+                        "
+                    >
+
+                        <span>
+                            View Course
+                        </span>
+
+                        <ArrowRight
+                            size={15}
                             className="
-                                inline-flex
-                                items-center
-                                gap-1.5
-
-                                cursor-pointer
-
-                                font-body
-                                text-xs
-                                font-medium
-                                text-text-secondary
-
-                                transition-colors
+                                transition-transform
                                 duration-200
 
-                                hover:text-accent-primary
+                                group-hover:translate-x-1
                             "
-                        >
+                        />
 
-                            <Edit3 size={14} />
-
-                            Edit Course
-
-                        </Link>
-
-
-                        {/* Publish / Draft */}
-
-                        {isPublished ? (
-
-                            <Button
-                                type="button"
-                                onClick={() => onDraft?.(course)}
-                                className="
-                                    rounded-md
-
-                                    border
-                                    border-status-warning/30
-
-                                    bg-status-warning/10
-
-                                    px-3
-                                    py-1.5
-
-                                    font-body
-                                    text-xs
-                                    font-medium
-                                    text-status-warning
-
-                                    transition-all
-                                    duration-200
-
-                                    hover:bg-status-warning/20
-                                    hover:text-status-warning
-
-                                    active:brightness-95
-                                "
-                            >
-
-                                Save as Draft
-
-                            </Button>
-
-                        ) : (
-
-                            <Button
-                                type="button"
-                                onClick={() => onPublish?.(course)}
-                                className="
-                                    rounded-md
-
-                                    bg-accent-primary
-
-                                    px-3
-                                    py-1.5
-
-                                    font-body
-                                    text-xs
-                                    font-medium
-                                    text-text-primary
-
-                                    transition-all
-                                    duration-200
-
-                                    hover:opacity-90
-                                    active:brightness-90
-                                "
-                            >
-
-                                <PlayCircle size={14} />
-
-                                Publish Course
-
-                            </Button>
-
-                        )}
-
-                    </div>
-
-
-                    {/* View Published Course */}
-
-                    {isPublished && (
-                        <Link
-                            to={`/courses/${course._id}`}
-                            className="
-                                mt-3
-
-                                flex
-                                items-center
-                                justify-between
-
-                                border-t
-                                border-border-subtle
-
-                                pt-3
-
-                                font-body
-                                text-[11px]
-                                text-text-muted
-
-                                transition-colors
-                                duration-200
-
-                                hover:text-text-secondary
-                            "
-                        >
-
-                            <span>
-                                View public course
-                            </span>
-
-                            <ArrowRight
-                                size={14}
-                                className="
-                                    transition-transform
-                                    duration-200
-
-                                    group-hover:translate-x-1
-                                "
-                            />
-
-                        </Link>
-                    )}
+                    </Link>
 
                 </div>
 

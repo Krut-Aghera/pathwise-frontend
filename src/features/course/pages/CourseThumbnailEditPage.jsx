@@ -14,8 +14,7 @@ import CourseThumbnailEditForm
 import InstructorCourseLoadingSkeleton
     from "../components/course-manage/InstructorCourseLoadingSkeleton"
 
-import InstructorCourseError
-    from "../components/course-manage/InstructorCourseError"
+import ErrorState from "../../../components/ui/ErrorState.jsx"
 
 
 const CourseThumbnailEditPage = () => {
@@ -65,7 +64,7 @@ const CourseThumbnailEditPage = () => {
     const handleCancel = () => {
 
         navigate(
-            `/instructor/courses/${course.slug}/edit`
+            `/instructor/courses/${course._id}/edit`
         )
 
     }
@@ -120,7 +119,7 @@ const CourseThumbnailEditPage = () => {
                 lg:py-10
             ">
 
-                <InstructorCourseError
+                <ErrorState
                     title="Course not found"
                     message="The course you're trying to update could not be found."
                 />

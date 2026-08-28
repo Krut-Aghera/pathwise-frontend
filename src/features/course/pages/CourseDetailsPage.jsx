@@ -25,7 +25,7 @@ const CourseDetailsPage = () => {
         refetch,
     } = useFetchCurrentCourseQuery(courseId)
 
-
+    console.log(data)
 
     ///////////////////////////////////////////////////////////////
     // Loading
@@ -92,6 +92,8 @@ const CourseDetailsPage = () => {
     // No course
 
     const course = data?.data
+
+    console.log(course)
 
     if (!course) {
         return (
