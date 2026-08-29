@@ -1,6 +1,6 @@
-import axiosClient from "../axiosClient.js"
-import authInterceptor from "./authInterceptor.js"
-import errorInterceptor from "./errorInterceptor.js"
+import axiosClient from "../axiosClient"
+import authInterceptor from "./authInterceptor"
+import errorInterceptor from "./errorInterceptor"
 
 const setupInterceptors = () => {
 

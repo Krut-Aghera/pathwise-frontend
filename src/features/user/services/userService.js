@@ -1,4 +1,4 @@
-import httpClient from "../../../services/http/httpClient.js"
+import httpClient from "../../../app/network/httpClient"
 
 
 const getCurrentUser = async () => {

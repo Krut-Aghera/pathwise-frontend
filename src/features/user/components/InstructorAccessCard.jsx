@@ -5,8 +5,7 @@ import {
 } from "lucide-react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { USER_ROLE } from "../../../constants/userConstants"
-
+import { USER_ROLE } from "../userConstants"
 
 const InstructorAccessCard = () => {
 

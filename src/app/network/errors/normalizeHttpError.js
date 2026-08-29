@@ -1,4 +1,4 @@
-import HttpError from "./httpError.js";
+import HttpError from "./httpError";
 
 const normalizeHttpError = (error) => {
 

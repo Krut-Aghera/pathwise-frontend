@@ -1,4 +1,4 @@
-import normalizeHttpError from "../errors/normalizeHttpError.js"
+import normalizeHttpError from "../errors/normalizeHttpError"
 
 const errorInterceptor = (error) => {
     return Promise.reject(

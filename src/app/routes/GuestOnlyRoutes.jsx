@@ -1,5 +1,9 @@
 import { useSelector } from "react-redux"
-import { Navigate, Outlet, useLocation } from "react-router-dom"
+import {
+    Navigate,
+    Outlet,
+    useLocation
+} from "react-router-dom"
 
 const GuestOnlyRoutes = () => {
 
@@ -10,10 +14,14 @@ const GuestOnlyRoutes = () => {
 
     const location = useLocation()
 
+    // Authentication initialization
+    // still checking whether the user is logged in
     if (isAuthInitializing) {
         return <div>Checking authentication...</div>
     }
 
+    // Authentication checks
+    // if user is already logged in
     if (isAuthenticated) {
         const from = location.state?.from
 
@@ -22,6 +30,7 @@ const GuestOnlyRoutes = () => {
         )
     }
 
+    // Guest
     return <Outlet />
 }
 

@@ -1,16 +1,16 @@
 import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
 
-import FormField from "../../../components/form/FormField"
 import Input from "../../../components/form/Input"
 import PasswordInput from "../../../components/form/PasswordInput"
-import Button from "../../../components/ui/Button.jsx"
+import FormField from "../../../components/form/FormField"
+import Button from "../../../components/ui/Button"
 
 import {
     signupValidationRules,
-} from "../validations/authValidation.js"
-import { setAuthSession } from "../state/authSlice.js"
-import { signup } from "../services/authService.js"
+} from "../authValidation"
+import { setAuthSession } from "../authSlice"
+import { signup } from "../authService"
 
 const SignupForm = () => {
 

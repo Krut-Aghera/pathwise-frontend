@@ -1,5 +1,5 @@
 import LearningPathCard from "./LearningPathCard"
-import { learningPaths } from "../../data/homeData.js"
+import {learningPaths} from "../../../data/homeData"
 
 
 const LearningPaths = () => {

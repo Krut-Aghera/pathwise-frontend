@@ -5,13 +5,13 @@ import { useDispatch } from "react-redux"
 import FormField from "../../../components/form/FormField"
 import Input from "../../../components/form/Input"
 import PasswordInput from "../../../components/form/PasswordInput"
-import Button from "../../../components/ui/Button.jsx"
+import Button from "../../../components/ui/Button"
 
 import {
     loginValidationRules,
-} from "../validations/authValidation.js"
-import { setAuthSession } from "../state/authSlice.js"
-import { login } from "../services/authService.js"
+} from "../authValidation"
+import { setAuthSession } from "../authSlice"
+import { login } from "../authService"
 
 
 const LoginForm = () => {

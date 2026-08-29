@@ -1,4 +1,4 @@
-import httpClient from "../../services/http/httpClient";
+import httpClient from "../../app/network/httpClient";
 
 
 const createSection = async (courseId, data) => {

@@ -1,7 +1,5 @@
 import axiosClient from "./axiosClient"
 
-
-
 const axiosBaseQuery = ({ baseUrl } = {}) => {
 
     return async ({ url, method, data, params }) => {

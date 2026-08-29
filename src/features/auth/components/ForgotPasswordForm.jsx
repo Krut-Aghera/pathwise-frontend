@@ -1,14 +1,14 @@
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 
-import FormField from "../../../components/form/FormField.jsx"
-import Input from "../../../components/form/Input.jsx"
-import Button from "../../../components/ui/Button.jsx"
+import FormField from "../../../components/form/FormField"
+import Input from "../../../components/form/Input"
+import Button from "../../../components/ui/Button"
 
 import {
     forgotPasswordValidationRules,
-} from "../validations/authValidation.js"
-import { requestPasswordReset } from "../services/authService.js"
-import { useState } from "react"
+} from "../authValidation"
+import { requestPasswordReset } from "../authService"
 
 
 const ForgotPasswordForm = () => {
@@ -36,7 +36,7 @@ const ForgotPasswordForm = () => {
             const response = await requestPasswordReset({
                 email: formData.email,
             })
-            
+
             setPasswordResponse(response.message)
             // toast
 

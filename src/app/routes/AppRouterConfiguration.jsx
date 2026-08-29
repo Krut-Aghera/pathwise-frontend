@@ -5,7 +5,7 @@ import {
     createRoutesFromElements,
 } from "react-router-dom"
 
-import { USER_ROLE } from "../../constants/userConstants"
+import { USER_ROLE } from "../../features/user/userConstants"
 
 import AppLayout from "../../layouts/AppLayout"
 import AuthLayout from "../../layouts/AuthLayout"
@@ -39,28 +39,56 @@ import SectionUpdatePage from "../../features/section/pages/SectionUpdatePage"
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
         <>
+
+            {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Public Routes*/}
 
             <Route path="/" element={<AppLayout />}>
-                <Route index element={<HomePage />} />
-                <Route path="about" element={<AboutPage />} />
-                <Route path="courses/:courseId" element={<CourseDetailsPage />} />
-                {/* <Route path="courses" element={<CoursesPage />} /> */}
-                {/* <Route path="preview" element={<ComponentPreviewPage />} /> */}
+
+                <Route
+                    index
+                    element={<HomePage />}
+                />
+
+                <Route
+                    path="about"
+                    element={<AboutPage />}
+                />
+
+                <Route
+                    path="courses/:courseId"
+                    element={<CourseDetailsPage />}
+                />
+
             </Route>
 
 
+            {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Auth Routes*/}
 
             <Route path="auth" element={<AuthLayout />}>
+
                 <Route element={<GuestOnlyRoutes />}>
-                    <Route path="login" element={<LoginPage />} />
-                    <Route path="signup" element={<SignupPage />} />
-                    <Route path="forgot-password" element={<ForgotPasswordPage />} />
+
+                    <Route
+                        path="login"
+                        element={<LoginPage />}
+                    />
+                    <Route
+                        path="signup"
+                        element={<SignupPage />}
+                    />
+                    <Route
+                        path="forgot-password"
+                        element={<ForgotPasswordPage />}
+                    />
+
                 </Route>
+
             </Route>
 
 
+            {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Authenticated User // student (default) - instructor - admin routes */}
 
             <Route element={<ProtectedRoutes allowedRoles={[
@@ -70,6 +98,7 @@ const routerConfig = createBrowserRouter(
             ]} />}>
 
                 <Route element={<AppLayout />}>
+
                     <Route
                         path="dashboard"
                         element={<UserDashboardPage />}
@@ -79,11 +108,12 @@ const routerConfig = createBrowserRouter(
                         element={<WishlistPage />}
                     />
 
-
                 </Route>
+
             </Route>
 
 
+            {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Instructor - admin routes*/}
 
             <Route element={<ProtectedRoutes allowedRoles={[
@@ -92,6 +122,7 @@ const routerConfig = createBrowserRouter(
             ]} />}>
 
                 <Route element={<AppLayout />}>
+
                     <Route
                         path="instructor/dashboard"
                         element={<InstructorDashboardPage />}
@@ -128,40 +159,33 @@ const routerConfig = createBrowserRouter(
                     />
 
                     <Route
-                        path="/instructor/courses/:courseId/sections/:sectionId/edit"
+                        path="instructor/courses/:courseId/sections/:sectionId/edit"
                         element={<SectionUpdatePage />}
                     />
 
                 </Route>
-                {/* <Route
-                    path="instructor"
-                    element={<InstructorLayout />}
-                >
-
-
-                </Route> */}
 
             </Route>
 
 
+            {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Admin Only Routes */}
 
-            {/* 
-            <Route element={<ProtectedRoutes allowedRoles={[USER_ROLE.ADMIN,]} />}>
 
-                <Route path="admin" element={<AdminLayout />}>
-                    <Route index element={<AdminDashboardPage />} />
-                    <Route path="users" element={<AdminUsersPage />} />
-                    <Route path="courses" element={<AdminCoursesPage />} />
-                </Route> 
-
-            </Route>
-            */}
+            <Route element={<ProtectedRoutes allowedRoles={[USER_ROLE.ADMIN,]} />}></Route>
 
 
+            {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Error Routes*/}
-            <Route path="unauthorized" element={<UnauthorizedPage />} />
-            <Route path="*" element={<NotFoundPage />} />
+
+            <Route
+                path="unauthorized"
+                element={<UnauthorizedPage />}
+            />
+            <Route
+                path="*"
+                element={<NotFoundPage />}
+            />
 
         </>
     )

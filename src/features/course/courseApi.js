@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react"
 
-import axiosBaseQuery from "../../services/http/axiosBaseQuery"
+import axiosBaseQuery from "../../app/network/axiosBaseQuery"
 
 
 const courseApi = createApi({

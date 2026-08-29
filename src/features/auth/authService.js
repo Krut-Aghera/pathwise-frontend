@@ -1,5 +1,4 @@
-import httpClient from "../../../services/http/httpClient"
-
+import httpClient from "../../app/network/httpClient"
 
 
 const signup = async (userData) => {

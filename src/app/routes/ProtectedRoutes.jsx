@@ -1,5 +1,9 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom"
 import { useSelector } from "react-redux"
+import {
+    Navigate,
+    Outlet,
+    useLocation
+} from "react-router-dom"
 
 const ProtectedRoutes = ({ allowedRoles }) => {
 
@@ -11,28 +15,28 @@ const ProtectedRoutes = ({ allowedRoles }) => {
 
     const location = useLocation()
 
-
-    // Still checking whether the user is logged in
+    // Authentication initialization
+    // still checking whether the user is logged in
     if (isAuthInitializing) {
         return <div>Checking authentication...</div>
     }
 
-
-    // User is not logged in
+    // Authentication checks
+    // if user is not logged in
     if (!isAuthenticated) {
         return (
             <Navigate
                 to="/auth/login"
                 replace
                 state={{
-                    from: location.pathname,
+                    from: location,
                 }}
             />
         )
     }
 
-
-    // User is logged in but doesn't have permission
+    // Authorization checks
+    // user is logged in but doesn't have permission
     if (
         allowedRoles &&
         !allowedRoles.includes(user?.role)

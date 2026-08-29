@@ -1,7 +1,7 @@
-import store from "../../../app/store/store.js"
-import { rotateTokens } from "../../../features/auth/services/authService.js"
-import { clearAuthSession } from "../../../features/auth/state/authSlice.js"
-import { AUTH_INTERCEPTOR_CONFIG } from "../../../constants/authConstants.js"
+import store from "../../store/store"
+import { rotateTokens } from "../../../features/auth/authService"
+import { clearAuthSession } from "../../../features/auth/authSlice"
+import { AUTH_INTERCEPTOR_CONFIG, AUTH_ERROR_CODES } from "../../../features/auth/authConstants"
 
 
 let tokenRotationPromise = null
@@ -28,8 +28,8 @@ const authInterceptor = async (error, axiosClient) => {
     const shouldRotate =
         statusCode === 401 &&
         (
-            errorCode === "ACCESS_TOKEN_EXPIRED" ||
-            errorCode === "ACCESS_TOKEN_MISSING"
+            errorCode === AUTH_ERROR_CODES.ACCESS_TOKEN_EXPIRED ||
+            errorCode === AUTH_ERROR_CODES.ACCESS_TOKEN_MISSING
         )
 
 

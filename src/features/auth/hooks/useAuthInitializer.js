@@ -1,12 +1,12 @@
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 
-import { getCurrentUser } from "../../user/services/user.service.js"
+import { getCurrentUser } from "../../user/services/userService"
 import {
     setAuthSession,
     clearAuthSession,
     setAuthInitializationComplete
-} from "../state/authSlice.js"
+} from "../authSlice.js"
 
 
 const useAuthInitializer = () => {

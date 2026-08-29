@@ -1,4 +1,4 @@
-import httpClient from "../../services/http/httpClient";
+import httpClient from "../../app/network/httpClient"
 
 // Create course
 const createCourse = async (courseData) => {
