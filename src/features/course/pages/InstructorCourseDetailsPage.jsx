@@ -1,5 +1,10 @@
 import { useState } from "react"
-import { useParams } from "react-router-dom"
+
+import {
+    useNavigate,
+    useParams,
+} from "react-router-dom"
+
 
 import {
     useFetchInstructorCourseQuery,
@@ -8,22 +13,50 @@ import {
     useRemoveCourseMutation,
 } from "../courseApi.js"
 
+
 import {
     useFetchCourseSectionsQuery,
+    useRemoveSectionMutation,
+    useReorderSectionsMutation,
 } from "../../section/sectionApi.js"
 
-import InstructorCourseDetailsHeader from "../components/course-manage/InstructorCourseDetailsHeader.jsx"
-import InstructorCourseDetailsActions from "../components/course-manage/InstructorCourseDetailsActions.jsx"
-import InstructorCourseOverview from "../components/course-manage/InstructorCourseOverview.jsx"
-import InstructorCourseInformation from "../components/course-manage/InstructorCourseInformation.jsx"
-import InstructorCourseDetailsLoadingSkeleton from "../components/skeletons/InstructorCourseDetailsSkeleton.jsx"
-import InstructorCourseRemoveDialog from "../components/course-manage/InstructorCourseRemoveDialog.jsx"
-import ErrorState from "../../../components/ui/ErrorState.jsx"
-import InstructorCourseCurriculum from "../components/course-manage/InstructorCourseCurriculum.jsx"
+
+import InstructorCourseDetailsHeader
+    from "../components/course-manage/InstructorCourseDetailsHeader.jsx"
+
+import InstructorCourseDetailsActions
+    from "../components/course-manage/InstructorCourseDetailsActions.jsx"
+
+import InstructorCourseOverview
+    from "../components/course-manage/InstructorCourseOverview.jsx"
+
+import InstructorCourseInformation
+    from "../components/course-manage/InstructorCourseInformation.jsx"
+
+import InstructorCourseDetailsLoadingSkeleton
+    from "../components/skeletons/InstructorCourseDetailsSkeleton.jsx"
+
+import InstructorCourseRemoveDialog
+    from "../components/course-manage/InstructorCourseRemoveDialog.jsx"
+
+import InstructorCourseCurriculum
+    from "../components/course-manage/InstructorCourseCurriculum.jsx"
+
+import ErrorState
+    from "../../../components/ui/ErrorState.jsx"
+
+import InstructorCourseSectionRemoveDialog
+    from "../../section/components/InstructorCourseSectionRemoveDialog.jsx"
+
 
 const InstructorCourseDetailsPage = () => {
 
-    const { courseId } = useParams()
+    const {
+        courseId,
+    } = useParams()
+
+
+    const navigate = useNavigate()
 
 
     ///////////////////////////////////////////////////////////////
@@ -51,7 +84,7 @@ const InstructorCourseDetailsPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Mutations
+    // Course mutations
 
     const [
         publishCourse,
@@ -78,17 +111,57 @@ const InstructorCourseDetailsPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Remove dialog
+    // Section mutations
 
-    const [courseToRemove, setCourseToRemove] = useState(null)
+    const [
+        removeSection,
+        {
+            isLoading: isRemovingSection,
+        },
+    ] = useRemoveSectionMutation()
+
+
+    const [
+        reorderSections,
+        {
+            isLoading: isReorderingSections,
+        },
+    ] = useReorderSectionsMutation()
+
+
+    ///////////////////////////////////////////////////////////////
+    // Dialog state
+
+    const [
+        courseToRemove,
+        setCourseToRemove,
+    ] = useState(null)
+
+
+    const [
+        sectionToRemove,
+        setSectionToRemove,
+    ] = useState(null)
+
+
+    ///////////////////////////////////////////////////////////////
+    // Action error
+
+    const [
+        actionError,
+        setActionError,
+    ] = useState(null)
 
 
     ///////////////////////////////////////////////////////////////
     // Data
 
-    const course = courseResponse?.data
+    const course =
+        courseResponse?.data
 
-    const sections = sectionsResponse?.data || []
+
+    const sections =
+        sectionsResponse?.data || []
 
 
     ///////////////////////////////////////////////////////////////
@@ -102,12 +175,86 @@ const InstructorCourseDetailsPage = () => {
     ///////////////////////////////////////////////////////////////
     // Error message helper
 
-    const getErrorMessage = (error, fallback) => {
+    const getErrorMessage = (
+        error,
+        fallback
+    ) => {
 
         return (
             error?.errors?.[0]?.message ||
             error?.message ||
             fallback
+        )
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Clear action error
+
+    const clearActionError = () => {
+        setActionError(null)
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Add section
+
+    const handleAddSection = () => {
+
+        if (!course?._id) {
+            return
+        }
+
+
+        clearActionError()
+
+
+        navigate(
+            `/instructor/courses/${course._id}/sections/create`
+        )
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Edit section
+
+    const handleEditSection = (section) => {
+
+        if (
+            !course?._id ||
+            !section?._id
+        ) {
+            return
+        }
+
+
+        clearActionError()
+
+
+        navigate(
+            `/instructor/courses/${course._id}/sections/${section._id}/edit`
+        )
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Add lecture
+
+    const handleAddLecture = (section) => {
+
+        if (
+            !course?._id ||
+            !section?._id
+        ) {
+            return
+        }
+
+
+        clearActionError()
+
+
+        navigate(
+            `/instructor/courses/${course._id}/sections/${section._id}/lectures/create`
         )
     }
 
@@ -121,25 +268,35 @@ const InstructorCourseDetailsPage = () => {
             !course?._id ||
             isPublishing ||
             isSavingDraft ||
-            isRemoving
+            isRemoving ||
+            isRemovingSection ||
+            isReorderingSections
         ) {
             return
         }
 
 
+        clearActionError()
+
+
         try {
 
-            await publishCourse(course._id).unwrap()
+            await publishCourse(
+                course._id
+            ).unwrap()
 
         } catch (error) {
 
-            console.error(
-                "Failed to publish course:",
-                error
-            )
+            const message =
+                getErrorMessage(
+                    error,
+                    "Unable to publish this course."
+                )
+
+
+            setActionError(message)
 
         }
-
     }
 
 
@@ -152,48 +309,62 @@ const InstructorCourseDetailsPage = () => {
             !course?._id ||
             isPublishing ||
             isSavingDraft ||
-            isRemoving
+            isRemoving ||
+            isRemovingSection ||
+            isReorderingSections
         ) {
             return
         }
 
 
+        clearActionError()
+
+
         try {
 
-            await saveCourseAsDraft(course._id).unwrap()
+            await saveCourseAsDraft(
+                course._id
+            ).unwrap()
 
         } catch (error) {
 
-            console.error(
-                "Failed to save course as draft:",
-                error
-            )
+            const message =
+                getErrorMessage(
+                    error,
+                    "Unable to save this course as draft."
+                )
+
+
+            setActionError(message)
 
         }
-
     }
 
 
     ///////////////////////////////////////////////////////////////
-    // Open remove dialog
+    // Open remove course dialog
 
     const handleRemove = (course) => {
 
         if (
             !course?._id ||
-            isRemoving
+            isRemoving ||
+            isRemovingSection ||
+            isReorderingSections
         ) {
             return
         }
 
 
-        setCourseToRemove(course)
+        clearActionError()
 
+
+        setCourseToRemove(course)
     }
 
 
     ///////////////////////////////////////////////////////////////
-    // Cancel remove
+    // Cancel remove course
 
     const handleCancelRemove = () => {
 
@@ -203,21 +374,25 @@ const InstructorCourseDetailsPage = () => {
 
 
         setCourseToRemove(null)
-
     }
 
 
     ///////////////////////////////////////////////////////////////
-    // Confirm remove
+    // Confirm remove course
 
     const handleConfirmRemove = async () => {
 
         if (
             !courseToRemove?._id ||
-            isRemoving
+            isRemoving ||
+            isRemovingSection ||
+            isReorderingSections
         ) {
             return
         }
+
+
+        clearActionError()
 
 
         try {
@@ -226,17 +401,154 @@ const InstructorCourseDetailsPage = () => {
                 courseToRemove._id
             ).unwrap()
 
+
             setCourseToRemove(null)
 
         } catch (error) {
 
-            console.error(
-                "Failed to remove course:",
-                error
-            )
+            const message =
+                getErrorMessage(
+                    error,
+                    "Unable to remove this course."
+                )
+
+
+            setActionError(message)
 
         }
+    }
 
+
+    ///////////////////////////////////////////////////////////////
+    // Open remove section dialog
+
+    const handleRemoveSection = (section) => {
+
+        if (
+            !section?._id ||
+            isRemovingSection ||
+            isReorderingSections
+        ) {
+            return
+        }
+
+
+        clearActionError()
+
+
+        setSectionToRemove(section)
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Cancel remove section
+
+    const handleCancelRemoveSection = () => {
+
+        if (isRemovingSection) {
+            return
+        }
+
+
+        setSectionToRemove(null)
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Confirm remove section
+
+    const handleConfirmRemoveSection = async () => {
+
+        if (
+            !sectionToRemove?._id ||
+            isRemovingSection ||
+            isReorderingSections
+        ) {
+            return
+        }
+
+
+        clearActionError()
+
+
+        try {
+
+            await removeSection({
+                sectionId: sectionToRemove._id,
+                courseId: course._id,
+            }).unwrap()
+
+
+            setSectionToRemove(null)
+
+        } catch (error) {
+
+            const message =
+                getErrorMessage(
+                    error,
+                    "Unable to remove this section."
+                )
+
+
+            setActionError(message)
+
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Reorder sections
+
+    const handleReorderSections = async (
+        reorderedSections
+    ) => {
+
+        if (
+            !course?._id ||
+            isReorderingSections ||
+            isRemovingSection ||
+            reorderedSections.length === 0
+        ) {
+            return false
+        }
+
+
+        clearActionError()
+
+
+        const sectionsPayload =
+            reorderedSections.map(
+                (section, index) => ({
+                    sectionId: section._id,
+                    order: index + 1,
+                })
+            )
+
+
+        try {
+
+            await reorderSections({
+                courseId: course._id,
+                sections: sectionsPayload,
+            }).unwrap()
+
+
+            return true
+
+        } catch (error) {
+
+            const message =
+                getErrorMessage(
+                    error,
+                    "Unable to reorder course sections."
+                )
+
+
+            setActionError(message)
+
+
+            return false
+        }
     }
 
 
@@ -271,14 +583,18 @@ const InstructorCourseDetailsPage = () => {
     ///////////////////////////////////////////////////////////////
     // Course error
 
-    if (isCourseError || !course) {
+    if (
+        isCourseError ||
+        !course
+    ) {
 
-        const message = isCourseError
-            ? getErrorMessage(
-                courseError,
-                "Unable to load this course."
-            )
-            : "The requested course could not be found."
+        const message =
+            isCourseError
+                ? getErrorMessage(
+                    courseError,
+                    "Unable to load this course."
+                )
+                : "The requested course could not be found."
 
 
         return (
@@ -313,10 +629,11 @@ const InstructorCourseDetailsPage = () => {
 
     if (isSectionsError) {
 
-        const message = getErrorMessage(
-            sectionsError,
-            "Unable to load the course curriculum."
-        )
+        const message =
+            getErrorMessage(
+                sectionsError,
+                "Unable to load the course curriculum."
+            )
 
 
         return (
@@ -388,6 +705,30 @@ const InstructorCourseDetailsPage = () => {
                 </div>
 
 
+                {/* Action Error */}
+
+                {actionError && (
+                    <div className="
+                        mt-5
+                        rounded-lg
+                        border
+                        border-status-danger/30
+                        bg-status-danger/10
+                        px-4
+                        py-3
+                    ">
+                        <p className="
+                            font-body
+                            text-sm
+                            font-medium
+                            text-status-danger
+                        ">
+                            {actionError}
+                        </p>
+                    </div>
+                )}
+
+
                 {/* Main Content */}
 
                 <div className="
@@ -419,6 +760,12 @@ const InstructorCourseDetailsPage = () => {
                         <InstructorCourseCurriculum
                             course={course}
                             sections={sections}
+                            onAddSection={handleAddSection}
+                            onEditSection={handleEditSection}
+                            onAddLecture={handleAddLecture}
+                            onRemoveSection={handleRemoveSection}
+                            onReorderSections={handleReorderSections}
+                            isReorderingSections={isReorderingSections}
                         />
 
                     </div>
@@ -450,6 +797,17 @@ const InstructorCourseDetailsPage = () => {
                 loading={isRemoving}
                 onConfirm={handleConfirmRemove}
                 onCancel={handleCancelRemove}
+            />
+
+
+            {/* Remove Section Dialog */}
+
+            <InstructorCourseSectionRemoveDialog
+                section={sectionToRemove}
+                open={Boolean(sectionToRemove)}
+                loading={isRemovingSection}
+                onConfirm={handleConfirmRemoveSection}
+                onCancel={handleCancelRemoveSection}
             />
 
         </>

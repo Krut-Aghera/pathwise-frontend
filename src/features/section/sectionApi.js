@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react"
 import axiosBaseQuery from "../../services/http/axiosBaseQuery"
 
+
 const sectionApi = createApi({
     reducerPath: "sectionApi",
 
@@ -100,10 +101,14 @@ const sectionApi = createApi({
                 data: sectionData,
             }),
 
-            invalidatesTags: (result, error, { sectionId }) => [
+            invalidatesTags: (result, error, { sectionId, courseId }) => [
                 {
                     type: "Section",
                     id: sectionId,
+                },
+                {
+                    type: "Section",
+                    id: `COURSE-${courseId}`,
                 },
             ],
         }),
@@ -152,15 +157,19 @@ const sectionApi = createApi({
 
         // DELETE /sections/:sectionId
         removeSection: builder.mutation({
-            query: (sectionId) => ({
+            query: ({ sectionId }) => ({
                 url: `/${sectionId}`,
                 method: "DELETE",
             }),
 
-            invalidatesTags: (result, error, sectionId) => [
+            invalidatesTags: (result, error, { sectionId, courseId }) => [
                 {
                     type: "Section",
                     id: sectionId,
+                },
+                {
+                    type: "Section",
+                    id: `COURSE-${courseId}`,
                 },
             ],
         }),

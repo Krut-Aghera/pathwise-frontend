@@ -607,7 +607,7 @@ const InstructorCourseDetailsSkeleton = () => {
                     {/* Thumbnail */}
 
                     <div className="
-                        aspect-16/9
+                        aspect-video
                         w-full
                         rounded-lg
                         bg-background-elevated

@@ -1,14 +1,24 @@
 import {
     BookOpen,
+    Plus,
 } from "lucide-react"
 
+import Button
+    from "../../../../components/ui/Button.jsx"
+
 import InstructorCourseSectionList
-    from "./InstructorCourseSectionList.jsx"
+    from "../../../section/components/InstructorCourseSectionList.jsx"
 
 
 const InstructorCourseCurriculum = ({
     course,
     sections = [],
+    onAddSection,
+    onEditSection,
+    onAddLecture,
+    onRemoveSection,
+    onReorderSections,
+    isReorderingSections = false,
 }) => {
 
     return (
@@ -17,9 +27,7 @@ const InstructorCourseCurriculum = ({
             border
             border-border-subtle
             bg-background-surface
-
             p-5
-
             sm:p-6
         ">
 
@@ -29,7 +37,6 @@ const InstructorCourseCurriculum = ({
                 flex
                 flex-col
                 gap-3
-
                 sm:flex-row
                 sm:items-center
                 sm:justify-between
@@ -54,27 +61,39 @@ const InstructorCourseCurriculum = ({
                             font-semibold
                             text-text-primary
                         ">
-
                             Course Curriculum
-
                         </h2>
 
                     </div>
 
+
                     <p className="
                         mt-1
-
                         font-body
                         text-xs
                         leading-5
                         text-text-muted
                     ">
-
                         Manage sections and lectures for this course.
-
                     </p>
 
                 </div>
+
+
+                {/* Add Section */}
+
+                <Button
+                    type="button"
+                    onClick={onAddSection}
+                    disabled={isReorderingSections}
+                    className="
+                        w-full
+                        sm:w-auto
+                    "
+                >
+                    <Plus size={15} />
+                    Add Section
+                </Button>
 
             </div>
 
@@ -86,6 +105,11 @@ const InstructorCourseCurriculum = ({
                 <InstructorCourseSectionList
                     course={course}
                     sections={sections}
+                    onEditSection={onEditSection}
+                    onAddLecture={onAddLecture}
+                    onRemoveSection={onRemoveSection}
+                    onReorderSections={onReorderSections}
+                    isReorderingSections={isReorderingSections}
                 />
 
             </div>
