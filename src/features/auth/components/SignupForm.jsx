@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form"
-import { useDispatch } from "react-redux"
 
 import Input from "../../../components/form/Input"
 import PasswordInput from "../../../components/form/PasswordInput"
@@ -9,12 +8,9 @@ import Button from "../../../components/ui/Button"
 import {
     signupValidationRules,
 } from "../authValidation"
-import { setAuthSession } from "../authSlice"
-import { signup } from "../authService"
 
-const SignupForm = () => {
 
-    const dispatch = useDispatch()
+const SignupForm = ({ onSubmit, loading = false, }) => {
 
     const {
         register,
@@ -33,26 +29,27 @@ const SignupForm = () => {
     })
 
 
-    const onSubmit = async (formData) => {
+
+    // Submit
+    const handleFormSubmit = async (formData) => {
 
         try {
 
-            const response = await signup({
+            await onSubmit({
                 username: formData.username,
                 email: formData.email,
                 password: formData.password,
             })
 
-            dispatch(setAuthSession(response.data))
-
         } catch (error) {
 
             // Backend validation errors
-            if (
-                error.statusCode === 400 &&
-                Array.isArray(error.errors)
-            ) {
+            if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
+
+                    if (!field) {
+                        return
+                    }
 
                     setError(field, {
                         type: "server",
@@ -65,7 +62,7 @@ const SignupForm = () => {
             }
 
             // Duplicate email
-            if (error.statusCode === 409) {
+            if (error?.statusCode === 409) {
 
                 setError("email", {
                     type: "server",
@@ -75,11 +72,12 @@ const SignupForm = () => {
                 return
             }
 
+
             // General / unexpected error
             setError("root", {
                 type: "server",
                 message:
-                    error.message ||
+                    error?.message ||
                     "Unable to create your account. Please try again.",
             })
 
@@ -87,9 +85,15 @@ const SignupForm = () => {
     }
 
 
+    ///////////////////////////////////////////////////////////////
+    // Loading
+
+    const isFormLoading = loading || isSubmitting
+
+
     return (
         <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(handleFormSubmit)}
             noValidate
             className="
                 w-full
@@ -205,7 +209,7 @@ const SignupForm = () => {
 
             <Button
                 type="submit"
-                loading={isSubmitting}
+                loading={isFormLoading}
                 className="w-full mt-1.5 mb.3 py-2"
             >
                 Create Account

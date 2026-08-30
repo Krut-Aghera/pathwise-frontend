@@ -3,13 +3,13 @@ import {
     GraduationCap,
     Rocket,
 } from "lucide-react"
-import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { USER_ROLE } from "../userConstants"
+import useSession from "../../auth/hooks/useSession"
 
 const InstructorAccessCard = () => {
 
-    const { user } = useSelector(state => state.auth)
+    const { user } = useSession()
 
     const hasInstructorAccess =
         user?.role === USER_ROLE.INSTRUCTOR ||

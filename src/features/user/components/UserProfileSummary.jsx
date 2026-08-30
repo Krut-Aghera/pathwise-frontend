@@ -4,14 +4,12 @@ import {
     UserRound,
 } from "lucide-react"
 
-import { useSelector } from "react-redux"
+import useSession from "../../auth/hooks/useSession"
 
 
 const UserProfileSummary = () => {
 
-    const user = useSelector(
-        state => state.auth.user
-    )
+    const { user } = useSession()
 
 
     return (

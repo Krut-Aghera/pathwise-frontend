@@ -1,10 +1,26 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import pathwise_main_logo from "../../../assets/pathwise_main_logo.png"
 import SignupForm from "../components/SignupForm"
 
+import useSession from "../hooks/useSession"
+
 
 const SignupPage = () => {
+
+    const { userSignup, isSignupLoading, } = useSession()
+    const navigate = useNavigate()
+
+    // Submit
+    const handleSubmit = async (formData) => {
+        await userSignup(
+            formData
+        )
+
+        navigate("/")
+    }
+
+
     return (
         <main className="
             flex
@@ -101,7 +117,10 @@ const SignupPage = () => {
                     shadow-lg
                     sm:p-6
                 ">
-                    <SignupForm />
+                    <SignupForm
+                        onSubmit={handleSubmit}
+                        loading={isSignupLoading}
+                    />
                 </section>
 
 
@@ -161,5 +180,6 @@ const SignupPage = () => {
         </main>
     )
 }
+
 
 export default SignupPage

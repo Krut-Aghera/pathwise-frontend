@@ -8,7 +8,7 @@ import Button from "../../../components/ui/Button"
 import {
     forgotPasswordValidationRules,
 } from "../authValidation"
-import { requestPasswordReset } from "../authService"
+// import { requestPasswordReset } from "../authService"
 
 
 const ForgotPasswordForm = () => {
@@ -33,9 +33,9 @@ const ForgotPasswordForm = () => {
 
         try {
 
-            const response = await requestPasswordReset({
-                email: formData.email,
-            })
+            // const response = await requestPasswordReset({
+            //     email: formData.email,
+            // })
 
             setPasswordResponse(response.message)
             // toast

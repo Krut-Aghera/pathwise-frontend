@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { NavLink, Link } from "react-router-dom"
 import { BookOpen, Heart, UserRound } from "lucide-react"
-import { useSelector } from "react-redux"
+import useSession from "../../features/auth/hooks/useSession"
 
 import pathwise_main_logo from "../../assets/pathwise_main_logo.png"
 
@@ -10,10 +10,7 @@ const Header = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    const { isAuthenticated } = useSelector(
-        (state) => state.auth
-    )
-
+    const { isAuthenticated } = useSession()
 
     const closeMobileMenu = () => {
         setIsMenuOpen(false)
@@ -28,13 +25,12 @@ const Header = () => {
         text-sm
         transition
 
-        ${
-            isActive
-                ? `
+        ${isActive
+            ? `
                     font-medium
                     text-text-primary
                 `
-                : `
+            : `
                     text-text-secondary
                     hover:text-text-primary
                 `
@@ -50,14 +46,13 @@ const Header = () => {
         text-sm
         transition
 
-        ${
-            isActive
-                ? `
+        ${isActive
+            ? `
                     bg-background-elevated
                     font-medium
                     text-text-primary
                 `
-                : `
+            : `
                     text-text-secondary
                     hover:bg-background-elevated
                     hover:text-text-primary
@@ -218,13 +213,12 @@ const Header = () => {
                                     font-medium
                                     transition
 
-                                    ${
-                                        isActive
-                                            ? `
+                                    ${isActive
+                                        ? `
                                                 bg-background-surface
                                                 text-text-primary
                                             `
-                                            : `
+                                        : `
                                                 text-text-secondary
                                                 hover:bg-background-surface
                                                 hover:text-text-primary
@@ -254,13 +248,12 @@ const Header = () => {
                                     p-2
                                     transition
 
-                                    ${
-                                        isActive
-                                            ? `
+                                    ${isActive
+                                        ? `
                                                 bg-background-surface
                                                 text-text-primary
                                             `
-                                            : `
+                                        : `
                                                 text-text-secondary
                                                 hover:bg-background-surface
                                                 hover:text-text-primary
@@ -288,13 +281,12 @@ const Header = () => {
                                     p-2
                                     transition
 
-                                    ${
-                                        isActive
-                                            ? `
+                                    ${isActive
+                                        ? `
                                                 bg-background-surface
                                                 text-text-primary
                                             `
-                                            : `
+                                        : `
                                                 text-text-secondary
                                                 hover:bg-background-surface
                                                 hover:text-text-primary
@@ -426,14 +418,13 @@ const Header = () => {
                                         py-3
                                         transition
 
-                                        ${
-                                            isActive
-                                                ? `
+                                        ${isActive
+                                            ? `
                                                     border-accent-primary/30
                                                     bg-background-base
                                                     text-text-primary
                                                 `
-                                                : `
+                                            : `
                                                     border-border-subtle
                                                     bg-background-base
                                                     text-text-secondary
@@ -468,14 +459,13 @@ const Header = () => {
                                         py-3
                                         transition
 
-                                        ${
-                                            isActive
-                                                ? `
+                                        ${isActive
+                                            ? `
                                                     border-accent-primary/30
                                                     bg-background-base
                                                     text-text-primary
                                                 `
-                                                : `
+                                            : `
                                                     border-border-subtle
                                                     bg-background-base
                                                     text-text-secondary
@@ -510,14 +500,13 @@ const Header = () => {
                                         py-3
                                         transition
 
-                                        ${
-                                            isActive
-                                                ? `
+                                        ${isActive
+                                            ? `
                                                     border-accent-primary/30
                                                     bg-background-base
                                                     text-text-primary
                                                 `
-                                                : `
+                                            : `
                                                     border-border-subtle
                                                     bg-background-base
                                                     text-text-secondary

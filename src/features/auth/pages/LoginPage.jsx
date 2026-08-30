@@ -1,10 +1,36 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import pathwise_main_logo from "../../../assets/pathwise_main_logo.png"
 import LoginForm from "../components/LoginForm"
+import useSession from "../hooks/useSession"
 
 
 const LoginPage = () => {
+
+    const navigate = useNavigate()
+
+    const {
+        userLogin,
+        isLoginLoading,
+    } = useSession()
+
+
+    ///////////////////////////////////////////////////////////////
+    // Submit
+
+    const handleSubmit = async (credentials) => {
+
+        await userLogin(
+            credentials
+        )
+
+        ///////////////////////////////////////////////////////////
+        // Success
+
+        navigate("/")
+    }
+
+
     return (
         <main className="
             flex
@@ -101,7 +127,10 @@ const LoginPage = () => {
                     shadow-lg
                     sm:p-6
                 ">
-                    <LoginForm />
+                    <LoginForm
+                        onSubmit={handleSubmit}
+                        loading={isLoginLoading}
+                    />
                 </section>
 
 

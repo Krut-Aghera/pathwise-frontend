@@ -1,37 +1,59 @@
-import { useSelector } from "react-redux"
 import {
     Navigate,
     Outlet,
-    useLocation
+    useLocation,
 } from "react-router-dom"
 
+import useSession from "../../features/auth/hooks/useSession"
+
+
 const GuestOnlyRoutes = () => {
+
+    const location = useLocation()
+
+
+    ///////////////////////////////////////////////////////////////
+    // Session
 
     const {
         isAuthenticated,
         isAuthInitializing,
-    } = useSelector(state => state.auth)
+    } = useSession()
 
-    const location = useLocation()
 
+    ///////////////////////////////////////////////////////////////
     // Authentication initialization
-    // still checking whether the user is logged in
+
     if (isAuthInitializing) {
-        return <div>Checking authentication...</div>
-    }
-
-    // Authentication checks
-    // if user is already logged in
-    if (isAuthenticated) {
-        const from = location.state?.from
-
         return (
-            <Navigate to={from || "/"} replace />
+            <div>
+                Checking authentication...
+            </div>
         )
     }
 
+
+    ///////////////////////////////////////////////////////////////
+    // Authentication check
+
+    if (isAuthenticated) {
+
+        const from = location.state?.from
+
+        return (
+            <Navigate
+                to={from || "/"}
+                replace
+            />
+        )
+    }
+
+
+    ///////////////////////////////////////////////////////////////
     // Guest
+
     return <Outlet />
 }
+
 
 export default GuestOnlyRoutes

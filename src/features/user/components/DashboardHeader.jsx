@@ -1,12 +1,10 @@
-import { useSelector } from "react-redux"
+
+import useSession from "../../auth/hooks/useSession"
 
 
 const DashboardHeader = () => {
 
-    const user = useSelector(
-        state => state.auth.user
-    )
-
+    const { user } = useSession()
 
     return (
         <div className="

@@ -5,12 +5,12 @@ import {
 } from "lucide-react"
 
 import Button from "../../../components/ui/Button"
-import { useSelector } from "react-redux"
+import useSession from "../../auth/hooks/useSession"
 
 
 const EmailVerificationCard = () => {
 
-    const {user} = useSelector(state => state.auth)
+    const {user} = useSession()
 
 
     if (user?.isEmailVerified) {

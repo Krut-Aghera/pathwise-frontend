@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
-import { useDispatch } from "react-redux"
 
 import FormField from "../../../components/form/FormField"
 import Input from "../../../components/form/Input"
@@ -10,13 +9,12 @@ import Button from "../../../components/ui/Button"
 import {
     loginValidationRules,
 } from "../authValidation"
-import { setAuthSession } from "../authSlice"
-import { login } from "../authService"
 
 
-const LoginForm = () => {
-
-    const dispatch = useDispatch()
+const LoginForm = ({
+    onSubmit,
+    loading = false,
+}) => {
 
     const {
         register,
@@ -34,23 +32,28 @@ const LoginForm = () => {
     })
 
 
-    const onSubmit = async (formData) => {
+    ///////////////////////////////////////////////////////////////
+    // Submit
+
+    const handleFormSubmit = async (formData) => {
 
         try {
 
-            const response = await login({
+            await onSubmit({
                 email: formData.email,
                 password: formData.password,
             })
 
-            dispatch(setAuthSession(response.data))
-
         } catch (error) {
 
+            /////////////////////////////////////////////////////////
+            // Backend validation / authentication errors
+
             if (
-                error.statusCode === 400 ||
-                error.statusCode === 401
+                error?.statusCode === 400 ||
+                error?.statusCode === 401
             ) {
+
                 setError("root", {
                     type: "server",
                     message: "Invalid credentials.",
@@ -59,19 +62,32 @@ const LoginForm = () => {
                 return
             }
 
+
+            /////////////////////////////////////////////////////////
+            // General / unexpected error
+
             setError("root", {
                 type: "server",
                 message:
-                    error.message ||
+                    error?.message ||
                     "Unable to sign in. Please try again.",
             })
+
         }
     }
 
 
+    ///////////////////////////////////////////////////////////////
+    // Loading
+
+    const isFormLoading =
+        loading ||
+        isSubmitting
+
+
     return (
         <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(handleFormSubmit)}
             noValidate
             className="
                 w-full
@@ -163,8 +179,8 @@ const LoginForm = () => {
                 <Link
                     to="/auth/forgot-password"
                     className="
-                        font-body
                         w-full
+                        font-body
                         text-xs
                         font-medium
                         text-text-secondary
@@ -186,7 +202,7 @@ const LoginForm = () => {
 
             <Button
                 type="submit"
-                loading={isSubmitting}
+                loading={isFormLoading}
                 className="w-full"
             >
                 Log In

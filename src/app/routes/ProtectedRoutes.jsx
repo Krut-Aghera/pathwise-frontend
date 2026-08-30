@@ -1,28 +1,41 @@
-import { useSelector } from "react-redux"
 import {
     Navigate,
     Outlet,
-    useLocation
+    useLocation,
 } from "react-router-dom"
 
+import useSession from "../../features/auth/hooks/useSession"
+
+
 const ProtectedRoutes = ({ allowedRoles }) => {
+
+    const location = useLocation()
+
+    ///////////////////////////////////////////////////////////////
+    // Session
 
     const {
         user,
         isAuthenticated,
         isAuthInitializing,
-    } = useSelector(state => state.auth)
+    } = useSession()
 
-    const location = useLocation()
 
+    ///////////////////////////////////////////////////////////////
     // Authentication initialization
-    // still checking whether the user is logged in
+
     if (isAuthInitializing) {
-        return <div>Checking authentication...</div>
+        return (
+            <div>
+                Checking authentication...
+            </div>
+        )
     }
 
-    // Authentication checks
-    // if user is not logged in
+
+    ///////////////////////////////////////////////////////////////
+    // Authentication check
+
     if (!isAuthenticated) {
         return (
             <Navigate
@@ -35,8 +48,9 @@ const ProtectedRoutes = ({ allowedRoles }) => {
         )
     }
 
-    // Authorization checks
-    // user is logged in but doesn't have permission
+    ///////////////////////////////////////////////////////////////
+    // Authorization check
+
     if (
         allowedRoles &&
         !allowedRoles.includes(user?.role)
@@ -50,8 +64,11 @@ const ProtectedRoutes = ({ allowedRoles }) => {
     }
 
 
-    // User is authenticated and authorized
+    ///////////////////////////////////////////////////////////////
+    // Authenticated and authorized
+
     return <Outlet />
 }
+
 
 export default ProtectedRoutes
