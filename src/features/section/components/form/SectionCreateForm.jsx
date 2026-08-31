@@ -1,15 +1,9 @@
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
-import FormField
-    from "../../../../components/form/FormField.jsx"
-
-import Input
-    from "../../../../components/form/Input.jsx"
-
-import Button
-    from "../../../../components/ui/Button.jsx"
-
+import FormField from "../../../../components/form/FormField.jsx"
+import Input from "../../../../components/form/Input.jsx"
+import Button from "../../../../components/ui/Button.jsx"
 
 const SectionCreateForm = ({
     onSubmit,
@@ -20,8 +14,6 @@ const SectionCreateForm = ({
 
     const globalErrorRef = useRef(null)
 
-
-    ///////////////////////////////////////////////////////////////
     // Form
 
     const {
@@ -44,60 +36,40 @@ const SectionCreateForm = ({
     })
 
 
-    ///////////////////////////////////////////////////////////////
     // Global error scroll
 
     useEffect(() => {
-
         if (!errors.root?.message) {
             return
         }
 
-
         requestAnimationFrame(() => {
-
             globalErrorRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
             })
 
             globalErrorRef.current?.focus()
-
         })
 
     }, [errors.root?.message])
 
 
-    ///////////////////////////////////////////////////////////////
-    // Submit
 
+    // course creation handle sumbit 
     const handleFormSubmit = async (formData) => {
-
         clearErrors("root")
-
-
-        ///////////////////////////////////////////////////////////
-        // Normalize
 
         const sectionData = {
             title: formData.title.trim(),
         }
 
-
-        ///////////////////////////////////////////////////////////
-        // Send to page
-
         try {
-
-            await onSubmit(
-                sectionData
-            )
+            await onSubmit(sectionData)
 
         } catch (error) {
 
-            ///////////////////////////////////////////////////////
-            // Backend validation errors
-
+            // backend validation errors
             if (
                 error?.statusCode === 400 &&
                 Array.isArray(error?.errors)
@@ -109,7 +81,6 @@ const SectionCreateForm = ({
                         return
                     }
 
-
                     setError(field, {
                         type: "server",
                         message,
@@ -120,8 +91,6 @@ const SectionCreateForm = ({
                 return
             }
 
-
-            ///////////////////////////////////////////////////////
             // General server error
 
             setError("root", {
@@ -135,8 +104,6 @@ const SectionCreateForm = ({
 
     }
 
-
-    ///////////////////////////////////////////////////////////////
     // Loading
 
     const isFormLoading =

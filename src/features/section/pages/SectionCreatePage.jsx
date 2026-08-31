@@ -10,14 +10,7 @@ import SectionCreateForm from "../components/form/SectionCreateForm.jsx"
 const SectionCreatePage = () => {
 
     const navigate = useNavigate()
-
-    const {
-        courseId,
-    } = useParams()
-
-
-    ///////////////////////////////////////////////////////////////
-    // Create section
+    const { courseId, } = useParams()
 
     const [
         createSection,
@@ -26,37 +19,20 @@ const SectionCreatePage = () => {
         },
     ] = useCreateSectionMutation()
 
-
-    ///////////////////////////////////////////////////////////////
-    // Submit
-
+    // course creation submit handler
     const handleSubmit = async (sectionData) => {
-
         await createSection({
             courseId,
             sectionData,
         }).unwrap()
 
-
-        ///////////////////////////////////////////////////////////
-        // Success
-
-        navigate(
-            `/instructor/courses/${courseId}`
-        )
-
+        navigate(`/instructor/courses/${courseId}`)
     }
 
 
-    ///////////////////////////////////////////////////////////////
-    // Cancel
-
+    // cancel button handler
     const handleCancel = () => {
-
-        navigate(
-            `/instructor/courses/${courseId}`
-        )
-
+        navigate(`/instructor/courses/${courseId}`)
     }
 
 

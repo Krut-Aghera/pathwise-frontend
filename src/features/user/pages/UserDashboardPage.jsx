@@ -1,165 +1,266 @@
-import DashboardSideVisual from "../components/DashboardSideVisual.jsx"
-import DashboardHeader from "../components/DashboardHeader"
-import UserProfileSummary from "../components/UserProfileSummary"
-import EmailVerificationCard from "../components/EmailVerificationCard"
-import InstructorAccessCard from "../components/InstructorAccessCard"
-import DeactivateAccountCard from "../components/DeactivateAccountCard"
+import DashboardHeader from "../components/user-dashboard/DashboardHeader"
+import UserProfileSummary from "../components/user-dashboard/UserProfileSummary"
+import EmailVerificationCard from "../components/user-dashboard/EmailVerificationCard"
+import InstructorAccessCard from "../components/user-dashboard/InstructorAccessCard"
+import AccountManagement from "../components/user-dashboard/AccountManagement"
 import DashboardCourseCard from "../../course/components/DashboardCourseCard"
-import { dashboardCourses, dashboardUser } from "../../../data/userDashboardData.js"
+
+import { dashboardCourses } from "../../../data/userDashboardData"
 
 
 const UserDashboardPage = () => {
 
     return (
-        <div className="min-h-[calc(100vh-4rem)] bg-background-base">
+        <main className="
+            min-h-[calc(100vh-4rem)]
+            bg-background-base
+        ">
 
             <div className="
                 mx-auto
-                flex
                 w-full
-                max-w-7xl
-                flex-col
-                gap-8
+                max-w-6xl
                 px-4
                 py-8
 
                 sm:px-6
                 sm:py-10
 
-                lg:flex-row
                 lg:px-8
+                lg:py-12
             ">
 
-                {/* Sidebar */}
-                <DashboardSideVisual />
+                {/* Header */}
 
-                {/* Main */}
-                <div className="min-w-0 flex-1">
-
-                    <div className="space-y-6">
-
-                        {/* Header */}
-                        <DashboardHeader />
+                <DashboardHeader />
 
 
-                        {/* Profile */}
-                        <UserProfileSummary />
+                {/* Dashboard content */}
+
+                <div className="
+                    mt-8
+                    space-y-8
+
+                    lg:mt-10
+                    lg:space-y-10
+                ">
 
 
-                        {/* Email */}
-                        <EmailVerificationCard />
+                    {/* Personal information */}
+
+                    <UserProfileSummary />
 
 
-                        {/* Instructor */}
+                    {/* Account status */}
 
-                        {!dashboardUser.instructor && (
-                            <InstructorAccessCard />
-                        )}
+                    <section>
 
+                        <div className="
+                            mb-4
+                            flex
+                            items-end
+                            justify-between
+                        ">
 
-                        {/* Learning */}
-                        <section>
-                            <div className="
-                                mb-4
-                                flex
-                                items-end
-                                justify-between
-                                gap-4
-                            ">
+                            <div>
+                                <p className="
+                                    font-body
+                                    text-xs
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.16em]
+                                    text-accent-primary
+                                ">
+                                    Account status
+                                </p>
 
-                                <div>
-                                    <p className="
-                                        font-body
-                                        text-xs
-                                        font-medium
-                                        uppercase
-                                        tracking-wider
-                                        text-accent-primary
-                                    ">
-                                        Your courses
-                                    </p>
+                                <h2 className="
+                                    mt-1.5
+                                    font-accent
+                                    text-lg
+                                    font-semibold
+                                    text-text-primary
 
-                                    <h2 className="
-                                        mt-1
-                                        font-accent
-                                        text-xl
-                                        font-bold
-                                        text-text-primary
-                                    ">
-                                        Continue learning
-                                    </h2>
-                                </div>
+                                    sm:text-xl
+                                ">
+                                    Keep your account ready
+                                </h2>
                             </div>
 
-
-                            {dashboardCourses.length > 0 ? (
-                                <div className="
-                                    grid
-                                    grid-cols-1
-                                    gap-4
-                                    xl:grid-cols-2
-                                ">
-                                    {dashboardCourses.map(
-                                        (course) => (
-                                            <DashboardCourseCard
-                                                key={course.id}
-                                                course={course}
-                                            />
-                                        )
-                                    )}
-
-                                </div>
-
-                            ) : (
-                                <div className="
-                                    rounded-xl
-                                    border
-                                    border-border-subtle
-                                    bg-background-surface
-                                    p-8
-                                    text-center
-                                ">
-                                    <p className="
-                                        font-body
-                                        text-sm
-                                        text-text-secondary
-                                    ">
-                                        You haven't enrolled in
-                                        any courses yet.
-                                    </p>
-                                </div>
-                            )}
-
-                        </section>
+                        </div>
 
 
-                        {/* Danger zone */}
-                        <section className="pt-4">
-                            <div className="mb-4">
+                        <div className="
+                            grid
+                            grid-cols-1
+                            gap-4
+
+                            lg:grid-cols-2
+                        ">
+
+                            <EmailVerificationCard />
+
+                            <InstructorAccessCard />
+
+                        </div>
+
+                    </section>
+
+
+                    {/* Learning */}
+
+                    <section>
+
+                        <div className="
+                            mb-4
+                            flex
+                            items-end
+                            justify-between
+                            gap-4
+                        ">
+
+                            <div>
 
                                 <p className="
                                     font-body
                                     text-xs
-                                    font-medium
+                                    font-semibold
                                     uppercase
-                                    tracking-wider
-                                    text-status-danger
+                                    tracking-[0.16em]
+                                    text-accent-primary
                                 ">
-                                    Account
+                                    Your learning
+                                </p>
+
+                                <h2 className="
+                                    mt-1.5
+                                    font-accent
+                                    text-lg
+                                    font-semibold
+                                    text-text-primary
+
+                                    sm:text-xl
+                                ">
+                                    Continue learning
+                                </h2>
+
+                            </div>
+
+
+                            {dashboardCourses.length > 0 && (
+                                <span className="
+                                    hidden
+                                    font-body
+                                    text-xs
+                                    text-text-muted
+
+                                    sm:block
+                                ">
+                                    {dashboardCourses.length} enrolled
+                                </span>
+                            )}
+
+                        </div>
+
+
+                        {dashboardCourses.length > 0 ? (
+
+                            <div className="
+                                grid
+                                grid-cols-1
+                                gap-4
+
+                                xl:grid-cols-2
+                            ">
+
+                                {dashboardCourses.map((course) => (
+                                    <DashboardCourseCard
+                                        key={course.id}
+                                        course={course}
+                                    />
+                                ))}
+
+                            </div>
+
+                        ) : (
+
+                            <div className="
+                                rounded-2xl
+                                border
+                                border-border-subtle
+                                bg-background-surface
+                                px-6
+                                py-12
+                                text-center
+                            ">
+
+                                <p className="
+                                    font-accent
+                                    text-sm
+                                    font-medium
+                                    text-text-primary
+                                ">
+                                    No courses yet
+                                </p>
+
+                                <p className="
+                                    mt-1.5
+                                    font-body
+                                    text-xs
+                                    text-text-secondary
+                                ">
+                                    Enroll in a course to start your
+                                    learning journey.
                                 </p>
 
                             </div>
 
-                            <DeactivateAccountCard />
-                        </section>
+                        )}
 
-                    </div>
+                    </section>
+
+
+                    {/* Account management */}
+
+                    <section>
+
+                        <div className="mb-4">
+
+                            <p className="
+                                font-body
+                                text-xs
+                                font-semibold
+                                uppercase
+                                tracking-[0.16em]
+                                text-accent-primary
+                            ">
+                                Account
+                            </p>
+
+                            <h2 className="
+                                mt-1.5
+                                font-accent
+                                text-lg
+                                font-semibold
+                                text-text-primary
+
+                                sm:text-xl
+                            ">
+                                Manage your account
+                            </h2>
+
+                        </div>
+
+
+                        <AccountManagement />
+
+                    </section>
 
                 </div>
 
             </div>
 
-        </div>
+        </main>
     )
 }
 

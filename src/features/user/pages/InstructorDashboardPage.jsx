@@ -1,23 +1,11 @@
-import DashboardSideVisual from "../components/DashboardSideVisual.jsx"
+import DashboardSideVisual from "../components/user-dashboard/DashboardSideVisual.jsx"
 
-import InstructorDashboardHeader
-    from "../components/instructor/InstructorDashboardHeader"
-
-import InstructorStats
-    from "../components/instructor/InstructorStats"
-
-import InstructorCoursePerformance
-    from "../components/instructor/InstructorCoursePerformance"
-
-import InstructorDraftCourses
-    from "../components/instructor/InstructorDraftCourses"
-
-import InstructorDeletedCourses
-    from "../components/instructor/InstructorDeletedCourses"
-
-import InstructorQuickActions
-    from "../components/instructor/InstructorQuickActions"
-
+import InstructorDashboardHeader from "../components/instructor-dashboard/InstructorDashboardHeader"
+import InstructorStats from "../components/instructor-dashboard/InstructorStats"
+import InstructorCoursePerformance from "../components/instructor-dashboard/InstructorCoursePerformance"
+import InstructorDraftCourses from "../components/instructor-dashboard/InstructorDraftCourses"
+import InstructorDeletedCourses from "../components/instructor-dashboard/InstructorDeletedCourses"
+import InstructorQuickActions from "../components/instructor-dashboard/InstructorQuickActions"
 import {
     instructorDashboardStats,
     instructorPublishedCourses,
