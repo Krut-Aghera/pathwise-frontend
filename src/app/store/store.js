@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 
 import authReducer from "../../features/auth/authSlice"
+
 import authApi from "../../features/auth/authApi"
 import userApi from "../../features/user/userApi"
 import courseApi from "../../features/course/courseApi"
