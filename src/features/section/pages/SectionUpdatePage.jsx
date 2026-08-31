@@ -1,49 +1,60 @@
 import { useNavigate, useParams } from "react-router-dom"
 
-import {
-    useFetchInstructorSectionQuery,
-    useUpdateSectionMutation,
-} from "../sectionApi.js"
 
-import ErrorState from "../../../components/ui/ErrorState.jsx"
-import { sectionValidationRules } from "../sectionValidations.js"
-import SectionUpdateForm from "../components/form/SectionUpdateForm.jsx"
+import ErrorState
+    from "../../../components/ui/ErrorState.jsx"
+
+
+import { sectionValidationRules }
+    from "../sectionValidations.js"
+
+
+import useSection
+    from "../hooks/useSection.js"
+
+
+import useSectionManagement
+    from "../hooks/useSectionManagement.js"
+
+
+import SectionUpdateForm
+    from "../components/form/SectionUpdateForm.jsx"
 
 
 const SectionUpdatePage = () => {
 
     const navigate = useNavigate()
 
-    const { sectionId } = useParams()
+    const {
+        sectionId,
+    } = useParams()
 
 
     ///////////////////////////////////////////////////////////////
-    // Fetch section
+    // Section
 
     const {
-        data: sectionResponse,
-        isLoading: isSectionLoading,
-        isError: isSectionError,
-        error: sectionError,
-        refetch: refetchSection,
-    } = useFetchInstructorSectionQuery(sectionId)
+        section,
+        isSectionLoading,
+        isSectionError,
+        sectionError,
+        refetchSection,
+    } = useSection({
+        sectionId,
+    })
 
 
     ///////////////////////////////////////////////////////////////
-    // Update section
+    // Section management
 
-    const [
+    const {
         updateSection,
-        {
-            isLoading: isUpdating,
-        },
-    ] = useUpdateSectionMutation()
+        isUpdating,
+    } = useSectionManagement()
 
 
     ///////////////////////////////////////////////////////////////
-    // Data
-
-    const section = sectionResponse?.data
+    // Course
 
     const courseId =
         section?.course?._id ||
@@ -51,17 +62,12 @@ const SectionUpdatePage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Validation rules
-
-    const validationRules = {
-        ...sectionValidationRules,
-    }
-
-
-    ///////////////////////////////////////////////////////////////
     // Error message helper
 
-    const getErrorMessage = (error, fallback) => {
+    const getErrorMessage = (
+        error,
+        fallback
+    ) => {
 
         return (
             error?.errors?.[0]?.message ||
@@ -74,21 +80,35 @@ const SectionUpdatePage = () => {
     ///////////////////////////////////////////////////////////////
     // Submit
 
-    const handleSubmit = async (sectionData) => {
+    const handleSubmit = async (
+        sectionData
+    ) => {
 
-        await updateSection({
-            sectionId,
-            courseId,
-            sectionData,
-        }).unwrap()
+        if (
+            !sectionId ||
+            !courseId ||
+            isUpdating
+        ) {
+            return
+        }
 
-        ///////////////////////////////////////////////////////////
-        // Success
+
+        const result =
+            await updateSection(
+                sectionId,
+                sectionData,
+                courseId
+            )
+
+
+        if (!result?.success) {
+            return
+        }
+
 
         navigate(
             `/instructor/courses/${courseId}`
         )
-
     }
 
 
@@ -97,10 +117,14 @@ const SectionUpdatePage = () => {
 
     const handleCancel = () => {
 
-        navigate(
-            `/instructor/courses/${courseId}`
-        )
+        if (!courseId) {
+            return
+        }
 
+
+        navigate(
+            `/instructor/courses/${courseId}/sections/${sectionId}/manage`
+        )
     }
 
 
@@ -157,14 +181,18 @@ const SectionUpdatePage = () => {
     ///////////////////////////////////////////////////////////////
     // Error
 
-    if (isSectionError || !section) {
+    if (
+        isSectionError ||
+        !section
+    ) {
 
-        const message = isSectionError
-            ? getErrorMessage(
-                sectionError,
-                "Unable to load this section."
-            )
-            : "The requested section could not be found."
+        const message =
+            isSectionError
+                ? getErrorMessage(
+                    sectionError,
+                    "Unable to load this section."
+                )
+                : "The requested section could not be found."
 
 
         return (
@@ -226,7 +254,7 @@ const SectionUpdatePage = () => {
                     text-accent-primary
                 ">
 
-                    Section {section?.order}
+                    Section {section.order}
 
                 </p>
 
@@ -268,12 +296,12 @@ const SectionUpdatePage = () => {
 
             <SectionUpdateForm
                 initialValues={{
-                    title: section?.title || "",
+                    title: section.title || "",
                 }}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
                 loading={isUpdating}
-                validationRules={validationRules}
+                validationRules={sectionValidationRules}
             />
 
         </main>

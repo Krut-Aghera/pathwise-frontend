@@ -2,8 +2,6 @@ import {
     ChevronDown,
     GripVertical,
     Plus,
-    Pencil,
-    Trash2,
 } from "lucide-react"
 
 import { useState } from "react"
@@ -29,9 +27,8 @@ import Button
 const InstructorCourseSectionItem = ({
     course,
     section,
-    onEditSection,
+    onManageSection,
     onAddLecture,
-    onRemoveSection,
     isReorderingSections = false,
 }) => {
 
@@ -53,7 +50,7 @@ const InstructorCourseSectionItem = ({
         isDragging,
     } = useSortable({
         id: section._id,
-        disabled: false,
+        disabled: isReorderingSections,
     })
 
 
@@ -89,14 +86,15 @@ const InstructorCourseSectionItem = ({
                 border-border-subtle
                 bg-background-elevated
 
-                ${isDragging
-                    ? `
-                        relative
-                        z-10
-                        opacity-50
-                        shadow-xl
-                    `
-                    : ""
+                ${
+                    isDragging
+                        ? `
+                            relative
+                            z-10
+                            opacity-50
+                            shadow-xl
+                        `
+                        : ""
                 }
             `}
         >
@@ -126,21 +124,28 @@ const InstructorCourseSectionItem = ({
                         select-none
                         items-center
                         justify-center
+
                         text-text-muted
+
                         transition-colors
+
                         hover:text-text-secondary
+
                         active:cursor-grabbing
+
                         disabled:cursor-not-allowed
                         disabled:opacity-50
                     "
                     {...attributes}
                     {...listeners}
                 >
+
                     <GripVertical size={17} />
+
                 </button>
 
 
-                {/* Expand */}
+                {/* Expand / Section information */}
 
                 <button
                     type="button"
@@ -163,6 +168,7 @@ const InstructorCourseSectionItem = ({
                         items-center
                         gap-2
                         text-left
+
                         disabled:cursor-not-allowed
                     "
                 >
@@ -175,9 +181,10 @@ const InstructorCourseSectionItem = ({
                             transition-transform
                             duration-200
 
-                            ${isOpen
-                                ? ""
-                                : "-rotate-90"
+                            ${
+                                isOpen
+                                    ? ""
+                                    : "-rotate-90"
                             }
                         `}
                     />
@@ -200,7 +207,9 @@ const InstructorCourseSectionItem = ({
                                 tracking-wider
                                 text-text-muted
                             ">
+
                                 Section {section?.order}
+
                             </span>
 
 
@@ -209,27 +218,32 @@ const InstructorCourseSectionItem = ({
                                 border
                                 px-1.5
                                 py-0.5
+
                                 font-body
                                 text-[10px]
                                 font-semibold
 
-                                ${isPublished
-                                    ? `
-                                        border-status-success/30
-                                        bg-status-success/10
-                                        text-status-success
-                                    `
-                                    : `
-                                        border-status-warning/30
-                                        bg-status-warning/10
-                                        text-status-warning
-                                    `
+                                ${
+                                    isPublished
+                                        ? `
+                                            border-status-success/30
+                                            bg-status-success/10
+                                            text-status-success
+                                        `
+                                        : `
+                                            border-status-warning/30
+                                            bg-status-warning/10
+                                            text-status-warning
+                                        `
                                 }
                             `}>
-                                {isPublished
-                                    ? "Published"
-                                    : "Draft"
+
+                                {
+                                    isPublished
+                                        ? "Published"
+                                        : "Draft"
                                 }
+
                             </span>
 
                         </div>
@@ -238,12 +252,15 @@ const InstructorCourseSectionItem = ({
                         <h3 className="
                             mt-1
                             truncate
+
                             font-accent
                             text-sm
                             font-semibold
                             text-text-primary
                         ">
+
                             {section?.title}
+
                         </h3>
 
                     </div>
@@ -251,86 +268,73 @@ const InstructorCourseSectionItem = ({
                 </button>
 
 
-                {/* Edit section */}
+                {/* Manage Section */}
 
                 <Button
                     type="button"
                     onClick={() =>
-                        onEditSection?.(section)
+                        onManageSection?.(
+                            section
+                        )
                     }
                     disabled={isReorderingSections}
-                    aria-label={`Edit ${section?.title}`}
-                    title="Edit section"
                     className="
                         h-8
-                        w-8
                         shrink-0
                         rounded-md
-                        p-0
+
+                        px-3
+
+                        font-body
+                        text-xs
+                        font-semibold
 
                         disabled:cursor-not-allowed
                         disabled:opacity-50
                     "
                 >
-                    <Pencil size={14} />
+
+                    Manage Section
+
                 </Button>
 
 
-                {/* Remove section */}
+                {/* Add Lecture */}
 
                 <Button
                     type="button"
                     onClick={() =>
-                        onRemoveSection?.(section)
-                    }
-                    disabled={isReorderingSections}
-                    aria-label={`Remove ${section?.title}`}
-                    title="Remove section"
-                    className="
-                        h-8
-                        w-8
-                        shrink-0
-                        rounded-md
-                        p-0
-
-                        border
-                        border-status-danger/30
-
-                        bg-status-danger/10
-                        text-status-danger
-
-                        hover:bg-status-danger/20
-
-                        disabled:cursor-not-allowed
-                        disabled:opacity-50
-                    "
-                >
-                    <Trash2 size={14} />
-                </Button>
-
-
-                {/* Add lecture */}
-
-                <Button
-                    type="button"
-                    onClick={() =>
-                        onAddLecture?.(section)
+                        onAddLecture?.(
+                            section
+                        )
                     }
                     disabled={isReorderingSections}
                     aria-label={`Add lecture to ${section?.title}`}
                     title="Add lecture"
                     className="
                         h-8
-                        w-8
                         shrink-0
                         rounded-md
-                        p-0
+
+                        px-2.5
+
+                        font-body
+                        text-xs
+                        font-semibold
 
                         disabled:cursor-not-allowed
                         disabled:opacity-50
                     "
                 >
-                    <Plus size={15} />
+
+                    <Plus
+                        size={14}
+                    />
+
+                    <span className="hidden sm:inline">
+                        Add Lecture
+                    </span>
+
                 </Button>
 
             </div>
@@ -339,12 +343,14 @@ const InstructorCourseSectionItem = ({
             {/* Lectures */}
 
             {isOpen && (
+
                 <div className="
                     border-t
                     border-border-subtle
                     px-3
                     pb-3
                     pt-2
+
                     sm:px-4
                 ">
 
@@ -354,6 +360,7 @@ const InstructorCourseSectionItem = ({
                     />
 
                 </div>
+
             )}
 
         </article>

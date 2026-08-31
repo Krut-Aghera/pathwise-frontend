@@ -35,6 +35,7 @@ import CourseThumbnailEditPage from "../../features/course/pages/CourseThumbnail
 import InstructorCourseDetailsPage from "../../features/course/pages/InstructorCourseDetailsPage"
 import SectionCreatePage from "../../features/section/pages/SectionCreatePage"
 import SectionUpdatePage from "../../features/section/pages/SectionUpdatePage"
+import SectionDetailsPage from "../../features/section/pages/SectionDetailsPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -156,6 +157,11 @@ const routerConfig = createBrowserRouter(
                     <Route
                         path="instructor/courses/:courseId/sections/create"
                         element={<SectionCreatePage />}
+                    />
+
+                    <Route
+                        path="instructor/courses/:courseId/sections/:sectionId/manage"
+                        element={<SectionDetailsPage />}
                     />
 
                     <Route

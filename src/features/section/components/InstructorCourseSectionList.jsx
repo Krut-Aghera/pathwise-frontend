@@ -26,9 +26,8 @@ import InstructorCourseSectionItem
 const InstructorCourseSectionList = ({
     course,
     sections = [],
-    onEditSection,
+    onManageSection,
     onAddLecture,
-    onRemoveSection,
     onReorderSections,
     isReorderingSections = false,
 }) => {
@@ -259,12 +258,12 @@ const InstructorCourseSectionList = ({
                                 key={section._id}
                                 course={course}
                                 section={section}
-                                onEditSection={onEditSection}
+                                onManageSection={onManageSection}
                                 onAddLecture={onAddLecture}
-                                onRemoveSection={onRemoveSection}
                                 isReorderingSections={
                                     isReorderingSections
                                 }
+
                             />
                         )
                     )}

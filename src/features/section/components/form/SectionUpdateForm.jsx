@@ -2,9 +2,14 @@ import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
 
-import SectionFormActions from "../SectionFormActions.jsx"
-import Input from "../../../../components/form/Input.jsx"
-import FormField from "../../../../components/form/FormField.jsx"
+import SectionFormActions
+    from "../SectionFormActions.jsx"
+
+import Input
+    from "../../../../components/form/Input.jsx"
+
+import FormField
+    from "../../../../components/form/FormField.jsx"
 
 
 const SectionUpdateForm = ({
@@ -17,7 +22,8 @@ const SectionUpdateForm = ({
     validationRules,
 }) => {
 
-    const globalErrorRef = useRef(null)
+    const globalErrorRef =
+        useRef(null)
 
 
     ///////////////////////////////////////////////////////////////
@@ -29,16 +35,20 @@ const SectionUpdateForm = ({
         setError,
         clearErrors,
         reset,
+
         formState: {
             errors,
             isSubmitting,
         },
+
     } = useForm({
+
         defaultValues: initialValues,
 
         mode: "onBlur",
 
         shouldFocusError: true,
+
     })
 
 
@@ -47,11 +57,22 @@ const SectionUpdateForm = ({
 
     useEffect(() => {
 
+        if (isSubmitting) {
+            return
+        }
+
+
         reset({
-            title: initialValues?.title || "",
+            title:
+                initialValues?.title ||
+                "",
         })
 
-    }, [initialValues, reset])
+    }, [
+        initialValues,
+        reset,
+        isSubmitting,
+    ])
 
 
     ///////////////////////////////////////////////////////////////
@@ -63,6 +84,7 @@ const SectionUpdateForm = ({
             return
         }
 
+
         requestAnimationFrame(() => {
 
             globalErrorRef.current?.scrollIntoView({
@@ -70,17 +92,22 @@ const SectionUpdateForm = ({
                 block: "start",
             })
 
+
             globalErrorRef.current?.focus()
 
         })
 
-    }, [errors.root?.message])
+    }, [
+        errors.root?.message,
+    ])
 
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
-    const handleFormSubmit = async (formData) => {
+    const handleFormSubmit = async (
+        formData
+    ) => {
 
         clearErrors("root")
 
@@ -112,18 +139,26 @@ const SectionUpdateForm = ({
                 Array.isArray(error?.errors)
             ) {
 
-                error.errors.forEach(({ field, message }) => {
+                error.errors.forEach(({
+                    field,
+                    message,
+                }) => {
 
                     if (!field) {
                         return
                     }
 
-                    setError(field, {
-                        type: "server",
-                        message,
-                    })
+
+                    setError(
+                        field,
+                        {
+                            type: "server",
+                            message,
+                        }
+                    )
 
                 })
+
 
                 return
             }
@@ -132,12 +167,16 @@ const SectionUpdateForm = ({
             ///////////////////////////////////////////////////////
             // General server error
 
-            setError("root", {
-                type: "server",
-                message:
-                    error?.message ||
-                    "Unable to update section. Please try again.",
-            })
+            setError(
+                "root",
+                {
+                    type: "server",
+
+                    message:
+                        error?.message ||
+                        "Unable to update section. Please try again.",
+                }
+            )
 
         }
 
@@ -156,9 +195,16 @@ const SectionUpdateForm = ({
     // Render
 
     return (
+
         <form
-            onSubmit={handleSubmit(handleFormSubmit)}
+            onSubmit={
+                handleSubmit(
+                    handleFormSubmit
+                )
+            }
+
             noValidate
+
             className="space-y-6"
         >
 
@@ -170,6 +216,7 @@ const SectionUpdateForm = ({
                     ref={globalErrorRef}
                     role="alert"
                     tabIndex={-1}
+
                     className="
                         scroll-mt-6
 
@@ -258,13 +305,21 @@ const SectionUpdateForm = ({
                         type="text"
                         autoComplete="off"
                         placeholder="Enter section title"
+
                         disabled={isFormLoading}
-                        error={Boolean(errors.title)}
+
+                        error={
+                            Boolean(
+                                errors.title
+                            )
+                        }
+
                         aria-describedby={
                             errors.title
                                 ? "section-title-error"
                                 : undefined
                         }
+
                         {...register(
                             "title",
                             validationRules.title

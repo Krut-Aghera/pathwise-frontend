@@ -14,11 +14,11 @@ import {
 } from "../courseApi.js"
 
 
-import {
-    useFetchCourseSectionsQuery,
-    useRemoveSectionMutation,
-    useReorderSectionsMutation,
-} from "../../section/sectionApi.js"
+import useSection
+    from "../../section/hooks/useSection.js"
+
+import useSectionManagement
+    from "../../section/hooks/useSectionManagement.js"
 
 
 import InstructorCourseDetailsHeader
@@ -44,9 +44,6 @@ import InstructorCourseCurriculum
 
 import ErrorState
     from "../../../components/ui/ErrorState.jsx"
-
-import InstructorCourseSectionRemoveDialog
-    from "../../section/components/InstructorCourseSectionRemoveDialog.jsx"
 
 
 const InstructorCourseDetailsPage = () => {
@@ -75,12 +72,14 @@ const InstructorCourseDetailsPage = () => {
     // Course sections
 
     const {
-        data: sectionsResponse,
-        isLoading: isSectionsLoading,
-        isError: isSectionsError,
-        error: sectionsError,
-        refetch: refetchSections,
-    } = useFetchCourseSectionsQuery(courseId)
+        sections,
+        isSectionsLoading,
+        isSectionsError,
+        sectionsError,
+        refetchSections,
+    } = useSection({
+        courseId,
+    })
 
 
     ///////////////////////////////////////////////////////////////
@@ -111,36 +110,24 @@ const InstructorCourseDetailsPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Section mutations
+    // Section management
+    //
+    // Only section creation and reordering remain here.
+    // Section edit / publish / draft / remove are handled
+    // by SectionDetailsPage.
 
-    const [
-        removeSection,
-        {
-            isLoading: isRemovingSection,
-        },
-    ] = useRemoveSectionMutation()
-
-
-    const [
+    const {
         reorderSections,
-        {
-            isLoading: isReorderingSections,
-        },
-    ] = useReorderSectionsMutation()
+        isReordering: isReorderingSections,
+    } = useSectionManagement()
 
 
     ///////////////////////////////////////////////////////////////
-    // Dialog state
+    // Course remove dialog
 
     const [
         courseToRemove,
         setCourseToRemove,
-    ] = useState(null)
-
-
-    const [
-        sectionToRemove,
-        setSectionToRemove,
     ] = useState(null)
 
 
@@ -158,10 +145,6 @@ const InstructorCourseDetailsPage = () => {
 
     const course =
         courseResponse?.data
-
-
-    const sections =
-        sectionsResponse?.data || []
 
 
     ///////////////////////////////////////////////////////////////
@@ -216,9 +199,12 @@ const InstructorCourseDetailsPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Edit section
+    // Manage section
+    //
+    // Section edit / publish / draft / remove are handled
+    // inside SectionDetailsPage.
 
-    const handleEditSection = (section) => {
+    const handleManageSection = (section) => {
 
         if (
             !course?._id ||
@@ -232,7 +218,7 @@ const InstructorCourseDetailsPage = () => {
 
 
         navigate(
-            `/instructor/courses/${course._id}/sections/${section._id}/edit`
+            `/instructor/courses/${course._id}/sections/${section._id}/manage`
         )
     }
 
@@ -269,7 +255,6 @@ const InstructorCourseDetailsPage = () => {
             isPublishing ||
             isSavingDraft ||
             isRemoving ||
-            isRemovingSection ||
             isReorderingSections
         ) {
             return
@@ -310,7 +295,6 @@ const InstructorCourseDetailsPage = () => {
             isPublishing ||
             isSavingDraft ||
             isRemoving ||
-            isRemovingSection ||
             isReorderingSections
         ) {
             return
@@ -349,7 +333,6 @@ const InstructorCourseDetailsPage = () => {
         if (
             !course?._id ||
             isRemoving ||
-            isRemovingSection ||
             isReorderingSections
         ) {
             return
@@ -385,7 +368,6 @@ const InstructorCourseDetailsPage = () => {
         if (
             !courseToRemove?._id ||
             isRemoving ||
-            isRemovingSection ||
             isReorderingSections
         ) {
             return
@@ -420,83 +402,6 @@ const InstructorCourseDetailsPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Open remove section dialog
-
-    const handleRemoveSection = (section) => {
-
-        if (
-            !section?._id ||
-            isRemovingSection ||
-            isReorderingSections
-        ) {
-            return
-        }
-
-
-        clearActionError()
-
-
-        setSectionToRemove(section)
-    }
-
-
-    ///////////////////////////////////////////////////////////////
-    // Cancel remove section
-
-    const handleCancelRemoveSection = () => {
-
-        if (isRemovingSection) {
-            return
-        }
-
-
-        setSectionToRemove(null)
-    }
-
-
-    ///////////////////////////////////////////////////////////////
-    // Confirm remove section
-
-    const handleConfirmRemoveSection = async () => {
-
-        if (
-            !sectionToRemove?._id ||
-            isRemovingSection ||
-            isReorderingSections
-        ) {
-            return
-        }
-
-
-        clearActionError()
-
-
-        try {
-
-            await removeSection({
-                sectionId: sectionToRemove._id,
-                courseId: course._id,
-            }).unwrap()
-
-
-            setSectionToRemove(null)
-
-        } catch (error) {
-
-            const message =
-                getErrorMessage(
-                    error,
-                    "Unable to remove this section."
-                )
-
-
-            setActionError(message)
-
-        }
-    }
-
-
-    ///////////////////////////////////////////////////////////////
     // Reorder sections
 
     const handleReorderSections = async (
@@ -506,7 +411,6 @@ const InstructorCourseDetailsPage = () => {
         if (
             !course?._id ||
             isReorderingSections ||
-            isRemovingSection ||
             reorderedSections.length === 0
         ) {
             return false
@@ -525,21 +429,18 @@ const InstructorCourseDetailsPage = () => {
             )
 
 
-        try {
+        const result =
+            await reorderSections(
+                course._id,
+                sectionsPayload
+            )
 
-            await reorderSections({
-                courseId: course._id,
-                sections: sectionsPayload,
-            }).unwrap()
 
-
-            return true
-
-        } catch (error) {
+        if (!result?.success) {
 
             const message =
                 getErrorMessage(
-                    error,
+                    result?.error,
                     "Unable to reorder course sections."
                 )
 
@@ -549,6 +450,9 @@ const InstructorCourseDetailsPage = () => {
 
             return false
         }
+
+
+        return true
     }
 
 
@@ -708,6 +612,7 @@ const InstructorCourseDetailsPage = () => {
                 {/* Action Error */}
 
                 {actionError && (
+
                     <div className="
                         mt-5
                         rounded-lg
@@ -717,15 +622,20 @@ const InstructorCourseDetailsPage = () => {
                         px-4
                         py-3
                     ">
+
                         <p className="
                             font-body
                             text-sm
                             font-medium
                             text-status-danger
                         ">
+
                             {actionError}
+
                         </p>
+
                     </div>
+
                 )}
 
 
@@ -761,11 +671,12 @@ const InstructorCourseDetailsPage = () => {
                             course={course}
                             sections={sections}
                             onAddSection={handleAddSection}
-                            onEditSection={handleEditSection}
+                            onManageSection={handleManageSection}
                             onAddLecture={handleAddLecture}
-                            onRemoveSection={handleRemoveSection}
                             onReorderSections={handleReorderSections}
-                            isReorderingSections={isReorderingSections}
+                            isReorderingSections={
+                                isReorderingSections
+                            }
                         />
 
                     </div>
@@ -797,17 +708,6 @@ const InstructorCourseDetailsPage = () => {
                 loading={isRemoving}
                 onConfirm={handleConfirmRemove}
                 onCancel={handleCancelRemove}
-            />
-
-
-            {/* Remove Section Dialog */}
-
-            <InstructorCourseSectionRemoveDialog
-                section={sectionToRemove}
-                open={Boolean(sectionToRemove)}
-                loading={isRemovingSection}
-                onConfirm={handleConfirmRemoveSection}
-                onCancel={handleCancelRemoveSection}
             />
 
         </>

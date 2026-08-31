@@ -14,9 +14,8 @@ const InstructorCourseCurriculum = ({
     course,
     sections = [],
     onAddSection,
-    onEditSection,
+    onManageSection,
     onAddLecture,
-    onRemoveSection,
     onReorderSections,
     isReorderingSections = false,
 }) => {
@@ -105,9 +104,8 @@ const InstructorCourseCurriculum = ({
                 <InstructorCourseSectionList
                     course={course}
                     sections={sections}
-                    onEditSection={onEditSection}
+                    onManageSection={onManageSection}
                     onAddLecture={onAddLecture}
-                    onRemoveSection={onRemoveSection}
                     onReorderSections={onReorderSections}
                     isReorderingSections={isReorderingSections}
                 />
