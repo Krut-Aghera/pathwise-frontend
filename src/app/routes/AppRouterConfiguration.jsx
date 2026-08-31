@@ -36,6 +36,9 @@ import InstructorCourseDetailsPage from "../../features/course/pages/InstructorC
 import SectionCreatePage from "../../features/section/pages/SectionCreatePage"
 import SectionUpdatePage from "../../features/section/pages/SectionUpdatePage"
 import SectionDetailsPage from "../../features/section/pages/SectionDetailsPage"
+import LectureCreatePage from "../../features/lecture/pages/LectureCreatePage"
+import LectureDetailsPage from "../../features/lecture/pages/LectureDetailsPage"
+import LectureUpdatePage from "../../features/lecture/pages/LectureUpdatePage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -167,6 +170,21 @@ const routerConfig = createBrowserRouter(
                     <Route
                         path="instructor/courses/:courseId/sections/:sectionId/edit"
                         element={<SectionUpdatePage />}
+                    />
+
+                    <Route
+                        path="instructor/courses/:courseId/sections/:sectionId/lectures/create"
+                        element={<LectureCreatePage />}
+                    />
+                    
+                    <Route
+                        path="/instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/edit"
+                        element={<LectureUpdatePage />}
+                    />
+                  
+                    <Route
+                        path="instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/manage"
+                        element={<LectureDetailsPage />}
                     />
 
                 </Route>

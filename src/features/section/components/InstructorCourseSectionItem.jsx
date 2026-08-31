@@ -14,14 +14,13 @@ import {
     CSS,
 } from "@dnd-kit/utilities"
 
-import InstructorCourseLectureList
-    from "../../course/components/course-manage/InstructorCourseLectureList.jsx"
 
 import { RESOURCE_STATUS }
     from "../../../constants/resourceConstants.js"
 
 import Button
     from "../../../components/ui/Button.jsx"
+import InstructorCourseLectureList from "../../lecture/components/course-manage/InstructorCourseLectureList.jsx"
 
 
 const InstructorCourseSectionItem = ({
@@ -139,9 +138,7 @@ const InstructorCourseSectionItem = ({
                     {...attributes}
                     {...listeners}
                 >
-
                     <GripVertical size={17} />
-
                 </button>
 
 
@@ -207,9 +204,7 @@ const InstructorCourseSectionItem = ({
                                 tracking-wider
                                 text-text-muted
                             ">
-
                                 Section {section?.order}
-
                             </span>
 
 
@@ -237,13 +232,11 @@ const InstructorCourseSectionItem = ({
                                         `
                                 }
                             `}>
-
                                 {
                                     isPublished
                                         ? "Published"
                                         : "Draft"
                                 }
-
                             </span>
 
                         </div>
@@ -258,9 +251,7 @@ const InstructorCourseSectionItem = ({
                             font-semibold
                             text-text-primary
                         ">
-
                             {section?.title}
-
                         </h3>
 
                     </div>
@@ -293,9 +284,7 @@ const InstructorCourseSectionItem = ({
                         disabled:opacity-50
                     "
                 >
-
                     Manage Section
-
                 </Button>
 
 
@@ -327,9 +316,7 @@ const InstructorCourseSectionItem = ({
                     "
                 >
 
-                    <Plus
-                        size={14}
-                    />
+                    <Plus size={14} />
 
                     <span className="hidden sm:inline">
                         Add Lecture
@@ -357,6 +344,7 @@ const InstructorCourseSectionItem = ({
                     <InstructorCourseLectureList
                         course={course}
                         section={section}
+                        enabled={isOpen}
                     />
 
                 </div>

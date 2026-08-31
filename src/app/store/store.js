@@ -6,6 +6,8 @@ import authApi from "../../features/auth/authApi"
 import userApi from "../../features/user/userApi"
 import courseApi from "../../features/course/courseApi"
 import sectionApi from "../../features/section/sectionApi"
+import lectureApi from "../../features/lecture/lectureApi"
+
 
 const store = configureStore({
     reducer: {
@@ -15,6 +17,7 @@ const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [courseApi.reducerPath]: courseApi.reducer,
         [sectionApi.reducerPath]: sectionApi.reducer,
+        [lectureApi.reducerPath]: lectureApi.reducer,
     },
 
     middleware: (getDefaultMiddleware) =>
@@ -23,7 +26,9 @@ const store = configureStore({
             userApi.middleware,
             courseApi.middleware,
             sectionApi.middleware,
+            lectureApi.middleware,
         ),
 })
+
 
 export default store
