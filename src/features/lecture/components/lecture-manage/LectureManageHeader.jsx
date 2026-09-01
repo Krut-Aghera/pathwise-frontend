@@ -1,7 +1,10 @@
 import {
     ArrowLeft,
-    FileVideo,
+    BookOpen,
+    CircleCheck,
+    CircleDashed,
 } from "lucide-react"
+
 
 import {
     RESOURCE_STATUS,
@@ -33,177 +36,240 @@ const LectureManageHeader = ({
 
     return (
         <header className="
-            rounded-xl
+            overflow-hidden
+
+            rounded-2xl
+
             border
             border-border-subtle
 
             bg-background-surface
-
-            p-5
-
-            sm:p-6
         ">
 
-            {/* Back */}
+            {/* Top bar */}
 
-            <button
-                type="button"
-                onClick={onBack}
-                className="
+            <div className="
+                flex
+                items-center
+                justify-between
+
+                border-b
+                border-border-subtle
+
+                px-5
+                py-3.5
+
+                sm:px-6
+            ">
+
+                <button
+                    type="button"
+                    onClick={onBack}
+                    className="
+                        inline-flex
+                        items-center
+                        gap-2
+
+                        rounded-lg
+
+                        px-2
+                        py-1.5
+                        -ml-2
+
+                        font-body
+                        text-xs
+                        font-medium
+                        text-text-muted
+
+                        transition-colors
+                        duration-200
+
+                        hover:bg-background-elevated
+                        hover:text-text-primary
+
+                        focus-visible:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-accent-primary
+                    "
+                >
+
+                    <ArrowLeft size={15} />
+
+                    Back to Section
+
+                </button>
+
+
+                {/* Status */}
+
+                <div className={`
                     inline-flex
                     items-center
-                    gap-2
+                    gap-1.5
+
+                    rounded-full
+
+                    px-2.5
+                    py-1
 
                     font-body
                     text-xs
-                    font-medium
-                    text-text-muted
+                    font-semibold
 
-                    transition-colors
-                    duration-200
+                    ${
+                        isPublished
+                            ? `
+                                bg-status-success/10
+                                text-status-success
+                            `
+                            : `
+                                bg-status-warning/10
+                                text-status-warning
+                            `
+                    }
+                `}>
 
-                    hover:text-text-primary
+                    {isPublished ? (
+                        <CircleCheck size={13} />
+                    ) : (
+                        <CircleDashed size={13} />
+                    )}
 
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-accent-primary
-                    focus-visible:ring-offset-2
-                "
-            >
-
-                <ArrowLeft size={15} />
-
-                Back to Section
-
-            </button>
-
-
-            {/* Lecture header */}
-
-            <div className="
-                mt-5
-
-                flex
-                items-start
-                gap-4
-            ">
-
-                {/* Icon */}
-
-                <div className="
-                    flex
-                    h-11
-                    w-11
-                    shrink-0
-                    items-center
-                    justify-center
-
-                    rounded-lg
-
-                    bg-accent-primary/10
-                    text-accent-primary
-                ">
-
-                    <FileVideo
-                        size={20}
-                    />
+                    {isPublished
+                        ? "Published"
+                        : "Draft"}
 
                 </div>
 
+            </div>
 
-                {/* Content */}
+
+            {/* Main header */}
+
+            <div className="
+                px-5
+                py-6
+
+                sm:px-6
+                sm:py-7
+            ">
 
                 <div className="
-                    min-w-0
-                    flex-1
+                    flex
+                    items-start
+                    gap-4
                 ">
 
-                    {/* Meta */}
+                    {/* Icon */}
 
                     <div className="
                         flex
-                        flex-wrap
+                        h-12
+                        w-12
+                        shrink-0
                         items-center
-                        gap-2
+                        justify-center
+
+                        rounded-xl
+
+                        bg-accent-primary/10
+                        text-accent-primary
                     ">
 
-                        <span className="
-                            font-body
-                            text-xs
-                            font-medium
-                            text-text-muted
-                        ">
-                            Lecture {lecture.order}
-                        </span>
-
-
-                        <span className="
-                            text-border-subtle
-                        ">
-                            •
-                        </span>
-
-
-                        <span className={`
-                            font-body
-                            text-xs
-                            font-semibold
-
-                            ${
-                                isPublished
-                                    ? "text-status-success"
-                                    : "text-status-warning"
-                            }
-                        `}>
-                            {
-                                isPublished
-                                    ? "Published"
-                                    : "Draft"
-                            }
-                        </span>
+                        <BookOpen size={21} />
 
                     </div>
 
 
-                    {/* Title */}
+                    {/* Content */}
 
-                    <h1 className="
-                        mt-1.5
-
-                        break-words
-
-                        font-accent
-                        text-xl
-                        font-semibold
-                        leading-7
-                        text-text-primary
-
-                        sm:text-2xl
+                    <div className="
+                        min-w-0
+                        flex-1
                     ">
-                        {lecture.title}
-                    </h1>
+
+                        {/* Meta */}
+
+                        <div className="
+                            flex
+                            flex-wrap
+                            items-center
+                            gap-x-2
+                            gap-y-1
+                        ">
+
+                            <span className="
+                                font-body
+                                text-xs
+                                font-medium
+                                text-text-muted
+                            ">
+                                Lecture {lecture.order}
+                            </span>
 
 
-                    {/* Description */}
+                            <span className="
+                                text-text-muted/50
+                            ">
+                                /
+                            </span>
 
-                    {lecture.description && (
 
-                        <p className="
+                            <span className="
+                                font-body
+                                text-xs
+                                font-medium
+                                text-text-muted
+                            ">
+                                Course Curriculum
+                            </span>
+
+                        </div>
+
+
+                        {/* Title */}
+
+                        <h1 className="
                             mt-2
 
-                            max-w-3xl
+                            break-words
 
-                            whitespace-pre-line
+                            font-accent
+                            text-2xl
+                            font-semibold
+                            leading-8
+                            tracking-tight
+                            text-text-primary
 
-                            font-body
-                            text-sm
-                            leading-6
-                            text-text-secondary
+                            sm:text-3xl
+                            sm:leading-9
                         ">
-                            {lecture.description}
-                        </p>
+                            {lecture.title}
+                        </h1>
 
-                    )}
+
+                        {/* Description */}
+
+                        {lecture.description && (
+
+                            <p className="
+                                mt-3
+
+                                max-w-3xl
+
+                                whitespace-pre-line
+
+                                font-body
+                                text-sm
+                                leading-6
+                                text-text-secondary
+                            ">
+                                {lecture.description}
+                            </p>
+
+                        )}
+
+                    </div>
 
                 </div>
 

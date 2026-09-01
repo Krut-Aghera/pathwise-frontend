@@ -94,7 +94,60 @@ const LectureManageInformation = ({
     // Video
 
     const hasVideo =
-        Boolean(lecture.video)
+        Boolean(lecture.video?.url)
+
+
+    ///////////////////////////////////////////////////////////////
+    // Information items
+
+    const information = [
+        {
+            label: "Order",
+            value: lecture.order ?? "—",
+            icon: Hash,
+        },
+        {
+            label: "Status",
+            value: isPublished
+                ? "Published"
+                : "Draft",
+            icon: Video,
+            valueClass: isPublished
+                ? "text-status-success"
+                : "text-status-warning",
+        },
+        {
+            label: "Preview",
+            value: isPreviewFree
+                ? "Available"
+                : "Locked",
+            icon: isPreviewFree
+                ? Eye
+                : Lock,
+        },
+        {
+            label: "Video",
+            value: hasVideo
+                ? "Uploaded"
+                : "Not uploaded",
+            icon: FileVideo,
+            valueClass: hasVideo
+                ? "text-status-success"
+                : "text-status-warning",
+        },
+        ...(hasVideo
+            ? [
+                {
+                    label: "Duration",
+                    value: formatDuration(
+                        lecture.video?.duration
+                    ),
+                    icon: Clock3,
+                },
+            ]
+            : []
+        ),
+    ]
 
 
     ///////////////////////////////////////////////////////////////
@@ -105,12 +158,13 @@ const LectureManageInformation = ({
             rounded-xl
             border
             border-border-subtle
+
             bg-background-surface
+
             px-5
-            py-5
+            py-4
 
             sm:px-6
-            sm:py-6
         ">
 
             {/* Header */}
@@ -118,22 +172,32 @@ const LectureManageInformation = ({
             <div className="
                 flex
                 items-center
-                gap-2
+                justify-between
+                gap-4
             ">
 
-                <FileVideo
-                    size={17}
-                    className="text-accent-primary"
-                />
+                <div>
 
-                <h2 className="
-                    font-accent
-                    text-base
-                    font-semibold
-                    text-text-primary
-                ">
-                    Lecture Information
-                </h2>
+                    <h2 className="
+                        font-accent
+                        text-sm
+                        font-semibold
+                        text-text-primary
+                    ">
+                        Lecture Details
+                    </h2>
+
+                    <p className="
+                        mt-0.5
+
+                        font-body
+                        text-xs
+                        text-text-muted
+                    ">
+                        Quick overview of this lecture.
+                    </p>
+
+                </div>
 
             </div>
 
@@ -141,278 +205,90 @@ const LectureManageInformation = ({
             {/* Information */}
 
             <div className="
-                mt-5
+                mt-4
 
+                grid
+                grid-cols-2
+
+                divide-x
                 divide-y
                 divide-border-subtle
+
+                overflow-hidden
 
                 rounded-lg
                 border
                 border-border-subtle
+
+                sm:grid-cols-5
+                sm:divide-y-0
             ">
 
-                {/* Order */}
+                {information.map(
+                    ({
+                        label,
+                        value,
+                        icon: Icon,
+                        valueClass = "text-text-primary",
+                    }) => (
 
-                <div className="
-                    flex
-                    items-center
-                    justify-between
-                    gap-4
+                        <div
+                            key={label}
+                            className="
+                                min-w-0
 
-                    px-4
-                    py-3.5
-                ">
+                                px-3
+                                py-3.5
 
-                    <div className="
-                        flex
-                        items-center
-                        gap-2.5
-                    ">
+                                sm:px-4
+                            "
+                        >
 
-                        <Hash
-                            size={15}
-                            className="text-text-muted"
-                        />
+                            <div className="
+                                flex
+                                items-center
+                                gap-1.5
+                            ">
 
-                        <span className="
-                            font-body
-                            text-sm
-                            text-text-secondary
-                        ">
-                            Lecture Order
-                        </span>
+                                <Icon
+                                    size={13}
+                                    className="
+                                        shrink-0
+                                        text-text-muted
+                                    "
+                                />
 
-                    </div>
+                                <span className="
+                                    truncate
 
+                                    font-body
+                                    text-[11px]
+                                    font-medium
+                                    text-text-muted
+                                ">
+                                    {label}
+                                </span>
 
-                    <span className="
-                        font-body
-                        text-sm
-                        font-semibold
-                        text-text-primary
-                    ">
-                        {lecture.order ?? "—"}
-                    </span>
-
-                </div>
-
-
-                {/* Status */}
-
-                <div className="
-                    flex
-                    items-center
-                    justify-between
-                    gap-4
-
-                    px-4
-                    py-3.5
-                ">
-
-                    <div className="
-                        flex
-                        items-center
-                        gap-2.5
-                    ">
-
-                        <Video
-                            size={15}
-                            className="text-text-muted"
-                        />
-
-                        <span className="
-                            font-body
-                            text-sm
-                            text-text-secondary
-                        ">
-                            Status
-                        </span>
-
-                    </div>
+                            </div>
 
 
-                    <span className={`
-                        font-body
-                        text-sm
-                        font-semibold
+                            <p className={`
+                                mt-1.5
 
-                        ${
-                            isPublished
-                                ? "text-status-success"
-                                : "text-status-warning"
-                        }
-                    `}>
-                        {
-                            isPublished
-                                ? "Published"
-                                : "Draft"
-                        }
-                    </span>
+                                truncate
 
-                </div>
-
-
-                {/* Preview */}
-
-                <div className="
-                    flex
-                    items-center
-                    justify-between
-                    gap-4
-
-                    px-4
-                    py-3.5
-                ">
-
-                    <div className="
-                        flex
-                        items-center
-                        gap-2.5
-                    ">
-
-                        {isPreviewFree ? (
-                            <Eye
-                                size={15}
-                                className="text-text-muted"
-                            />
-                        ) : (
-                            <Lock
-                                size={15}
-                                className="text-text-muted"
-                            />
-                        )}
-
-                        <span className="
-                            font-body
-                            text-sm
-                            text-text-secondary
-                        ">
-                            Student Preview
-                        </span>
-
-                    </div>
-
-
-                    <span className="
-                        font-body
-                        text-sm
-                        font-semibold
-                        text-text-primary
-                    ">
-                        {
-                            isPreviewFree
-                                ? "Available"
-                                : "Locked"
-                        }
-                    </span>
-
-                </div>
-
-
-                {/* Video */}
-
-                <div className="
-                    flex
-                    items-center
-                    justify-between
-                    gap-4
-
-                    px-4
-                    py-3.5
-                ">
-
-                    <div className="
-                        flex
-                        items-center
-                        gap-2.5
-                    ">
-
-                        <FileVideo
-                            size={15}
-                            className="text-text-muted"
-                        />
-
-                        <span className="
-                            font-body
-                            text-sm
-                            text-text-secondary
-                        ">
-                            Video
-                        </span>
-
-                    </div>
-
-
-                    <span className={`
-                        font-body
-                        text-sm
-                        font-semibold
-
-                        ${
-                            hasVideo
-                                ? "text-status-success"
-                                : "text-status-warning"
-                        }
-                    `}>
-                        {
-                            hasVideo
-                                ? "Uploaded"
-                                : "Not uploaded"
-                        }
-                    </span>
-
-                </div>
-
-
-                {/* Duration */}
-
-                {hasVideo && (
-
-                    <div className="
-                        flex
-                        items-center
-                        justify-between
-                        gap-4
-
-                        px-4
-                        py-3.5
-                    ">
-
-                        <div className="
-                            flex
-                            items-center
-                            gap-2.5
-                        ">
-
-                            <Clock3
-                                size={15}
-                                className="text-text-muted"
-                            />
-
-                            <span className="
                                 font-body
                                 text-sm
-                                text-text-secondary
-                            ">
-                                Video Duration
-                            </span>
+                                font-semibold
+
+                                ${valueClass}
+                            `}>
+                                {value}
+                            </p>
 
                         </div>
 
-
-                        <span className="
-                            font-body
-                            text-sm
-                            font-semibold
-                            text-text-primary
-                        ">
-                            {formatDuration(
-                                lecture.video?.duration
-                            )}
-                        </span>
-
-                    </div>
-
+                    )
                 )}
 
             </div>

@@ -39,6 +39,7 @@ import SectionDetailsPage from "../../features/section/pages/SectionDetailsPage"
 import LectureCreatePage from "../../features/lecture/pages/LectureCreatePage"
 import LectureDetailsPage from "../../features/lecture/pages/LectureDetailsPage"
 import LectureUpdatePage from "../../features/lecture/pages/LectureUpdatePage"
+import LectureVideoUploadPage from "../../features/lecture/pages/LectureVideoUploadPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -185,6 +186,11 @@ const routerConfig = createBrowserRouter(
                     <Route
                         path="instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/manage"
                         element={<LectureDetailsPage />}
+                    />
+                  
+                    <Route
+                        path="instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/video"
+                        element={<LectureVideoUploadPage />}
                     />
 
                 </Route>

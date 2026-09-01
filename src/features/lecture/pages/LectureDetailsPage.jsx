@@ -2,20 +2,16 @@ import {
     useState,
 } from "react"
 
+
 import {
     useNavigate,
     useParams,
 } from "react-router-dom"
 
 
-import useLecture
-    from "../hooks/useLecture.js"
-
-import useLectureManagement
-    from "../hooks/useLectureManagement.js"
-
-import useLectureVideo
-    from "../hooks/useLectureVideo.js"
+import {
+    RESOURCE_STATUS,
+} from "../../../constants/resourceConstants.js"
 
 
 import LectureManageHeader
@@ -36,12 +32,27 @@ import LectureRemoveDialog
 
 import ErrorState
     from "../../../components/ui/ErrorState.jsx"
-import LectureDetailsLoadingSkeleton from "../components/lecture-manage/LectureDetailsLoadingSkeleton.jsx"
+
+
+import LectureDetailsLoadingSkeleton
+    from "../components/lecture-manage/LectureDetailsLoadingSkeleton.jsx"
+
+
+import useLecture
+    from "../hooks/useLecture.js"
+
+import useLectureVideo
+    from "../hooks/useLectureVideo.js"
+
+import useLectureManagement
+    from "../hooks/useLectureManagement.js"
+
+import useLectureState
+    from "../hooks/useLectureState.js"
 
 
 const LectureDetailsPage = () => {
 
-    console.log("WORKING")
     ///////////////////////////////////////////////////////////////
     // Route params
 
@@ -79,10 +90,8 @@ const LectureDetailsPage = () => {
     // Lecture management
 
     const {
-        updateLecture,
         removeLecture,
 
-        isUpdating,
         isRemoving,
     } = useLectureManagement()
 
@@ -91,12 +100,22 @@ const LectureDetailsPage = () => {
     // Lecture video
 
     const {
-        uploadLectureVideo,
         removeLectureVideo,
 
-        isUploading,
         isRemoving: isRemovingVideo,
     } = useLectureVideo()
+
+
+    ///////////////////////////////////////////////////////////////
+    // Lecture state
+
+    const {
+        publishLecture,
+        saveLectureAsDraft,
+
+        isPublishing,
+        isSavingDraft,
+    } = useLectureState()
 
 
     ///////////////////////////////////////////////////////////////
@@ -128,10 +147,10 @@ const LectureDetailsPage = () => {
     // Busy state
 
     const isBusy =
-        isUpdating ||
         isRemoving ||
-        isUploading ||
-        isRemovingVideo
+        isRemovingVideo ||
+        isPublishing ||
+        isSavingDraft
 
 
     ///////////////////////////////////////////////////////////////
@@ -169,6 +188,11 @@ const LectureDetailsPage = () => {
             !sectionId ||
             !lectureId
         ) {
+            return
+        }
+
+
+        if (isBusy) {
             return
         }
 
@@ -257,7 +281,7 @@ const LectureDetailsPage = () => {
 
 
         ///////////////////////////////////////////////////////////
-        // Return to section management page
+        // Return to section management
 
         navigate(
             `/instructor/courses/${courseId}/sections/${sectionId}/manage`
@@ -266,15 +290,14 @@ const LectureDetailsPage = () => {
 
 
     ///////////////////////////////////////////////////////////////
-    // Upload video
+    // Upload video page
 
-    const handleUploadVideo = async (
-        video
-    ) => {
+    const handleUploadVideo = () => {
 
         if (
-            !lecture?._id ||
-            !video ||
+            !courseId ||
+            !sectionId ||
+            !lectureId ||
             isBusy
         ) {
             return
@@ -284,32 +307,9 @@ const LectureDetailsPage = () => {
         clearActionError()
 
 
-        const result =
-            await uploadLectureVideo(
-                lecture._id,
-                video,
-                sectionId
-            )
-
-
-        if (!result?.success) {
-
-            setActionError(
-                getErrorMessage(
-                    result?.error,
-                    "Unable to upload lecture video."
-                )
-            )
-
-
-            return
-        }
-
-
-        ///////////////////////////////////////////////////////////
-        // Refresh lecture
-
-        await refetchLecture()
+        navigate(
+            `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${lectureId}/video`
+        )
     }
 
 
@@ -342,6 +342,95 @@ const LectureDetailsPage = () => {
                 getErrorMessage(
                     result?.error,
                     "Unable to remove lecture video."
+                )
+            )
+
+
+            return
+        }
+
+
+        ///////////////////////////////////////////////////////////
+        // Refresh lecture
+
+        await refetchLecture()
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Publish lecture
+
+    const handlePublish = async () => {
+
+        if (
+            !lecture?._id ||
+            lecture.status !== RESOURCE_STATUS.DRAFT ||
+            !lecture.video?.url ||
+            isBusy
+        ) {
+            return
+        }
+
+
+        clearActionError()
+
+
+        const result =
+            await publishLecture(
+                lecture._id
+            )
+
+
+        if (!result?.success) {
+
+            setActionError(
+                getErrorMessage(
+                    result?.error,
+                    "Unable to publish this lecture."
+                )
+            )
+
+
+            return
+        }
+
+
+        ///////////////////////////////////////////////////////////
+        // Refresh lecture
+
+        await refetchLecture()
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Save lecture as draft
+
+    const handleSaveDraft = async () => {
+
+        if (
+            !lecture?._id ||
+            lecture.status !== RESOURCE_STATUS.PUBLISHED ||
+            isBusy
+        ) {
+            return
+        }
+
+
+        clearActionError()
+
+
+        const result =
+            await saveLectureAsDraft(
+                lecture._id
+            )
+
+
+        if (!result?.success) {
+
+            setActionError(
+                getErrorMessage(
+                    result?.error,
+                    "Unable to save this lecture as draft."
                 )
             )
 
@@ -437,6 +526,11 @@ const LectureDetailsPage = () => {
 
                 <LectureManageHeader
                     lecture={lecture}
+                    onBack={() =>
+                        navigate(
+                            `/instructor/courses/${courseId}/sections/${sectionId}/manage`
+                        )
+                    }
                 />
 
 
@@ -480,7 +574,7 @@ const LectureDetailsPage = () => {
                     grid-cols-1
                     gap-6
 
-                    lg:grid-cols-[minmax(0,1fr)_360px]
+                    lg:grid-cols-[minmax(0,1fr)_340px]
                 ">
 
                     {/* Main column */}
@@ -497,10 +591,9 @@ const LectureDetailsPage = () => {
 
                         <LectureManageVideo
                             lecture={lecture}
-                            onUpload={handleUploadVideo}
-                            onRemove={handleRemoveVideo}
-                            isUploading={isUploading}
-                            isRemoving={isRemovingVideo}
+                            onUploadVideo={handleUploadVideo}
+                            onRemoveVideo={handleRemoveVideo}
+                            removing={isRemovingVideo}
                         />
 
                     </div>
@@ -513,8 +606,14 @@ const LectureDetailsPage = () => {
                     ">
 
                         <LectureManageActions
+                            lecture={lecture}
+
                             onEdit={handleEdit}
                             onRemove={handleRemove}
+
+                            onPublish={handlePublish}
+                            onSaveDraft={handleSaveDraft}
+
                             loading={isBusy}
                         />
 

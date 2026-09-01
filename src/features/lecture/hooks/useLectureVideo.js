@@ -1,3 +1,4 @@
+
 import {
     useUploadLectureVideoMutation,
     useRemoveLectureVideoMutation,
@@ -44,24 +45,35 @@ const useLectureVideo = () => {
         video,
         sectionId
     ) => {
+
         try {
+
             const result =
                 await uploadLectureVideoMutation({
+
                     lectureId,
+
                     video,
+
                     sectionId,
+
                 }).unwrap()
+
 
             return {
                 success: true,
                 data: result,
             }
+
         } catch (error) {
+
             return {
                 success: false,
                 error,
             }
+
         }
+
     }
 
 
@@ -72,23 +84,43 @@ const useLectureVideo = () => {
         lectureId,
         sectionId
     ) => {
+
         try {
+
             const result =
                 await removeLectureVideoMutation({
+
                     lectureId,
+
                     sectionId,
+
                 }).unwrap()
+
 
             return {
                 success: true,
                 data: result,
             }
+
         } catch (error) {
+
             return {
                 success: false,
                 error,
             }
+
         }
+
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Reset upload
+
+    const resetUploadState = () => {
+
+        resetUpload()
+
     }
 
 
@@ -96,6 +128,7 @@ const useLectureVideo = () => {
     // Return
 
     return {
+
         uploadLectureVideo,
         removeLectureVideo,
 
@@ -115,9 +148,13 @@ const useLectureVideo = () => {
         uploadError,
         removeError,
 
-        resetUpload,
+        resetUpload:
+            resetUploadState,
+
         resetRemove,
+
     }
+
 }
 
 

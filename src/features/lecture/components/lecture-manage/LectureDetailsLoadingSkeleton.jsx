@@ -1,7 +1,23 @@
+const SkeletonBlock = ({
+    className = "",
+}) => {
+
+    return (
+        <div className={`
+            animate-pulse
+            rounded-lg
+            bg-background-elevated
+
+            ${className}
+        `} />
+    )
+}
+
+
 const LectureDetailsLoadingSkeleton = () => {
 
     return (
-        <div className="
+        <main className="
             mx-auto
             w-full
             max-w-7xl
@@ -16,49 +32,113 @@ const LectureDetailsLoadingSkeleton = () => {
             lg:py-10
         ">
 
-            {/* Header skeleton */}
+            {/* Header */}
 
             <div className="
-                rounded-xl
+                overflow-hidden
+
+                rounded-2xl
+
                 border
                 border-border-subtle
-                bg-background-surface
-                p-5
 
-                sm:p-6
+                bg-background-surface
             ">
 
-                <div className="
-                    h-3
-                    w-24
-                    animate-pulse
-                    rounded
-                    bg-background-elevated
-                " />
+                {/* Top */}
 
                 <div className="
-                    mt-3
-                    h-7
-                    w-2/3
-                    animate-pulse
-                    rounded
-                    bg-background-elevated
-                " />
+                    flex
+                    items-center
+                    justify-between
+
+                    border-b
+                    border-border-subtle
+
+                    px-5
+                    py-4
+
+                    sm:px-6
+                ">
+
+                    <SkeletonBlock
+                        className="
+                            h-7
+                            w-28
+                        "
+                    />
+
+                    <SkeletonBlock
+                        className="
+                            h-6
+                            w-20
+                            rounded-full
+                        "
+                    />
+
+                </div>
+
+
+                {/* Main */}
 
                 <div className="
-                    mt-3
-                    h-4
-                    w-full
-                    max-w-2xl
-                    animate-pulse
-                    rounded
-                    bg-background-elevated
-                " />
+                    flex
+                    items-start
+                    gap-4
+
+                    px-5
+                    py-6
+
+                    sm:px-6
+                    sm:py-7
+                ">
+
+                    <SkeletonBlock
+                        className="
+                            h-12
+                            w-12
+                            shrink-0
+                            rounded-xl
+                        "
+                    />
+
+                    <div className="
+                        min-w-0
+                        flex-1
+                    ">
+
+                        <SkeletonBlock
+                            className="
+                                h-3
+                                w-32
+                            "
+                        />
+
+                        <SkeletonBlock
+                            className="
+                                mt-3
+                                h-8
+                                w-3/4
+                            "
+                        />
+
+                        <SkeletonBlock
+                            className="
+                                mt-3
+                                h-4
+                                w-full
+                                max-w-2xl
+                            "
+                        />
+
+                    </div>
+
+                </div>
 
             </div>
 
 
-            {/* Main content */}
+            {/* Content */}
 
             <div className="
                 mt-6
@@ -70,7 +150,7 @@ const LectureDetailsLoadingSkeleton = () => {
                 lg:grid-cols-[minmax(0,1fr)_360px]
             ">
 
-                {/* Main column */}
+                {/* Main */}
 
                 <div className="
                     min-w-0
@@ -79,23 +159,42 @@ const LectureDetailsLoadingSkeleton = () => {
 
                     {/* Information */}
 
-                    <div className="
-                        rounded-xl
+                    <section className="
+                        rounded-2xl
+
                         border
                         border-border-subtle
+
                         bg-background-surface
+
                         p-5
 
                         sm:p-6
                     ">
 
-                        <div className="
-                            h-5
-                            w-44
-                            animate-pulse
-                            rounded
-                            bg-background-elevated
-                        " />
+                        <SkeletonBlock
+                            className="
+                                h-3
+                                w-20
+                            "
+                        />
+
+                        <SkeletonBlock
+                            className="
+                                mt-2
+                                h-6
+                                w-44
+                            "
+                        />
+
+                        <SkeletonBlock
+                            className="
+                                mt-2
+                                h-3
+                                w-72
+                            "
+                        />
+
 
                         <div className="
                             mt-5
@@ -108,140 +207,277 @@ const LectureDetailsLoadingSkeleton = () => {
                         ">
 
                             {Array.from(
-                                { length: 4 }
+                                { length: 5 }
                             ).map(
                                 (_, index) => (
+
                                     <div
                                         key={index}
                                         className="
-                                            rounded-lg
+                                            rounded-xl
+
                                             border
                                             border-border-subtle
+
                                             bg-background-elevated
-                                            p-4
+
+                                            px-4
+                                            py-4
                                         "
                                     >
 
-                                        <div className="
-                                            h-3
-                                            w-24
-                                            animate-pulse
-                                            rounded
-                                            bg-background-surface
-                                        " />
+                                        <SkeletonBlock
+                                            className="
+                                                h-3
+                                                w-24
+                                            "
+                                        />
 
-                                        <div className="
-                                            mt-3
-                                            h-4
-                                            w-20
-                                            animate-pulse
-                                            rounded
-                                            bg-background-surface
-                                        " />
+                                        <SkeletonBlock
+                                            className="
+                                                mt-3
+                                                h-4
+                                                w-20
+                                            "
+                                        />
 
                                     </div>
+
                                 )
                             )}
 
                         </div>
 
-                    </div>
+                    </section>
 
 
-                    {/* Video skeleton */}
+                    {/* Video */}
 
-                    <div className="
-                        rounded-xl
+                    <section className="
+                        overflow-hidden
+
+                        rounded-2xl
+
                         border
                         border-border-subtle
-                        bg-background-surface
-                        p-5
 
-                        sm:p-6
+                        bg-background-surface
                     ">
 
                         <div className="
-                            h-5
-                            w-32
-                            animate-pulse
-                            rounded
-                            bg-background-elevated
-                        " />
+                            flex
+                            items-center
+                            justify-between
+
+                            border-b
+                            border-border-subtle
+
+                            px-5
+                            py-5
+
+                            sm:px-6
+                        ">
+
+                            <div className="
+                                flex
+                                items-center
+                                gap-3
+                            ">
+
+                                <SkeletonBlock
+                                    className="
+                                        h-10
+                                        w-10
+                                        rounded-lg
+                                    "
+                                />
+
+                                <div>
+
+                                    <SkeletonBlock
+                                        className="
+                                            h-5
+                                            w-32
+                                        "
+                                    />
+
+                                    <SkeletonBlock
+                                        className="
+                                            mt-2
+                                            h-3
+                                            w-56
+                                        "
+                                    />
+
+                                </div>
+
+                            </div>
+
+
+                            <SkeletonBlock
+                                className="
+                                    hidden
+                                    h-9
+                                    w-28
+
+                                    sm:block
+                                "
+                            />
+
+                        </div>
+
 
                         <div className="
-                            mt-5
+                            p-5
 
-                            aspect-video
-                            w-full
+                            sm:p-6
+                        ">
 
-                            animate-pulse
-                            rounded-lg
+                            <SkeletonBlock
+                                className="
+                                    aspect-video
+                                    w-full
+                                    rounded-xl
+                                "
+                            />
 
-                            bg-background-elevated
-                        " />
+                        </div>
 
-                    </div>
+                    </section>
 
                 </div>
 
 
                 {/* Sidebar */}
 
-                <aside className="
-                    min-w-0
-                    space-y-6
-                ">
+                <aside>
 
-                    {/* Actions */}
+                    <section className="
+                        overflow-hidden
 
-                    <div className="
-                        rounded-xl
+                        rounded-2xl
+
                         border
                         border-border-subtle
-                        bg-background-surface
-                        p-5
 
-                        sm:p-6
+                        bg-background-surface
                     ">
 
                         <div className="
-                            h-5
-                            w-32
-                            animate-pulse
-                            rounded
-                            bg-background-elevated
-                        " />
+                            border-b
+                            border-border-subtle
 
-                        <div className="
-                            mt-5
-                            space-y-3
+                            px-5
+                            py-5
+
+                            sm:px-6
                         ">
 
-                            <div className="
-                                h-10
-                                w-full
-                                animate-pulse
-                                rounded-lg
-                                bg-background-elevated
-                            " />
+                            <SkeletonBlock
+                                className="
+                                    h-3
+                                    w-16
+                                "
+                            />
 
-                            <div className="
-                                h-10
-                                w-full
-                                animate-pulse
-                                rounded-lg
-                                bg-background-elevated
-                            " />
+                            <SkeletonBlock
+                                className="
+                                    mt-2
+                                    h-6
+                                    w-36
+                                "
+                            />
+
+                            <SkeletonBlock
+                                className="
+                                    mt-2
+                                    h-3
+                                    w-48
+                                "
+                            />
 
                         </div>
 
-                    </div>
+
+                        <div className="
+                            space-y-0
+                        ">
+
+                            {Array.from(
+                                { length: 2 }
+                            ).map(
+                                (_, index) => (
+
+                                    <div
+                                        key={index}
+                                        className="
+                                            flex
+                                            items-center
+                                            gap-3.5
+
+                                            border-b
+                                            border-border-subtle
+
+                                            px-5
+                                            py-5
+
+                                            last:border-b-0
+
+                                            sm:px-6
+                                        "
+                                    >
+
+                                        <SkeletonBlock
+                                            className="
+                                                h-10
+                                                w-10
+                                                shrink-0
+                                                rounded-xl
+                                            "
+                                        />
+
+                                        <div className="
+                                            flex-1
+                                        ">
+
+                                            <SkeletonBlock
+                                                className="
+                                                    h-4
+                                                    w-28
+                                                "
+                                            />
+
+                                            <SkeletonBlock
+                                                className="
+                                                    mt-2
+                                                    h-3
+                                                    w-44
+                                                "
+                                            />
+
+                                        </div>
+
+                                        <SkeletonBlock
+                                            className="
+                                                h-4
+                                                w-4
+                                            "
+                                        />
+
+                                    </div>
+
+                                )
+                            )}
+
+                        </div>
+
+                    </section>
 
                 </aside>
 
             </div>
 
-        </div>
+        </main>
     )
 }
 

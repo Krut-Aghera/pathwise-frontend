@@ -2,14 +2,64 @@ import {
     Pencil,
     Trash2,
     ChevronRight,
+    Upload,
+    RotateCcw,
 } from "lucide-react"
 
 
+import {
+    RESOURCE_STATUS,
+} from "../../../../constants/resourceConstants.js"
+
+
 const LectureManageActions = ({
+    lecture,
+
     onEdit,
     onRemove,
+
+    onPublish,
+    onSaveDraft,
+
     loading = false,
 }) => {
+
+    ///////////////////////////////////////////////////////////////
+    // Guard
+
+    if (!lecture) {
+        return null
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    // Status
+
+    const isPublished =
+        lecture.status === RESOURCE_STATUS.PUBLISHED
+
+
+    const isDraft =
+        lecture.status === RESOURCE_STATUS.DRAFT
+
+
+    ///////////////////////////////////////////////////////////////
+    // Video
+
+    const hasVideo =
+        Boolean(lecture.video?.url)
+
+
+    ///////////////////////////////////////////////////////////////
+    // Publish disabled
+
+    const publishDisabled =
+        loading ||
+        !hasVideo
+
+
+    ///////////////////////////////////////////////////////////////
+    // Render
 
     return (
         <section className="
@@ -29,15 +79,12 @@ const LectureManageActions = ({
                 border-border-subtle
 
                 px-5
-                py-5
-
-                sm:px-6
-                sm:py-6
+                py-4
             ">
 
                 <h2 className="
                     font-accent
-                    text-lg
+                    text-base
                     font-semibold
                     text-text-primary
                 ">
@@ -45,14 +92,13 @@ const LectureManageActions = ({
                 </h2>
 
                 <p className="
-                    mt-1.5
+                    mt-0.5
 
                     font-body
                     text-xs
-                    leading-5
                     text-text-muted
                 ">
-                    Manage the lecture content and settings.
+                    Manage this lecture.
                 </p>
 
             </div>
@@ -77,10 +123,10 @@ const LectureManageActions = ({
                         flex
                         w-full
                         items-center
-                        gap-4
+                        gap-3
 
                         px-5
-                        py-5
+                        py-4
 
                         text-left
 
@@ -96,17 +142,13 @@ const LectureManageActions = ({
 
                         disabled:cursor-not-allowed
                         disabled:opacity-50
-
-                        sm:px-6
                     "
                 >
 
-                    {/* Icon */}
-
                     <span className="
                         flex
-                        h-10
-                        w-10
+                        h-9
+                        w-9
                         shrink-0
                         items-center
                         justify-center
@@ -115,19 +157,12 @@ const LectureManageActions = ({
 
                         bg-accent-primary/10
                         text-accent-primary
-
-                        transition-colors
-                        duration-200
-
-                        group-hover:bg-accent-primary/15
                     ">
 
-                        <Pencil size={17} />
+                        <Pencil size={16} />
 
                     </span>
 
-
-                    {/* Content */}
 
                     <span className="
                         min-w-0
@@ -146,28 +181,23 @@ const LectureManageActions = ({
                         </span>
 
                         <span className="
-                            mt-1
+                            mt-0.5
                             block
 
                             font-body
                             text-xs
-                            leading-5
                             text-text-muted
                         ">
-                            Update the lecture title, description,
-                            preview settings, and other details.
+                            Update lecture details and settings.
                         </span>
 
                     </span>
 
 
-                    {/* Arrow */}
-
                     <ChevronRight
-                        size={17}
+                        size={16}
                         className="
                             shrink-0
-
                             text-text-muted
 
                             transition-transform
@@ -179,6 +209,219 @@ const LectureManageActions = ({
                     />
 
                 </button>
+
+
+                {/* Publish */}
+
+                {isDraft && (
+
+                    <button
+                        type="button"
+                        onClick={onPublish}
+                        disabled={publishDisabled}
+                        className="
+                            group
+
+                            flex
+                            w-full
+                            items-center
+                            gap-3
+
+                            px-5
+                            py-4
+
+                            text-left
+
+                            transition-colors
+                            duration-200
+
+                            hover:bg-status-success/5
+
+                            focus-visible:outline-none
+                            focus-visible:ring-2
+                            focus-visible:ring-inset
+                            focus-visible:ring-status-success
+
+                            disabled:cursor-not-allowed
+                            disabled:opacity-50
+                        "
+                    >
+
+                        <span className="
+                            flex
+                            h-9
+                            w-9
+                            shrink-0
+                            items-center
+                            justify-center
+
+                            rounded-lg
+
+                            bg-status-success/10
+                            text-status-success
+                        ">
+
+                            <Upload size={16} />
+
+                        </span>
+
+
+                        <span className="
+                            min-w-0
+                            flex-1
+                        ">
+
+                            <span className="
+                                block
+
+                                font-body
+                                text-sm
+                                font-semibold
+                                text-text-primary
+                            ">
+                                Publish Lecture
+                            </span>
+
+                            <span className="
+                                mt-0.5
+                                block
+
+                                font-body
+                                text-xs
+                                text-text-muted
+                            ">
+                                {hasVideo
+                                    ? "Make this lecture available to students."
+                                    : "Upload a video before publishing this lecture."
+                                }
+                            </span>
+
+                        </span>
+
+
+                        <ChevronRight
+                            size={16}
+                            className="
+                                shrink-0
+
+                                text-text-muted
+
+                                transition-transform
+                                duration-200
+
+                                group-hover:translate-x-0.5
+                                group-hover:text-status-success
+                            "
+                        />
+
+                    </button>
+
+                )}
+
+
+                {/* Save as Draft */}
+
+                {isPublished && (
+
+                    <button
+                        type="button"
+                        onClick={onSaveDraft}
+                        disabled={loading}
+                        className="
+                            group
+
+                            flex
+                            w-full
+                            items-center
+                            gap-3
+
+                            px-5
+                            py-4
+
+                            text-left
+
+                            transition-colors
+                            duration-200
+
+                            hover:bg-status-warning/5
+
+                            focus-visible:outline-none
+                            focus-visible:ring-2
+                            focus-visible:ring-inset
+                            focus-visible:ring-status-warning
+
+                            disabled:cursor-not-allowed
+                            disabled:opacity-50
+                        "
+                    >
+
+                        <span className="
+                            flex
+                            h-9
+                            w-9
+                            shrink-0
+                            items-center
+                            justify-center
+
+                            rounded-lg
+
+                            bg-status-warning/10
+                            text-status-warning
+                        ">
+
+                            <RotateCcw size={16} />
+
+                        </span>
+
+
+                        <span className="
+                            min-w-0
+                            flex-1
+                        ">
+
+                            <span className="
+                                block
+
+                                font-body
+                                text-sm
+                                font-semibold
+                                text-text-primary
+                            ">
+                                Save as Draft
+                            </span>
+
+                            <span className="
+                                mt-0.5
+                                block
+
+                                font-body
+                                text-xs
+                                text-text-muted
+                            ">
+                                Remove this lecture from the published curriculum.
+                            </span>
+
+                        </span>
+
+
+                        <ChevronRight
+                            size={16}
+                            className="
+                                shrink-0
+
+                                text-text-muted
+
+                                transition-transform
+                                duration-200
+
+                                group-hover:translate-x-0.5
+                                group-hover:text-status-warning
+                            "
+                        />
+
+                    </button>
+
+                )}
 
 
                 {/* Remove */}
@@ -193,10 +436,10 @@ const LectureManageActions = ({
                         flex
                         w-full
                         items-center
-                        gap-4
+                        gap-3
 
                         px-5
-                        py-5
+                        py-4
 
                         text-left
 
@@ -212,17 +455,13 @@ const LectureManageActions = ({
 
                         disabled:cursor-not-allowed
                         disabled:opacity-50
-
-                        sm:px-6
                     "
                 >
 
-                    {/* Icon */}
-
                     <span className="
                         flex
-                        h-10
-                        w-10
+                        h-9
+                        w-9
                         shrink-0
                         items-center
                         justify-center
@@ -231,19 +470,12 @@ const LectureManageActions = ({
 
                         bg-status-danger/10
                         text-status-danger
-
-                        transition-colors
-                        duration-200
-
-                        group-hover:bg-status-danger/15
                     ">
 
-                        <Trash2 size={17} />
+                        <Trash2 size={16} />
 
                     </span>
 
-
-                    {/* Content */}
 
                     <span className="
                         min-w-0
@@ -262,25 +494,21 @@ const LectureManageActions = ({
                         </span>
 
                         <span className="
-                            mt-1
+                            mt-0.5
                             block
 
                             font-body
                             text-xs
-                            leading-5
                             text-text-muted
                         ">
-                            Remove this lecture from the course
-                            curriculum.
+                            Remove this lecture from the curriculum.
                         </span>
 
                     </span>
 
 
-                    {/* Arrow */}
-
                     <ChevronRight
-                        size={17}
+                        size={16}
                         className="
                             shrink-0
 

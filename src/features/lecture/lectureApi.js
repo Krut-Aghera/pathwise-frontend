@@ -151,32 +151,56 @@ const lectureApi = createApi({
 
         // PATCH /lectures/:lectureId/video
         uploadLectureVideo: builder.mutation({
-            query: ({ lectureId, video }) => {
-                const formData = new FormData()
 
-                formData.append("video", video)
+            query: ({
+                lectureId,
+                video,
+                sectionId,
+            }) => {
+
+                const formData =
+                    new FormData()
+
+
+                formData.append(
+                    "video",
+                    video
+                )
+
 
                 return {
+
                     url: `/${lectureId}/video`,
                     method: "PATCH",
                     data: formData,
+
                 }
             },
 
-            invalidatesTags: (result, error, { lectureId, sectionId }) => [
+            invalidatesTags: (
+                result,
+                error,
                 {
-                    type: "Lecture",
-                    id: lectureId,
-                },
-                ...(sectionId
-                    ? [
-                        {
-                            type: "Lecture",
-                            id: `SECTION-${sectionId}`,
-                        },
-                    ]
-                    : []),
-            ],
+                    lectureId,
+                    sectionId,
+                }
+            ) => [
+
+                    {
+                        type: "Lecture",
+                        id: lectureId,
+                    },
+
+                    ...(sectionId
+                        ? [
+                            {
+                                type: "Lecture",
+                                id: `SECTION-${sectionId}`,
+                            },
+                        ]
+                        : []),
+
+                ],
         }),
 
 
