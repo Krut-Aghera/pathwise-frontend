@@ -4,16 +4,15 @@ const InstructorStatCard = ({
     description,
     accent = "secondary",
 }) => {
-
     const accentClasses = {
         primary: "text-accent-primary",
         secondary: "text-accent-secondary",
         unique: "text-accent-unique",
     }
 
-
     return (
-        <article className="
+        <article
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -21,41 +20,43 @@ const InstructorStatCard = ({
             p-5
             transition
             hover:bg-background-elevated
-        ">
-
-            <p className="
+        "
+        >
+            <p
+                className="
                 font-body
                 text-xs
                 text-text-muted
-            ">
+            "
+            >
                 {label}
             </p>
 
-
-            <p className={`
+            <p
+                className={`
                 mt-2
                 font-accent
                 text-2xl
                 font-bold
 
                 ${accentClasses[accent]}
-            `}>
+            `}
+            >
                 {value}
             </p>
 
-
-            <p className="
+            <p
+                className="
                 mt-1
                 font-body
                 text-xs
                 text-text-secondary
-            ">
+            "
+            >
                 {description}
             </p>
-
         </article>
     )
 }
-
 
 export default InstructorStatCard

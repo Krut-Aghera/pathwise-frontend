@@ -5,9 +5,7 @@ import {
     useReorderSectionsMutation,
 } from "../sectionApi"
 
-
 const useSectionManagement = () => {
-
     const [
         createSectionMutation,
         {
@@ -18,7 +16,6 @@ const useSectionManagement = () => {
             reset: resetCreate,
         },
     ] = useCreateSectionMutation()
-
 
     const [
         updateSectionMutation,
@@ -31,7 +28,6 @@ const useSectionManagement = () => {
         },
     ] = useUpdateSectionMutation()
 
-
     const [
         removeSectionMutation,
         {
@@ -43,7 +39,6 @@ const useSectionManagement = () => {
         },
     ] = useRemoveSectionMutation()
 
-
     const [
         reorderSectionsMutation,
         {
@@ -54,7 +49,6 @@ const useSectionManagement = () => {
             reset: resetReorder,
         },
     ] = useReorderSectionsMutation()
-
 
     const createSection = async (courseId, sectionData) => {
         try {
@@ -75,12 +69,7 @@ const useSectionManagement = () => {
         }
     }
 
-
-    const updateSection = async (
-        sectionId,
-        sectionData,
-        courseId
-    ) => {
+    const updateSection = async (sectionId, sectionData, courseId) => {
         try {
             const result = await updateSectionMutation({
                 sectionId,
@@ -99,7 +88,6 @@ const useSectionManagement = () => {
             }
         }
     }
-
 
     const removeSection = async (sectionId, courseId) => {
         try {
@@ -120,7 +108,6 @@ const useSectionManagement = () => {
         }
     }
 
-
     const reorderSections = async (courseId, sections) => {
         try {
             const result = await reorderSectionsMutation({
@@ -140,7 +127,6 @@ const useSectionManagement = () => {
         }
     }
 
-
     return {
         createSection,
         updateSection,
@@ -152,11 +138,7 @@ const useSectionManagement = () => {
         isRemoving,
         isReordering,
 
-        isLoading:
-            isCreating ||
-            isUpdating ||
-            isRemoving ||
-            isReordering,
+        isLoading: isCreating || isUpdating || isRemoving || isReordering,
 
         isCreateSuccess,
         isUpdateSuccess,
@@ -179,6 +161,5 @@ const useSectionManagement = () => {
         resetReorder,
     }
 }
-
 
 export default useSectionManagement

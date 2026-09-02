@@ -1,5 +1,4 @@
 class HttpError extends Error {
-
     constructor({
         statusCode,
         code,
@@ -7,7 +6,6 @@ class HttpError extends Error {
         errors = [],
         details = null,
     }) {
-
         super(message)
 
         this.name = this.constructor.name
@@ -16,12 +14,8 @@ class HttpError extends Error {
         this.errors = errors
         this.details = details
 
-        Error.captureStackTrace(
-            this,
-            this.constructor
-        )
+        Error.captureStackTrace(this, this.constructor)
     }
-
 }
 
 export default HttpError

@@ -1,6 +1,5 @@
 // import { Link } from "react-router-dom"
 
-
 // const HomeHero = () => {
 
 //     return (
@@ -38,7 +37,6 @@
 //                 opacity-10
 //                 blur-[120px]
 //             " />
-
 
 //             <div className="
 //                 relative
@@ -94,7 +92,6 @@
 //                         </span>
 //                     </div>
 
-
 //                     <h1 className="
 //                         font-accent
 //                         text-4xl
@@ -120,7 +117,6 @@
 //                         </span>
 //                     </h1>
 
-
 //                     <p className="
 //                         mx-auto
 //                         mt-5
@@ -136,7 +132,6 @@
 //                         and guided learning paths designed to help you
 //                         build skills you can actually use.
 //                     </p>
-
 
 //                     <div className="
 //                         mt-8
@@ -194,7 +189,6 @@
 
 //                 </div>
 
-
 //                 {/* Learning dashboard visual */}
 
 //                 <div className="
@@ -246,7 +240,6 @@
 //                             </span>
 //                         </div>
 
-
 //                         <div className="py-5">
 
 //                             <div className="
@@ -283,7 +276,6 @@
 //                                 </span>
 //                             </div>
 
-
 //                             <div className="
 //                                 mt-4
 //                                 h-2
@@ -300,7 +292,6 @@
 //                             </div>
 
 //                         </div>
-
 
 //                         <div className="
 //                             rounded-xl
@@ -347,10 +338,7 @@
 //     )
 // }
 
-
 // export default HomeHero
-
-
 
 import {
     ArrowDown,
@@ -365,7 +353,6 @@ import {
 } from "lucide-react"
 
 import { Link } from "react-router-dom"
-
 
 const learningAreas = [
     {
@@ -390,17 +377,16 @@ const learningAreas = [
     },
 ]
 
-
 const HomeHero = () => {
-
     return (
-        <section className="
+        <section
+            className="
             relative
             overflow-hidden
             border-b
             border-border-subtle
-        ">
-
+        "
+        >
             {/* =========================================================
                 Background
             ========================================================== */}
@@ -430,10 +416,10 @@ const HomeHero = () => {
                 }}
             />
 
-
             {/* Primary ambient glow */}
 
-            <div className="
+            <div
+                className="
                 pointer-events-none
                 absolute
                 left-1/2
@@ -444,12 +430,13 @@ const HomeHero = () => {
                 rounded-full
                 bg-accent-primary/10
                 blur-[120px]
-            " />
-
+            "
+            />
 
             {/* Secondary ambient glow */}
 
-            <div className="
+            <div
+                className="
                 pointer-events-none
                 absolute
                 -left-48
@@ -459,10 +446,11 @@ const HomeHero = () => {
                 rounded-full
                 bg-accent-unique/5
                 blur-[120px]
-            " />
+            "
+            />
 
-
-            <div className="
+            <div
+                className="
                 pointer-events-none
                 absolute
                 -right-48
@@ -472,10 +460,11 @@ const HomeHero = () => {
                 rounded-full
                 bg-accent-secondary/5
                 blur-[120px]
-            " />
+            "
+            />
 
-
-            <div className="
+            <div
+                className="
                 relative
                 mx-auto
                 w-full
@@ -486,21 +475,23 @@ const HomeHero = () => {
                 sm:py-20
                 lg:px-8
                 lg:py-24
-            ">
-
+            "
+            >
                 {/* =====================================================
                     Hero Introduction
                 ====================================================== */}
 
-                <div className="
+                <div
+                    className="
                     mx-auto
                     max-w-4xl
                     text-center
-                ">
-
+                "
+                >
                     {/* Eyebrow */}
 
-                    <div className="
+                    <div
+                        className="
                         inline-flex
                         items-center
                         gap-2
@@ -514,17 +505,16 @@ const HomeHero = () => {
                         text-xs
                         font-medium
                         text-accent-primary
-                    ">
-
+                    "
+                    >
                         <Sparkles size={13} />
-
                         Learn with purpose
                     </div>
 
-
                     {/* Heading */}
 
-                    <h1 className="
+                    <h1
+                        className="
                         mt-6
                         font-accent
                         text-4xl
@@ -534,10 +524,11 @@ const HomeHero = () => {
                         text-text-primary
                         sm:text-5xl
                         lg:text-7xl
-                    ">
-
+                    "
+                    >
                         Build skills that
-                        <span className="
+                        <span
+                            className="
                             block
                             bg-linear-to-r
                             from-accent-primary
@@ -545,16 +536,16 @@ const HomeHero = () => {
                             to-accent-secondary
                             bg-clip-text
                             text-transparent
-                        ">
+                        "
+                        >
                             move you forward.
                         </span>
-
                     </h1>
-
 
                     {/* Description */}
 
-                    <p className="
+                    <p
+                        className="
                         mx-auto
                         mt-6
                         max-w-2xl
@@ -563,16 +554,17 @@ const HomeHero = () => {
                         leading-7
                         text-text-secondary
                         sm:text-lg
-                    ">
-                        Discover structured courses, practical learning,
-                        and guided experiences designed to help you turn
-                        knowledge into skills you can actually use.
+                    "
+                    >
+                        Discover structured courses, practical learning, and
+                        guided experiences designed to help you turn knowledge
+                        into skills you can actually use.
                     </p>
-
 
                     {/* Actions */}
 
-                    <div className="
+                    <div
+                        className="
                         mt-8
                         flex
                         flex-col
@@ -580,8 +572,8 @@ const HomeHero = () => {
                         justify-center
                         gap-3
                         sm:flex-row
-                    ">
-
+                    "
+                    >
                         <Link
                             to="/courses"
                             className="
@@ -607,7 +599,6 @@ const HomeHero = () => {
                             Explore Courses
                         </Link>
 
-
                         <a
                             href="#learning-experience"
                             className="
@@ -631,15 +622,10 @@ const HomeHero = () => {
                             "
                         >
                             See how it works
-
                             <ArrowDown size={15} />
-
                         </a>
-
                     </div>
-
                 </div>
-
 
                 {/* =====================================================
                     Learning Experience Visual
@@ -655,8 +641,8 @@ const HomeHero = () => {
                         lg:mt-20
                     "
                 >
-
-                    <div className="
+                    <div
+                        className="
                         relative
                         overflow-hidden
                         rounded-2xl
@@ -667,11 +653,12 @@ const HomeHero = () => {
                         shadow-2xl
                         backdrop-blur-sm
                         sm:p-6
-                    ">
-
+                    "
+                    >
                         {/* Decorative background */}
 
-                        <div className="
+                        <div
+                            className="
                             pointer-events-none
                             absolute
                             left-1/2
@@ -683,12 +670,13 @@ const HomeHero = () => {
                             rounded-full
                             bg-accent-primary/5
                             blur-3xl
-                        " />
-
+                        "
+                        />
 
                         {/* Header */}
 
-                        <div className="
+                        <div
+                            className="
                             relative
                             flex
                             flex-col
@@ -699,35 +687,37 @@ const HomeHero = () => {
                             sm:flex-row
                             sm:items-center
                             sm:justify-between
-                        ">
-
+                        "
+                        >
                             <div>
-
-                                <p className="
+                                <p
+                                    className="
                                     font-body
                                     text-[10px]
                                     font-bold
                                     uppercase
                                     tracking-[0.2em]
                                     text-text-muted
-                                ">
+                                "
+                                >
                                     PATHWISE
                                 </p>
 
-                                <h2 className="
+                                <h2
+                                    className="
                                     mt-1
                                     font-accent
                                     text-lg
                                     font-semibold
                                     text-text-primary
-                                ">
+                                "
+                                >
                                     Your learning experience
                                 </h2>
-
                             </div>
 
-
-                            <div className="
+                            <div
+                                className="
                                 inline-flex
                                 w-fit
                                 items-center
@@ -742,41 +732,36 @@ const HomeHero = () => {
                                 text-[10px]
                                 font-medium
                                 text-status-success
-                            ">
-
-                                <span className="
+                            "
+                            >
+                                <span
+                                    className="
                                     h-1.5
                                     w-1.5
                                     rounded-full
                                     bg-status-success
-                                "/>
-
+                                "
+                                />
                                 LEARNING ACTIVE
-
                             </div>
-
                         </div>
-
 
                         {/* =================================================
                             Central learning map
                         ================================================== */}
 
-                        <div className="
+                        <div
+                            className="
                             relative
                             mt-6
                             grid
                             gap-3
                             sm:grid-cols-2
                             lg:grid-cols-4
-                        ">
-
+                        "
+                        >
                             {learningAreas.map(
-                                ({
-                                    icon: Icon,
-                                    label,
-                                    description,
-                                }) => (
+                                ({ icon: Icon, label, description }) => (
                                     <div
                                         key={label}
                                         className="
@@ -789,14 +774,15 @@ const HomeHero = () => {
                                             hover:border-accent-primary/30
                                         "
                                     >
-
-                                        <div className="
+                                        <div
+                                            className="
                                             flex
                                             items-center
                                             justify-between
-                                        ">
-
-                                            <div className="
+                                        "
+                                        >
+                                            <div
+                                                className="
                                                 flex
                                                 h-9
                                                 w-9
@@ -805,10 +791,10 @@ const HomeHero = () => {
                                                 rounded-lg
                                                 bg-accent-primary/10
                                                 text-accent-primary
-                                            ">
+                                            "
+                                            >
                                                 <Icon size={17} />
                                             </div>
-
 
                                             <CheckCircle2
                                                 size={15}
@@ -816,105 +802,109 @@ const HomeHero = () => {
                                                     text-status-success
                                                 "
                                             />
-
                                         </div>
 
-
-                                        <h3 className="
+                                        <h3
+                                            className="
                                             mt-4
                                             font-accent
                                             text-sm
                                             font-semibold
                                             text-text-primary
-                                        ">
+                                        "
+                                        >
                                             {label}
                                         </h3>
 
-
-                                        <p className="
+                                        <p
+                                            className="
                                             mt-1.5
                                             font-body
                                             text-xs
                                             leading-5
                                             text-text-secondary
-                                        ">
+                                        "
+                                        >
                                             {description}
                                         </p>
-
                                     </div>
                                 )
                             )}
-
                         </div>
-
 
                         {/* =================================================
                             Learning progress visual
                         ================================================== */}
 
-                        <div className="
+                        <div
+                            className="
                             relative
                             mt-4
                             grid
                             gap-4
                             lg:grid-cols-[1.4fr_0.6fr]
-                        ">
-
+                        "
+                        >
                             {/* Current course */}
 
-                            <div className="
+                            <div
+                                className="
                                 rounded-xl
                                 border
                                 border-border-subtle
                                 bg-background-base/60
                                 p-5
-                            ">
-
-                                <div className="
+                            "
+                            >
+                                <div
+                                    className="
                                     flex
                                     items-start
                                     justify-between
                                     gap-4
-                                ">
-
+                                "
+                                >
                                     <div className="min-w-0">
-
-                                        <p className="
+                                        <p
+                                            className="
                                             font-body
                                             text-[10px]
                                             font-medium
                                             uppercase
                                             tracking-wider
                                             text-text-muted
-                                        ">
+                                        "
+                                        >
                                             Continue learning
                                         </p>
 
-                                        <h3 className="
+                                        <h3
+                                            className="
                                             mt-1
                                             font-accent
                                             text-base
                                             font-semibold
                                             text-text-primary
                                             sm:text-lg
-                                        ">
+                                        "
+                                        >
                                             Modern Web Development
                                         </h3>
 
-                                        <p className="
+                                        <p
+                                            className="
                                             mt-1
                                             font-body
                                             text-xs
                                             text-text-secondary
-                                        ">
-                                            Building reusable React
-                                            components
+                                        "
+                                        >
+                                            Building reusable React components
                                         </p>
-
                                     </div>
 
-
-                                    <div className="
+                                    <div
+                                        className="
                                         flex
                                         h-10
                                         w-10
@@ -924,82 +914,87 @@ const HomeHero = () => {
                                         rounded-lg
                                         bg-accent-primary/10
                                         text-accent-primary
-                                    ">
+                                    "
+                                    >
                                         <Code2 size={18} />
                                     </div>
-
                                 </div>
-
 
                                 {/* Progress */}
 
                                 <div className="mt-5">
-
-                                    <div className="
+                                    <div
+                                        className="
                                         flex
                                         items-center
                                         justify-between
-                                    ">
-
-                                        <span className="
+                                    "
+                                    >
+                                        <span
+                                            className="
                                             font-body
                                             text-xs
                                             text-text-muted
-                                        ">
+                                        "
+                                        >
                                             Course progress
                                         </span>
 
-                                        <span className="
+                                        <span
+                                            className="
                                             font-body
                                             text-xs
                                             font-medium
                                             text-text-secondary
-                                        ">
+                                        "
+                                        >
                                             68%
                                         </span>
-
                                     </div>
 
-
-                                    <div className="
+                                    <div
+                                        className="
                                         mt-2
                                         h-1.5
                                         overflow-hidden
                                         rounded-full
                                         bg-background-elevated
-                                    ">
-                                        <div className="
+                                    "
+                                    >
+                                        <div
+                                            className="
                                             h-full
                                             w-[68%]
                                             rounded-full
                                             bg-linear-to-r
                                             from-accent-primary
                                             to-accent-unique
-                                        " />
+                                        "
+                                        />
                                     </div>
-
                                 </div>
-
                             </div>
-
 
                             {/* Learning stats */}
 
-                            <div className="
+                            <div
+                                className="
                                 rounded-xl
                                 border
                                 border-border-subtle
                                 bg-background-base/60
                                 p-5
-                            ">
-
-                                <div className="
+                            "
+                            >
+                                <div
+                                    className="
                                     flex
                                     items-center
                                     gap-3
-                                ">
-
-                                    <div className="
+                                "
+                                >
+                                    <div
+                                        className="
                                         flex
                                         h-9
                                         w-9
@@ -1008,117 +1003,121 @@ const HomeHero = () => {
                                         rounded-lg
                                         bg-accent-secondary/10
                                         text-accent-secondary
-                                    ">
+                                    "
+                                    >
                                         <Users size={17} />
                                     </div>
 
                                     <div>
-
-                                        <p className="
+                                        <p
+                                            className="
                                             font-body
                                             text-[10px]
                                             uppercase
                                             tracking-wider
                                             text-text-muted
-                                        ">
+                                        "
+                                        >
                                             Built for
                                         </p>
 
-                                        <p className="
+                                        <p
+                                            className="
                                             mt-0.5
                                             font-accent
                                             text-sm
                                             font-semibold
                                             text-text-primary
-                                        ">
+                                        "
+                                        >
                                             Learners & Creators
                                         </p>
-
                                     </div>
-
                                 </div>
 
-
-                                <div className="
+                                <div
+                                    className="
                                     mt-5
                                     grid
                                     grid-cols-2
                                     gap-3
-                                ">
-
-                                    <div className="
+                                "
+                                >
+                                    <div
+                                        className="
                                         rounded-lg
                                         border
                                         border-border-subtle
                                         bg-background-elevated
                                         p-3
-                                    ">
-
-                                        <p className="
+                                    "
+                                    >
+                                        <p
+                                            className="
                                             font-body
                                             text-[10px]
                                             text-text-muted
-                                        ">
+                                        "
+                                        >
                                             Lessons
                                         </p>
 
-                                        <p className="
+                                        <p
+                                            className="
                                             mt-1
                                             font-accent
                                             text-lg
                                             font-bold
                                             text-text-primary
-                                        ">
+                                        "
+                                        >
                                             18
                                         </p>
-
                                     </div>
 
-
-                                    <div className="
+                                    <div
+                                        className="
                                         rounded-lg
                                         border
                                         border-border-subtle
                                         bg-background-elevated
                                         p-3
-                                    ">
-
-                                        <p className="
+                                    "
+                                    >
+                                        <p
+                                            className="
                                             font-body
                                             text-[10px]
                                             text-text-muted
-                                        ">
+                                        "
+                                        >
                                             Progress
                                         </p>
 
-                                        <p className="
+                                        <p
+                                            className="
                                             mt-1
                                             font-accent
                                             text-lg
                                             font-bold
                                             text-text-primary
-                                        ">
+                                        "
+                                        >
                                             68%
                                         </p>
-
                                     </div>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
 
                 {/* =====================================================
                     Bottom message
                 ====================================================== */}
 
-                <div className="
+                <div
+                    className="
                     mx-auto
                     mt-8
                     flex
@@ -1130,74 +1129,84 @@ const HomeHero = () => {
                     text-center
                     sm:flex-row
                     sm:gap-3
-                ">
-
-                    <span className="
+                "
+                >
+                    <span
+                        className="
                         font-body
                         text-xs
                         text-text-muted
-                    ">
+                    "
+                    >
                         Learn
                     </span>
 
-                    <span className="
+                    <span
+                        className="
                         hidden
                         h-1
                         w-1
                         rounded-full
                         bg-border-subtle
                         sm:block
-                    " />
+                    "
+                    />
 
-                    <span className="
+                    <span
+                        className="
                         font-body
                         text-xs
                         text-text-muted
-                    ">
+                    "
+                    >
                         Practice
                     </span>
 
-                    <span className="
+                    <span
+                        className="
                         hidden
                         h-1
                         w-1
                         rounded-full
                         bg-border-subtle
                         sm:block
-                    " />
+                    "
+                    />
 
-                    <span className="
+                    <span
+                        className="
                         font-body
                         text-xs
                         text-text-muted
-                    ">
+                    "
+                    >
                         Track progress
                     </span>
 
-                    <span className="
+                    <span
+                        className="
                         hidden
                         h-1
                         w-1
                         rounded-full
                         bg-border-subtle
                         sm:block
-                    " />
+                    "
+                    />
 
-                    <span className="
+                    <span
+                        className="
                         font-body
                         text-xs
                         text-text-muted
-                    ">
+                    "
+                    >
                         Keep moving forward
                     </span>
-
                 </div>
-
             </div>
-
         </section>
     )
 }
-
 
 export default HomeHero

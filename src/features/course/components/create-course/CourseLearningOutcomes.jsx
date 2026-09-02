@@ -4,28 +4,22 @@ import FormField from "../../../../components/form/FormField.jsx"
 import Button from "../../../../components/ui/Button.jsx"
 import Input from "../../../../components/form/Input.jsx"
 
-
 const CourseLearningOutcomes = ({
     control,
     register,
     errors,
     validationRules,
 }) => {
-
-    const {
-        fields,
-        append,
-        remove,
-    } = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         control,
         name: "learningOutcomes",
 
         rules: validationRules.learningOutcomes,
     })
 
-
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -33,44 +27,41 @@ const CourseLearningOutcomes = ({
             p-5
 
             sm:p-6
-        ">
-
+        "
+        >
             {/* Header */}
 
             <div className="mb-6">
-
-                <h2 className="
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     What Students Will Learn
                 </h2>
 
-                <p className="
+                <p
+                    className="
                     mt-1
                     font-body
                     text-sm
                     leading-5
                     text-text-secondary
-                ">
+                "
+                >
                     Add the key skills or knowledge students will gain from this
                     course.
                 </p>
-
             </div>
-
 
             {/* Learning Outcomes */}
 
             <div className="space-y-4">
-
                 {fields.map((field, index) => {
-
-                    const fieldError =
-                        errors.learningOutcomes?.[index]
-
+                    const fieldError = errors.learningOutcomes?.[index]
 
                     return (
                         <div
@@ -84,42 +75,36 @@ const CourseLearningOutcomes = ({
                                 sm:items-start
                             "
                         >
-
                             {/* Input */}
 
-                            <div className="
+                            <div
+                                className="
                                 min-w-0
                                 flex-1
-                            ">
-
+                            "
+                            >
                                 <FormField
                                     label={`Learning Outcome ${index + 1}`}
                                     htmlFor={`learningOutcome-${field.id}`}
                                     required
                                     error={fieldError?.message}
                                 >
-
                                     <Input
                                         id={`learningOutcome-${field.id}`}
                                         placeholder="What will students learn?"
                                         error={Boolean(fieldError)}
                                         {...register(
                                             `learningOutcomes.${index}`,
-                                            validationRules
-                                                .learningOutcomes
+                                            validationRules.learningOutcomes
                                                 .item
                                         )}
                                     />
-
                                 </FormField>
-
                             </div>
-
 
                             {/* Remove */}
 
                             {fields.length > 1 && (
-
                                 <Button
                                     type="button"
                                     onClick={() => remove(index)}
@@ -148,19 +133,14 @@ const CourseLearningOutcomes = ({
                                 >
                                     Remove
                                 </Button>
-
                             )}
-
                         </div>
                     )
-
                 })}
-
 
                 {/* Array-level error */}
 
-                {errors.learningOutcomes?.root?.message && (
-
+                {errors?.learningOutcomes?.message && (
                     <p
                         role="alert"
                         className="
@@ -170,16 +150,13 @@ const CourseLearningOutcomes = ({
                             text-status-danger
                         "
                     >
-                        {errors.learningOutcomes.root.message}
+                        {errors.learningOutcomes.message}
                     </p>
-
                 )}
-
 
                 {/* Add */}
 
                 {fields.length < 10 && (
-
                     <Button
                         type="button"
                         onClick={() => append("")}
@@ -209,14 +186,10 @@ const CourseLearningOutcomes = ({
                     >
                         + Add Learning Outcome
                     </Button>
-
                 )}
-
             </div>
-
         </section>
     )
 }
-
 
 export default CourseLearningOutcomes

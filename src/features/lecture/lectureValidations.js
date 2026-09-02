@@ -2,7 +2,6 @@
 // Lecture validation rules
 
 const lectureValidationRules = {
-
     ///////////////////////////////////////////////////////////////
     // Basic information
 
@@ -23,19 +22,16 @@ const lectureValidationRules = {
         },
     },
 
-
     ///////////////////////////////////////////////////////////////
     // Description
 
     description: {
-
         maxLength: {
             value: 3000,
             message: "Lecture description cannot exceed 3000 characters",
         },
     },
 }
-
 
 ///////////////////////////////////////////////////////////////
 // Reorder lecture validation rules
@@ -53,21 +49,14 @@ const lectureValidationRules = {
 // - lecture ownership/section membership
 
 const reorderLectureValidationRules = {
-
     lectures: {
-
         validate: {
-
             required: (value) =>
-                (
-                    Array.isArray(value) &&
-                    value.length >= 1
-                ) ||
+                (Array.isArray(value) && value.length >= 1) ||
                 "Lectures must be a non-empty array",
         },
 
         item: {
-
             lectureId: {
                 required: {
                     value: true,
@@ -76,16 +65,13 @@ const reorderLectureValidationRules = {
             },
 
             order: {
-
                 required: {
                     value: true,
                     message: "Order is required",
                 },
 
                 validate: {
-
                     positiveInteger: (value) => {
-
                         if (
                             value === "" ||
                             value === null ||
@@ -97,17 +83,15 @@ const reorderLectureValidationRules = {
                         const order = Number(value)
 
                         return (
-                            Number.isInteger(order) &&
-                            order >= 1
-                        ) ||
-                        "Order must be a positive integer"
+                            (Number.isInteger(order) && order >= 1) ||
+                            "Order must be a positive integer"
+                        )
                     },
                 },
             },
         },
     },
 }
-
 
 ///////////////////////////////////////////////////////////////
 // Lecture video validation rules
@@ -123,18 +107,14 @@ const reorderLectureValidationRules = {
 // - storage/Cloudinary failures
 
 const lectureVideoValidationRules = {
-
     video: {
-
         required: {
             value: true,
             message: "Lecture video is required",
         },
 
         validate: {
-
             fileType: (file) => {
-
                 if (!file) {
                     return true
                 }
@@ -146,30 +126,25 @@ const lectureVideoValidationRules = {
                 ]
 
                 return (
-                    allowedMimeTypes.includes(file.type)
-                ) ||
-                "Only MP4, MOV and WEBM video files are allowed."
+                    allowedMimeTypes.includes(file.type) ||
+                    "Only MP4, MOV and WEBM video files are allowed."
+                )
             },
 
-
             maxSize: (file) => {
-
                 if (!file) {
                     return true
                 }
 
-                const maxSize =
-                    5 * 1024 * 1024 * 1024
+                const maxSize = 5 * 1024 * 1024 * 1024
 
                 return (
-                    file.size <= maxSize
-                ) ||
-                "Lecture video cannot exceed 5 GB"
+                    file.size <= maxSize || "Lecture video cannot exceed 5 GB"
+                )
             },
         },
     },
 }
-
 
 ///////////////////////////////////////////////////////////////
 // exports

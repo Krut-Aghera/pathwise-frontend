@@ -1,13 +1,15 @@
 const CourseLoadingSkeleton = () => {
     return (
-        <div className="
+        <div
+            className="
             w-full
             animate-pulse
-        ">
-
+        "
+        >
             {/* Course Header Skeleton */}
 
-            <div className="
+            <div
+                className="
                 rounded-xl
                 border
                 border-border-subtle
@@ -17,21 +19,23 @@ const CourseLoadingSkeleton = () => {
 
                 sm:p-6
                 lg:p-8
-            ">
-
+            "
+            >
                 {/* Breadcrumb / small label */}
 
-                <div className="
+                <div
+                    className="
                     h-3
                     w-24
                     rounded
                     bg-background-elevated
-                " />
-
+                "
+                />
 
                 {/* Title */}
 
-                <div className="
+                <div
+                    className="
                     mt-5
                     h-8
                     w-full
@@ -40,9 +44,11 @@ const CourseLoadingSkeleton = () => {
                     bg-background-elevated
 
                     sm:h-10
-                " />
+                "
+                />
 
-                <div className="
+                <div
+                    className="
                     mt-2
                     h-8
                     w-3/4
@@ -51,16 +57,19 @@ const CourseLoadingSkeleton = () => {
                     bg-background-elevated
 
                     sm:h-10
-                " />
-
+                "
+                />
 
                 {/* Description */}
 
-                <div className="
+                <div
+                    className="
                     mt-5
                     space-y-2
-                ">
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         h-3
                         w-full
                         rounded
@@ -68,7 +77,8 @@ const CourseLoadingSkeleton = () => {
                         "
                     />
 
-                    <div className="
+                    <div
+                        className="
                         h-3
                         w-11/12
                         rounded
@@ -76,25 +86,28 @@ const CourseLoadingSkeleton = () => {
                         "
                     />
 
-                    <div className="
+                    <div
+                        className="
                         h-3
                         w-2/3
                         rounded
                         bg-background-elevated
-                    " />
+                    "
+                    />
                 </div>
-
 
                 {/* Instructor */}
 
-                <div className="
+                <div
+                    className="
                     mt-6
                     flex
                     items-center
                     gap-3
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         h-9
                         w-9
                         shrink-0
@@ -103,10 +116,13 @@ const CourseLoadingSkeleton = () => {
                         "
                     />
 
-                    <div className="
+                    <div
+                        className="
                         space-y-2
-                    ">
-                        <div className="
+                    "
+                    >
+                        <div
+                            className="
                             h-3
                             w-24
                             rounded
@@ -114,22 +130,22 @@ const CourseLoadingSkeleton = () => {
                             "
                         />
 
-                        <div className="
+                        <div
+                            className="
                             h-2.5
                             w-32
                             rounded
                             bg-background-elevated
-                        " />
+                        "
+                        />
                     </div>
-
                 </div>
-
             </div>
-
 
             {/* Statistics Skeleton */}
 
-            <div className="
+            <div
+                className="
                 mt-5
 
                 grid
@@ -137,8 +153,8 @@ const CourseLoadingSkeleton = () => {
                 gap-3
 
                 sm:grid-cols-4
-            ">
-
+            "
+            >
                 {[1, 2, 3, 4].map((item) => (
                     <div
                         key={item}
@@ -151,7 +167,8 @@ const CourseLoadingSkeleton = () => {
                             p-4
                         "
                     >
-                        <div className="
+                        <div
+                            className="
                             h-4
                             w-4
                             rounded
@@ -159,7 +176,8 @@ const CourseLoadingSkeleton = () => {
                             "
                         />
 
-                        <div className="
+                        <div
+                            className="
                             mt-3
                             h-5
                             w-16
@@ -168,7 +186,8 @@ const CourseLoadingSkeleton = () => {
                             "
                         />
 
-                        <div className="
+                        <div
+                            className="
                             mt-2
                             h-2.5
                             w-20
@@ -178,13 +197,12 @@ const CourseLoadingSkeleton = () => {
                         />
                     </div>
                 ))}
-
             </div>
-
 
             {/* Main Content */}
 
-            <div className="
+            <div
+                className="
                 mt-6
 
                 grid
@@ -192,11 +210,12 @@ const CourseLoadingSkeleton = () => {
                 gap-6
 
                 lg:grid-cols-[minmax(0,1fr)_360px]
-            ">
-
+            "
+            >
                 {/* Curriculum */}
 
-                <div className="
+                <div
+                    className="
                     rounded-xl
                     border
                     border-border-subtle
@@ -205,20 +224,23 @@ const CourseLoadingSkeleton = () => {
                     p-5
 
                     sm:p-6
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         h-6
                         w-36
                         rounded
                         bg-background-elevated
-                    " />
+                    "
+                    />
 
-                    <div className="
+                    <div
+                        className="
                         mt-5
                         space-y-3
-                    ">
-
+                    "
+                    >
                         {[1, 2, 3, 4, 5].map((item) => (
                             <div
                                 key={item}
@@ -234,48 +256,50 @@ const CourseLoadingSkeleton = () => {
                                     p-4
                                 "
                             >
-
-                                <div className="
+                                <div
+                                    className="
                                     h-8
                                     w-8
                                     shrink-0
                                     rounded-md
                                     bg-background-elevated
-                                " />
+                                "
+                                />
 
-                                <div className="
+                                <div
+                                    className="
                                     min-w-0
                                     flex-1
-                                ">
-
-                                    <div className="
+                                "
+                                >
+                                    <div
+                                        className="
                                         h-3
                                         w-2/3
                                         rounded
                                         bg-background-elevated
-                                    " />
+                                    "
+                                    />
 
-                                    <div className="
+                                    <div
+                                        className="
                                         mt-2
                                         h-2.5
                                         w-1/3
                                         rounded
                                         bg-background-elevated
-                                    " />
-
+                                    "
+                                    />
                                 </div>
-
                             </div>
                         ))}
-
                     </div>
-
                 </div>
-
 
                 {/* Enrollment Card */}
 
-                <div className="
+                <div
+                    className="
                     h-fit
                     rounded-xl
                     border
@@ -285,58 +309,66 @@ const CourseLoadingSkeleton = () => {
                     p-5
 
                     sm:p-6
-                ">
-
+                "
+                >
                     {/* Price */}
 
-                    <div className="
+                    <div
+                        className="
                         h-3
                         w-20
                         rounded
                         bg-background-elevated
-                    " />
+                    "
+                    />
 
-                    <div className="
+                    <div
+                        className="
                         mt-2
                         h-9
                         w-28
                         rounded
                         bg-background-elevated
-                    " />
-
+                    "
+                    />
 
                     {/* Button */}
 
-                    <div className="
+                    <div
+                        className="
                         mt-5
                         h-11
                         w-full
                         rounded-lg
                         bg-background-elevated
-                    " />
-
+                    "
+                    />
 
                     {/* Included */}
 
-                    <div className="
+                    <div
+                        className="
                         mt-6
                         border-t
                         border-border-subtle
                         pt-5
-                    ">
-
-                        <div className="
+                    "
+                    >
+                        <div
+                            className="
                             h-3
                             w-32
                             rounded
                             bg-background-elevated
-                        " />
+                        "
+                        />
 
-                        <div className="
+                        <div
+                            className="
                             mt-4
                             space-y-3
-                        ">
-
+                        "
+                        >
                             {[1, 2, 3].map((item) => (
                                 <div
                                     key={item}
@@ -346,34 +378,32 @@ const CourseLoadingSkeleton = () => {
                                         gap-2
                                     "
                                 >
-                                    <div className="
+                                    <div
+                                        className="
                                         h-3.5
                                         w-3.5
                                         shrink-0
                                         rounded-full
                                         bg-background-elevated
-                                    " />
+                                    "
+                                    />
 
-                                    <div className="
+                                    <div
+                                        className="
                                         h-2.5
                                         w-32
                                         rounded
                                         bg-background-elevated
-                                    " />
+                                    "
+                                    />
                                 </div>
                             ))}
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     )
 }
-
 
 export default CourseLoadingSkeleton

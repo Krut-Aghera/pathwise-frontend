@@ -1,21 +1,8 @@
-import {
-    ArrowLeft,
-    BookOpen,
-    CircleCheck,
-    CircleDashed,
-} from "lucide-react"
+import { ArrowLeft, BookOpen, CircleCheck, CircleDashed } from "lucide-react"
 
+import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-import {
-    RESOURCE_STATUS,
-} from "../../../../constants/resourceConstants.js"
-
-
-const LectureManageHeader = ({
-    lecture,
-    onBack,
-}) => {
-
+const LectureManageHeader = ({ lecture, onBack }) => {
     ///////////////////////////////////////////////////////////////
     // Guard
 
@@ -23,19 +10,17 @@ const LectureManageHeader = ({
         return null
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Status
 
-    const isPublished =
-        lecture.status === RESOURCE_STATUS.PUBLISHED
-
+    const isPublished = lecture.status === RESOURCE_STATUS.PUBLISHED
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
-        <header className="
+        <header
+            className="
             overflow-hidden
 
             rounded-2xl
@@ -44,11 +29,12 @@ const LectureManageHeader = ({
             border-border-subtle
 
             bg-background-surface
-        ">
-
+        "
+        >
             {/* Top bar */}
 
-            <div className="
+            <div
+                className="
                 flex
                 items-center
                 justify-between
@@ -60,8 +46,8 @@ const LectureManageHeader = ({
                 py-3.5
 
                 sm:px-6
-            ">
-
+            "
+            >
                 <button
                     type="button"
                     onClick={onBack}
@@ -92,17 +78,14 @@ const LectureManageHeader = ({
                         focus-visible:ring-accent-primary
                     "
                 >
-
                     <ArrowLeft size={15} />
-
                     Back to Section
-
                 </button>
-
 
                 {/* Status */}
 
-                <div className={`
+                <div
+                    className={`
                     inline-flex
                     items-center
                     gap-1.5
@@ -127,42 +110,38 @@ const LectureManageHeader = ({
                                 text-status-warning
                             `
                     }
-                `}>
-
+                `}
+                >
                     {isPublished ? (
                         <CircleCheck size={13} />
                     ) : (
                         <CircleDashed size={13} />
                     )}
 
-                    {isPublished
-                        ? "Published"
-                        : "Draft"}
-
+                    {isPublished ? "Published" : "Draft"}
                 </div>
-
             </div>
-
 
             {/* Main header */}
 
-            <div className="
+            <div
+                className="
                 px-5
                 py-6
 
                 sm:px-6
                 sm:py-7
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     flex
                     items-start
                     gap-4
-                ">
-
-                    {/* Icon */}
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         flex
                         h-12
                         w-12
@@ -174,62 +153,59 @@ const LectureManageHeader = ({
 
                         bg-accent-primary/10
                         text-accent-primary
-                    ">
-
+                    "
+                    >
                         <BookOpen size={21} />
-
                     </div>
 
-
-                    {/* Content */}
-
-                    <div className="
+                    <div
+                        className="
                         min-w-0
                         flex-1
-                    ">
-
-                        {/* Meta */}
-
-                        <div className="
+                    "
+                    >
+                        <div
+                            className="
                             flex
                             flex-wrap
                             items-center
                             gap-x-2
                             gap-y-1
-                        ">
-
-                            <span className="
+                        "
+                        >
+                            <span
+                                className="
                                 font-body
                                 text-xs
                                 font-medium
                                 text-text-muted
-                            ">
+                            "
+                            >
                                 Lecture {lecture.order}
                             </span>
 
-
-                            <span className="
+                            <span
+                                className="
                                 text-text-muted/50
-                            ">
+                            "
+                            >
                                 /
                             </span>
 
-
-                            <span className="
+                            <span
+                                className="
                                 font-body
                                 text-xs
                                 font-medium
                                 text-text-muted
-                            ">
+                            "
+                            >
                                 Course Curriculum
                             </span>
-
                         </div>
 
-
-                        {/* Title */}
-
-                        <h1 className="
+                        <h1
+                            className="
                             mt-2
 
                             break-words
@@ -243,16 +219,14 @@ const LectureManageHeader = ({
 
                             sm:text-3xl
                             sm:leading-9
-                        ">
+                        "
+                        >
                             {lecture.title}
                         </h1>
 
-
-                        {/* Description */}
-
                         {lecture.description && (
-
-                            <p className="
+                            <p
+                                className="
                                 mt-3
 
                                 max-w-3xl
@@ -263,21 +237,16 @@ const LectureManageHeader = ({
                                 text-sm
                                 leading-6
                                 text-text-secondary
-                            ">
+                            "
+                            >
                                 {lecture.description}
                             </p>
-
                         )}
-
                     </div>
-
                 </div>
-
             </div>
-
         </header>
     )
 }
-
 
 export default LectureManageHeader

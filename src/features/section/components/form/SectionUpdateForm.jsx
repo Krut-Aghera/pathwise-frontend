@@ -1,16 +1,11 @@
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
+import SectionFormActions from "../SectionFormActions.jsx"
 
-import SectionFormActions
-    from "../SectionFormActions.jsx"
+import Input from "../../../../components/form/Input.jsx"
 
-import Input
-    from "../../../../components/form/Input.jsx"
-
-import FormField
-    from "../../../../components/form/FormField.jsx"
-
+import FormField from "../../../../components/form/FormField.jsx"
 
 const SectionUpdateForm = ({
     initialValues = {
@@ -21,10 +16,7 @@ const SectionUpdateForm = ({
     loading = false,
     validationRules,
 }) => {
-
-    const globalErrorRef =
-        useRef(null)
-
+    const globalErrorRef = useRef(null)
 
     ///////////////////////////////////////////////////////////////
     // Form
@@ -36,81 +28,51 @@ const SectionUpdateForm = ({
         clearErrors,
         reset,
 
-        formState: {
-            errors,
-            isSubmitting,
-        },
-
+        formState: { errors, isSubmitting },
     } = useForm({
-
         defaultValues: initialValues,
 
         mode: "onBlur",
 
         shouldFocusError: true,
-
     })
-
 
     ///////////////////////////////////////////////////////////////
     // Update form when section data changes
 
     useEffect(() => {
-
         if (isSubmitting) {
             return
         }
 
-
         reset({
-            title:
-                initialValues?.title ||
-                "",
+            title: initialValues?.title || "",
         })
-
-    }, [
-        initialValues,
-        reset,
-        isSubmitting,
-    ])
-
+    }, [initialValues, reset, isSubmitting])
 
     ///////////////////////////////////////////////////////////////
     // Global error scroll
 
     useEffect(() => {
-
         if (!errors.root?.message) {
             return
         }
 
-
         requestAnimationFrame(() => {
-
             globalErrorRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
             })
 
-
             globalErrorRef.current?.focus()
-
         })
-
-    }, [
-        errors.root?.message,
-    ])
-
+    }, [errors.root?.message])
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
-    const handleFormSubmit = async (
-        formData
-    ) => {
-
+    const handleFormSubmit = async (formData) => {
         clearErrors("root")
-
 
         ///////////////////////////////////////////////////////////
         // Normalize data
@@ -119,99 +81,62 @@ const SectionUpdateForm = ({
             title: formData.title.trim(),
         }
 
-
         ///////////////////////////////////////////////////////////
         // Send to page
 
         try {
-
-            await onSubmit(
-                sectionData
-            )
-
+            await onSubmit(sectionData)
         } catch (error) {
-
             ///////////////////////////////////////////////////////
             // Backend validation errors
 
-            if (
-                error?.statusCode === 400 &&
-                Array.isArray(error?.errors)
-            ) {
-
-                error.errors.forEach(({
-                    field,
-                    message,
-                }) => {
-
+            if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
+                error.errors.forEach(({ field, message }) => {
                     if (!field) {
                         return
                     }
 
-
-                    setError(
-                        field,
-                        {
-                            type: "server",
-                            message,
-                        }
-                    )
-
+                    setError(field, {
+                        type: "server",
+                        message,
+                    })
                 })
-
 
                 return
             }
 
-
             ///////////////////////////////////////////////////////
             // General server error
 
-            setError(
-                "root",
-                {
-                    type: "server",
+            setError("root", {
+                type: "server",
 
-                    message:
-                        error?.message ||
-                        "Unable to update section. Please try again.",
-                }
-            )
-
+                message:
+                    error?.message ||
+                    "Unable to update section. Please try again.",
+            })
         }
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
-    const isFormLoading =
-        loading ||
-        isSubmitting
-
+    const isFormLoading = loading || isSubmitting
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
-
         <form
-            onSubmit={
-                handleSubmit(
-                    handleFormSubmit
-                )
-            }
+            onSubmit={handleSubmit(handleFormSubmit)}
 
             noValidate
 
             className="space-y-6"
         >
-
             {/* Global server error */}
 
             {errors.root?.message && (
-
                 <div
                     ref={globalErrorRef}
                     role="alert"
@@ -238,17 +163,14 @@ const SectionUpdateForm = ({
                         focus:ring-status-danger/20
                     "
                 >
-
                     {errors.root.message}
-
                 </div>
-
             )}
-
 
             {/* Section Information */}
 
-            <section className="
+            <section
+                className="
                 rounded-xl
                 border
                 border-border-subtle
@@ -257,39 +179,35 @@ const SectionUpdateForm = ({
                 p-5
 
                 sm:p-6
-            ">
-
+            "
+            >
                 {/* Section Header */}
 
                 <div className="mb-6">
-
-                    <h2 className="
+                    <h2
+                        className="
                         font-accent
                         text-lg
                         font-semibold
                         text-text-primary
-                    ">
-
+                    "
+                    >
                         Section Information
-
                     </h2>
 
-
-                    <p className="
+                    <p
+                        className="
                         mt-1
 
                         font-body
                         text-sm
                         leading-5
                         text-text-secondary
-                    ">
-
+                    "
+                    >
                         Update the title of this course section.
-
                     </p>
-
                 </div>
-
 
                 {/* Fields */}
 
@@ -299,7 +217,6 @@ const SectionUpdateForm = ({
                     error={errors.title?.message}
                     required
                 >
-
                     <Input
                         id="section-title"
                         type="text"
@@ -308,39 +225,22 @@ const SectionUpdateForm = ({
 
                         disabled={isFormLoading}
 
-                        error={
-                            Boolean(
-                                errors.title
-                            )
-                        }
+                        error={Boolean(errors.title)}
 
                         aria-describedby={
-                            errors.title
-                                ? "section-title-error"
-                                : undefined
+                            errors.title ? "section-title-error" : undefined
                         }
 
-                        {...register(
-                            "title",
-                            validationRules.title
-                        )}
+                        {...register("title", validationRules.title)}
                     />
-
                 </FormField>
-
             </section>
-
 
             {/* Actions */}
 
-            <SectionFormActions
-                loading={isFormLoading}
-                onCancel={onCancel}
-            />
-
+            <SectionFormActions loading={isFormLoading} onCancel={onCancel} />
         </form>
     )
 }
-
 
 export default SectionUpdateForm

@@ -1,263 +1,150 @@
-import {
-    FileVideo,
-} from "lucide-react"
+import { useEffect, useState } from "react"
 
 import {
-    useNavigate,
-} from "react-router-dom"
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core"
 
 import {
-    useFetchSectionLecturesQuery,
-} from "../../lectureApi.js"
+    SortableContext,
+    verticalListSortingStrategy,
+    arrayMove,
+    sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable"
 
-import InstructorCourseLectureItem
-    from "./InstructorCourseLectureItem.jsx"
-
-import ErrorState
-    from "../../../../components/ui/ErrorState.jsx"
-
+import InstructorCourseLectureItem from "./InstructorCourseLectureItem.jsx"
 
 const InstructorCourseLectureList = ({
-    course,
-    section,
-    enabled = true,
+    lectures = [],
+    onManageLecture,
+    onReorderLectures,
+    isReorderingLectures = false,
 }) => {
+    const [localLectures, setLocalLectures] = useState(lectures)
 
-    const navigate = useNavigate()
-
-
-    ///////////////////////////////////////////////////////////////
-    // Section ID
-
-    const sectionId =
-        section?._id
-
-
-    ///////////////////////////////////////////////////////////////
-    // Fetch lectures
-
-    const {
-        data: lecturesResponse,
-        isLoading,
-        isFetching,
-        isError,
-        error,
-        refetch,
-    } = useFetchSectionLecturesQuery(
-        sectionId,
-        {
-            skip:
-                !sectionId ||
-                !enabled,
+    useEffect(() => {
+        if (!isReorderingLectures) {
+            setLocalLectures(lectures)
         }
+    }, [lectures, isReorderingLectures])
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 6,
+            },
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
     )
 
+    if (localLectures.length === 0) {
+        return (
+            <div
+                className="
+                    rounded-lg
+                    border
+                    border-dashed
+                    border-border-subtle
 
-    ///////////////////////////////////////////////////////////////
-    // Data
+                    bg-background-elevated
 
-    const lectures =
-        lecturesResponse?.data ??
-        lecturesResponse ??
-        []
+                    px-5
+                    py-10
 
+                    text-center
+                "
+            >
+                <p
+                    className="
+                        font-body
+                        text-sm
+                        font-medium
+                        text-text-secondary
+                    "
+                >
+                    No lectures yet.
+                </p>
 
-    ///////////////////////////////////////////////////////////////
-    // Error message
+                <p
+                    className="
+                        mt-1
 
-    const errorMessage =
-        error?.errors?.[0]?.message ||
-        error?.message ||
-        "Unable to load lectures."
+                        font-body
+                        text-xs
+                        text-text-muted
+                    "
+                >
+                    Add a lecture to start building this section.
+                </p>
+            </div>
+        )
+    }
 
-
-    ///////////////////////////////////////////////////////////////
-    // Manage lecture
-
-    const handleManageLecture = (
-        lecture
-    ) => {
-
-        if (
-            !course?._id ||
-            !section?._id ||
-            !lecture?._id
-        ) {
+    const handleDragEnd = async (event) => {
+        if (isReorderingLectures) {
             return
         }
 
+        const { active, over } = event
 
-        navigate(
-            `/instructor/courses/${course._id}/sections/${section._id}/lectures/${lecture._id}/manage`
+        if (!over || active.id === over.id) {
+            return
+        }
+
+        const oldIndex = localLectures.findIndex(
+            (lecture) => lecture._id === active.id
         )
-    }
 
-
-    ///////////////////////////////////////////////////////////////
-    // Loading
-
-    if (isLoading) {
-
-        return (
-            <div className="
-                space-y-2
-                py-2
-            ">
-
-                {[1, 2].map((item) => (
-
-                    <div
-                        key={item}
-                        className="
-                            flex
-                            items-center
-                            gap-3
-
-                            rounded-md
-                            border
-                            border-border-subtle
-                            bg-background-surface
-
-                            px-3
-                            py-3
-
-                            animate-pulse
-                        "
-                    >
-
-                        <div className="
-                            h-8
-                            w-8
-                            shrink-0
-                            rounded-md
-                            bg-background-elevated
-                        " />
-
-                        <div className="
-                            h-3
-                            w-40
-                            rounded
-                            bg-background-elevated
-                        " />
-
-                    </div>
-
-                ))}
-
-            </div>
+        const newIndex = localLectures.findIndex(
+            (lecture) => lecture._id === over.id
         )
+
+        if (oldIndex === -1 || newIndex === -1) {
+            return
+        }
+
+        const previousLectures = [...localLectures]
+
+        const reorderedLectures = arrayMove(localLectures, oldIndex, newIndex)
+
+        setLocalLectures(reorderedLectures)
+
+        const success = await onReorderLectures?.(reorderedLectures)
+
+        if (!success) {
+            setLocalLectures(previousLectures)
+        }
     }
-
-
-    ///////////////////////////////////////////////////////////////
-    // Error
-
-    if (isError) {
-
-        return (
-            <div className="py-2">
-
-                <ErrorState
-                    title="Unable to load lectures"
-                    message={errorMessage}
-                    onRetry={refetch}
-                />
-
-            </div>
-        )
-    }
-
-
-    ///////////////////////////////////////////////////////////////
-    // Empty
-
-    if (lectures.length === 0) {
-
-        return (
-            <div className="
-                flex
-                items-center
-                gap-3
-
-                px-2
-                py-4
-            ">
-
-                <FileVideo
-                    size={16}
-                    className="
-                        shrink-0
-                        text-text-muted
-                    "
-                />
-
-                <div>
-
-                    <p className="
-                        font-body
-                        text-xs
-                        font-medium
-                        text-text-secondary
-                    ">
-                        No lectures yet.
-                    </p>
-
-                    <p className="
-                        mt-0.5
-                        font-body
-                        text-[11px]
-                        text-text-muted
-                    ">
-                        Add a lecture to start building this section.
-                    </p>
-
-                </div>
-
-            </div>
-        )
-    }
-
-
-    ///////////////////////////////////////////////////////////////
-    // Render
 
     return (
-        <div className="
-            space-y-2
-        ">
-
-            {isFetching && (
-                <div className="
-                    px-2
-                    pb-1
-
-                    font-body
-                    text-[10px]
-                    text-text-muted
-                    bg-red-400
-                ">
-                    Updating lectures...
+        <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+        >
+            <SortableContext
+                items={localLectures.map((lecture) => lecture._id)}
+                strategy={verticalListSortingStrategy}
+            >
+                <div className="space-y-2.5">
+                    {localLectures.map((lecture) => (
+                        <InstructorCourseLectureItem
+                            key={lecture._id}
+                            lecture={lecture}
+                            onManageLecture={onManageLecture}
+                            isReorderingLectures={isReorderingLectures}
+                        />
+                    ))}
                 </div>
-            )}
-
-
-            {lectures.map(
-                (lecture) => (
-
-                    <InstructorCourseLectureItem
-                        key={lecture._id}
-                        lecture={lecture}
-                        onManageLecture={
-                            handleManageLecture
-                        }
-                    />
-
-                )
-            )}
-
-        </div>
+            </SortableContext>
+        </DndContext>
     )
 }
-
 
 export default InstructorCourseLectureList

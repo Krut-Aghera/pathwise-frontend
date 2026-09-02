@@ -1,7 +1,6 @@
-import HttpError from "./httpError";
+import HttpError from "./httpError"
 
 const normalizeHttpError = (error) => {
-
     if (error instanceof HttpError) {
         return error
     }
@@ -10,25 +9,15 @@ const normalizeHttpError = (error) => {
         const errorResponseData = error.response.data
 
         return new HttpError({
-            statusCode:
-                errorResponseData?.statusCode ??
-                error.response.status,
+            statusCode: errorResponseData?.statusCode ?? error.response.status,
 
-            code:
-                errorResponseData?.code ??
-                null,
+            code: errorResponseData?.code ?? null,
 
-            message:
-                errorResponseData?.message ??
-                "Something went wrong.",
+            message: errorResponseData?.message ?? "Something went wrong.",
 
-            errors:
-                errorResponseData?.errors ??
-                [],
+            errors: errorResponseData?.errors ?? [],
 
-            details:
-                errorResponseData?.details ??
-                null,
+            details: errorResponseData?.details ?? null,
         })
     }
 
@@ -39,9 +28,7 @@ const normalizeHttpError = (error) => {
     }
 
     return new HttpError({
-        message:
-            error.message ||
-            "Something went wrong.",
+        message: error.message || "Something went wrong.",
     })
 }
 

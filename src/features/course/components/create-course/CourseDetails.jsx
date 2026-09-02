@@ -6,15 +6,10 @@ import {
     COURSE_LEVEL_OPTIONS,
 } from "../../courseConstants.js"
 
-
-const CourseDetails = ({
-    register,
-    errors,
-    validationRules,
-}) => {
-
+const CourseDetails = ({ register, errors, validationRules }) => {
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -22,44 +17,47 @@ const CourseDetails = ({
             p-5
 
             sm:p-6
-        ">
-
+        "
+        >
             {/* Section Header */}
 
             <div className="mb-6">
-
-                <h2 className="
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     Course Details
                 </h2>
 
-                <p className="
+                <p
+                    className="
                     mt-1
                     font-body
                     text-sm
                     leading-5
                     text-text-secondary
-                ">
-                    Set the price, language, and difficulty level for your course.
+                "
+                >
+                    Set the price, language, and difficulty level for your
+                    course.
                 </p>
-
             </div>
-
 
             {/* Fields */}
 
-            <div className="
+            <div
+                className="
                 grid
                 grid-cols-1
                 gap-5
 
                 sm:grid-cols-2
-            ">
-
+            "
+            >
                 {/* Price */}
 
                 <FormField
@@ -68,7 +66,6 @@ const CourseDetails = ({
                     required
                     error={errors.price?.message}
                 >
-
                     <Input
                         id="course-price"
                         type="number"
@@ -78,18 +75,11 @@ const CourseDetails = ({
                         placeholder="Enter course price"
                         error={Boolean(errors.price)}
                         aria-describedby={
-                            errors.price
-                                ? "course-price-error"
-                                : undefined
+                            errors.price ? "course-price-error" : undefined
                         }
-                        {...register(
-                            "price",
-                            validationRules.price
-                        )}
+                        {...register("price", validationRules.price)}
                     />
-
                 </FormField>
-
 
                 {/* Language */}
 
@@ -99,7 +89,6 @@ const CourseDetails = ({
                     required
                     error={errors.language?.message}
                 >
-
                     <select
                         id="course-language"
                         aria-invalid={Boolean(errors.language)}
@@ -108,10 +97,7 @@ const CourseDetails = ({
                                 ? "course-language-error"
                                 : undefined
                         }
-                        {...register(
-                            "language",
-                            validationRules.language
-                        )}
+                        {...register("language", validationRules.language)}
                         className={`
                             w-full
                             rounded-md
@@ -149,26 +135,15 @@ const CourseDetails = ({
                             disabled:text-text-secondary
                         `}
                     >
-
-                        <option value="">
-                            Select language
-                        </option>
+                        <option value="">Select language</option>
 
                         {COURSE_LANGUAGE_OPTIONS.map((option) => (
-
-                            <option
-                                key={option.value}
-                                value={option.value}
-                            >
+                            <option key={option.value} value={option.value}>
                                 {option.label}
                             </option>
-
                         ))}
-
                     </select>
-
                 </FormField>
-
 
                 {/* Level */}
 
@@ -179,19 +154,13 @@ const CourseDetails = ({
                     error={errors.level?.message}
                     className="sm:col-span-2"
                 >
-
                     <select
                         id="course-level"
                         aria-invalid={Boolean(errors.level)}
                         aria-describedby={
-                            errors.level
-                                ? "course-level-error"
-                                : undefined
+                            errors.level ? "course-level-error" : undefined
                         }
-                        {...register(
-                            "level",
-                            validationRules.level
-                        )}
+                        {...register("level", validationRules.level)}
                         className={`
                             w-full
                             rounded-md
@@ -229,31 +198,18 @@ const CourseDetails = ({
                             disabled:text-text-secondary
                         `}
                     >
-
-                        <option value="">
-                            Select course level
-                        </option>
+                        <option value="">Select course level</option>
 
                         {COURSE_LEVEL_OPTIONS.map((option) => (
-
-                            <option
-                                key={option.value}
-                                value={option.value}
-                            >
+                            <option key={option.value} value={option.value}>
                                 {option.label}
                             </option>
-
                         ))}
-
                     </select>
-
                 </FormField>
-
             </div>
-
         </section>
     )
 }
-
 
 export default CourseDetails

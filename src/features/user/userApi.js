@@ -1,7 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react"
 import axiosBaseQuery from "../../app/network/axiosBaseQuery"
 
-
 const userApi = createApi({
     reducerPath: "userApi",
 
@@ -12,7 +11,6 @@ const userApi = createApi({
     tagTypes: ["User"],
 
     endpoints: (builder) => ({
-
         ///////////////////////////////////////////////////////////////
         // Current authenticated user
 
@@ -25,14 +23,9 @@ const userApi = createApi({
 
             providesTags: ["User"],
         }),
-
     }),
 })
 
-
-export const {
-    useGetCurrentUserQuery,
-} = userApi
-
+export const { useGetCurrentUserQuery } = userApi
 
 export default userApi

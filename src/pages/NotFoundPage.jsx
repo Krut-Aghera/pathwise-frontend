@@ -3,7 +3,8 @@ import { ArrowLeft, Compass, Home, Search } from "lucide-react"
 
 const NotFoundPage = () => {
     return (
-        <main className="
+        <main
+            className="
             flex
             min-h-[calc(100vh-5rem)]
             items-center
@@ -12,17 +13,19 @@ const NotFoundPage = () => {
             px-4
             py-12
             sm:px-6
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 w-full
                 max-w-xl
                 text-center
-            ">
-
+            "
+            >
                 {/* Icon */}
 
-                <div className="
+                <div
+                    className="
                     mx-auto
                     flex
                     h-16
@@ -36,17 +39,15 @@ const NotFoundPage = () => {
                     text-accent-primary
                     shadow-lg
                     shadow-accent-primary/5
-                ">
-                    <Compass
-                        size={30}
-                        strokeWidth={1.8}
-                    />
+                "
+                >
+                    <Compass size={30} strokeWidth={1.8} />
                 </div>
-
 
                 {/* Error code */}
 
-                <p className="
+                <p
+                    className="
                     mt-8
                     font-compact
                     text-sm
@@ -54,14 +55,15 @@ const NotFoundPage = () => {
                     uppercase
                     tracking-[0.2em]
                     text-accent-primary
-                ">
+                "
+                >
                     Error 404
                 </p>
 
-
                 {/* Heading */}
 
-                <h1 className="
+                <h1
+                    className="
                     mt-3
                     font-accent
                     text-3xl
@@ -69,14 +71,15 @@ const NotFoundPage = () => {
                     tracking-tight
                     text-text-primary
                     sm:text-4xl
-                ">
+                "
+                >
                     Page not found
                 </h1>
 
-
                 {/* Description */}
 
-                <p className="
+                <p
+                    className="
                     mx-auto
                     mt-4
                     max-w-md
@@ -85,15 +88,16 @@ const NotFoundPage = () => {
                     leading-6
                     text-text-secondary
                     sm:text-base
-                ">
-                    The page you're looking for doesn't exist, may have
-                    been moved, or the URL might be incorrect.
+                "
+                >
+                    The page you're looking for doesn't exist, may have been
+                    moved, or the URL might be incorrect.
                 </p>
-
 
                 {/* Actions */}
 
-                <div className="
+                <div
+                    className="
                     mt-8
                     flex
                     flex-col
@@ -102,8 +106,8 @@ const NotFoundPage = () => {
                     gap-3
                     sm:flex-row
                     sm:items-center
-                ">
-
+                "
+                >
                     <Link
                         to="/"
                         className="
@@ -130,7 +134,6 @@ const NotFoundPage = () => {
                         <Home size={16} />
                         Go home
                     </Link>
-
 
                     <Link
                         to="/courses"
@@ -160,9 +163,7 @@ const NotFoundPage = () => {
                         <Search size={16} />
                         Browse courses
                     </Link>
-
                 </div>
-
 
                 {/* Back */}
 
@@ -192,9 +193,7 @@ const NotFoundPage = () => {
                     <ArrowLeft size={14} />
                     Go back
                 </button>
-
             </div>
-
         </main>
     )
 }

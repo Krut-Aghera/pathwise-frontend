@@ -1,20 +1,15 @@
-import {
-    CheckCircle2,
-    Mail,
-    ShieldAlert,
-} from "lucide-react"
+import { CheckCircle2, Mail, ShieldAlert } from "lucide-react"
+
 import useSession from "../../../auth/hooks/useSession"
 import Button from "../../../../components/ui/Button"
 
-const EmailVerificationCard = () => {
-
+const UserEmailVerificationCard = () => {
     const { user } = useSession()
 
-
     if (user?.isEmailVerified) {
-
         return (
-            <section className="
+            <section
+                className="
                 relative
                 overflow-hidden
                 rounded-2xl
@@ -22,28 +17,32 @@ const EmailVerificationCard = () => {
                 border-status-success/20
                 bg-background-surface
                 p-5
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
+                    pointer-events-none
                     absolute
-                    right-0
-                    top-0
+                    -right-6
+                    -top-6
                     h-24
                     w-24
                     rounded-full
                     bg-status-success/5
                     blur-2xl
-                " />
+                "
+                />
 
-
-                <div className="
+                <div
+                    className="
                     relative
                     flex
                     items-start
                     gap-4
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         flex
                         h-11
                         w-11
@@ -55,30 +54,33 @@ const EmailVerificationCard = () => {
                         border-status-success/20
                         bg-status-success/10
                         text-status-success
-                    ">
-                        <CheckCircle2 size={20} />
+                    "
+                    >
+                        <CheckCircle2 size={20} strokeWidth={1.9} />
                     </div>
 
-
                     <div className="min-w-0">
-
-                        <div className="
+                        <div
+                            className="
                             flex
                             flex-wrap
                             items-center
                             gap-2
-                        ">
-
-                            <h3 className="
+                        "
+                        >
+                            <h3
+                                className="
                                 font-accent
                                 text-sm
                                 font-semibold
                                 text-text-primary
-                            ">
+                            "
+                            >
                                 Email verified
                             </h3>
 
-                            <span className="
+                            <span
+                                className="
                                 rounded-full
                                 bg-status-success/10
                                 px-2
@@ -87,35 +89,33 @@ const EmailVerificationCard = () => {
                                 text-[10px]
                                 font-medium
                                 text-status-success
-                            ">
+                            "
+                            >
                                 Verified
                             </span>
-
                         </div>
 
-
-                        <p className="
+                        <p
+                            className="
                             mt-1.5
                             font-body
                             text-xs
                             leading-5
                             text-text-secondary
-                        ">
-                            Your email address is verified and
-                            your account is fully active.
+                        "
+                        >
+                            Your email address is verified and your account is
+                            fully active.
                         </p>
-
                     </div>
-
                 </div>
-
             </section>
         )
     }
 
-
     return (
-        <section className="
+        <section
+            className="
             relative
             overflow-hidden
             rounded-2xl
@@ -123,34 +123,39 @@ const EmailVerificationCard = () => {
             border-status-warning/20
             bg-background-surface
             p-5
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
+                pointer-events-none
                 absolute
-                right-0
-                top-0
+                -right-6
+                -top-6
                 h-28
                 w-28
                 rounded-full
                 bg-status-warning/5
                 blur-3xl
-            " />
+            "
+            />
 
-
-            <div className="
+            <div
+                className="
                 relative
                 flex
                 flex-col
                 gap-5
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     flex
                     items-start
                     gap-4
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         relative
                         flex
                         h-11
@@ -163,42 +168,47 @@ const EmailVerificationCard = () => {
                         border-status-warning/20
                         bg-status-warning/10
                         text-status-warning
-                    ">
-
-                        <span className="
+                    "
+                    >
+                        <span
+                            className="
                             absolute
                             inset-0
+                            animate-ping
                             rounded-xl
                             bg-status-warning/10
-                            animate-ping
-                        "/>
+                        "
+                        />
 
                         <ShieldAlert
                             size={20}
+                            strokeWidth={1.9}
                             className="relative z-10"
                         />
-
                     </div>
 
-
-                    <div>
-
-                        <div className="
+                    <div className="min-w-0">
+                        <div
+                            className="
                             flex
+                            flex-wrap
                             items-center
                             gap-2
-                        ">
-
-                            <h3 className="
+                        "
+                        >
+                            <h3
+                                className="
                                 font-accent
                                 text-sm
                                 font-semibold
                                 text-text-primary
-                            ">
+                            "
+                            >
                                 Verify your email
                             </h3>
 
-                            <span className="
+                            <span
+                                className="
                                 rounded-full
                                 bg-status-warning/10
                                 px-2
@@ -207,29 +217,26 @@ const EmailVerificationCard = () => {
                                 text-[10px]
                                 font-medium
                                 text-status-warning
-                            ">
+                            "
+                            >
                                 Action required
                             </span>
-
                         </div>
 
-
-                        <p className="
+                        <p
+                            className="
                             mt-1.5
                             font-body
                             text-xs
                             leading-5
                             text-text-secondary
-                        ">
-                            Verify your email to unlock all
-                            Pathwise features and keep your
-                            account secure.
+                        "
+                        >
+                            Verify your email to unlock all Pathwise features
+                            and keep your account secure.
                         </p>
-
                     </div>
-
                 </div>
-
 
                 <Button
                     type="button"
@@ -244,14 +251,11 @@ const EmailVerificationCard = () => {
                     "
                 >
                     <Mail size={15} />
-                    Verify Email
+                    Verify email
                 </Button>
-
             </div>
-
         </section>
     )
 }
 
-
-export default EmailVerificationCard
+export default UserEmailVerificationCard

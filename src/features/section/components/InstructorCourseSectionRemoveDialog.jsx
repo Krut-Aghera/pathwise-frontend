@@ -1,7 +1,4 @@
-import {
-    AlertTriangle,
-    X,
-} from "lucide-react"
+import { AlertTriangle, X } from "lucide-react"
 import Button from "../../../components/ui/Button"
 
 const InstructorCourseSectionRemoveDialog = ({
@@ -11,13 +8,13 @@ const InstructorCourseSectionRemoveDialog = ({
     onConfirm,
     onCancel,
 }) => {
-
     if (!open || !section) {
         return null
     }
 
     return (
-        <div className="
+        <div
+            className="
             fixed
             inset-0
             z-50
@@ -27,9 +24,11 @@ const InstructorCourseSectionRemoveDialog = ({
             bg-black/60
             px-4
             py-6
-        ">
+        "
+        >
             {/* Dialog */}
-            <div className="
+            <div
+                className="
                 w-full
                 max-w-md
                 overflow-hidden
@@ -38,9 +37,11 @@ const InstructorCourseSectionRemoveDialog = ({
                 border-border-subtle
                 bg-background-surface
                 shadow-xl
-            ">
+            "
+            >
                 {/* Header */}
-                <div className="
+                <div
+                    className="
                     flex
                     items-start
                     justify-between
@@ -48,13 +49,17 @@ const InstructorCourseSectionRemoveDialog = ({
                     border-border-subtle
                     px-5
                     py-4
-                ">
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         flex
                         items-start
                         gap-3
-                    ">
-                        <div className="
+                    "
+                    >
+                        <div
+                            className="
                             flex
                             h-9
                             w-9
@@ -66,29 +71,34 @@ const InstructorCourseSectionRemoveDialog = ({
                             border-status-danger/30
                             bg-status-danger/10
                             text-status-danger
-                        ">
+                        "
+                        >
                             <AlertTriangle size={18} />
                         </div>
 
                         <div>
-                            <h2 className="
+                            <h2
+                                className="
                                 font-accent
                                 text-base
                                 font-semibold
                                 text-text-primary
-                            ">
+                            "
+                            >
                                 Remove Section
                             </h2>
 
-                            <p className="
+                            <p
+                                className="
                                 mt-1
                                 font-body
                                 text-xs
                                 leading-5
                                 text-text-secondary
-                            ">
-                                This will remove the section from the
-                                course curriculum.
+                            "
+                            >
+                                This will remove the section from the course
+                                curriculum.
                             </p>
                         </div>
                     </div>
@@ -121,42 +131,49 @@ const InstructorCourseSectionRemoveDialog = ({
                 </div>
 
                 {/* Content */}
-                <div className="
+                <div
+                    className="
                     px-5
                     py-5
-                ">
-                    <p className="
+                "
+                >
+                    <p
+                        className="
                         font-body
                         text-sm
                         leading-6
                         text-text-secondary
-                    ">
+                    "
+                    >
                         Are you sure you want to remove{" "}
-
-                        <span className="
+                        <span
+                            className="
                             font-medium
                             text-text-primary
-                        ">
+                        "
+                        >
                             "{section.title}"
                         </span>
-
                         ?
                     </p>
 
-                    <p className="
+                    <p
+                        className="
                         mt-2
                         font-body
                         text-xs
                         leading-5
                         text-text-muted
-                    ">
-                        The section and its lectures will no longer be
-                        available in the course curriculum.
+                    "
+                    >
+                        The section and its lectures will no longer be available
+                        in the course curriculum.
                     </p>
                 </div>
 
                 {/* Actions */}
-                <div className="
+                <div
+                    className="
                     flex
                     flex-col-reverse
                     gap-3
@@ -166,7 +183,8 @@ const InstructorCourseSectionRemoveDialog = ({
                     py-4
                     sm:flex-row
                     sm:justify-end
-                ">
+                "
+                >
                     <Button
                         type="button"
                         onClick={onCancel}

@@ -4,13 +4,7 @@ import {
     useFetchStudentLectureQuery,
 } from "../lectureApi.js"
 
-
-const useLecture = ({
-    sectionId,
-    lectureId,
-    studentLectureId,
-} = {}) => {
-
+const useLecture = ({ sectionId, lectureId, studentLectureId } = {}) => {
     ///////////////////////////////////////////////////////////////
     // Fetch section lectures
 
@@ -22,13 +16,9 @@ const useLecture = ({
         isError: isLecturesError,
         error: lecturesError,
         refetch: refetchLectures,
-    } = useFetchSectionLecturesQuery(
-        sectionId,
-        {
-            skip: !sectionId,
-        }
-    )
-
+    } = useFetchSectionLecturesQuery(sectionId, {
+        skip: !sectionId,
+    })
 
     ///////////////////////////////////////////////////////////////
     // Fetch instructor lecture
@@ -41,13 +31,9 @@ const useLecture = ({
         isError: isLectureError,
         error: lectureError,
         refetch: refetchLecture,
-    } = useFetchInstructorLectureQuery(
-        lectureId,
-        {
-            skip: !lectureId,
-        }
-    )
-
+    } = useFetchInstructorLectureQuery(lectureId, {
+        skip: !lectureId,
+    })
 
     ///////////////////////////////////////////////////////////////
     // Fetch student lecture
@@ -60,40 +46,26 @@ const useLecture = ({
         isError: isStudentLectureError,
         error: studentLectureError,
         refetch: refetchStudentLecture,
-    } = useFetchStudentLectureQuery(
-        studentLectureId,
-        {
-            skip: !studentLectureId,
-        }
-    )
-
+    } = useFetchStudentLectureQuery(studentLectureId, {
+        skip: !studentLectureId,
+    })
 
     ///////////////////////////////////////////////////////////////
     // Data
 
     const lectures =
-        sectionLecturesResponse?.data ??
-        sectionLecturesResponse ??
-        []
-
+        sectionLecturesResponse?.data ?? sectionLecturesResponse ?? []
 
     const lecture =
-        instructorLectureResponse?.data ??
-        instructorLectureResponse ??
-        null
-
+        instructorLectureResponse?.data ?? instructorLectureResponse ?? null
 
     const studentLecture =
-        studentLectureResponse?.data ??
-        studentLectureResponse ??
-        null
-
+        studentLectureResponse?.data ?? studentLectureResponse ?? null
 
     ///////////////////////////////////////////////////////////////
     // Return
 
     return {
-
         ///////////////////////////////////////////////////////////
         // Section lectures
 
@@ -106,7 +78,6 @@ const useLecture = ({
         lecturesError,
         refetchLectures,
 
-
         ///////////////////////////////////////////////////////////
         // Instructor lecture
 
@@ -118,7 +89,6 @@ const useLecture = ({
         isLectureError,
         lectureError,
         refetchLecture,
-
 
         ///////////////////////////////////////////////////////////
         // Student lecture
@@ -133,6 +103,5 @@ const useLecture = ({
         refetchStudentLecture,
     }
 }
-
 
 export default useLecture

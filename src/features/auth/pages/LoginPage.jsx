@@ -4,25 +4,16 @@ import pathwise_main_logo from "../../../assets/pathwise_main_logo.png"
 import LoginForm from "../components/LoginForm"
 import useSession from "../hooks/useSession"
 
-
 const LoginPage = () => {
-
     const navigate = useNavigate()
 
-    const {
-        userLogin,
-        isLoginLoading,
-    } = useSession()
-
+    const { userLogin, isLoginLoading } = useSession()
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleSubmit = async (credentials) => {
-
-        await userLogin(
-            credentials
-        )
+        await userLogin(credentials)
 
         ///////////////////////////////////////////////////////////
         // Success
@@ -30,9 +21,9 @@ const LoginPage = () => {
         navigate("/")
     }
 
-
     return (
-        <main className="
+        <main
+            className="
             flex
             h-screen
             w-full
@@ -44,25 +35,27 @@ const LoginPage = () => {
             py-4
             sm:px-6
             sm:py-6
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 flex
                 h-full
                 w-full
                 max-w-md
                 flex-col
                 justify-center
-            ">
-
+            "
+            >
                 {/* Logo / Brand */}
 
-                <div className="
+                <div
+                    className="
                     mb-4
                     text-center
                     sm:mb-5
-                ">
-
+                "
+                >
                     <Link
                         to="/"
                         aria-label="Pathwise home"
@@ -86,8 +79,8 @@ const LoginPage = () => {
                         />
                     </Link>
 
-
-                    <h1 className="
+                    <h1
+                        className="
                         mt-3
                         font-accent
                         text-xl
@@ -95,12 +88,13 @@ const LoginPage = () => {
                         tracking-tight
                         text-text-primary
                         sm:text-2xl
-                    ">
+                    "
+                    >
                         Welcome back
                     </h1>
 
-
-                    <p className="
+                    <p
+                        className="
                         mx-auto
                         mt-1
                         max-w-sm
@@ -109,16 +103,16 @@ const LoginPage = () => {
                         leading-5
                         text-text-secondary
                         sm:text-sm
-                    ">
+                    "
+                    >
                         Log in to continue your learning journey.
                     </p>
-
                 </div>
-
 
                 {/* Login Card */}
 
-                <section className="
+                <section
+                    className="
                     rounded-xl
                     border
                     border-border-subtle
@@ -126,17 +120,18 @@ const LoginPage = () => {
                     p-4
                     shadow-lg
                     sm:p-6
-                ">
+                "
+                >
                     <LoginForm
                         onSubmit={handleSubmit}
                         loading={isLoginLoading}
                     />
                 </section>
 
-
                 {/* Signup Link */}
 
-                <p className="
+                <p
+                    className="
                     mt-3
                     text-center
                     font-body
@@ -144,9 +139,9 @@ const LoginPage = () => {
                     text-text-secondary
                     sm:mt-4
                     sm:text-sm
-                ">
+                "
+                >
                     Don't have an account?{" "}
-
                     <Link
                         to="/auth/signup"
                         className="
@@ -165,10 +160,10 @@ const LoginPage = () => {
                     </Link>
                 </p>
 
-
                 {/* Security Notice */}
 
-                <p className="
+                <p
+                    className="
                     mx-auto
                     mt-2
                     max-w-sm
@@ -180,15 +175,13 @@ const LoginPage = () => {
                     sm:mt-3
                     sm:text-xs
                     sm:leading-5
-                ">
+                "
+                >
                     Your session is securely managed by Pathwise.
                 </p>
-
             </div>
-
         </main>
     )
 }
-
 
 export default LoginPage

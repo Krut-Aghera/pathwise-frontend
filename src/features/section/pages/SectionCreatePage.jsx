@@ -5,25 +5,15 @@ import useSectionManagement from "../hooks/useSectionManagement.js"
 
 import SectionCreateForm from "../components/form/SectionCreateForm.jsx"
 
-
 const SectionCreatePage = () => {
-
     const navigate = useNavigate()
     const { courseId } = useParams()
 
-    const {
-        createSection,
-        isCreating,
-    } = useSectionManagement()
-
+    const { createSection, isCreating } = useSectionManagement()
 
     // Section creation submit handler
     const handleSubmit = async (sectionData) => {
-
-        const result = await createSection(
-            courseId,
-            sectionData
-        )
+        const result = await createSection(courseId, sectionData)
 
         if (!result.success) {
             throw result.error
@@ -32,12 +22,10 @@ const SectionCreatePage = () => {
         navigate(`/instructor/courses/${courseId}`)
     }
 
-
     // Cancel button handler
     const handleCancel = () => {
         navigate(`/instructor/courses/${courseId}`)
     }
-
 
     return (
         <main
@@ -56,11 +44,9 @@ const SectionCreatePage = () => {
                 lg:py-10
             "
         >
-
             {/* Page Header */}
 
             <header className="mb-8">
-
                 <h1
                     className="
                         font-accent
@@ -73,7 +59,6 @@ const SectionCreatePage = () => {
                 >
                     Create Section
                 </h1>
-
 
                 <p
                     className="
@@ -88,9 +73,7 @@ const SectionCreatePage = () => {
                 >
                     Add a new section to organize the lectures in your course.
                 </p>
-
             </header>
-
 
             {/* Form */}
 
@@ -100,10 +83,8 @@ const SectionCreatePage = () => {
                 loading={isCreating}
                 validationRules={sectionValidationRules}
             />
-
         </main>
     )
 }
-
 
 export default SectionCreatePage

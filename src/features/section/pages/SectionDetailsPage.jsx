@@ -1,55 +1,35 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
+import { ArrowLeft, Settings2 } from "lucide-react"
+import { useNavigate, useParams } from "react-router-dom"
 
-import {
-    useNavigate,
-    useParams,
-} from "react-router-dom"
+import Button from "../../../components/ui/Button.jsx"
+import ConfirmDialog from "../../../components/ui/ConfirmDialog.jsx"
+import ActionError from "../../../components/ui/ActionError.jsx"
+import ErrorState from "../../../components/ui/ErrorState.jsx"
+import WorkflowActions from "../../../components/workflow/WorkflowActions.jsx"
+import ManagementHeader from "../../../components/ui/ManagementHeader.jsx"
 
+import SectionDetailsHeader from "../components/SectionDetailsHeader.jsx"
+import SectionOverview from "../components/SectionOverview.jsx"
+import InstructorSectionLectureArea from "../components/InstructorSectionLectureArea.jsx"
 
-import {
-    RESOURCE_STATUS,
-} from "../../../constants/resourceConstants.js"
+import useSection from "../hooks/useSection.js"
+import useSectionState from "../hooks/useSectionState.js"
+import useSectionManagement from "../hooks/useSectionManagement.js"
 
+import useLecture from "../../lecture/hooks/useLecture.js"
+import useLectureManagement from "../../lecture/hooks/useLectureManagement.js"
 
-import ErrorState
-    from "../../../components/ui/ErrorState.jsx"
-
-
-import Button
-    from "../../../components/ui/Button.jsx"
-
-
-import useSection
-    from "../hooks/useSection.js"
-
-
-import useSectionState
-    from "../hooks/useSectionState.js"
-
-
-import useSectionManagement
-    from "../hooks/useSectionManagement.js"
-
-
-import InstructorCourseSectionRemoveDialog
-    from "../components/InstructorCourseSectionRemoveDialog.jsx"
-
+import { RESOURCE_STATUS } from "../../../constants/resourceConstants.js"
 
 const SectionDetailsPage = () => {
-
     const navigate = useNavigate()
-
-    const {
-        sectionId,
-    } = useParams()
-
-
-    ///////////////////////////////////////////////////////////////
-    // Section
+    const { courseId, sectionId } = useParams()
 
     const {
         section,
         isSectionLoading,
+        isSectionFetching,
         isSectionError,
         sectionError,
         refetchSection,
@@ -57,777 +37,401 @@ const SectionDetailsPage = () => {
         sectionId,
     })
 
-
-    ///////////////////////////////////////////////////////////////
-    // Section state
+    const { course } = useSectionState({
+        section,
+    })
 
     const {
         publishSection,
-        saveSectionAsDraft,
-
-        isPublishing,
-        isSavingDraft,
-
-        publishError,
-        draftError,
-
-        resetPublish,
-        resetDraft,
-    } = useSectionState()
-
-
-    ///////////////////////////////////////////////////////////////
-    // Section management
-
-    const {
+        saveSectionDraft,
         removeSection,
 
-        isRemoving,
+        isPublishingSection,
+        isSavingSectionDraft,
+        isRemovingSection,
+
+        publishSectionError,
+        saveSectionDraftError,
+        removeSectionError,
+
+        resetPublishSection,
+        resetSaveSectionDraft,
+        resetRemoveSection,
     } = useSectionManagement()
 
+    const {
+        lectures,
+        isLecturesLoading,
+        isLecturesFetching,
+        isLecturesError,
+        lecturesError,
+        refetchLectures,
+    } = useLecture({
+        sectionId,
+    })
 
-    ///////////////////////////////////////////////////////////////
-    // Dialog
+    const { reorderLectures, isReordering: isReorderingLectures } =
+        useLectureManagement()
 
-    const [
-        showRemoveDialog,
-        setShowRemoveDialog,
-    ] = useState(false)
-
-
-    ///////////////////////////////////////////////////////////////
-    // Action error
-
-    const [
-        actionError,
-        setActionError,
-    ] = useState(null)
-
-
-    ///////////////////////////////////////////////////////////////
-    // Course
-
-    const courseId =
-        section?.course?._id ||
-        section?.course
-
-
-    ///////////////////////////////////////////////////////////////
-    // Status
-
-    const isPublished =
-        section?.status === RESOURCE_STATUS.PUBLISHED
-
-
-    ///////////////////////////////////////////////////////////////
-    // Action loading
+    const [showRemoveDialog, setShowRemoveDialog] = useState(false)
+    const [actionError, setActionError] = useState(null)
 
     const isActionLoading =
-        isPublishing ||
-        isSavingDraft ||
-        isRemoving
+        isPublishingSection ||
+        isSavingSectionDraft ||
+        isRemovingSection ||
+        isReorderingLectures
 
+    const hasPublishedLecture = useMemo(
+        () =>
+            lectures.some(
+                (lecture) => lecture.status === RESOURCE_STATUS.PUBLISHED
+            ),
+        [lectures]
+    )
 
-    ///////////////////////////////////////////////////////////////
-    // Error message helper
+    const handleBack = () => {
+        navigate(`/instructor/courses/${courseId}`)
+    }
 
-    const getErrorMessage = (
-        error,
-        fallback
-    ) => {
+    const handleEdit = () => {
+        navigate(`/instructor/courses/${courseId}/sections/${sectionId}/edit`)
+    }
 
-        return (
-            error?.errors?.[0]?.message ||
-            error?.message ||
-            fallback
+    const handleAddLecture = () => {
+        if (isReorderingLectures) {
+            return
+        }
+
+        navigate(
+            `/instructor/courses/${courseId}/sections/${sectionId}/lectures/create`
         )
     }
 
+    const handleManageLecture = (lecture) => {
+        if (isReorderingLectures) {
+            return
+        }
+
+        navigate(
+            `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${lecture._id}/manage`
+        )
+    }
 
     ///////////////////////////////////////////////////////////////
-    // Clear action error
+    // Reorder lectures
 
-    const clearActionError = () => {
+    const handleReorderLectures = async (reorderedLectures) => {
+        if (
+            !section?._id ||
+            isReorderingLectures ||
+            !reorderedLectures?.length
+        ) {
+            return false
+        }
 
         setActionError(null)
 
-        resetPublish()
-        resetDraft()
-    }
+        const lecturesPayload = reorderedLectures.map((lecture, index) => ({
+            lectureId: lecture._id,
+            order: index + 1,
+        }))
 
+        const result = await reorderLectures(section._id, lecturesPayload)
 
-    ///////////////////////////////////////////////////////////////
-    // Back to course
+        if (!result?.success) {
+            setActionError({
+                title: "Unable to reorder lectures",
+                message:
+                    result?.error?.data?.message ||
+                    result?.error?.message ||
+                    "Something went wrong while reordering the lectures.",
+            })
 
-    const handleBack = () => {
-
-        if (!courseId) {
-            return
+            return false
         }
 
-
-        if (isActionLoading) {
-            return
-        }
-
-
-        navigate(
-            `/instructor/courses/${courseId}`
-        )
+        return true
     }
-
-
-    ///////////////////////////////////////////////////////////////
-    // Edit section
-
-    const handleEdit = () => {
-
-        if (
-            !courseId ||
-            !section?._id ||
-            isActionLoading
-        ) {
-            return
-        }
-
-
-        clearActionError()
-
-
-        navigate(
-            `/instructor/courses/${courseId}/sections/${section._id}/edit`
-        )
-    }
-
 
     ///////////////////////////////////////////////////////////////
     // Publish section
 
     const handlePublish = async () => {
+        if (!section?._id) return
 
-        if (
-            !section?._id ||
-            isActionLoading
-        ) {
-            return
+        setActionError(null)
+        resetPublishSection?.()
+
+        try {
+            await publishSection(section._id).unwrap()
+        } catch (error) {
+            setActionError({
+                title: "Unable to publish section",
+                message:
+                    error?.data?.message ||
+                    error?.message ||
+                    "Something went wrong while publishing the section.",
+            })
         }
-
-
-        clearActionError()
-
-
-        const result =
-            await publishSection(
-                section._id
-            )
-
-
-        if (!result?.success) {
-
-            setActionError(
-                getErrorMessage(
-                    result?.error,
-                    "Unable to publish this section."
-                )
-            )
-
-            return
-        }
-
-
-        ///////////////////////////////////////////////////////////
-        // Refresh section after successful publish
-
-        await refetchSection()
     }
-
 
     ///////////////////////////////////////////////////////////////
-    // Save section as draft
+    // Save section draft
 
-    const handleSaveAsDraft = async () => {
+    const handleSaveDraft = async () => {
+        if (!section?._id) return
 
-        if (
-            !section?._id ||
-            isActionLoading
-        ) {
-            return
+        setActionError(null)
+        resetSaveSectionDraft?.()
+
+        try {
+            await saveSectionDraft(section._id).unwrap()
+        } catch (error) {
+            setActionError({
+                title: "Unable to save section as draft",
+                message:
+                    error?.data?.message ||
+                    error?.message ||
+                    "Something went wrong while saving the section as draft.",
+            })
         }
-
-
-        clearActionError()
-
-
-        const result =
-            await saveSectionAsDraft(
-                section._id
-            )
-
-
-        if (!result?.success) {
-
-            setActionError(
-                getErrorMessage(
-                    result?.error,
-                    "Unable to save this section as draft."
-                )
-            )
-
-            return
-        }
-
-
-        ///////////////////////////////////////////////////////////
-        // Refresh section after successful draft update
-
-        await refetchSection()
     }
-
 
     ///////////////////////////////////////////////////////////////
-    // Open remove dialog
+    // Remove section
 
-    const handleRemove = () => {
+    const handleRemove = async () => {
+        if (!section?._id) return
 
-        if (
-            !section?._id ||
-            isActionLoading
-        ) {
-            return
+        setActionError(null)
+        resetRemoveSection?.()
+
+        try {
+            await removeSection(section._id).unwrap()
+
+            setShowRemoveDialog(false)
+
+            navigate(`/instructor/courses/${courseId}`)
+        } catch (error) {
+            setShowRemoveDialog(false)
+
+            setActionError({
+                title: "Unable to remove section",
+                message:
+                    error?.data?.message ||
+                    error?.message ||
+                    "Something went wrong while removing the section.",
+            })
         }
-
-
-        clearActionError()
-
-
-        setShowRemoveDialog(true)
     }
-
-
-    ///////////////////////////////////////////////////////////////
-    // Cancel remove
-
-    const handleCancelRemove = () => {
-
-        if (isRemoving) {
-            return
-        }
-
-
-        setShowRemoveDialog(false)
-    }
-
-
-    ///////////////////////////////////////////////////////////////
-    // Confirm remove
-
-    const handleConfirmRemove = async () => {
-
-        if (
-            !section?._id ||
-            !courseId ||
-            isActionLoading
-        ) {
-            return
-        }
-
-
-        clearActionError()
-
-
-        const result =
-            await removeSection(
-                section._id,
-                courseId
-            )
-
-
-        if (!result?.success) {
-
-            setActionError(
-                getErrorMessage(
-                    result?.error,
-                    "Unable to remove this section."
-                )
-            )
-
-            return
-        }
-
-
-        setShowRemoveDialog(false)
-
-
-        navigate(
-            `/instructor/courses/${courseId}`
-        )
-    }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
     if (isSectionLoading) {
-
         return (
-            <main className="
-                mx-auto
-                w-full
-                max-w-3xl
-
-                px-4
-                py-6
-
-                sm:px-6
-                sm:py-8
-
-                lg:px-8
-                lg:py-10
-            ">
-
-                <div className="
-                    flex
-                    min-h-80
-                    items-center
-                    justify-center
-
-                    rounded-xl
-                    border
-                    border-border-subtle
-                    bg-background-surface
-                ">
-
-                    <p className="
-                        font-body
-                        text-sm
-                        text-text-muted
-                    ">
-
-                        Loading section...
-
-                    </p>
-
+            <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div className="space-y-6">
+                    <div className="h-32 animate-pulse rounded-2xl bg-background-surface" />
+                    <div className="h-48 animate-pulse rounded-2xl bg-background-surface" />
+                    <div className="h-64 animate-pulse rounded-2xl bg-background-surface" />
                 </div>
-
             </main>
         )
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Error
 
-    if (
-        isSectionError ||
-        !section
-    ) {
-
-        const message =
-            isSectionError
-                ? getErrorMessage(
-                    sectionError,
-                    "Unable to load this section."
-                )
-                : "The requested section could not be found."
-
-
+    if (isSectionError || !section) {
         return (
-            <main className="
-                mx-auto
-                w-full
-                max-w-3xl
-
-                px-4
-                py-6
-
-                sm:px-6
-                sm:py-8
-
-                lg:px-8
-                lg:py-10
-            ">
-
+            <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <ErrorState
                     title="Unable to load section"
-                    message={message}
+                    message={
+                        sectionError?.data?.message ||
+                        sectionError?.message ||
+                        "The section could not be loaded."
+                    }
                     onRetry={refetchSection}
                 />
-
             </main>
         )
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
         <>
-
-            <main className="
-                mx-auto
-                w-full
-                max-w-3xl
-
-                px-4
-                py-6
-
-                sm:px-6
-                sm:py-8
-
-                lg:px-8
-                lg:py-10
-            ">
-
-                {/* Back */}
-
-                <button
-                    type="button"
-                    onClick={handleBack}
-                    disabled={isActionLoading}
-                    className="
-                        mb-6
-
-                        font-body
-                        text-sm
-                        font-medium
-                        text-text-secondary
-
-                        transition-colors
-                        hover:text-text-primary
-
-                        disabled:cursor-not-allowed
-                        disabled:opacity-50
-                    "
-                >
-
-                    ← Back to Course
-
-                </button>
-
-
-                {/* Header */}
-
-                <header className="mb-6">
-
-                    <div className="
-                        flex
-                        flex-wrap
-                        items-center
-                        gap-3
-                    ">
-
-                        <span className="
-                            rounded-md
-                            border
-                            border-border-subtle
-                            bg-background-elevated
-
-                            px-2
-                            py-1
-
-                            font-body
-                            text-xs
-                            font-semibold
-                            text-text-muted
-                        ">
-
-                            Section {section.order}
-
-                        </span>
-
-
-                        <span className={`
-                            rounded-md
-                            border
-                            px-2
-                            py-1
-
-                            font-body
-                            text-xs
-                            font-semibold
-
-                            ${isPublished
-                                ? `
-                                    border-status-success/30
-                                    bg-status-success/10
-                                    text-status-success
-                                `
-                                : `
-                                    border-status-warning/30
-                                    bg-status-warning/10
-                                    text-status-warning
-                                `
-                            }
-                        `}>
-
-                            {isPublished
-                                ? "Published"
-                                : "Draft"
-                            }
-
-                        </span>
-
-                    </div>
-
-
-                    <h1 className="
-                        mt-3
-
-                        font-accent
-                        text-2xl
-                        font-semibold
-                        text-text-primary
-
-                        sm:text-3xl
-                    ">
-
-                        {section.title}
-
-                    </h1>
-
-
-                    <p className="
-                        mt-2
-
-                        font-body
-                        text-sm
-                        leading-6
-                        text-text-secondary
-                    ">
-
-                        Manage this course section and its publication status.
-
-                    </p>
-
-                </header>
-
-
-                {/* Action error */}
-
-                {actionError && (
-
-                    <div className="
-                        mb-6
-
-                        rounded-lg
-                        border
-                        border-status-danger/30
-                        bg-status-danger/10
-
-                        px-4
-                        py-3
-                    ">
-
-                        <p className="
-                            font-body
-                            text-sm
-                            font-medium
-                            text-status-danger
-                        ">
-
-                            {actionError}
-
-                        </p>
-
-                    </div>
-
-                )}
-
-
-                {/* Section information */}
-
-                <section className="
-                    rounded-xl
-                    border
-                    border-border-subtle
-                    bg-background-surface
-
-                    p-5
-
-                    sm:p-6
-                ">
-
-                    <div className="
-                        flex
-                        flex-col
-                        gap-6
-                    ">
-
-                        {/* Title */}
-
-                        <div>
-
-                            <p className="
-                                font-body
-                                text-xs
-                                font-semibold
-                                uppercase
-                                tracking-wider
-                                text-text-muted
-                            ">
-
-                                Section Title
-
-                            </p>
-
-
-                            <p className="
-                                mt-2
-
-                                font-accent
-                                text-lg
-                                font-semibold
-                                text-text-primary
-                            ">
-
-                                {section.title}
-
-                            </p>
-
-                        </div>
-
-
-                        {/* Status */}
-
-                        <div>
-
-                            <p className="
-                                font-body
-                                text-xs
-                                font-semibold
-                                uppercase
-                                tracking-wider
-                                text-text-muted
-                            ">
-
-                                Status
-
-                            </p>
-
-
-                            <p className="
-                                mt-2
-
-                                font-body
-                                text-sm
-                                font-medium
-                                text-text-secondary
-                            ">
-
-                                {isPublished
-                                    ? "This section is currently published."
-                                    : "This section is currently saved as a draft."
-                                }
-
-                            </p>
-
-                        </div>
-
-
-                        {/* Actions */}
-
-                        <div className="
-                            flex
-                            flex-wrap
-                            gap-3
-
-                            border-t
-                            border-border-subtle
-                            pt-5
-                        ">
-
-                            {/* Edit */}
-
-                            <Button
+            <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div className="space-y-6">
+                    {/* Management Header */}
+
+                    <ManagementHeader
+                        icon={Settings2}
+                        title="Section Management"
+                        description="Manage this section and organize its lectures."
+                    >
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-xs text-text-muted">
+                            <button
                                 type="button"
-                                onClick={handleEdit}
-                                disabled={isActionLoading}
+                                onClick={handleBack}
+                                className="inline-flex items-center gap-1.5 font-medium text-accent-primary transition hover:opacity-80"
                             >
+                                <ArrowLeft size={14} />
+                                Back to Course
+                            </button>
 
-                                Edit Section
+                            <span className="text-text-muted/50">/</span>
 
-                            </Button>
+                            <span>Section {section.order}</span>
 
+                            <span className="text-text-muted/50">/</span>
 
-                            {/* Publish / Draft */}
+                            <span className="truncate">{section.title}</span>
+                        </div>
+                    </ManagementHeader>
 
-                            {isPublished ? (
+                    {/* Section Header */}
 
-                                <Button
-                                    type="button"
-                                    onClick={handleSaveAsDraft}
-                                    disabled={isActionLoading}
-                                >
+                    <SectionDetailsHeader
+                        section={section}
+                        course={course}
+                        isFetching={isSectionFetching}
+                    />
 
-                                    {isSavingDraft
-                                        ? "Saving..."
-                                        : "Save as Draft"
-                                    }
+                    <ActionError
+                        open={Boolean(actionError)}
+                        title={actionError?.title}
+                        message={actionError?.message}
+                        onDismiss={() => setActionError(null)}
+                        dismissible
+                    />
 
-                                </Button>
+                    {/* Main Content */}
 
-                            ) : (
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+                        {/* Main */}
 
-                                <Button
-                                    type="button"
-                                    onClick={handlePublish}
-                                    disabled={isActionLoading}
-                                >
+                        <div className="min-w-0 space-y-6">
+                            <SectionOverview
+                                section={section}
+                                lectures={lectures}
+                            />
 
-                                    {isPublishing
-                                        ? "Publishing..."
-                                        : "Publish Section"
-                                    }
-
-                                </Button>
-
-                            )}
-
-
-                            {/* Remove */}
-
-                            <Button
-                                type="button"
-                                onClick={handleRemove}
-                                disabled={isActionLoading}
-                                className="
-                                    border
-                                    border-status-danger/30
-
-                                    bg-status-danger/10
-                                    text-status-danger
-
-                                    hover:bg-status-danger/20
-                                "
-                            >
-
-                                Remove Section
-
-                            </Button>
-
+                            <InstructorSectionLectureArea
+                                course={course}
+                                section={section}
+                                lectures={lectures}
+                                isActionLoading={isActionLoading}
+                                isReorderingLectures={isReorderingLectures}
+                                onAddLecture={handleAddLecture}
+                                onManageLecture={handleManageLecture}
+                                onReorderLectures={handleReorderLectures}
+                            />
                         </div>
 
+                        {/* Sidebar */}
+
+                        <aside className="min-w-0 space-y-6">
+                            <div className="rounded-2xl border border-border-subtle bg-background-surface p-5 sm:p-6">
+                                <h2 className="font-accent text-lg font-semibold text-text-primary">
+                                    Section Information
+                                </h2>
+
+                                <p className="mt-1 font-body text-sm leading-5 text-text-secondary">
+                                    View the current section status and lecture
+                                    progress.
+                                </p>
+
+                                <div className="mt-5 space-y-4">
+                                    <div>
+                                        <p className="font-body text-xs text-text-muted">
+                                            Section
+                                        </p>
+
+                                        <p className="mt-1 font-body text-sm font-medium text-text-primary">
+                                            {section.order}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p className="font-body text-xs text-text-muted">
+                                            Lectures
+                                        </p>
+
+                                        <p className="mt-1 font-body text-sm font-medium text-text-primary">
+                                            {lectures.length}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <p className="font-body text-xs text-text-muted">
+                                            Published Lectures
+                                        </p>
+
+                                        <p className="mt-1 font-body text-sm font-medium text-text-primary">
+                                            {
+                                                lectures.filter(
+                                                    (lecture) =>
+                                                        lecture.status ===
+                                                        RESOURCE_STATUS.PUBLISHED
+                                                ).length
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <WorkflowActions
+                                status={section.status}
+                                onEdit={handleEdit}
+                                onRemove={() => setShowRemoveDialog(true)}
+                                onPublish={handlePublish}
+                                onSaveDraft={handleSaveDraft}
+                                loading={isActionLoading}
+                                resourceName="Section"
+                                resourceDescription="Manage this section and control its publication status."
+                                canPublish={hasPublishedLecture}
+                                publishDisabledMessage="The section must contain at least one published lecture before it can be published."
+                                editDescription="Update this section's title and settings."
+                                publishDescription="Make this section available as part of the published course curriculum."
+                                draftDescription="Move this section back to draft status."
+                                removeDescription="Remove this section and its lectures from the course."
+                            />
+                        </aside>
                     </div>
-
-                </section>
-
+                </div>
             </main>
 
-
-            {/* Remove dialog */}
-
-            <InstructorCourseSectionRemoveDialog
-                section={section}
+            <ConfirmDialog
                 open={showRemoveDialog}
-                loading={isRemoving}
-                onConfirm={handleConfirmRemove}
-                onCancel={handleCancelRemove}
+                title="Remove Section"
+                subtitle="This action cannot be undone."
+                message={
+                    <>
+                        Are you sure you want to remove{" "}
+                        <span className="font-semibold text-text-primary">
+                            "{section.title}"
+                        </span>
+                        ? This will remove the section from the course.
+                    </>
+                }
+                confirmLabel="Remove Section"
+                cancelLabel="Cancel"
+                variant="danger"
+                loading={isRemovingSection}
+                onConfirm={handleRemove}
+                onCancel={() => {
+                    if (!isRemovingSection) {
+                        setShowRemoveDialog(false)
+                    }
+                }}
             />
-
         </>
     )
 }
-
 
 export default SectionDetailsPage

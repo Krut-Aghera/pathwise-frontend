@@ -1,30 +1,21 @@
-import {
-    ArrowRight,
-    BookOpen,
-    UserRound,
-} from "lucide-react"
+import { ArrowRight, BookOpen, UserRound } from "lucide-react"
 
 import { Link } from "react-router-dom"
 
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-
-const InstructorCourseCard = ({
-    course,
-}) => {
-
+const InstructorCourseCard = ({ course }) => {
     ///////////////////////////////////////////////////////////////
     // Course status
 
-    const isPublished =
-        course.status === RESOURCE_STATUS.PUBLISHED
-
+    const isPublished = course.status === RESOURCE_STATUS.PUBLISHED
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
-        <article className="
+        <article
+            className="
             group
             flex
             h-full
@@ -40,66 +31,70 @@ const InstructorCourseCard = ({
             duration-300
 
             hover:border-accent-primary/30
-            hover:bg-background-elevated/90
-        ">
+            hover:bg-background-elevated/50
+        "
+        >
+            <Link to={`/instructor/courses/${course._id}`}>
+                {/* Thumbnail */}
 
-            {/* Thumbnail */}
-
-            <div className="
+                <div
+                    className="
                 relative
                 aspect-16/8
                 shrink-0
                 overflow-hidden
                 bg-background-elevated
-            ">
-
-                <img
-                    src={course.thumbnail?.url}
-                    alt={course.title}
-                    className="
+            "
+                >
+                    <img
+                        src={course.thumbnail?.url}
+                        alt={course.title}
+                        className="
                         h-full
                         w-full
                         object-cover
                     "
-                />
+                    />
 
+                    {/* Thumbnail Overlay */}
 
-                {/* Thumbnail Overlay */}
-
-                <div className="
+                    <div
+                        className="
                     absolute
                     inset-0
                     bg-linear-to-t
                     from-black/35
                     via-transparent
                     to-transparent
-                " />
+                "
+                    />
+                </div>
 
-            </div>
+                {/* Content */}
 
-
-            {/* Content */}
-
-            <div className="
+                <div
+                    className="
                 flex
                 flex-1
                 flex-col
 
                 px-5
                 py-4
-            ">
+            "
+                >
+                    {/* Title + Status */}
 
-                {/* Title + Status */}
-
-                <div className="
+                    <div
+                        className="
                     flex
                     items-start
                     gap-2
-                ">
+                "
+                    >
+                        {/* Title */}
 
-                    {/* Title */}
-
-                    <h3 className="
+                        <h3
+                            className="
                         min-h-12
                         min-w-0
                         flex-1
@@ -116,16 +111,15 @@ const InstructorCourseCard = ({
                         duration-300
 
                         group-hover:text-accent-primary
-                    ">
+                    "
+                        >
+                            {course.title}
+                        </h3>
 
-                        {course.title}
+                        {/* Status */}
 
-                    </h3>
-
-
-                    {/* Status */}
-
-                    <span className={`
+                        <span
+                            className={`
                         inline-flex
                         shrink-0
                         items-center
@@ -153,21 +147,16 @@ const InstructorCourseCard = ({
                                     text-status-warning
                                 `
                         }
-                    `}>
+                    `}
+                        >
+                            {isPublished ? "Published" : "Draft"}
+                        </span>
+                    </div>
 
-                        {isPublished
-                            ? "Published"
-                            : "Draft"
-                        }
+                    {/* Instructor */}
 
-                    </span>
-
-                </div>
-
-
-                {/* Instructor */}
-
-                <div className="
+                    <div
+                        className="
                     mt-4
                     flex
                     items-center
@@ -176,23 +165,19 @@ const InstructorCourseCard = ({
                     font-body
                     text-[12px]
                     text-text-secondary
-                ">
+                "
+                    >
+                        <UserRound size={13} className="shrink-0" />
 
-                    <UserRound
-                        size={13}
-                        className="shrink-0"
-                    />
+                        <span className="truncate">
+                            {course.instructor?.username}
+                        </span>
+                    </div>
 
-                    <span className="truncate">
-                        {course.instructor?.username}
-                    </span>
+                    {/* Metadata */}
 
-                </div>
-
-
-                {/* Metadata */}
-
-                <div className="
+                    <div
+                        className="
                     mt-4
 
                     flex
@@ -201,11 +186,12 @@ const InstructorCourseCard = ({
                     justify-between
                     gap-x-3
                     gap-y-2
-                ">
+                "
+                    >
+                        {/* Level */}
 
-                    {/* Level */}
-
-                    <span className="
+                        <span
+                            className="
                         inline-flex
                         items-center
                         gap-1.5
@@ -223,112 +209,44 @@ const InstructorCourseCard = ({
                         text-[10px]
                         font-medium
                         text-accent-primary
-                    ">
+                    "
+                        >
+                            <BookOpen size={11} />
 
-                        <BookOpen size={11} />
+                            {course.level}
+                        </span>
 
-                        {course.level}
+                        {/* Language */}
 
-                    </span>
-
-
-                    {/* Language */}
-
-                    <span className="
+                        <span
+                            className="
                         font-body
                         text-xs
                         text-text-muted
-                    ">
+                    "
+                        >
+                            {course.language}
+                        </span>
 
-                        {course.language}
+                        {/* Price */}
 
-                    </span>
-
-
-                    {/* Price */}
-
-                    <span className="
+                        <span
+                            className="
                         ml-auto
 
                         font-body
                         text-xs
                         font-medium
                         text-text-secondary
-                    ">
-
-                        ₹{course.price}
-
-                    </span>
-
-                </div>
-
-
-                {/* Footer */}
-
-                <div className="
-                    mt-4
-
-                    border-t
-                    border-border-subtle
-
-                    pt-3
-                ">
-
-                    {/* View Course */}
-
-                    <Link
-                        to={`/instructor/courses/${course._id}`}
-                        className="
-                            flex
-                            w-full
-                            items-center
-                            justify-between
-
-                            rounded-md
-                            border
-                            border-accent-primary/20
-
-                            bg-accent-primary/10
-
-                            px-3
-                            py-2.5
-
-                            font-body
-                            text-xs
-                            font-medium
-                            text-accent-primary
-
-                            transition-all
-                            duration-200
-
-                            hover:border-accent-primary/30
-                            hover:bg-accent-primary/15
-                        "
-                    >
-
-                        <span>
-                            View Course
+                    "
+                        >
+                            ₹{course.price}
                         </span>
-
-                        <ArrowRight
-                            size={15}
-                            className="
-                                transition-transform
-                                duration-200
-
-                                group-hover:translate-x-1
-                            "
-                        />
-
-                    </Link>
-
+                    </div>
                 </div>
-
-            </div>
-
+            </Link>
         </article>
     )
 }
-
 
 export default InstructorCourseCard

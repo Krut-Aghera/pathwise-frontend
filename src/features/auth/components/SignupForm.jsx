@@ -5,21 +5,14 @@ import PasswordInput from "../../../components/form/PasswordInput"
 import FormField from "../../../components/form/FormField"
 import Button from "../../../components/ui/Button"
 
-import {
-    signupValidationRules,
-} from "../authValidation"
+import { signupValidationRules } from "../authValidation"
 
-
-const SignupForm = ({ onSubmit, loading = false, }) => {
-
+const SignupForm = ({ onSubmit, loading = false }) => {
     const {
         register,
         handleSubmit,
         setError,
-        formState: {
-            errors,
-            isSubmitting,
-        },
+        formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
             username: "",
@@ -28,25 +21,18 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
         },
     })
 
-
-
     // Submit
     const handleFormSubmit = async (formData) => {
-
         try {
-
             await onSubmit({
                 username: formData.username,
                 email: formData.email,
                 password: formData.password,
             })
-
         } catch (error) {
-
             // Backend validation errors
             if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
-
                     if (!field) {
                         return
                     }
@@ -55,7 +41,6 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
                         type: "server",
                         message,
                     })
-
                 })
 
                 return
@@ -63,7 +48,6 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
 
             // Duplicate email
             if (error?.statusCode === 409) {
-
                 setError("email", {
                     type: "server",
                     message: error.message,
@@ -72,7 +56,6 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
                 return
             }
 
-
             // General / unexpected error
             setError("root", {
                 type: "server",
@@ -80,16 +63,13 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
                     error?.message ||
                     "Unable to create your account. Please try again.",
             })
-
         }
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
     const isFormLoading = loading || isSubmitting
-
 
     return (
         <form
@@ -101,7 +81,6 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
                 sm:space-y-5
             "
         >
-
             {/* General server error */}
 
             {errors.root?.message && (
@@ -124,7 +103,6 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
                 </div>
             )}
 
-
             {/* Username */}
 
             <FormField
@@ -140,17 +118,11 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
                     placeholder="Enter your username"
                     error={Boolean(errors.username)}
                     aria-describedby={
-                        errors.username
-                            ? "signup-username-error"
-                            : undefined
+                        errors.username ? "signup-username-error" : undefined
                     }
-                    {...register(
-                        "username",
-                        signupValidationRules.username
-                    )}
+                    {...register("username", signupValidationRules.username)}
                 />
             </FormField>
-
 
             {/* Email */}
 
@@ -167,17 +139,11 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
                     placeholder="Enter your email"
                     error={Boolean(errors.email)}
                     aria-describedby={
-                        errors.email
-                            ? "signup-email-error"
-                            : undefined
+                        errors.email ? "signup-email-error" : undefined
                     }
-                    {...register(
-                        "email",
-                        signupValidationRules.email
-                    )}
+                    {...register("email", signupValidationRules.email)}
                 />
             </FormField>
-
 
             {/* Password */}
 
@@ -193,17 +159,11 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
                     placeholder="Create a password"
                     error={Boolean(errors.password)}
                     aria-describedby={
-                        errors.password
-                            ? "signup-password-error"
-                            : undefined
+                        errors.password ? "signup-password-error" : undefined
                     }
-                    {...register(
-                        "password",
-                        signupValidationRules.password
-                    )}
+                    {...register("password", signupValidationRules.password)}
                 />
             </FormField>
-
 
             {/* Submit */}
 
@@ -214,10 +174,8 @@ const SignupForm = ({ onSubmit, loading = false, }) => {
             >
                 Create Account
             </Button>
-
         </form>
     )
 }
-
 
 export default SignupForm

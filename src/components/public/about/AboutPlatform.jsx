@@ -1,20 +1,15 @@
-import {
-    BookOpen,
-    CheckCircle2,
-    Users,
-} from "lucide-react"
+import { BookOpen, CheckCircle2, Users } from "lucide-react"
 
 import {
     creatorCapabilities,
-    studentCapabilities
+    studentCapabilities,
 } from "../../../data/aboutData"
-
 
 const AboutPlatform = () => {
     return (
         <section>
-
-            <div className="
+            <div
+                className="
                 mx-auto
                 w-full
                 max-w-7xl
@@ -22,23 +17,24 @@ const AboutPlatform = () => {
                 py-20
                 sm:px-6
                 lg:px-8
-            ">
-
+            "
+            >
                 <div className="text-center">
-
-                    <span className="
+                    <span
+                        className="
                         font-body
                         text-xs
                         font-bold
                         uppercase
                         tracking-widest
                         text-accent-unique
-                    ">
+                    "
+                    >
                         The Platform
                     </span>
 
-
-                    <h2 className="
+                    <h2
+                        className="
                         mt-3
                         font-accent
                         text-3xl
@@ -46,12 +42,13 @@ const AboutPlatform = () => {
                         tracking-tight
                         text-text-primary
                         sm:text-4xl
-                    ">
+                    "
+                    >
                         A complete learning workflow
                     </h2>
 
-
-                    <p className="
+                    <p
+                        className="
                         mx-auto
                         mt-4
                         max-w-2xl
@@ -59,34 +56,35 @@ const AboutPlatform = () => {
                         text-sm
                         leading-6
                         text-text-secondary
-                    ">
+                    "
+                    >
                         Pathwise connects the learner experience with the
-                        systems required to create, deliver, and manage
-                        online courses.
+                        systems required to create, deliver, and manage online
+                        courses.
                     </p>
-
                 </div>
 
-
-                <div className="
+                <div
+                    className="
                     mt-12
                     grid
                     gap-6
                     md:grid-cols-2
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         rounded-2xl
                         border
                         border-border-subtle
                         bg-background-surface
                         p-6
                         sm:p-7
-                    ">
-
+                    "
+                    >
                         <div className="flex items-center gap-3">
-
-                            <div className="
+                            <div
+                                className="
                                 flex
                                 h-10
                                 w-10
@@ -95,25 +93,24 @@ const AboutPlatform = () => {
                                 rounded-lg
                                 bg-accent-primary/10
                                 text-accent-primary
-                            ">
+                            "
+                            >
                                 <BookOpen size={19} />
                             </div>
 
-
-                            <h3 className="
+                            <h3
+                                className="
                                 font-accent
                                 text-xl
                                 font-semibold
                                 text-text-primary
-                            ">
+                            "
+                            >
                                 For students
                             </h3>
-
                         </div>
 
-
                         <div className="mt-6 space-y-3">
-
                             {studentCapabilities.map((item) => (
                                 <div
                                     key={item}
@@ -126,7 +123,6 @@ const AboutPlatform = () => {
                                         text-text-secondary
                                     "
                                 >
-
                                     <CheckCircle2
                                         size={16}
                                         className="
@@ -137,27 +133,24 @@ const AboutPlatform = () => {
                                     />
 
                                     <span>{item}</span>
-
                                 </div>
                             ))}
-
                         </div>
-
                     </div>
 
-
-                    <div className="
+                    <div
+                        className="
                         rounded-2xl
                         border
                         border-border-subtle
                         bg-background-surface
                         p-6
                         sm:p-7
-                    ">
-
+                    "
+                    >
                         <div className="flex items-center gap-3">
-
-                            <div className="
+                            <div
+                                className="
                                 flex
                                 h-10
                                 w-10
@@ -166,25 +159,24 @@ const AboutPlatform = () => {
                                 rounded-lg
                                 bg-accent-unique/10
                                 text-accent-unique
-                            ">
+                            "
+                            >
                                 <Users size={19} />
                             </div>
 
-
-                            <h3 className="
+                            <h3
+                                className="
                                 font-accent
                                 text-xl
                                 font-semibold
                                 text-text-primary
-                            ">
+                            "
+                            >
                                 For course creators
                             </h3>
-
                         </div>
 
-
                         <div className="mt-6 space-y-3">
-
                             {creatorCapabilities.map((item) => (
                                 <div
                                     key={item}
@@ -197,7 +189,6 @@ const AboutPlatform = () => {
                                         text-text-secondary
                                     "
                                 >
-
                                     <CheckCircle2
                                         size={16}
                                         className="
@@ -208,21 +199,14 @@ const AboutPlatform = () => {
                                     />
 
                                     <span>{item}</span>
-
                                 </div>
                             ))}
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
     )
 }
-
 
 export default AboutPlatform

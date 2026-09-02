@@ -1,187 +1,183 @@
-import {
-    ArrowRight,
-    AtSign,
-    KeyRound,
-    Trash2,
-    UserRound,
-} from "lucide-react"
+import { ArrowRight, AtSign, KeyRound, Trash2, UserRound } from "lucide-react"
 
-
-const AccountManagement = () => {
-
+const UserAccountManagement = () => {
     return (
-        <section className="
+        <section
+            className="
             overflow-hidden
             rounded-2xl
             border
             border-border-subtle
             bg-background-surface
-        ">
-
+        "
+        >
             {/* Personal information */}
 
             <div>
-
-                <div className="
+                <div
+                    className="
                     border-b
                     border-border-subtle
                     px-5
                     py-4
 
                     sm:px-6
-                ">
-
-                    <h3 className="
+                "
+                >
+                    <h3
+                        className="
                         font-accent
                         text-sm
                         font-semibold
                         text-text-primary
-                    ">
+                    "
+                    >
                         Personal information
                     </h3>
 
-                    <p className="
+                    <p
+                        className="
                         mt-1
                         font-body
                         text-xs
+                        leading-5
                         text-text-muted
-                    ">
+                    "
+                    >
                         Manage the information associated with your account.
                     </p>
-
                 </div>
 
-
                 <div>
-
-                    <AccountOption
+                    <UserAccountManagementOption
                         icon={UserRound}
                         title="Update username"
-                        description="Change the username displayed across Pathwise."
+                        description="Change the name displayed across Pathwise."
                         accent="primary"
                     />
 
-
-                    <AccountOption
+                    <UserAccountManagementOption
                         icon={AtSign}
                         title="Update email address"
                         description="Change the email address associated with your account."
                         accent="secondary"
                     />
-
                 </div>
-
             </div>
-
 
             {/* Security */}
 
-            <div className="
+            <div
+                className="
                 border-t
                 border-border-subtle
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     border-b
                     border-border-subtle
                     px-5
                     py-4
 
                     sm:px-6
-                ">
-
-                    <h3 className="
+                "
+                >
+                    <h3
+                        className="
                         font-accent
                         text-sm
                         font-semibold
                         text-text-primary
-                    ">
+                    "
+                    >
                         Security
                     </h3>
 
-                    <p className="
+                    <p
+                        className="
                         mt-1
                         font-body
                         text-xs
+                        leading-5
                         text-text-muted
-                    ">
+                    "
+                    >
                         Keep your account credentials secure.
                     </p>
-
                 </div>
 
-
-                <AccountOption
+                <UserAccountManagementOption
                     icon={KeyRound}
                     title="Change password"
                     description="Update your password to keep your account secure."
                     accent="unique"
                 />
-
             </div>
-
 
             {/* Danger zone */}
 
-            <div className="
+            <div
+                className="
                 border-t
                 border-status-danger/15
                 bg-status-danger/5
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     px-5
                     py-4
 
                     sm:px-6
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         flex
                         items-center
                         gap-2
-                    ">
+                    "
+                    >
+                        <Trash2 size={15} className="text-status-danger" />
 
-                        <Trash2
-                            size={15}
-                            className="text-status-danger"
-                        />
-
-                        <h3 className="
+                        <h3
+                            className="
                             font-accent
                             text-sm
                             font-semibold
                             text-status-danger
-                        ">
+                        "
+                        >
                             Danger zone
                         </h3>
-
                     </div>
 
-
-                    <p className="
+                    <p
+                        className="
                         mt-1
                         font-body
                         text-xs
                         leading-5
                         text-text-secondary
-                    ">
+                    "
+                    >
                         These actions can affect your account permanently.
                     </p>
-
                 </div>
 
-
-                <div className="
+                <div
+                    className="
                     border-t
                     border-status-danger/10
                     px-5
                     py-4
 
                     sm:px-6
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         flex
                         flex-col
                         gap-4
@@ -189,34 +185,35 @@ const AccountManagement = () => {
                         sm:flex-row
                         sm:items-center
                         sm:justify-between
-                    ">
-
+                    "
+                    >
                         <div>
-
-                            <h4 className="
+                            <h4
+                                className="
                                 font-accent
                                 text-sm
                                 font-semibold
                                 text-text-primary
-                            ">
+                            "
+                            >
                                 Permanently delete account
                             </h4>
 
-                            <p className="
+                            <p
+                                className="
                                 mt-1
                                 max-w-2xl
                                 font-body
                                 text-xs
                                 leading-5
                                 text-text-secondary
-                            ">
-                                Permanently remove your Pathwise account
-                                and associated account data. This action
-                                cannot be undone.
+                            "
+                            >
+                                Permanently remove your Pathwise account and
+                                associated account data. This action cannot be
+                                undone.
                             </p>
-
                         </div>
-
 
                         <button
                             type="button"
@@ -241,52 +238,58 @@ const AccountManagement = () => {
 
                                 hover:border-status-danger/40
                                 hover:bg-status-danger/15
+
+                                focus:outline-none
+                                focus:ring-2
+                                focus:ring-status-danger/20
                             "
                         >
                             Delete account
-
                             <ArrowRight size={14} />
-
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
     )
 }
 
-
-const AccountOption = ({
+const UserAccountManagementOption = ({
     icon: Icon,
     title,
     description,
     accent,
 }) => {
-
     const accentClasses = {
         primary: {
-            icon: "text-accent-primary bg-accent-primary/10 border-accent-primary/20",
+            icon: `
+                border-accent-primary/20
+                bg-accent-primary/10
+                text-accent-primary
+            `,
             hover: "hover:bg-accent-primary/5",
         },
 
         secondary: {
-            icon: "text-accent-secondary bg-accent-secondary/10 border-accent-secondary/20",
+            icon: `
+                border-accent-secondary/20
+                bg-accent-secondary/10
+                text-accent-secondary
+            `,
             hover: "hover:bg-accent-secondary/5",
         },
 
         unique: {
-            icon: "text-accent-unique bg-accent-unique/10 border-accent-unique/20",
+            icon: `
+                border-accent-unique/20
+                bg-accent-unique/10
+                text-accent-unique
+            `,
             hover: "hover:bg-accent-unique/5",
         },
     }
 
-
     const classes = accentClasses[accent]
-
 
     return (
         <button
@@ -309,11 +312,14 @@ const AccountOption = ({
 
                 ${classes.hover}
 
+                focus:outline-none
+                focus-visible:bg-background-elevated
+
                 sm:px-6
             `}
         >
-
-            <div className={`
+            <div
+                className={`
                 flex
                 h-10
                 w-10
@@ -323,34 +329,35 @@ const AccountOption = ({
                 rounded-xl
                 border
                 ${classes.icon}
-            `}>
-                <Icon size={17} />
+            `}
+            >
+                <Icon size={17} strokeWidth={1.9} />
             </div>
 
-
             <div className="min-w-0 flex-1">
-
-                <h4 className="
+                <h4
+                    className="
                     font-accent
                     text-sm
                     font-medium
                     text-text-primary
-                ">
+                "
+                >
                     {title}
                 </h4>
 
-                <p className="
+                <p
+                    className="
                     mt-0.5
                     font-body
                     text-xs
                     leading-5
                     text-text-secondary
-                ">
+                "
+                >
                     {description}
                 </p>
-
             </div>
-
 
             <ArrowRight
                 size={16}
@@ -364,10 +371,8 @@ const AccountOption = ({
                     group-hover:text-text-primary
                 "
             />
-
         </button>
     )
 }
 
-
-export default AccountManagement
+export default UserAccountManagement

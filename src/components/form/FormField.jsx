@@ -8,10 +8,7 @@ const FormField = ({
     children,
     className,
 }) => {
-
-    const errorId = error && htmlFor
-        ? `${htmlFor}-error`
-        : undefined
+    const errorId = error && htmlFor ? `${htmlFor}-error` : undefined
 
     return (
         <div
@@ -24,7 +21,6 @@ const FormField = ({
                 className
             )}
         >
-
             <label
                 htmlFor={htmlFor}
                 className="
@@ -43,11 +39,7 @@ const FormField = ({
                 )}
             </label>
 
-
-            <div>
-                {children}
-            </div>
-
+            <div>{children}</div>
 
             {error && (
                 <p
@@ -62,7 +54,6 @@ const FormField = ({
                     {error}
                 </p>
             )}
-
         </div>
     )
 }

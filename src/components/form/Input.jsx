@@ -7,7 +7,6 @@ const Input = ({
     className,
     ...props
 }) => {
-
     return (
         <input
             type={type}

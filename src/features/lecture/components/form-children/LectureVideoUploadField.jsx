@@ -1,14 +1,10 @@
 import FormField from "../../../../components/form/FormField"
 import Input from "../../../../components/form/Input"
 
-const LectureVideoUploadField = ({
-    register,
-    errors,
-    validationRules,
-}) => {
-
+const LectureVideoUploadField = ({ register, errors, validationRules }) => {
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -17,35 +13,35 @@ const LectureVideoUploadField = ({
             p-5
 
             sm:p-6
-        ">
-
+        "
+        >
             {/* Section Header */}
 
             <div className="mb-6">
-
-                <h2 className="
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     Lecture Video
                 </h2>
 
-
-                <p className="
+                <p
+                    className="
                     mt-1
 
                     font-body
                     text-sm
                     leading-5
                     text-text-secondary
-                ">
+                "
+                >
                     Upload the video students will watch for this lecture.
                 </p>
-
             </div>
-
 
             {/* Video */}
 
@@ -55,17 +51,12 @@ const LectureVideoUploadField = ({
                 required
                 error={errors.video?.message}
             >
-
                 <Input
                     id="video"
                     type="file"
-                    accept="video/*"
+                    accept="video/mp4,video/webm,video/quicktime"
                     error={Boolean(errors.video)}
-                    aria-describedby={
-                        errors.video
-                            ? "video-error"
-                            : undefined
-                    }
+                    aria-describedby={errors.video ? "video-error" : undefined}
                     className="
                         cursor-pointer
 
@@ -82,17 +73,11 @@ const LectureVideoUploadField = ({
 
                         hover:file:bg-background-elevated
                     "
-                    {...register(
-                        "video",
-                        validationRules
-                    )}
+                    {...register("video", validationRules)}
                 />
-
             </FormField>
-
         </section>
     )
 }
-
 
 export default LectureVideoUploadField

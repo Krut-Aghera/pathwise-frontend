@@ -1,29 +1,24 @@
 import Button from "../ui/Button"
 
-
 const FormActions = ({
     onCancel,
     loading = false,
     submitLabel = "Submit",
     disabled = false,
 }) => {
-
     ///////////////////////////////////////////////////////////////
     // Button states
 
-    const submitDisabled =
-        loading ||
-        disabled
+    const submitDisabled = loading || disabled
 
-    const cancelDisabled =
-        loading
-
+    const cancelDisabled = loading
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
-        <div className="
+        <div
+            className="
             flex
             flex-col-reverse
             gap-3
@@ -34,8 +29,8 @@ const FormActions = ({
 
             sm:flex-row
             sm:justify-end
-        ">
-
+        "
+        >
             {/* Cancel */}
 
             <Button
@@ -68,7 +63,6 @@ const FormActions = ({
             >
                 Cancel
             </Button>
-
 
             {/* Submit */}
 
@@ -103,10 +97,8 @@ const FormActions = ({
             >
                 {submitLabel}
             </Button>
-
         </div>
     )
 }
-
 
 export default FormActions

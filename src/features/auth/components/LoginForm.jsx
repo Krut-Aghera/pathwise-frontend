@@ -6,24 +6,14 @@ import Input from "../../../components/form/Input"
 import PasswordInput from "../../../components/form/PasswordInput"
 import Button from "../../../components/ui/Button"
 
-import {
-    loginValidationRules,
-} from "../authValidation"
+import { loginValidationRules } from "../authValidation"
 
-
-const LoginForm = ({
-    onSubmit,
-    loading = false,
-}) => {
-
+const LoginForm = ({ onSubmit, loading = false }) => {
     const {
         register,
         handleSubmit,
         setError,
-        formState: {
-            errors,
-            isSubmitting,
-        },
+        formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
             email: "",
@@ -31,29 +21,20 @@ const LoginForm = ({
         },
     })
 
-
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleFormSubmit = async (formData) => {
-
         try {
-
             await onSubmit({
                 email: formData.email,
                 password: formData.password,
             })
-
         } catch (error) {
-
             /////////////////////////////////////////////////////////
             // Backend validation / authentication errors
 
-            if (
-                error?.statusCode === 400 ||
-                error?.statusCode === 401
-            ) {
-
+            if (error?.statusCode === 400 || error?.statusCode === 401) {
                 setError("root", {
                     type: "server",
                     message: "Invalid credentials.",
@@ -62,28 +43,21 @@ const LoginForm = ({
                 return
             }
 
-
             /////////////////////////////////////////////////////////
             // General / unexpected error
 
             setError("root", {
                 type: "server",
                 message:
-                    error?.message ||
-                    "Unable to sign in. Please try again.",
+                    error?.message || "Unable to sign in. Please try again.",
             })
-
         }
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
-    const isFormLoading =
-        loading ||
-        isSubmitting
-
+    const isFormLoading = loading || isSubmitting
 
     return (
         <form
@@ -95,7 +69,6 @@ const LoginForm = ({
                 sm:space-y-5
             "
         >
-
             {/* General server error */}
 
             {errors.root?.message && (
@@ -118,7 +91,6 @@ const LoginForm = ({
                 </div>
             )}
 
-
             {/* Email */}
 
             <FormField
@@ -134,17 +106,11 @@ const LoginForm = ({
                     placeholder="Enter your email"
                     error={Boolean(errors.email)}
                     aria-describedby={
-                        errors.email
-                            ? "login-email-error"
-                            : undefined
+                        errors.email ? "login-email-error" : undefined
                     }
-                    {...register(
-                        "email",
-                        loginValidationRules.email
-                    )}
+                    {...register("email", loginValidationRules.email)}
                 />
             </FormField>
-
 
             {/* Password */}
 
@@ -160,22 +126,15 @@ const LoginForm = ({
                     placeholder="Enter your password"
                     error={Boolean(errors.password)}
                     aria-describedby={
-                        errors.password
-                            ? "login-password-error"
-                            : undefined
+                        errors.password ? "login-password-error" : undefined
                     }
-                    {...register(
-                        "password",
-                        loginValidationRules.password
-                    )}
+                    {...register("password", loginValidationRules.password)}
                 />
             </FormField>
-
 
             {/* Forgot password */}
 
             <div className="flex justify-end">
-
                 <Link
                     to="/auth/forgot-password"
                     className="
@@ -194,23 +153,15 @@ const LoginForm = ({
                 >
                     Forgot password?
                 </Link>
-
             </div>
-
 
             {/* Submit */}
 
-            <Button
-                type="submit"
-                loading={isFormLoading}
-                className="w-full"
-            >
+            <Button type="submit" loading={isFormLoading} className="w-full">
                 Log In
             </Button>
-
         </form>
     )
 }
-
 
 export default LoginForm

@@ -9,7 +9,8 @@ import {
 
 const UnauthorizedPage = () => {
     return (
-        <main className="
+        <main
+            className="
             flex
             min-h-[calc(100vh-5rem)]
             items-center
@@ -18,17 +19,19 @@ const UnauthorizedPage = () => {
             px-4
             py-12
             sm:px-6
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 w-full
                 max-w-xl
                 text-center
-            ">
-
+            "
+            >
                 {/* Icon */}
 
-                <div className="
+                <div
+                    className="
                     mx-auto
                     flex
                     h-16
@@ -42,17 +45,15 @@ const UnauthorizedPage = () => {
                     text-status-warning
                     shadow-lg
                     shadow-status-warning/5
-                ">
-                    <ShieldAlert
-                        size={30}
-                        strokeWidth={1.8}
-                    />
+                "
+                >
+                    <ShieldAlert size={30} strokeWidth={1.8} />
                 </div>
-
 
                 {/* Error code */}
 
-                <p className="
+                <p
+                    className="
                     mt-8
                     font-compact
                     text-sm
@@ -60,14 +61,15 @@ const UnauthorizedPage = () => {
                     uppercase
                     tracking-[0.2em]
                     text-status-warning
-                ">
+                "
+                >
                     Error 403
                 </p>
 
-
                 {/* Heading */}
 
-                <h1 className="
+                <h1
+                    className="
                     mt-3
                     font-accent
                     text-3xl
@@ -75,14 +77,15 @@ const UnauthorizedPage = () => {
                     tracking-tight
                     text-text-primary
                     sm:text-4xl
-                ">
+                "
+                >
                     Access restricted
                 </h1>
 
-
                 {/* Description */}
 
-                <p className="
+                <p
+                    className="
                     mx-auto
                     mt-4
                     max-w-md
@@ -91,16 +94,17 @@ const UnauthorizedPage = () => {
                     leading-6
                     text-text-secondary
                     sm:text-base
-                ">
-                    You don't have permission to access this page.
-                    If you believe this is a mistake, make sure you're
-                    signed in with the correct account.
+                "
+                >
+                    You don't have permission to access this page. If you
+                    believe this is a mistake, make sure you're signed in with
+                    the correct account.
                 </p>
-
 
                 {/* Notice */}
 
-                <div className="
+                <div
+                    className="
                     mx-auto
                     mt-6
                     flex
@@ -114,8 +118,8 @@ const UnauthorizedPage = () => {
                     px-4
                     py-3
                     text-left
-                ">
-
+                "
+                >
                     <CircleAlert
                         size={17}
                         className="
@@ -125,22 +129,23 @@ const UnauthorizedPage = () => {
                         "
                     />
 
-                    <p className="
+                    <p
+                        className="
                         font-body
                         text-xs
                         leading-5
                         text-text-muted
-                    ">
-                        Pathwise protects restricted resources using
-                        role-based authorization and authenticated access.
+                    "
+                    >
+                        Pathwise protects restricted resources using role-based
+                        authorization and authenticated access.
                     </p>
-
                 </div>
-
 
                 {/* Actions */}
 
-                <div className="
+                <div
+                    className="
                     mt-8
                     flex
                     flex-col
@@ -149,8 +154,8 @@ const UnauthorizedPage = () => {
                     gap-3
                     sm:flex-row
                     sm:items-center
-                ">
-
+                "
+                >
                     <Link
                         to="/"
                         className="
@@ -177,7 +182,6 @@ const UnauthorizedPage = () => {
                         <Home size={16} />
                         Go home
                     </Link>
-
 
                     <Link
                         to="/courses"
@@ -207,9 +211,7 @@ const UnauthorizedPage = () => {
                         Browse courses
                         <ArrowRight size={16} />
                     </Link>
-
                 </div>
-
 
                 {/* Back */}
 
@@ -239,9 +241,7 @@ const UnauthorizedPage = () => {
                     <ArrowLeft size={14} />
                     Go back
                 </button>
-
             </div>
-
         </main>
     )
 }

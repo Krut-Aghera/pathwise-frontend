@@ -8,7 +8,6 @@ import courseApi from "../../features/course/courseApi"
 import sectionApi from "../../features/section/sectionApi"
 import lectureApi from "../../features/lecture/lectureApi"
 
-
 const store = configureStore({
     reducer: {
         auth: authReducer,
@@ -26,9 +25,8 @@ const store = configureStore({
             userApi.middleware,
             courseApi.middleware,
             sectionApi.middleware,
-            lectureApi.middleware,
+            lectureApi.middleware
         ),
 })
-
 
 export default store

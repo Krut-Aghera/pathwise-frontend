@@ -1,15 +1,11 @@
-import {
-    BookOpen,
-    Settings,
-} from "lucide-react"
+import { BookOpen, Settings } from "lucide-react"
 
 import { Link } from "react-router-dom"
 
-
 const InstructorDashboardHeader = () => {
-
     return (
-        <header className="
+        <header
+            className="
             flex
             flex-col
             gap-4
@@ -17,23 +13,24 @@ const InstructorDashboardHeader = () => {
             sm:flex-row
             sm:items-center
             sm:justify-between
-        ">
-
+        "
+        >
             <div>
-
-                <p className="
+                <p
+                    className="
                     font-body
                     text-xs
                     font-medium
                     uppercase
                     tracking-wider
                     text-accent-secondary
-                ">
+                "
+                >
                     Instructor workspace
                 </p>
 
-
-                <h1 className="
+                <h1
+                    className="
                     mt-1
                     font-accent
                     text-2xl
@@ -41,32 +38,32 @@ const InstructorDashboardHeader = () => {
                     text-text-primary
 
                     sm:text-3xl
-                ">
+                "
+                >
                     Instructor Dashboard
                 </h1>
 
-
-                <p className="
+                <p
+                    className="
                     mt-2
                     max-w-xl
                     font-body
                     text-sm
                     leading-6
                     text-text-secondary
-                ">
-                    Monitor your courses, learners, and earnings
-                    from one place.
+                "
+                >
+                    Monitor your courses, learners, and earnings from one place.
                 </p>
-
             </div>
 
-
-            <div className="
+            <div
+                className="
                 flex
                 flex-wrap
                 gap-2
-            ">
-
+            "
+            >
                 <Link
                     to="/instructor/courses"
                     className="
@@ -89,10 +86,8 @@ const InstructorDashboardHeader = () => {
                     "
                 >
                     <Settings size={15} />
-
                     Manage Courses
                 </Link>
-
 
                 <Link
                     to="/instructor/courses/create"
@@ -114,15 +109,11 @@ const InstructorDashboardHeader = () => {
                     "
                 >
                     <BookOpen size={15} />
-
                     Create Course
                 </Link>
-
             </div>
-
         </header>
     )
 }
-
 
 export default InstructorDashboardHeader

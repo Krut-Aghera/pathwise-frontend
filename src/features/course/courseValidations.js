@@ -1,14 +1,16 @@
-import {
-    COURSE_LEVELS,
-    COURSE_LANGUAGES,
-} from "./courseConstants.js"
-
+import { COURSE_LEVELS, COURSE_LANGUAGES } from "./courseConstants.js"
 
 ///////////////////////////////////////////////////////////////
 // Course validation rules
+//
+// Used by:
+// - Create Course Form
+// - Update Course Form
+//
+// Thumbnail validation is intentionally NOT included here.
+// Thumbnail update is handled separately.
 
 const courseValidationRules = {
-
     ///////////////////////////////////////////////////////////////
     // Basic information
 
@@ -29,7 +31,6 @@ const courseValidationRules = {
         },
     },
 
-
     subtitle: {
         required: {
             value: true,
@@ -41,7 +42,6 @@ const courseValidationRules = {
             message: "Subtitle cannot exceed 180 characters",
         },
     },
-
 
     description: {
         required: {
@@ -60,7 +60,6 @@ const courseValidationRules = {
         },
     },
 
-
     ///////////////////////////////////////////////////////////////
     // Course details
 
@@ -72,7 +71,6 @@ const courseValidationRules = {
 
         validate: {
             validPrice: (value) => {
-
                 if (value === "") {
                     return "Price is required"
                 }
@@ -92,7 +90,6 @@ const courseValidationRules = {
         },
     },
 
-
     language: {
         required: {
             value: true,
@@ -105,7 +102,6 @@ const courseValidationRules = {
                 "Language must be English or Hindi",
         },
     },
-
 
     level: {
         required: {
@@ -120,27 +116,45 @@ const courseValidationRules = {
         },
     },
 
-
     ///////////////////////////////////////////////////////////////
     // Learning outcomes
+    //
+    // Requirements:
+    // - At least 1 non-empty item
+    // - Maximum 10 non-empty items
+    // - Every individual item is required
+    // - Every individual item has maximum 200 characters
 
     learningOutcomes: {
-
         validate: {
+            required: (value) => {
+                if (!Array.isArray(value)) {
+                    return "At least one learning outcome is required"
+                }
 
-            required: (value) =>
-                Array.isArray(value) &&
-                value.length >= 1 ||
-                "At least one learning outcome is required",
+                const nonEmptyItems = value.filter((item) => item?.trim())
 
-            maxItems: (value) =>
-                Array.isArray(value) &&
-                value.length <= 10 ||
-                "You can add a maximum of 10 learning outcomes",
+                return (
+                    nonEmptyItems.length >= 1 ||
+                    "At least one learning outcome is required"
+                )
+            },
+
+            maxItems: (value) => {
+                if (!Array.isArray(value)) {
+                    return true
+                }
+
+                const nonEmptyItems = value.filter((item) => item?.trim())
+
+                return (
+                    nonEmptyItems.length <= 10 ||
+                    "You can add a maximum of 10 learning outcomes"
+                )
+            },
         },
 
         item: {
-
             required: {
                 value: true,
                 message: "Learning outcome cannot be empty",
@@ -152,35 +166,52 @@ const courseValidationRules = {
             },
 
             validate: {
-
                 notBlank: (value) =>
-                    value.trim().length > 0 ||
+                    value?.trim().length > 0 ||
                     "Learning outcome cannot be empty",
             },
         },
     },
 
-
     ///////////////////////////////////////////////////////////////
     // Target audience
+    //
+    // Requirements:
+    // - At least 1 non-empty item
+    // - Maximum 10 non-empty items
+    // - Every individual item is required
+    // - Every individual item has maximum 200 characters
 
     targetAudience: {
-
         validate: {
+            required: (value) => {
+                if (!Array.isArray(value)) {
+                    return "At least one target audience item is required"
+                }
 
-            required: (value) =>
-                Array.isArray(value) &&
-                value.length >= 1 ||
-                "At least one target audience item is required",
+                const nonEmptyItems = value.filter((item) => item?.trim())
 
-            maxItems: (value) =>
-                Array.isArray(value) &&
-                value.length <= 10 ||
-                "You can add a maximum of 10 target audience items",
+                return (
+                    nonEmptyItems.length >= 1 ||
+                    "At least one target audience item is required"
+                )
+            },
+
+            maxItems: (value) => {
+                if (!Array.isArray(value)) {
+                    return true
+                }
+
+                const nonEmptyItems = value.filter((item) => item?.trim())
+
+                return (
+                    nonEmptyItems.length <= 10 ||
+                    "You can add a maximum of 10 target audience items"
+                )
+            },
         },
 
         item: {
-
             required: {
                 value: true,
                 message: "Target audience item cannot be empty",
@@ -192,35 +223,52 @@ const courseValidationRules = {
             },
 
             validate: {
-
                 notBlank: (value) =>
-                    value.trim().length > 0 ||
+                    value?.trim().length > 0 ||
                     "Target audience item cannot be empty",
             },
         },
     },
 
-
     ///////////////////////////////////////////////////////////////
     // Requirements
+    //
+    // Requirements:
+    // - At least 1 non-empty item
+    // - Maximum 10 non-empty items
+    // - Every individual item is required
+    // - Every individual item has maximum 200 characters
 
     requirements: {
-
         validate: {
+            required: (value) => {
+                if (!Array.isArray(value)) {
+                    return "At least one requirement is required"
+                }
 
-            required: (value) =>
-                Array.isArray(value) &&
-                value.length >= 1 ||
-                "At least one requirement is required",
+                const nonEmptyItems = value.filter((item) => item?.trim())
 
-            maxItems: (value) =>
-                Array.isArray(value) &&
-                value.length <= 10 ||
-                "You can add a maximum of 10 requirements",
+                return (
+                    nonEmptyItems.length >= 1 ||
+                    "At least one requirement is required"
+                )
+            },
+
+            maxItems: (value) => {
+                if (!Array.isArray(value)) {
+                    return true
+                }
+
+                const nonEmptyItems = value.filter((item) => item?.trim())
+
+                return (
+                    nonEmptyItems.length <= 10 ||
+                    "You can add a maximum of 10 requirements"
+                )
+            },
         },
 
         item: {
-
             required: {
                 value: true,
                 message: "Requirement cannot be empty",
@@ -232,32 +280,29 @@ const courseValidationRules = {
             },
 
             validate: {
-
                 notBlank: (value) =>
-                    value.trim().length > 0 ||
-                    "Requirement cannot be empty",
+                    value?.trim().length > 0 || "Requirement cannot be empty",
             },
         },
     },
 }
 
-
 ///////////////////////////////////////////////////////////////
-// Thumbnail validation rules
+// Course thumbnail validation rules
 //
-// Only used when creating a course.
+// Used ONLY when creating a course.
+//
+// Update course does NOT use these rules because thumbnail
+// update is handled by a separate API/form.
 
 const courseThumbnailValidationRules = {
-
     required: {
         value: true,
         message: "Course thumbnail is required",
     },
 
     validate: {
-
         validFile: (files) => {
-
             if (!files || files.length === 0) {
                 return "Course thumbnail is required"
             }
@@ -267,8 +312,7 @@ const courseThumbnailValidationRules = {
     },
 }
 
+///////////////////////////////////////////////////////////////
+// Export
 
-export {
-    courseValidationRules,
-    courseThumbnailValidationRules,
-}
+export { courseValidationRules, courseThumbnailValidationRules }

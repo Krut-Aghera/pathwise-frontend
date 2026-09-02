@@ -1,14 +1,6 @@
-import {
-    Award,
-    BookOpen,
-    Clock3,
-    Layers3,
-    UserRound,
-} from "lucide-react"
-
+import { Award, BookOpen, Clock3, Layers3, UserRound } from "lucide-react"
 
 const CourseHeader = ({ course }) => {
-
     const levelConfig = {
         beginner: {
             label: "Beginner",
@@ -26,26 +18,25 @@ const CourseHeader = ({ course }) => {
         },
     }
 
-
     const currentLevel =
-        levelConfig[course?.level?.toLowerCase()] ||
-        levelConfig.beginner
+        levelConfig[course?.level?.toLowerCase()] || levelConfig.beginner
 
     const LevelIcon = currentLevel.icon
 
-
     return (
-        <section className="
+        <section
+            className="
             overflow-hidden
             rounded-xl
             border
             border-border-subtle
             bg-background-surface
-        ">
-
+        "
+        >
             {/* Thumbnail */}
 
-            <div className="
+            <div
+                className="
                 relative
                 aspect-16/8
                 w-full
@@ -55,8 +46,8 @@ const CourseHeader = ({ course }) => {
                 sm:aspect-16/7
 
                 lg:aspect-16/6
-            ">
-
+            "
+            >
                 <img
                     src={
                         course?.thumbnail.url ||
@@ -70,20 +61,22 @@ const CourseHeader = ({ course }) => {
                     "
                 />
 
-                <div className="
+                <div
+                    className="
                     absolute
                     inset-0
                     bg-linear-to-t
                     from-black/45
                     via-black/5
                     to-transparent
-                " />
+                "
+                />
             </div>
-
 
             {/* Information */}
 
-            <div className="
+            <div
+                className="
                 px-5
                 py-5
 
@@ -92,11 +85,12 @@ const CourseHeader = ({ course }) => {
 
                 lg:px-8
                 lg:py-7
-            ">
-
+            "
+            >
                 {/* Level */}
 
-                <div className="
+                <div
+                    className="
                     mb-3
                     inline-flex
                     items-center
@@ -113,18 +107,17 @@ const CourseHeader = ({ course }) => {
                     text-xs
                     font-medium
                     text-accent-primary
-                ">
-
+                "
+                >
                     <LevelIcon size={13} />
 
                     {currentLevel.label}
-
                 </div>
-
 
                 {/* Title */}
 
-                <h1 className="
+                <h1
+                    className="
                     max-w-4xl
 
                     font-accent
@@ -136,15 +129,16 @@ const CourseHeader = ({ course }) => {
                     sm:text-3xl
 
                     lg:text-4xl
-                ">
+                "
+                >
                     {course?.title}
                 </h1>
-
 
                 {/* Description */}
 
                 {course?.description && (
-                    <p className="
+                    <p
+                        className="
                         mt-3
                         max-w-3xl
 
@@ -155,15 +149,16 @@ const CourseHeader = ({ course }) => {
 
                         sm:text-base
                         sm:leading-7
-                    ">
+                    "
+                    >
                         {course.description}
                     </p>
                 )}
 
-
                 {/* Instructor */}
 
-                <div className="
+                <div
+                    className="
                     mt-5
                     flex
                     items-center
@@ -172,24 +167,17 @@ const CourseHeader = ({ course }) => {
                     font-body
                     text-sm
                     text-text-secondary
-                ">
+                "
+                >
+                    <UserRound size={16} className="shrink-0" />
 
-                    <UserRound
-                        size={16}
-                        className="shrink-0"
-                    />
-
-                    <span>
-                        {course?.instructor?.username ||
-                            "Instructor"}
-                    </span>
-
+                    <span>{course?.instructor?.username || "Instructor"}</span>
                 </div>
-
 
                 {/* Metadata */}
 
-                <div className="
+                <div
+                    className="
                     mt-5
                     flex
                     flex-wrap
@@ -200,11 +188,12 @@ const CourseHeader = ({ course }) => {
                     border-t
                     border-border-subtle
                     pt-4
-                ">
-
+                "
+                >
                     {/* Level */}
 
-                    <div className="
+                    <div
+                        className="
                         flex
                         items-center
                         gap-1.5
@@ -212,21 +201,18 @@ const CourseHeader = ({ course }) => {
                         font-body
                         text-xs
                         text-text-muted
-                    ">
-
+                    "
+                    >
                         <LevelIcon size={14} />
 
-                        <span>
-                            {currentLevel.label}
-                        </span>
-
+                        <span>{currentLevel.label}</span>
                     </div>
-
 
                     {/* Duration */}
 
                     {course?.duration && (
-                        <div className="
+                        <div
+                            className="
                             flex
                             items-center
                             gap-1.5
@@ -234,24 +220,17 @@ const CourseHeader = ({ course }) => {
                             font-body
                             text-xs
                             text-text-muted
-                        ">
-
+                        "
+                        >
                             <Clock3 size={14} />
 
-                            <span>
-                                {course.duration}
-                            </span>
-
+                            <span>{course.duration}</span>
                         </div>
                     )}
-
                 </div>
-
             </div>
-
         </section>
     )
 }
-
 
 export default CourseHeader

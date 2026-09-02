@@ -2,7 +2,6 @@ import { createApi } from "@reduxjs/toolkit/query/react"
 
 import axiosBaseQuery from "../../app/network/axiosBaseQuery"
 
-
 const courseApi = createApi({
     reducerPath: "courseApi",
 
@@ -13,7 +12,6 @@ const courseApi = createApi({
     tagTypes: ["Course"],
 
     endpoints: (builder) => ({
-
         ///////////////////////////////////////////////////////////////
         // Public course APIs
 
@@ -44,7 +42,6 @@ const courseApi = createApi({
             providesTags: ["Course"],
         }),
 
-
         // GET /courses/:courseId
         fetchCurrentCourse: builder.query({
             query: (courseId) => ({
@@ -59,7 +56,6 @@ const courseApi = createApi({
                 },
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Instructor course APIs
@@ -78,7 +74,6 @@ const courseApi = createApi({
             providesTags: ["Course"],
         }),
 
-
         // GET /courses/mine/:courseId
         fetchInstructorCourse: builder.query({
             query: (courseId) => ({
@@ -94,7 +89,6 @@ const courseApi = createApi({
             ],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Create course
 
@@ -108,7 +102,6 @@ const courseApi = createApi({
 
             invalidatesTags: ["Course"],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Update course
@@ -130,7 +123,6 @@ const courseApi = createApi({
             ],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Remove course
 
@@ -149,7 +141,6 @@ const courseApi = createApi({
                 "Course",
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Publish course
@@ -170,7 +161,6 @@ const courseApi = createApi({
             ],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Save course as draft
 
@@ -189,7 +179,6 @@ const courseApi = createApi({
                 "Course",
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Update course thumbnail
@@ -216,10 +205,8 @@ const courseApi = createApi({
                 "Course",
             ],
         }),
-
     }),
 })
-
 
 export const {
     useFetchCoursesQuery,
@@ -235,6 +222,5 @@ export const {
     useSaveCourseAsDraftMutation,
     useUpdateCourseThumbnailMutation,
 } = courseApi
-
 
 export default courseApi

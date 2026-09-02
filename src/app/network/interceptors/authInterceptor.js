@@ -1,13 +1,14 @@
 import store from "../../store/store"
 import { rotateTokens } from "../../../features/auth/authService"
 import { clearAuthSession } from "../../../features/auth/authSlice"
-import { AUTH_INTERCEPTOR_CONFIG, AUTH_ERROR_CODES } from "../../../features/auth/authConstants"
-
+import {
+    AUTH_INTERCEPTOR_CONFIG,
+    AUTH_ERROR_CODES,
+} from "../../../features/auth/authConstants"
 
 let tokenRotationPromise = null
 
 const authInterceptor = async (error, axiosClient) => {
-
     const originalRequest = error.config
 
     // no original request
@@ -20,18 +21,14 @@ const authInterceptor = async (error, axiosClient) => {
         return Promise.reject(error)
     }
 
-
     // determine whether this 401 requires token rotation
     const statusCode = error.response?.status
     const errorCode = error.response?.data?.code
 
     const shouldRotate =
         statusCode === 401 &&
-        (
-            errorCode === AUTH_ERROR_CODES.ACCESS_TOKEN_EXPIRED ||
-            errorCode === AUTH_ERROR_CODES.ACCESS_TOKEN_MISSING
-        )
-
+        (errorCode === AUTH_ERROR_CODES.ACCESS_TOKEN_EXPIRED ||
+            errorCode === AUTH_ERROR_CODES.ACCESS_TOKEN_MISSING)
 
     // all other errors pass through
     if (!shouldRotate) {
@@ -48,30 +45,23 @@ const authInterceptor = async (error, axiosClient) => {
     // rotate tokens
     // multiple simultaneous 401 requests share one rotation
     try {
-
         if (!tokenRotationPromise) {
-
-            tokenRotationPromise = rotateTokens()
-                .finally(() => {
-                    tokenRotationPromise = null
-                })
+            tokenRotationPromise = rotateTokens().finally(() => {
+                tokenRotationPromise = null
+            })
         }
 
         await tokenRotationPromise
-
     } catch (rotationError) {
-
         // refresh token is no longer valid
         store.dispatch(clearAuthSession())
 
         return Promise.reject(rotationError)
     }
 
-
     // retry original request with newly issued tokens
 
     return axiosClient(originalRequest)
 }
-
 
 export default authInterceptor

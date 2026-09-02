@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
 import LectureBasicInformation from "../form-children/LectureBasicInformation"
-import LectureFormActions from "../form-children/LectureFormActions"
+import FormActions from "../../../../components/form/FormActions"
 
 const LectureCreateForm = ({
     onSubmit,
@@ -10,9 +10,7 @@ const LectureCreateForm = ({
     loading = false,
     validationRules,
 }) => {
-
     const globalErrorRef = useRef(null)
-
 
     ///////////////////////////////////////////////////////////////
     // Form
@@ -22,12 +20,8 @@ const LectureCreateForm = ({
         handleSubmit,
         setError,
         clearErrors,
-        formState: {
-            errors,
-            isSubmitting,
-        },
+        formState: { errors, isSubmitting },
     } = useForm({
-
         defaultValues: {
             title: "",
             description: "",
@@ -39,41 +33,31 @@ const LectureCreateForm = ({
         shouldFocusError: true,
     })
 
-
     ///////////////////////////////////////////////////////////////
     // Global error scroll
 
     useEffect(() => {
-
         if (!errors.root?.message) {
             return
         }
 
-
         requestAnimationFrame(() => {
-
             globalErrorRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
             })
 
             globalErrorRef.current?.focus()
-
         })
-
     }, [errors.root?.message])
-
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleFormSubmit = async (formData) => {
-
         clearErrors("root")
 
-
         const lectureData = {
-
             title: formData.title,
 
             description: formData.description,
@@ -81,28 +65,17 @@ const LectureCreateForm = ({
             isPreviewFree: formData.isPreviewFree,
         }
 
-
         ///////////////////////////////////////////////////////////
         // Send to page
 
         try {
-
-            await onSubmit(
-                lectureData
-            )
-
+            await onSubmit(lectureData)
         } catch (error) {
-
             /////////////////////////////////////////////////////////
             // Backend validation errors
 
-            if (
-                error?.statusCode === 400 &&
-                Array.isArray(error?.errors)
-            ) {
-
+            if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
-
                     if (!field) {
                         return
                     }
@@ -111,37 +84,28 @@ const LectureCreateForm = ({
                         type: "server",
                         message,
                     })
-
                 })
 
                 return
             }
 
-
             /////////////////////////////////////////////////////////
             // General server error
 
             setError("root", {
-
                 type: "server",
 
                 message:
                     error?.message ||
                     "Unable to create lecture. Please try again.",
             })
-
         }
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
-    const isFormLoading =
-        loading ||
-        isSubmitting
-
+    const isFormLoading = loading || isSubmitting
 
     ///////////////////////////////////////////////////////////////
     // Render
@@ -152,11 +116,9 @@ const LectureCreateForm = ({
             noValidate
             className="space-y-6"
         >
-
             {/* Global server error */}
 
             {errors.root?.message && (
-
                 <div
                     ref={globalErrorRef}
                     role="alert"
@@ -183,9 +145,7 @@ const LectureCreateForm = ({
                 >
                     {errors.root.message}
                 </div>
-
             )}
-
 
             {/* Basic Information */}
 
@@ -195,18 +155,15 @@ const LectureCreateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Actions */}
 
-            <LectureFormActions
+            <FormActions
                 onCancel={onCancel}
                 loading={isFormLoading}
                 submitLabel="Create Lecture"
             />
-
         </form>
     )
 }
-
 
 export default LectureCreateForm

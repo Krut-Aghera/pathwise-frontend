@@ -1,37 +1,21 @@
-import {
-    Navigate,
-    Outlet,
-    useLocation,
-} from "react-router-dom"
+import { Navigate, Outlet, useLocation } from "react-router-dom"
 
 import useSession from "../../features/auth/hooks/useSession"
 
-
 const ProtectedRoutes = ({ allowedRoles }) => {
-
     const location = useLocation()
 
     ///////////////////////////////////////////////////////////////
     // Session
 
-    const {
-        user,
-        isAuthenticated,
-        isAuthInitializing,
-    } = useSession()
-
+    const { user, isAuthenticated, isAuthInitializing } = useSession()
 
     ///////////////////////////////////////////////////////////////
     // Authentication initialization
 
     if (isAuthInitializing) {
-        return (
-            <div>
-                Checking authentication...
-            </div>
-        )
+        return <div>Checking authentication...</div>
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Authentication check
@@ -51,24 +35,14 @@ const ProtectedRoutes = ({ allowedRoles }) => {
     ///////////////////////////////////////////////////////////////
     // Authorization check
 
-    if (
-        allowedRoles &&
-        !allowedRoles.includes(user?.role)
-    ) {
-        return (
-            <Navigate
-                to="/unauthorized"
-                replace
-            />
-        )
+    if (allowedRoles && !allowedRoles.includes(user?.role)) {
+        return <Navigate to="/unauthorized" replace />
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Authenticated and authorized
 
     return <Outlet />
 }
-
 
 export default ProtectedRoutes

@@ -7,7 +7,6 @@ import FeaturedCourses from "../features/course/components/FeaturedCourses"
 const HomePage = () => {
     return (
         <div className="bg-background-base">
-
             <HomeHero />
 
             <FeaturedCourses />
@@ -17,7 +16,6 @@ const HomePage = () => {
             <WhyPathwise />
 
             <HomeCTA />
-
         </div>
     )
 }

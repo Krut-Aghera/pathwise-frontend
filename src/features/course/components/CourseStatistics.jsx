@@ -1,10 +1,4 @@
-import {
-    BookOpen,
-    Clock3,
-    Layers3,
-    UsersRound,
-} from "lucide-react"
-
+import { BookOpen, Clock3, Layers3, UsersRound } from "lucide-react"
 
 const CourseStatistics = ({
     lectureCount = 0,
@@ -12,7 +6,6 @@ const CourseStatistics = ({
     duration,
     studentCount,
 }) => {
-
     const statistics = [
         {
             key: "sections",
@@ -50,7 +43,6 @@ const CourseStatistics = ({
               ]
             : []),
     ]
-
 
     return (
         <section
@@ -93,7 +85,8 @@ const CourseStatistics = ({
                     >
                         {/* Icon */}
 
-                        <div className="
+                        <div
+                            className="
                             flex
                             h-9
                             w-9
@@ -105,31 +98,32 @@ const CourseStatistics = ({
 
                             bg-accent-primary/10
                             text-accent-primary
-                        ">
-                            <Icon
-                                size={17}
-                                strokeWidth={1.8}
-                            />
+                        "
+                        >
+                            <Icon size={17} strokeWidth={1.8} />
                         </div>
-
 
                         {/* Content */}
 
-                        <div className="
+                        <div
+                            className="
                             min-w-0
-                        ">
-
-                            <p className="
+                        "
+                        >
+                            <p
+                                className="
                                 truncate
 
                                 font-body
                                 text-[11px]
                                 text-text-muted
-                            ">
+                            "
+                            >
                                 {statistic.label}
                             </p>
 
-                            <p className="
+                            <p
+                                className="
                                 mt-0.5
                                 truncate
 
@@ -137,18 +131,16 @@ const CourseStatistics = ({
                                 text-sm
                                 font-semibold
                                 text-text-primary
-                            ">
+                            "
+                            >
                                 {statistic.value}
                             </p>
-
                         </div>
-
                     </div>
                 )
             })}
         </section>
     )
 }
-
 
 export default CourseStatistics

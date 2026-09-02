@@ -1,26 +1,22 @@
 import InstructorStatCard from "./InstructorStatCard"
 
-
-const InstructorStats = ({
-    stats,
-}) => {
-
+const InstructorStats = ({ stats }) => {
     return (
-        <section className="
+        <section
+            className="
             grid
             grid-cols-2
             gap-4
 
             xl:grid-cols-4
-        ">
-
+        "
+        >
             <InstructorStatCard
                 label="Total courses"
                 value={stats.totalCourses}
                 description="Courses in your workspace"
                 accent="secondary"
             />
-
 
             <InstructorStatCard
                 label="Published"
@@ -29,7 +25,6 @@ const InstructorStats = ({
                 accent="primary"
             />
 
-
             <InstructorStatCard
                 label="Enrollments"
                 value={stats.totalEnrollments}
@@ -37,17 +32,14 @@ const InstructorStats = ({
                 accent="unique"
             />
 
-
             <InstructorStatCard
                 label="Total revenue"
                 value={stats.totalRevenue}
                 description="Generated from your courses"
                 accent="secondary"
             />
-
         </section>
     )
 }
-
 
 export default InstructorStats

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
 import LectureBasicInformation from "../form-children/LectureBasicInformation"
-import LectureFormActions from "../form-children/LectureFormActions"
+import FormActions from "../../../../components/form/FormActions"
 
 const LectureUpdateForm = ({
     lecture,
@@ -11,9 +11,7 @@ const LectureUpdateForm = ({
     loading = false,
     validationRules,
 }) => {
-
     const globalErrorRef = useRef(null)
-
 
     ///////////////////////////////////////////////////////////////
     // Form
@@ -24,12 +22,8 @@ const LectureUpdateForm = ({
         reset,
         setError,
         clearErrors,
-        formState: {
-            errors,
-            isSubmitting,
-        },
+        formState: { errors, isSubmitting },
     } = useForm({
-
         defaultValues: {
             title: "",
             description: "",
@@ -41,64 +35,48 @@ const LectureUpdateForm = ({
         shouldFocusError: true,
     })
 
-
     ///////////////////////////////////////////////////////////////
     // Populate form
 
     useEffect(() => {
-
         if (!lecture) {
             return
         }
 
-
         reset({
-
             title: lecture.title ?? "",
 
             description: lecture.description ?? "",
 
-            isPreviewFree:
-                lecture.isPreviewFree ?? false,
+            isPreviewFree: lecture.isPreviewFree ?? false,
         })
-
     }, [lecture, reset])
-
 
     ///////////////////////////////////////////////////////////////
     // Global error scroll
 
     useEffect(() => {
-
         if (!errors.root?.message) {
             return
         }
 
-
         requestAnimationFrame(() => {
-
             globalErrorRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
             })
 
             globalErrorRef.current?.focus()
-
         })
-
     }, [errors.root?.message])
-
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleFormSubmit = async (formData) => {
-
         clearErrors("root")
 
-
         const lectureData = {
-
             title: formData.title,
 
             description: formData.description,
@@ -106,28 +84,17 @@ const LectureUpdateForm = ({
             isPreviewFree: formData.isPreviewFree,
         }
 
-
         ///////////////////////////////////////////////////////////
         // Send to page
 
         try {
-
-            await onSubmit(
-                lectureData
-            )
-
+            await onSubmit(lectureData)
         } catch (error) {
-
             /////////////////////////////////////////////////////////
             // Backend validation errors
 
-            if (
-                error?.statusCode === 400 &&
-                Array.isArray(error?.errors)
-            ) {
-
+            if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
-
                     if (!field) {
                         return
                     }
@@ -136,37 +103,28 @@ const LectureUpdateForm = ({
                         type: "server",
                         message,
                     })
-
                 })
 
                 return
             }
 
-
             /////////////////////////////////////////////////////////
             // General server error
 
             setError("root", {
-
                 type: "server",
 
                 message:
                     error?.message ||
                     "Unable to update lecture. Please try again.",
             })
-
         }
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
-    const isFormLoading =
-        loading ||
-        isSubmitting
-
+    const isFormLoading = loading || isSubmitting
 
     ///////////////////////////////////////////////////////////////
     // Render
@@ -177,11 +135,9 @@ const LectureUpdateForm = ({
             noValidate
             className="space-y-6"
         >
-
             {/* Global server error */}
 
             {errors.root?.message && (
-
                 <div
                     ref={globalErrorRef}
                     role="alert"
@@ -208,9 +164,7 @@ const LectureUpdateForm = ({
                 >
                     {errors.root.message}
                 </div>
-
             )}
-
 
             {/* Basic Information */}
 
@@ -220,18 +174,15 @@ const LectureUpdateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Actions */}
 
-            <LectureFormActions
+            <FormActions
                 onCancel={onCancel}
                 loading={isFormLoading}
                 submitLabel="Save Details"
             />
-
         </form>
     )
 }
-
 
 export default LectureUpdateForm

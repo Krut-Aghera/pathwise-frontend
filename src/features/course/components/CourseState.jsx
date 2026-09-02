@@ -1,20 +1,11 @@
-import {
-    BookOpen,
-    RefreshCcw,
-} from "lucide-react"
+import { BookOpen, RefreshCcw } from "lucide-react"
 
-
-const CourseState = ({
-    type = "empty",
-    title,
-    message,
-    onRetry,
-}) => {
-
+const CourseState = ({ type = "empty", title, message, onRetry }) => {
     const isError = type === "error"
 
     return (
-        <div className="
+        <div
+            className="
             flex
             min-h-64
             w-full
@@ -31,19 +22,21 @@ const CourseState = ({
 
             sm:min-h-72
             sm:px-8
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 flex
                 max-w-md
                 flex-col
                 items-center
                 text-center
-            ">
-
+            "
+            >
                 {/* Icon */}
 
-                <div className="
+                <div
+                    className="
                     flex
                     h-12
                     w-12
@@ -54,20 +47,19 @@ const CourseState = ({
 
                     bg-accent-primary/10
                     text-accent-primary
-                ">
-
+                "
+                >
                     {isError ? (
                         <RefreshCcw size={21} />
                     ) : (
                         <BookOpen size={21} />
                     )}
-
                 </div>
-
 
                 {/* Title */}
 
-                <h3 className="
+                <h3
+                    className="
                     mt-4
 
                     font-accent
@@ -77,20 +69,18 @@ const CourseState = ({
                     text-text-primary
 
                     sm:text-lg
-                ">
+                "
+                >
                     {title ||
-                        (
-                            isError
-                                ? "Unable to load courses"
-                                : "No courses found"
-                        )
-                    }
+                        (isError
+                            ? "Unable to load courses"
+                            : "No courses found")}
                 </h3>
-
 
                 {/* Message */}
 
-                <p className="
+                <p
+                    className="
                     mt-2
 
                     font-body
@@ -100,16 +90,13 @@ const CourseState = ({
 
                     sm:text-sm
                     sm:leading-6
-                ">
+                "
+                >
                     {message ||
-                        (
-                            isError
-                                ? "Something went wrong while loading the courses. Please try again."
-                                : "There are no courses available to display right now."
-                        )
-                    }
+                        (isError
+                            ? "Something went wrong while loading the courses. Please try again."
+                            : "There are no courses available to display right now.")}
                 </p>
-
 
                 {/* Retry */}
 
@@ -153,19 +140,13 @@ const CourseState = ({
                             cursor-pointer
                         "
                     >
-
                         <RefreshCcw size={14} />
-
                         Try Again
-
                     </button>
                 )}
-
             </div>
-
         </div>
     )
 }
-
 
 export default CourseState

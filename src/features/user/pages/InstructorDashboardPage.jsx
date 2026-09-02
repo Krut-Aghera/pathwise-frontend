@@ -1,4 +1,4 @@
-import DashboardSideVisual from "../components/user-dashboard/DashboardSideVisual.jsx"
+// import DashboardSideVisual from "../components/user-dashboard/DashboardSideVisual.jsx"
 
 import InstructorDashboardHeader from "../components/instructor-dashboard/InstructorDashboardHeader"
 import InstructorStats from "../components/instructor-dashboard/InstructorStats"
@@ -13,16 +13,16 @@ import {
     instructorDeletedCourses,
 } from "../../../data/instructorDashboardData.js"
 
-
 const InstructorDashboardPage = () => {
-
     return (
-        <div className="
+        <div
+            className="
             min-h-[calc(100vh-4rem)]
             bg-background-base
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 mx-auto
                 flex
                 w-full
@@ -40,45 +40,38 @@ const InstructorDashboardPage = () => {
 
                 lg:gap-8
                 lg:px-8
-            ">
-
+            "
+            >
                 {/* Sidebar visual */}
 
-                <DashboardSideVisual />
-
+                {/* <DashboardSideVisual /> */}
 
                 {/* Main */}
 
-                <main className="
+                <main
+                    className="
                     min-w-0
                     flex-1
-                ">
-
+                "
+                >
                     <div className="space-y-8">
-
                         {/* Header */}
 
                         <InstructorDashboardHeader />
 
-
                         {/* Statistics */}
 
-                        <InstructorStats
-                            stats={instructorDashboardStats}
-                        />
-
+                        <InstructorStats stats={instructorDashboardStats} />
 
                         {/* Course workspace */}
 
                         <InstructorQuickActions />
-
 
                         {/* Published courses */}
 
                         <InstructorCoursePerformance
                             courses={instructorPublishedCourses}
                         />
-
 
                         {/* Draft courses */}
 
@@ -88,7 +81,6 @@ const InstructorDashboardPage = () => {
                             />
                         )}
 
-
                         {/* Deleted courses */}
 
                         {instructorDeletedCourses.length > 0 && (
@@ -96,16 +88,11 @@ const InstructorDashboardPage = () => {
                                 courses={instructorDeletedCourses}
                             />
                         )}
-
                     </div>
-
                 </main>
-
             </div>
-
         </div>
     )
 }
-
 
 export default InstructorDashboardPage

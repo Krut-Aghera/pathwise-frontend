@@ -1,6 +1,4 @@
-import {
-    useGetCurrentUserQuery,
-} from "../../user/userApi"
+import { useGetCurrentUserQuery } from "../../user/userApi"
 
 import {
     useSignupMutation,
@@ -8,9 +6,7 @@ import {
     useLogoutMutation,
 } from "../authApi"
 
-
 const useSession = () => {
-
     // Current user
     const {
         data: userResponse,
@@ -22,31 +18,16 @@ const useSession = () => {
     const user = userResponse?.data || null
 
     // Authentication mutations
-    const [
-        signup,
-        {
-            isLoading: isSignupLoading,
-        },
-    ] = useSignupMutation()
+    const [signup, { isLoading: isSignupLoading }] = useSignupMutation()
 
+    const [login, { isLoading: isLoginLoading }] = useLoginMutation()
 
-    const [
-        login,
-        {
-            isLoading: isLoginLoading,
-        },
-    ] = useLoginMutation()
-
-
-    const [
-        logout,
-        {
-            isLoading: isLogoutLoading,
-        },
-    ] = useLogoutMutation()
+    const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation()
 
     // Derived authentication state
-    const isAuthenticated = Boolean(userResponse?.statusCode === 200 || userResponse?.suceess || user)
+    const isAuthenticated = Boolean(
+        userResponse?.statusCode === 200 || userResponse?.suceess || user
+    )
 
     // Signup
     const userSignup = async (userData) => {
@@ -60,14 +41,11 @@ const useSession = () => {
         await refetchCurrentUser()
     }
 
-
     // Logout
     const userLogout = async () => {
         await logout().unwrap()
         await refetchCurrentUser()
     }
-
-
 
     // Return session interface
     return {
@@ -85,6 +63,5 @@ const useSession = () => {
         isLogoutLoading,
     }
 }
-
 
 export default useSession

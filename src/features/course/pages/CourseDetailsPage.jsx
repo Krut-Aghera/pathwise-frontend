@@ -1,8 +1,6 @@
 import { useParams } from "react-router-dom"
 
-import {
-    useFetchCurrentCourseQuery,
-} from "../courseApi.js"
+import { useFetchCurrentCourseQuery } from "../courseApi.js"
 
 import CourseHeader from "../components/CourseHeader"
 import CourseStatistics from "../components/CourseStatistics"
@@ -11,28 +9,19 @@ import CourseEnrollmentCard from "../components/CourseEnrollmentCard"
 import CourseLoadingSkeleton from "../components/CourseLoadingSkeleton"
 import CourseState from "../components/CourseState"
 
-
 const CourseDetailsPage = () => {
-
     const { courseId } = useParams()
 
-
-    const {
-        data,
-        isLoading,
-        isError,
-        error,
-        refetch,
-    } = useFetchCurrentCourseQuery(courseId)
-
-    console.log(data)
+    const { data, isLoading, isError, error, refetch } =
+        useFetchCurrentCourseQuery(courseId)
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
     if (isLoading) {
         return (
-            <main className="
+            <main
+                className="
                 mx-auto
                 w-full
                 max-w-7xl
@@ -45,25 +34,25 @@ const CourseDetailsPage = () => {
 
                 lg:px-8
                 lg:py-10
-            ">
+            "
+            >
                 <CourseLoadingSkeleton />
             </main>
         )
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Error
 
     if (isError) {
-
         const errorMessage =
             error?.errors?.[0]?.message ||
             error?.message ||
             "Unable to load the course."
 
         return (
-            <main className="
+            <main
+                className="
             mx-auto
             w-full
             max-w-7xl
@@ -76,7 +65,8 @@ const CourseDetailsPage = () => {
 
             lg:px-8
             lg:py-10
-        ">
+        "
+            >
                 <CourseState
                     type="error"
                     title="Unable to load the course"
@@ -87,17 +77,15 @@ const CourseDetailsPage = () => {
         )
     }
 
-
     ///////////////////////////////////////////////////////////////
     // No course
 
     const course = data?.data
 
-    console.log(course)
-
     if (!course) {
         return (
-            <main className="
+            <main
+                className="
                 mx-auto
                 w-full
                 max-w-7xl
@@ -110,7 +98,8 @@ const CourseDetailsPage = () => {
 
                 lg:px-8
                 lg:py-10
-            ">
+            "
+            >
                 <CourseState
                     title="Course not found"
                     message="The course you're looking for could not be found."
@@ -119,12 +108,12 @@ const CourseDetailsPage = () => {
         )
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Success
 
     return (
-        <main className="
+        <main
+            className="
             mx-auto
             w-full
             max-w-7xl
@@ -137,27 +126,22 @@ const CourseDetailsPage = () => {
 
             lg:px-8
             lg:py-10
-        ">
-
+        "
+        >
             {/* Course Header */}
 
-            <CourseHeader
-                course={course}
-            />
-
+            <CourseHeader course={course} />
 
             {/* Course Statistics */}
 
             <section className="mt-5">
-                <CourseStatistics
-                    course={course}
-                />
+                <CourseStatistics course={course} />
             </section>
-
 
             {/* Main Content */}
 
-            <div className="
+            <div
+                className="
                 mt-6
 
                 grid
@@ -166,42 +150,36 @@ const CourseDetailsPage = () => {
 
                 lg:grid-cols-[minmax(0,1fr)_360px]
                 lg:items-start
-            ">
-
+            "
+            >
                 {/* Left Content */}
 
-                <div className="
+                <div
+                    className="
                     min-w-0
-                ">
-
-                    <CourseCurriculum
-                        course={course}
-                    />
-
+                "
+                >
+                    <CourseCurriculum course={course} />
                 </div>
-
 
                 {/* Right Content */}
 
-                <div className="
+                <div
+                    className="
                     min-w-0
 
                     lg:sticky
                     lg:top-24
-                ">
-
+                "
+                >
                     <CourseEnrollmentCard
                         price={course.price}
                         isEnrolled={course.isEnrolled}
                     />
-
                 </div>
-
             </div>
-
         </main>
     )
 }
-
 
 export default CourseDetailsPage

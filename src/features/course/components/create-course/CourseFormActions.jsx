@@ -1,13 +1,9 @@
 import Button from "../../../../components/ui/Button"
 
-
-const CourseFormActions = ({
-    onCancel,
-    loading = false,
-}) => {
-
+const CourseFormActions = ({ onCancel, loading = false }) => {
     return (
-        <div className="
+        <div
+            className="
             flex
             flex-col-reverse
             gap-3
@@ -18,8 +14,8 @@ const CourseFormActions = ({
 
             sm:flex-row
             sm:justify-end
-        ">
-
+        "
+        >
             {/* Cancel */}
 
             <Button
@@ -53,7 +49,6 @@ const CourseFormActions = ({
                 Cancel
             </Button>
 
-
             {/* Submit */}
 
             <Button
@@ -85,10 +80,8 @@ const CourseFormActions = ({
             >
                 Save Details
             </Button>
-
         </div>
     )
 }
-
 
 export default CourseFormActions

@@ -1,7 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react"
 import axiosBaseQuery from "../../app/network/axiosBaseQuery"
 
-
 const authApi = createApi({
     reducerPath: "authApi",
 
@@ -12,7 +11,6 @@ const authApi = createApi({
     tagTypes: ["Auth"],
 
     endpoints: (builder) => ({
-
         ///////////////////////////////////////////////////////////////
         // User registration
 
@@ -26,7 +24,6 @@ const authApi = createApi({
 
             invalidatesTags: ["Auth"],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // User login
@@ -42,7 +39,6 @@ const authApi = createApi({
             invalidatesTags: ["Auth"],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // User logout
 
@@ -56,7 +52,6 @@ const authApi = createApi({
             invalidatesTags: ["Auth"],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Rotate authentication tokens
 
@@ -67,7 +62,6 @@ const authApi = createApi({
                 method: "POST",
             }),
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Request password reset
@@ -81,7 +75,6 @@ const authApi = createApi({
             }),
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Reset password
 
@@ -93,7 +86,6 @@ const authApi = createApi({
                 data,
             }),
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Confirm email verification
@@ -108,7 +100,6 @@ const authApi = createApi({
             invalidatesTags: ["Auth"],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Request email verification
 
@@ -119,7 +110,6 @@ const authApi = createApi({
                 method: "POST",
             }),
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Change password
@@ -132,10 +122,8 @@ const authApi = createApi({
                 data,
             }),
         }),
-
     }),
 })
-
 
 export const {
     useSignupMutation,
@@ -152,6 +140,4 @@ export const {
     useChangePasswordMutation,
 } = authApi
 
-
 export default authApi
-

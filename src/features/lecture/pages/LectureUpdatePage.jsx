@@ -1,4 +1,3 @@
-
 import { useNavigate, useParams } from "react-router-dom"
 
 import useLecture from "../hooks/useLecture.js"
@@ -6,66 +5,63 @@ import useLectureManagement from "../hooks/useLectureManagement.js"
 import { lectureValidationRules } from "../lectureValidations.js"
 
 import LectureUpdateForm from "../components/form/LectureUpdateForm.jsx"
+
 import ErrorState from "../../../components/ui/ErrorState.jsx"
 
-
 const LectureUpdatePage = () => {
-
     const navigate = useNavigate()
 
-    const { lectureId } = useParams()
-
+    const { sectionId, lectureId } = useParams()
 
     ///////////////////////////////////////////////////////////////
     // Fetch lecture
 
     const {
         lecture,
+
         isLectureLoading,
+        isLectureError,
+        lectureError,
+
+        refetchLecture,
     } = useLecture({
         lectureId,
     })
 
-
     ///////////////////////////////////////////////////////////////
     // Lecture management
 
-    const {
-        updateLecture,
-        isUpdating,
-    } = useLectureManagement()
-
+    const { updateLecture, isUpdating } = useLectureManagement()
 
     ///////////////////////////////////////////////////////////////
     // Validation rules
 
-    const validationRules =
-        lectureValidationRules
+    const validationRules = lectureValidationRules
 
+    ///////////////////////////////////////////////////////////////
+    // Error helper
+
+    const getErrorMessage = (error, fallback) => {
+        return error?.errors?.[0]?.message || error?.message || fallback
+    }
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleSubmit = async (lectureData) => {
-
         if (!lectureId) {
-            throw new Error(
-                "Lecture ID is required to update a lecture."
-            )
+            throw new Error("Lecture ID is required to update a lecture.")
         }
 
+        if (!sectionId) {
+            throw new Error("Section ID is required to update a lecture.")
+        }
 
-        const result = await updateLecture(
-            lectureId,
-            lectureData,
-            lecture?.section?._id
-        )
-
+        const result = await updateLecture(lectureId, lectureData, sectionId)
 
         if (!result.success) {
             throw result.error
         }
-
 
         ///////////////////////////////////////////////////////////
         // Success
@@ -73,24 +69,20 @@ const LectureUpdatePage = () => {
         navigate(-1)
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Cancel
 
     const handleCancel = () => {
-
         navigate(-1)
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
     if (isLectureLoading) {
-
         return (
-            <main className="
+            <main
+                className="
                 mx-auto
                 w-full
                 max-w-5xl
@@ -103,55 +95,60 @@ const LectureUpdatePage = () => {
 
                 lg:px-8
                 lg:py-10
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     animate-pulse
                     space-y-8
-                ">
-
+                "
+                >
                     <div className="space-y-3">
-
-                        <div className="
+                        <div
+                            className="
                             h-8
                             w-48
                             rounded
                             bg-background-elevated
-                        " />
+                        "
+                        />
 
-                        <div className="
+                        <div
+                            className="
                             h-4
                             w-full
                             max-w-2xl
                             rounded
                             bg-background-elevated
-                        " />
-
+                        "
+                        />
                     </div>
 
-
-                    <div className="
+                    <div
+                        className="
                         h-125
                         rounded-xl
                         border
                         border-border-subtle
                         bg-background-surface
-                    " />
-
+                    "
+                    />
                 </div>
-
             </main>
         )
     }
 
-
     ///////////////////////////////////////////////////////////////
-    // Lecture not found
+    // Error state
 
-    if (!lecture) {
+    if (isLectureError || !lecture) {
+        const message = isLectureError
+            ? getErrorMessage(lectureError, "Unable to load this lecture.")
+            : "The lecture you're trying to edit could not be found."
 
         return (
-            <main className="
+            <main
+                className="
                 mx-auto
                 w-full
                 max-w-5xl
@@ -164,23 +161,23 @@ const LectureUpdatePage = () => {
 
                 lg:px-8
                 lg:py-10
-            ">
-
+            "
+            >
                 <ErrorState
-                    title="Lecture not found"
-                    message="The lecture you're trying to edit could not be found."
+                    title="Unable to load lecture"
+                    message={message}
+                    onRetry={refetchLecture}
                 />
-
             </main>
         )
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
-        <main className="
+        <main
+            className="
             mx-auto
             w-full
             max-w-5xl
@@ -193,37 +190,38 @@ const LectureUpdatePage = () => {
 
             lg:px-8
             lg:py-10
-        ">
-
+        "
+        >
             {/* Page Header */}
 
             <header className="mb-8">
-
-                <h1 className="
+                <h1
+                    className="
                     font-accent
                     text-2xl
                     font-semibold
                     text-text-primary
 
                     sm:text-3xl
-                ">
+                "
+                >
                     Edit Lecture
                 </h1>
 
-                <p className="
+                <p
+                    className="
                     mt-2
                     max-w-2xl
                     font-body
                     text-sm
                     leading-6
                     text-text-secondary
-                ">
-                    Update the lecture information and keep its content
-                    details up to date.
+                "
+                >
+                    Update the lecture information and keep its content details
+                    up to date.
                 </p>
-
             </header>
-
 
             {/* Lecture Form */}
 
@@ -234,10 +232,8 @@ const LectureUpdatePage = () => {
                 loading={isUpdating}
                 validationRules={validationRules}
             />
-
         </main>
     )
 }
-
 
 export default LectureUpdatePage

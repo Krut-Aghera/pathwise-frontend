@@ -9,16 +9,13 @@ import CourseTargetAudience from "../create-course/CourseTargetAudience.jsx"
 import CourseRequirements from "../create-course/CourseRequirements.jsx"
 import CourseFormActions from "../create-course/CourseFormActions.jsx"
 
-
 const CourseCreateForm = ({
     onSubmit,
     onCancel,
     loading = false,
     validationRules,
 }) => {
-
     const globalErrorRef = useRef(null)
-
 
     ///////////////////////////////////////////////////////////////
     // Form
@@ -29,10 +26,7 @@ const CourseCreateForm = ({
         handleSubmit,
         setError,
         clearErrors,
-        formState: {
-            errors,
-            isSubmitting,
-        },
+        formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
             title: "",
@@ -52,18 +46,15 @@ const CourseCreateForm = ({
         shouldFocusError: true,
     })
 
-
     ///////////////////////////////////////////////////////////////
     // Global error scroll
 
     useEffect(() => {
-
         if (!errors.root?.message) {
             return
         }
 
         requestAnimationFrame(() => {
-
             globalErrorRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
@@ -71,17 +62,13 @@ const CourseCreateForm = ({
 
             globalErrorRef.current?.focus()
         })
-
     }, [errors.root?.message])
-
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleFormSubmit = async (formData) => {
-
         clearErrors("root")
-
 
         /////////////////////////////////////////////////////////////
         // Normalize array fields
@@ -98,50 +85,28 @@ const CourseCreateForm = ({
             .map((item) => item.trim())
             .filter(Boolean)
 
-
         /////////////////////////////////////////////////////////////
         // Create multipart form data
 
         const multipartFormData = new FormData()
 
-
         /////////////////////////////////////////////////////////////
         // Basic information
 
-        multipartFormData.append(
-            "title",
-            formData.title
-        )
+        multipartFormData.append("title", formData.title)
 
-        multipartFormData.append(
-            "subtitle",
-            formData.subtitle
-        )
+        multipartFormData.append("subtitle", formData.subtitle)
 
-        multipartFormData.append(
-            "description",
-            formData.description
-        )
-
+        multipartFormData.append("description", formData.description)
 
         /////////////////////////////////////////////////////////////
         // Course details
 
-        multipartFormData.append(
-            "price",
-            formData.price
-        )
+        multipartFormData.append("price", formData.price)
 
-        multipartFormData.append(
-            "language",
-            formData.language
-        )
+        multipartFormData.append("language", formData.language)
 
-        multipartFormData.append(
-            "level",
-            formData.level
-        )
-
+        multipartFormData.append("level", formData.level)
 
         /////////////////////////////////////////////////////////////
         // Array fields
@@ -156,11 +121,7 @@ const CourseCreateForm = ({
             JSON.stringify(targetAudience)
         )
 
-        multipartFormData.append(
-            "requirements",
-            JSON.stringify(requirements)
-        )
-
+        multipartFormData.append("requirements", JSON.stringify(requirements))
 
         /////////////////////////////////////////////////////////////
         // Thumbnail
@@ -168,36 +129,24 @@ const CourseCreateForm = ({
         const thumbnail = formData.thumbnail?.[0]
 
         if (thumbnail) {
-
-            multipartFormData.append(
-                "thumbnail",
-                thumbnail
-            )
-
+            multipartFormData.append("thumbnail", thumbnail)
         }
-
 
         /////////////////////////////////////////////////////////////
         // Send to page
 
         try {
-
-            await onSubmit(
-                multipartFormData
-            )
-
+            await onSubmit(multipartFormData)
         } catch (error) {
-
             ///////////////////////////////////////////////////////////
             // Backend validation errors
 
             if (
-                error?.statusCode === 400 &&
-                Array.isArray(error?.errors)
+                error?.status === 400 &&
+                Array.isArray(error?.errors) &&
+                error.errors.length > 0
             ) {
-
                 error.errors.forEach(({ field, message }) => {
-
                     if (!field) {
                         return
                     }
@@ -206,12 +155,22 @@ const CourseCreateForm = ({
                         type: "server",
                         message,
                     })
-
                 })
 
                 return
             }
 
+            /////////////////////////////////////////////////////////////
+            // Thumbnail validation error
+
+            if (error?.status === 400 && error?.message) {
+                setError("thumbnail", {
+                    type: "server",
+                    message: error.message,
+                })
+
+                return
+            }
 
             ///////////////////////////////////////////////////////////
             // General server error
@@ -222,19 +181,13 @@ const CourseCreateForm = ({
                     error?.message ||
                     "Unable to create course. Please try again.",
             })
-
         }
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
-    const isFormLoading =
-        loading ||
-        isSubmitting
-
+    const isFormLoading = loading || isSubmitting
 
     ///////////////////////////////////////////////////////////////
     // Render
@@ -245,11 +198,9 @@ const CourseCreateForm = ({
             noValidate
             className="space-y-6"
         >
-
             {/* Global server error */}
 
             {errors.root?.message && (
-
                 <div
                     ref={globalErrorRef}
                     role="alert"
@@ -276,9 +227,7 @@ const CourseCreateForm = ({
                 >
                     {errors.root.message}
                 </div>
-
             )}
-
 
             {/* Basic Information */}
 
@@ -288,7 +237,6 @@ const CourseCreateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Course Details */}
 
             <CourseDetails
@@ -297,7 +245,6 @@ const CourseCreateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Thumbnail */}
 
             <CourseThumbnailUpload
@@ -305,7 +252,6 @@ const CourseCreateForm = ({
                 errors={errors}
                 validationRules={validationRules}
             />
-
 
             {/* Learning Outcomes */}
 
@@ -316,7 +262,6 @@ const CourseCreateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Target Audience */}
 
             <CourseTargetAudience
@@ -325,7 +270,6 @@ const CourseCreateForm = ({
                 errors={errors}
                 validationRules={validationRules}
             />
-
 
             {/* Requirements */}
 
@@ -336,17 +280,11 @@ const CourseCreateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Actions */}
 
-            <CourseFormActions
-                loading={isFormLoading}
-                onCancel={onCancel}
-            />
-
+            <CourseFormActions loading={isFormLoading} onCancel={onCancel} />
         </form>
     )
 }
-
 
 export default CourseCreateForm

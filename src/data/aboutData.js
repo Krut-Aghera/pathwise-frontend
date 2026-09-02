@@ -13,8 +13,6 @@ import {
     Server,
 } from "lucide-react"
 
-
-
 export const systemAreas = [
     {
         icon: ShieldCheck,
@@ -38,34 +36,28 @@ export const systemAreas = [
     },
 ]
 
-
 export const reasons = [
     {
         icon: Layers3,
         title: "Full-stack thinking",
-        text:
-            "Understand how the frontend, backend, database, authentication, services, and deployment fit together.",
+        text: "Understand how the frontend, backend, database, authentication, services, and deployment fit together.",
     },
     {
         icon: ShieldCheck,
         title: "Production concerns",
-        text:
-            "Explore validation, authorization, rate limiting, security, error handling, and reliable server-side workflows.",
+        text: "Explore validation, authorization, rate limiting, security, error handling, and reliable server-side workflows.",
     },
     {
         icon: Database,
         title: "Real data modeling",
-        text:
-            "Model relationships around users, courses, sections, lectures, orders, enrollment, and learning progress.",
+        text: "Model relationships around users, courses, sections, lectures, orders, enrollment, and learning progress.",
     },
     {
         icon: Rocket,
         title: "Deployment mindset",
-        text:
-            "Move beyond local development and build an application with real deployment and infrastructure considerations.",
+        text: "Move beyond local development and build an application with real deployment and infrastructure considerations.",
     },
 ]
-
 
 export const studentCapabilities = [
     "Browse available courses",
@@ -76,7 +68,6 @@ export const studentCapabilities = [
     "Resume learning from saved progress",
     "Track lecture and course completion",
 ]
-
 
 export const creatorCapabilities = [
     "Create courses",
@@ -133,7 +124,6 @@ export const engineeringFeatures = [
     },
 ]
 
-
 export const technologies = [
     {
         category: "Frontend",
@@ -150,22 +140,11 @@ export const technologies = [
     {
         category: "Backend",
         icon: Server,
-        items: [
-            "Node.js",
-            "Express",
-            "MongoDB",
-            "Mongoose",
-        ],
+        items: ["Node.js", "Express", "MongoDB", "Mongoose"],
     },
     {
         category: "Services & Infrastructure",
         icon: Cloud,
-        items: [
-            "Cloudinary",
-            "Cashfree",
-            "Sender",
-            "Vercel",
-            "Railway",
-        ],
+        items: ["Cloudinary", "Cashfree", "Sender", "Vercel", "Railway"],
     },
 ]

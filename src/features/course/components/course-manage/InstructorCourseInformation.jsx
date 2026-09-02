@@ -1,15 +1,6 @@
-import {
-    BookOpen,
-    Globe2,
-    IndianRupee,
-    Layers3,
-} from "lucide-react"
+import { BookOpen, Globe2, IndianRupee, Layers3 } from "lucide-react"
 
-
-const InstructorCourseInformation = ({
-    course,
-}) => {
-
+const InstructorCourseInformation = ({ course }) => {
     const items = [
         {
             label: "Price",
@@ -33,9 +24,9 @@ const InstructorCourseInformation = ({
         },
     ]
 
-
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -44,31 +35,30 @@ const InstructorCourseInformation = ({
             p-5
 
             sm:p-6
-        ">
-
-            <h2 className="
+        "
+        >
+            <h2
+                className="
                 font-accent
                 text-lg
                 font-semibold
                 text-text-primary
-            ">
-
+            "
+            >
                 Course Information
-
             </h2>
 
-
-            <div className="
+            <div
+                className="
                 mt-5
 
                 grid
                 gap-3
 
                 sm:grid-cols-2
-            ">
-
+            "
+            >
                 {items.map((item) => {
-
                     const Icon = item.icon
 
                     return (
@@ -89,8 +79,8 @@ const InstructorCourseInformation = ({
                                 p-3
                             "
                         >
-
-                            <div className="
+                            <div
+                                className="
                                 flex
                                 h-8
                                 w-8
@@ -103,26 +93,24 @@ const InstructorCourseInformation = ({
                                 bg-accent-primary/10
 
                                 text-accent-primary
-                            ">
-
+                            "
+                            >
                                 <Icon size={15} />
-
                             </div>
 
-
                             <div className="min-w-0">
-
-                                <p className="
+                                <p
+                                    className="
                                     font-body
                                     text-[11px]
                                     text-text-muted
-                                ">
-
+                                "
+                                >
                                     {item.label}
-
                                 </p>
 
-                                <p className="
+                                <p
+                                    className="
                                     mt-0.5
 
                                     truncate
@@ -131,24 +119,17 @@ const InstructorCourseInformation = ({
                                     text-sm
                                     font-medium
                                     text-text-secondary
-                                ">
-
+                                "
+                                >
                                     {item.value}
-
                                 </p>
-
                             </div>
-
                         </div>
                     )
-
                 })}
-
             </div>
-
         </section>
     )
 }
-
 
 export default InstructorCourseInformation

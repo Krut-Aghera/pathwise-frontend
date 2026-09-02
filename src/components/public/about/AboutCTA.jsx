@@ -1,16 +1,12 @@
-import {
-    ArrowRight,
-    BookOpen,
-} from "lucide-react"
+import { ArrowRight, BookOpen } from "lucide-react"
 
 import { Link } from "react-router-dom"
-
 
 const AboutCTA = () => {
     return (
         <section>
-
-            <div className="
+            <div
+                className="
                 mx-auto
                 w-full
                 max-w-4xl
@@ -19,9 +15,10 @@ const AboutCTA = () => {
                 text-center
                 sm:px-6
                 lg:px-8
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     mx-auto
                     flex
                     h-12
@@ -31,12 +28,13 @@ const AboutCTA = () => {
                     rounded-xl
                     bg-accent-primary/10
                     text-accent-primary
-                ">
+                "
+                >
                     <BookOpen size={22} />
                 </div>
 
-
-                <h2 className="
+                <h2
+                    className="
                     mt-5
                     font-accent
                     text-3xl
@@ -44,12 +42,13 @@ const AboutCTA = () => {
                     tracking-tight
                     text-text-primary
                     sm:text-4xl
-                ">
+                "
+                >
                     See the project in action.
                 </h2>
 
-
-                <p className="
+                <p
+                    className="
                     mx-auto
                     mt-4
                     max-w-xl
@@ -57,21 +56,22 @@ const AboutCTA = () => {
                     text-sm
                     leading-6
                     text-text-secondary
-                ">
+                "
+                >
                     Explore the course experience and see how the different
                     parts of Pathwise come together.
                 </p>
 
-
-                <div className="
+                <div
+                    className="
                     mt-7
                     flex
                     flex-col
                     justify-center
                     gap-3
                     sm:flex-row
-                ">
-
+                "
+                >
                     <Link
                         to="/courses"
                         className="
@@ -94,7 +94,6 @@ const AboutCTA = () => {
                         Browse Courses
                         <ArrowRight size={16} />
                     </Link>
-
 
                     <Link
                         to="/auth/signup"
@@ -119,14 +118,10 @@ const AboutCTA = () => {
                     >
                         Create an Account
                     </Link>
-
                 </div>
-
             </div>
-
         </section>
     )
 }
-
 
 export default AboutCTA

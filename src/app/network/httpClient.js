@@ -1,7 +1,6 @@
 import axiosClient from "./axiosClient"
 
 const httpClient = {
-
     get(url, config) {
         return axiosClient.get(url, config)
     },

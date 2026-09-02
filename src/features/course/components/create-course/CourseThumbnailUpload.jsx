@@ -1,15 +1,10 @@
 import FormField from "../../../../components/form/FormField.jsx"
 import Input from "../../../../components/form/Input.jsx"
 
-
-const CourseThumbnailUpload = ({
-    register,
-    errors,
-    validationRules,
-}) => {
-
+const CourseThumbnailUpload = ({ register, errors, validationRules }) => {
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -17,33 +12,34 @@ const CourseThumbnailUpload = ({
             p-5
 
             sm:p-6
-        ">
-
+        "
+        >
             {/* Section Header */}
 
             <div className="mb-6">
-
-                <h2 className="
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     Course Thumbnail
                 </h2>
 
-                <p className="
+                <p
+                    className="
                     mt-1
                     font-body
                     text-sm
                     leading-5
                     text-text-secondary
-                ">
+                "
+                >
                     Upload an image that represents your course.
                 </p>
-
             </div>
-
 
             {/* Thumbnail */}
 
@@ -53,16 +49,13 @@ const CourseThumbnailUpload = ({
                 required
                 error={errors.thumbnail?.message}
             >
-
                 <Input
                     id="thumbnail"
                     type="file"
                     accept="image/*"
                     error={Boolean(errors.thumbnail)}
                     aria-describedby={
-                        errors.thumbnail
-                            ? "thumbnail-error"
-                            : undefined
+                        errors.thumbnail ? "thumbnail-error" : undefined
                     }
                     className="
                         cursor-pointer
@@ -80,17 +73,11 @@ const CourseThumbnailUpload = ({
 
                         hover:file:bg-background-elevated
                     "
-                    {...register(
-                        "thumbnail",
-                        validationRules
-                    )}
+                    {...register("thumbnail", validationRules)}
                 />
-
             </FormField>
-
         </section>
     )
 }
-
 
 export default CourseThumbnailUpload

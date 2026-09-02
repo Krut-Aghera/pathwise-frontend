@@ -1,41 +1,34 @@
-import {
-    ArrowLeft,
-    UserRound,
-} from "lucide-react"
+import { ArrowLeft, UserRound } from "lucide-react"
 
 import { Link } from "react-router-dom"
 
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-
-const InstructorCourseDetailsHeader = ({
-    course,
-}) => {
-
-    const isPublished =
-        course?.status === RESOURCE_STATUS.PUBLISHED
-
+const InstructorCourseDetailsHeader = ({ course, instructor }) => {
+    const isPublished = course?.status === RESOURCE_STATUS.PUBLISHED
 
     return (
-        <section className="
+        <section
+            className="
             overflow-hidden
             rounded-xl
             border
             border-border-subtle
             bg-background-surface
-        ">
-
+        "
+        >
             {/* Back */}
 
-            <div className="
+            <div
+                className="
                 border-b
                 border-border-subtle
                 px-4
                 py-3
 
                 sm:px-6
-            ">
-
+            "
+            >
                 <Link
                     to="/instructor/courses"
                     className="
@@ -54,19 +47,15 @@ const InstructorCourseDetailsHeader = ({
                         hover:text-accent-primary
                     "
                 >
-
                     <ArrowLeft size={15} />
-
                     Back to Courses
-
                 </Link>
-
             </div>
-
 
             {/* Header content */}
 
-            <div className="
+            <div
+                className="
                 flex
                 flex-col
                 gap-5
@@ -77,21 +66,21 @@ const InstructorCourseDetailsHeader = ({
 
                 lg:flex-row
                 lg:items-center
-            ">
-
+            "
+            >
                 {/* Thumbnail */}
 
-                <div className="
+                <div
+                    className="
                     w-full
                     shrink-0
                     overflow-hidden
                     rounded-lg
                     bg-background-elevated
                     lg:w-72
-                ">
-
+                "
+                >
                     <div className="aspect-video">
-
                         <img
                             src={course?.thumbnail?.url}
                             alt={course?.title}
@@ -101,27 +90,27 @@ const InstructorCourseDetailsHeader = ({
                                 object-cover
                             "
                         />
-
                     </div>
-
                 </div>
-
 
                 {/* Course identity */}
 
-                <div className="
+                <div
+                    className="
                     min-w-0
                     flex-1
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         flex
                         flex-wrap
                         items-center
                         gap-2
-                    ">
-
-                        <span className={`
+                    "
+                    >
+                        <span
+                            className={`
                             inline-flex
                             rounded-md
                             border
@@ -145,19 +134,14 @@ const InstructorCourseDetailsHeader = ({
                                         text-status-warning
                                     `
                             }
-                        `}>
-
-                            {isPublished
-                                ? "Published"
-                                : "Draft"
-                            }
-
+                        `}
+                        >
+                            {isPublished ? "Published" : "Draft"}
                         </span>
-
                     </div>
 
-
-                    <h1 className="
+                    <h1
+                        className="
                         mt-3
 
                         font-accent
@@ -167,15 +151,14 @@ const InstructorCourseDetailsHeader = ({
                         text-text-primary
 
                         sm:text-3xl
-                    ">
-
+                    "
+                    >
                         {course?.title}
-
                     </h1>
 
-
                     {course?.subtitle && (
-                        <p className="
+                        <p
+                            className="
                             mt-2
 
                             max-w-3xl
@@ -184,17 +167,16 @@ const InstructorCourseDetailsHeader = ({
                             text-sm
                             leading-6
                             text-text-secondary
-                        ">
-
+                        "
+                        >
                             {course.subtitle}
-
                         </p>
                     )}
 
-
                     {/* Instructor */}
 
-                    <div className="
+                    <div
+                        className="
                         mt-4
                         flex
                         items-center
@@ -203,23 +185,16 @@ const InstructorCourseDetailsHeader = ({
                         font-body
                         text-xs
                         text-text-muted
-                    ">
-
+                    "
+                    >
                         <UserRound size={14} />
 
-                        <span>
-                            {course?.instructor?.username}
-                        </span>
-
+                        <span>{instructor?.username}</span>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
     )
 }
-
 
 export default InstructorCourseDetailsHeader

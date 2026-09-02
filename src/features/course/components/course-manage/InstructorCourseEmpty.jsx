@@ -1,10 +1,9 @@
-import { BookOpen,} from "lucide-react"
-
+import { BookOpen } from "lucide-react"
 
 const InstructorCourseEmpty = () => {
-
     return (
-        <section className="
+        <section
+            className="
             flex
             min-h-80
             w-full
@@ -24,11 +23,12 @@ const InstructorCourseEmpty = () => {
 
             sm:px-8
             sm:py-12
-        ">
-
+        "
+        >
             {/* Icon */}
 
-            <div className="
+            <div
+                className="
                 flex
                 h-12
                 w-12
@@ -41,51 +41,46 @@ const InstructorCourseEmpty = () => {
                 bg-accent-primary/10
 
                 text-accent-primary
-            ">
-
-                <BookOpen
-                    size={22}
-                    strokeWidth={1.8}
-                />
-
+            "
+            >
+                <BookOpen size={22} strokeWidth={1.8} />
             </div>
-
 
             {/* Content */}
 
-            <div className="
+            <div
+                className="
                 mt-4
                 max-w-md
-            ">
-
-                <h2 className="
+            "
+            >
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     No courses yet
                 </h2>
 
-
-                <p className="
+                <p
+                    className="
                     mt-2
 
                     font-body
                     text-sm
                     leading-6
                     text-text-secondary
-                ">
-                    You haven't created any courses yet.
-                    Start building your first course and
-                    share your knowledge with students.
+                "
+                >
+                    You haven't created any courses yet. Start building your
+                    first course and share your knowledge with students.
                 </p>
-
             </div>
-
         </section>
     )
 }
-
 
 export default InstructorCourseEmpty

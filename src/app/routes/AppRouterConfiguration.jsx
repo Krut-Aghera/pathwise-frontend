@@ -44,90 +44,65 @@ import LectureVideoUploadPage from "../../features/lecture/pages/LectureVideoUpl
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
         <>
-
             {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Public Routes*/}
 
             <Route path="/" element={<AppLayout />}>
+                <Route index element={<HomePage />} />
 
-                <Route
-                    index
-                    element={<HomePage />}
-                />
-
-                <Route
-                    path="about"
-                    element={<AboutPage />}
-                />
+                <Route path="about" element={<AboutPage />} />
 
                 <Route
                     path="courses/:courseId"
                     element={<CourseDetailsPage />}
                 />
-
             </Route>
-
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Auth Routes*/}
 
             <Route path="auth" element={<AuthLayout />}>
-
                 <Route element={<GuestOnlyRoutes />}>
-
-                    <Route
-                        path="login"
-                        element={<LoginPage />}
-                    />
-                    <Route
-                        path="signup"
-                        element={<SignupPage />}
-                    />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="signup" element={<SignupPage />} />
                     <Route
                         path="forgot-password"
                         element={<ForgotPasswordPage />}
                     />
-
                 </Route>
-
             </Route>
-
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Authenticated User // student (default) - instructor - admin routes */}
 
-            <Route element={<ProtectedRoutes allowedRoles={[
-                USER_ROLE.STUDENT,
-                USER_ROLE.INSTRUCTOR,
-                USER_ROLE.ADMIN,
-            ]} />}>
-
+            <Route
+                element={
+                    <ProtectedRoutes
+                        allowedRoles={[
+                            USER_ROLE.STUDENT,
+                            USER_ROLE.INSTRUCTOR,
+                            USER_ROLE.ADMIN,
+                        ]}
+                    />
+                }
+            >
                 <Route element={<AppLayout />}>
-
-                    <Route
-                        path="dashboard"
-                        element={<UserDashboardPage />}
-                    />
-                    <Route
-                        path="wishlist"
-                        element={<WishlistPage />}
-                    />
-
+                    <Route path="dashboard" element={<UserDashboardPage />} />
+                    <Route path="wishlist" element={<WishlistPage />} />
                 </Route>
-
             </Route>
-
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Instructor - admin routes*/}
 
-            <Route element={<ProtectedRoutes allowedRoles={[
-                USER_ROLE.INSTRUCTOR,
-                USER_ROLE.ADMIN,
-            ]} />}>
-
+            <Route
+                element={
+                    <ProtectedRoutes
+                        allowedRoles={[USER_ROLE.INSTRUCTOR, USER_ROLE.ADMIN]}
+                    />
+                }
+            >
                 <Route element={<AppLayout />}>
-
                     <Route
                         path="instructor/dashboard"
                         element={<InstructorDashboardPage />}
@@ -177,46 +152,36 @@ const routerConfig = createBrowserRouter(
                         path="instructor/courses/:courseId/sections/:sectionId/lectures/create"
                         element={<LectureCreatePage />}
                     />
-                    
+
                     <Route
-                        path="/instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/edit"
+                        path="instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/edit"
                         element={<LectureUpdatePage />}
                     />
-                  
+
                     <Route
                         path="instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/manage"
                         element={<LectureDetailsPage />}
                     />
-                  
+
                     <Route
                         path="instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/video"
                         element={<LectureVideoUploadPage />}
                     />
-
                 </Route>
-
             </Route>
-
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Admin Only Routes */}
 
-
-            <Route element={<ProtectedRoutes allowedRoles={[USER_ROLE.ADMIN,]} />}></Route>
-
+            <Route
+                element={<ProtectedRoutes allowedRoles={[USER_ROLE.ADMIN]} />}
+            ></Route>
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Error Routes*/}
 
-            <Route
-                path="unauthorized"
-                element={<UnauthorizedPage />}
-            />
-            <Route
-                path="*"
-                element={<NotFoundPage />}
-            />
-
+            <Route path="unauthorized" element={<UnauthorizedPage />} />
+            <Route path="*" element={<NotFoundPage />} />
         </>
     )
 )

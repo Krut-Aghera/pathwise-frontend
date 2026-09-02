@@ -1,9 +1,4 @@
-import {
-    Edit3,
-    Eye,
-    PlayCircle,
-    Trash2,
-} from "lucide-react"
+import { Edit3, Eye, PlayCircle, Trash2 } from "lucide-react"
 
 import { Link } from "react-router-dom"
 
@@ -11,20 +6,17 @@ import Button from "../../../../components/ui/Button"
 
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-
 const InstructorCourseDetailsActions = ({
     course,
     onPublish,
     onDraft,
     onRemove,
 }) => {
-
-    const isPublished =
-        course?.status === RESOURCE_STATUS.PUBLISHED
-
+    const isPublished = course?.status === RESOURCE_STATUS.PUBLISHED
 
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -33,9 +25,10 @@ const InstructorCourseDetailsActions = ({
             p-4
 
             sm:p-5
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 flex
                 flex-col
                 gap-3
@@ -43,8 +36,8 @@ const InstructorCourseDetailsActions = ({
                 sm:flex-row
                 sm:flex-wrap
                 sm:items-center
-            ">
-
+            "
+            >
                 {/* Edit */}
 
                 <Link
@@ -83,18 +76,13 @@ const InstructorCourseDetailsActions = ({
                     focus-visible:ring-offset-2
                     "
                 >
-
                     <Edit3 size={15} />
-
                     Edit Course
-
                 </Link>
-
 
                 {/* Publish / Draft */}
 
                 {isPublished ? (
-
                     <Button
                         type="button"
                         onClick={() => onDraft?.(course)}
@@ -109,26 +97,14 @@ const InstructorCourseDetailsActions = ({
                             hover:bg-status-warning/20
                         "
                     >
-
                         Save as Draft
-
                     </Button>
-
                 ) : (
-
-                    <Button
-                        type="button"
-                        onClick={() => onPublish?.(course)}
-                    >
-
+                    <Button type="button" onClick={() => onPublish?.(course)}>
                         <PlayCircle size={15} />
-
                         Publish Course
-
                     </Button>
-
                 )}
-
 
                 {/* Remove */}
 
@@ -146,13 +122,9 @@ const InstructorCourseDetailsActions = ({
                         hover:bg-status-danger/20
                     "
                 >
-
                     <Trash2 size={15} />
-
                     Remove Course
-
                 </Button>
-
 
                 {/* Public course */}
 
@@ -183,19 +155,13 @@ const InstructorCourseDetailsActions = ({
                             hover:text-text-secondary
                         "
                     >
-
                         <Eye size={15} />
-
                         View Public Course
-
                     </Link>
                 )}
-
             </div>
-
         </section>
     )
 }
-
 
 export default InstructorCourseDetailsActions

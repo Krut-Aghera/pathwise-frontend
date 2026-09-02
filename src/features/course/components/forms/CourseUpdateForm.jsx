@@ -15,9 +15,7 @@ const CourseUpdateForm = ({
     loading = false,
     validationRules,
 }) => {
-
     const globalErrorRef = useRef(null)
-
 
     ///////////////////////////////////////////////////////////////
     // Form
@@ -29,12 +27,8 @@ const CourseUpdateForm = ({
         reset,
         setError,
         clearErrors,
-        formState: {
-            errors,
-            isSubmitting,
-        },
+        formState: { errors, isSubmitting },
     } = useForm({
-
         defaultValues: {
             title: "",
             subtitle: "",
@@ -52,19 +46,15 @@ const CourseUpdateForm = ({
         shouldFocusError: true,
     })
 
-
     ///////////////////////////////////////////////////////////////
     // Populate form
 
     useEffect(() => {
-
         if (!course) {
             return
         }
 
-
         reset({
-
             title: course.title ?? "",
 
             subtitle: course.subtitle ?? "",
@@ -77,86 +67,63 @@ const CourseUpdateForm = ({
 
             level: course.level ?? "",
 
+            learningOutcomes: course.learningOutcomes?.length
+                ? course.learningOutcomes
+                : [""],
 
-            learningOutcomes:
-                course.learningOutcomes?.length
-                    ? course.learningOutcomes
-                    : [""],
+            targetAudience: course.targetAudience?.length
+                ? course.targetAudience
+                : [""],
 
-
-            targetAudience:
-                course.targetAudience?.length
-                    ? course.targetAudience
-                    : [""],
-
-
-            requirements:
-                course.requirements?.length
-                    ? course.requirements
-                    : [""],
+            requirements: course.requirements?.length
+                ? course.requirements
+                : [""],
         })
-
     }, [course, reset])
-
 
     ///////////////////////////////////////////////////////////////
     // Global error scroll
 
     useEffect(() => {
-
         if (!errors.root?.message) {
             return
         }
 
-
         requestAnimationFrame(() => {
-
             globalErrorRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
             })
 
             globalErrorRef.current?.focus()
-
         })
-
     }, [errors.root?.message])
-
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleFormSubmit = async (formData) => {
-
         clearErrors("root")
-
 
         ///////////////////////////////////////////////////////////
         // Normalize array fields
 
-        const learningOutcomes =
-            formData.learningOutcomes
-                .map((item) => item.trim())
-                .filter(Boolean)
+        const learningOutcomes = formData.learningOutcomes
+            .map((item) => item.trim())
+            .filter(Boolean)
 
+        const targetAudience = formData.targetAudience
+            .map((item) => item.trim())
+            .filter(Boolean)
 
-        const targetAudience =
-            formData.targetAudience
-                .map((item) => item.trim())
-                .filter(Boolean)
-
-
-        const requirements =
-            formData.requirements
-                .map((item) => item.trim())
-                .filter(Boolean)
-
+        const requirements = formData.requirements
+            .map((item) => item.trim())
+            .filter(Boolean)
 
         ///////////////////////////////////////////////////////////
         // Update payload
 
         const courseData = {
-
             title: formData.title,
 
             subtitle: formData.subtitle,
@@ -176,28 +143,17 @@ const CourseUpdateForm = ({
             requirements,
         }
 
-
         ///////////////////////////////////////////////////////////
         // Send to page
 
         try {
-
-            await onSubmit(
-                courseData
-            )
-
+            await onSubmit(courseData)
         } catch (error) {
-
             /////////////////////////////////////////////////////////
             // Backend validation errors
 
-            if (
-                error?.statusCode === 400 &&
-                Array.isArray(error?.errors)
-            ) {
-
+            if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
-
                     if (!field) {
                         return
                     }
@@ -206,37 +162,28 @@ const CourseUpdateForm = ({
                         type: "server",
                         message,
                     })
-
                 })
 
                 return
             }
 
-
             /////////////////////////////////////////////////////////
             // General server error
 
             setError("root", {
-
                 type: "server",
 
                 message:
                     error?.message ||
                     "Unable to update course. Please try again.",
             })
-
         }
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
-    const isFormLoading =
-        loading ||
-        isSubmitting
-
+    const isFormLoading = loading || isSubmitting
 
     ///////////////////////////////////////////////////////////////
     // Render
@@ -247,11 +194,9 @@ const CourseUpdateForm = ({
             noValidate
             className="space-y-6"
         >
-
             {/* Global server error */}
 
             {errors.root?.message && (
-
                 <div
                     ref={globalErrorRef}
                     role="alert"
@@ -278,9 +223,7 @@ const CourseUpdateForm = ({
                 >
                     {errors.root.message}
                 </div>
-
             )}
-
 
             {/* Basic Information */}
 
@@ -290,7 +233,6 @@ const CourseUpdateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Course Details */}
 
             <CourseDetails
@@ -298,7 +240,6 @@ const CourseUpdateForm = ({
                 errors={errors}
                 validationRules={validationRules}
             />
-
 
             {/* Learning Outcomes */}
 
@@ -309,7 +250,6 @@ const CourseUpdateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Target Audience */}
 
             <CourseTargetAudience
@@ -318,7 +258,6 @@ const CourseUpdateForm = ({
                 errors={errors}
                 validationRules={validationRules}
             />
-
 
             {/* Requirements */}
 
@@ -329,17 +268,11 @@ const CourseUpdateForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Actions */}
 
-            <CourseFormActions
-                onCancel={onCancel}
-                loading={isFormLoading}
-            />
-
+            <CourseFormActions onCancel={onCancel} loading={isFormLoading} />
         </form>
     )
 }
-
 
 export default CourseUpdateForm

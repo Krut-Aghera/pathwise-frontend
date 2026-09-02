@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom"
 
-
 const Footer = () => {
-
     return (
-        <footer className="
+        <footer
+            className="
             border-t
             border-border-subtle
             bg-background-base
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 mx-auto
                 flex
                 w-full
@@ -24,8 +24,8 @@ const Footer = () => {
                 lg:items-center
                 lg:justify-between
                 lg:px-8
-            ">
-
+            "
+            >
                 <div>
                     <Link
                         to="/"
@@ -39,18 +39,20 @@ const Footer = () => {
                         pathwise
                     </Link>
 
-                    <p className="
+                    <p
+                        className="
                         mt-1
                         font-body
                         text-xs
                         text-text-muted
-                    ">
+                    "
+                    >
                         Learn. Build. Grow.
                     </p>
                 </div>
 
-
-                <nav className="
+                <nav
+                    className="
                     flex
                     flex-wrap
                     gap-x-5
@@ -58,7 +60,8 @@ const Footer = () => {
                     font-body
                     text-xs
                     text-text-muted
-                ">
+                "
+                >
                     <Link
                         to="/courses"
                         className="transition hover:text-text-secondary"
@@ -88,20 +91,18 @@ const Footer = () => {
                     </Link>
                 </nav>
 
-
-                <p className="
+                <p
+                    className="
                     font-body
                     text-xs
                     text-text-muted
-                ">
+                "
+                >
                     © 2026 Pathwise
                 </p>
-
             </div>
-
         </footer>
     )
 }
-
 
 export default Footer

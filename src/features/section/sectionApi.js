@@ -1,7 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react"
 import axiosBaseQuery from "../../app/network/axiosBaseQuery"
 
-
 const sectionApi = createApi({
     reducerPath: "sectionApi",
 
@@ -12,7 +11,6 @@ const sectionApi = createApi({
     tagTypes: ["Section"],
 
     endpoints: (builder) => ({
-
         ///////////////////////////////////////////////////////////////
         // Instructor section APIs
 
@@ -31,7 +29,6 @@ const sectionApi = createApi({
             ],
         }),
 
-
         // GET /sections/:sectionId
         fetchInstructorSection: builder.query({
             query: (sectionId) => ({
@@ -46,7 +43,6 @@ const sectionApi = createApi({
                 },
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Create section
@@ -66,7 +62,6 @@ const sectionApi = createApi({
                 },
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Reorder course sections
@@ -88,7 +83,6 @@ const sectionApi = createApi({
                 },
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Update section
@@ -113,7 +107,6 @@ const sectionApi = createApi({
             ],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Publish section
 
@@ -132,7 +125,6 @@ const sectionApi = createApi({
             ],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Save section as draft
 
@@ -150,7 +142,6 @@ const sectionApi = createApi({
                 },
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Remove section
@@ -173,10 +164,8 @@ const sectionApi = createApi({
                 },
             ],
         }),
-
     }),
 })
-
 
 export const {
     useFetchCourseSectionsQuery,
@@ -189,6 +178,5 @@ export const {
     useSaveSectionAsDraftMutation,
     useRemoveSectionMutation,
 } = sectionApi
-
 
 export default sectionApi

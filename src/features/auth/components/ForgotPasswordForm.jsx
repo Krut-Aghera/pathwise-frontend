@@ -5,22 +5,15 @@ import FormField from "../../../components/form/FormField"
 import Input from "../../../components/form/Input"
 import Button from "../../../components/ui/Button"
 
-import {
-    forgotPasswordValidationRules,
-} from "../authValidation"
+import { forgotPasswordValidationRules } from "../authValidation"
 // import { requestPasswordReset } from "../authService"
 
-
 const ForgotPasswordForm = () => {
-
     const {
         register,
         handleSubmit,
         setError,
-        formState: {
-            errors,
-            isSubmitting,
-        },
+        formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
             email: "",
@@ -30,9 +23,7 @@ const ForgotPasswordForm = () => {
     const [passwordResponse, setPasswordResponse] = useState(null)
 
     const onSubmit = async (formData) => {
-
         try {
-
             // const response = await requestPasswordReset({
             //     email: formData.email,
             // })
@@ -42,9 +33,7 @@ const ForgotPasswordForm = () => {
 
             // We can show a success state here later.
             // For now, the request completes successfully.
-
         } catch (error) {
-
             if (error.statusCode === 400) {
                 setError("email", {
                     type: "server",
@@ -63,7 +52,6 @@ const ForgotPasswordForm = () => {
         }
     }
 
-
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -73,7 +61,6 @@ const ForgotPasswordForm = () => {
                 space-y-5
             "
         >
-
             {/* General server error */}
 
             {errors.root?.message && (
@@ -96,7 +83,6 @@ const ForgotPasswordForm = () => {
                 </div>
             )}
 
-
             {/* Email */}
 
             <FormField
@@ -112,22 +98,15 @@ const ForgotPasswordForm = () => {
                     placeholder="Enter your email"
                     error={Boolean(errors.email)}
                     aria-describedby={
-                        errors.email
-                            ? "forgot-password-email-error"
-                            : undefined
+                        errors.email ? "forgot-password-email-error" : undefined
                     }
-                    {...register(
-                        "email",
-                        forgotPasswordValidationRules.email
-                    )}
+                    {...register("email", forgotPasswordValidationRules.email)}
                 />
             </FormField>
 
             {/* Response */}
 
-            {
-                passwordResponse &&
-
+            {passwordResponse && (
                 <p
                     className="
                         rounded-md
@@ -145,21 +124,15 @@ const ForgotPasswordForm = () => {
                 >
                     {passwordResponse}
                 </p>
-            }
+            )}
 
             {/* Submit */}
 
-            <Button
-                type="submit"
-                loading={isSubmitting}
-                className="w-full"
-            >
+            <Button type="submit" loading={isSubmitting} className="w-full">
                 Send Reset Link
             </Button>
-
         </form>
     )
 }
-
 
 export default ForgotPasswordForm

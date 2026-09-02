@@ -3,17 +3,18 @@ import { ArrowDown } from "lucide-react"
 
 import { systemAreas } from "../../../data/aboutData"
 
-
 const AboutHero = () => {
     return (
-        <section className="
+        <section
+            className="
             relative
             overflow-hidden
             border-b
             border-border-subtle
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 pointer-events-none
                 absolute
                 -left-40
@@ -24,9 +25,11 @@ const AboutHero = () => {
                 bg-accent-primary
                 opacity-10
                 blur-[120px]
-            " />
+            "
+            />
 
-            <div className="
+            <div
+                className="
                 pointer-events-none
                 absolute
                 -right-40
@@ -37,10 +40,11 @@ const AboutHero = () => {
                 bg-accent-secondary
                 opacity-10
                 blur-[120px]
-            " />
+            "
+            />
 
-
-            <div className="
+            <div
+                className="
                 relative
                 mx-auto
                 grid
@@ -57,22 +61,24 @@ const AboutHero = () => {
                 lg:gap-12
                 lg:px-8
                 lg:py-20
-            ">
-
+            "
+            >
                 {/* =====================================================
                     Content
                 ====================================================== */}
 
-                <div className="
+                <div
+                    className="
                     flex
                     flex-col
                     justify-start
                     lg:col-span-7
-                ">
-
+                "
+                >
                     {/* Portfolio tag */}
 
-                    <div className="
+                    <div
+                        className="
                         mb-5
                         inline-flex
                         w-fit
@@ -84,28 +90,33 @@ const AboutHero = () => {
                         bg-background-surface
                         px-3
                         py-1.5
-                    ">
-                        <span className="
+                    "
+                    >
+                        <span
+                            className="
                             h-1.5
                             w-1.5
                             rounded-full
                             bg-accent-primary
-                        " />
+                        "
+                        />
 
-                        <span className="
+                        <span
+                            className="
                             font-body
                             text-xs
                             font-medium
                             text-text-secondary
-                        ">
+                        "
+                        >
                             Portfolio Engineering Project
                         </span>
                     </div>
 
-
                     {/* Heading */}
 
-                    <h1 className="
+                    <h1
+                        className="
                         max-w-3xl
                         font-accent
                         text-4xl
@@ -115,9 +126,11 @@ const AboutHero = () => {
                         text-text-primary
                         sm:text-5xl
                         lg:text-6xl
-                    ">
+                    "
+                    >
                         An LMS built as a
-                        <span className="
+                        <span
+                            className="
                             block
                             bg-linear-to-r
                             from-accent-primary
@@ -125,15 +138,16 @@ const AboutHero = () => {
                             to-accent-secondary
                             bg-clip-text
                             text-transparent
-                        ">
+                        "
+                        >
                             complete system.
                         </span>
                     </h1>
 
-
                     {/* Description */}
 
-                    <p className="
+                    <p
+                        className="
                         mt-5
                         max-w-2xl
                         font-body
@@ -141,41 +155,43 @@ const AboutHero = () => {
                         leading-7
                         text-text-secondary
                         sm:text-lg
-                    ">
+                    "
+                    >
                         Pathwise is a production-oriented learning platform
                         created to explore how authentication, course
-                        management, payments, media, communication, and
-                        learning progress work together as one application.
+                        management, payments, media, communication, and learning
+                        progress work together as one application.
                     </p>
-
 
                     {/* Secondary description */}
 
-                    <p className="
+                    <p
+                        className="
                         mt-4
                         max-w-2xl
                         font-body
                         text-sm
                         leading-6
                         text-text-muted
-                    ">
+                    "
+                    >
                         The project focuses on understanding the engineering
                         behind a modern LMS — from secure user flows and
-                        instructor workflows to payment verification,
-                        media handling, and persistent learning progress.
+                        instructor workflows to payment verification, media
+                        handling, and persistent learning progress.
                     </p>
-
 
                     {/* Actions */}
 
-                    <div className="
+                    <div
+                        className="
                         mt-7
                         flex
                         flex-col
                         gap-3
                         sm:flex-row
-                    ">
-
+                    "
+                    >
                         <Link
                             to="/courses"
                             className="
@@ -199,7 +215,6 @@ const AboutHero = () => {
                         >
                             Explore the Platform
                         </Link>
-
 
                         <a
                             href="#engineering"
@@ -226,24 +241,23 @@ const AboutHero = () => {
                             See the Engineering
                             <ArrowDown size={15} />
                         </a>
-
                     </div>
-
                 </div>
-
 
                 {/* =====================================================
                     System Overview
                 ====================================================== */}
 
-                <div className="
+                <div
+                    className="
                     flex
                     justify-center
                     lg:col-span-5
                     lg:justify-end
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         w-full
                         max-w-md
                         rounded-2xl
@@ -254,46 +268,49 @@ const AboutHero = () => {
                         shadow-2xl
                         backdrop-blur
                         sm:p-6
-                    ">
-
+                    "
+                    >
                         {/* Header */}
 
-                        <div className="
+                        <div
+                            className="
                             flex
                             items-center
                             justify-between
                             border-b
                             border-border-subtle
                             pb-4
-                        ">
-
+                        "
+                        >
                             <div>
-
-                                <p className="
+                                <p
+                                    className="
                                     font-body
                                     text-[10px]
                                     font-bold
                                     uppercase
                                     tracking-[0.2em]
                                     text-text-muted
-                                ">
+                                "
+                                >
                                     PATHWISE
                                 </p>
 
-                                <h2 className="
+                                <h2
+                                    className="
                                     mt-1
                                     font-accent
                                     text-lg
                                     font-semibold
                                     text-text-primary
-                                ">
+                                "
+                                >
                                     System Overview
                                 </h2>
-
                             </div>
 
-
-                            <span className="
+                            <span
+                                className="
                                 inline-flex
                                 items-center
                                 gap-1.5
@@ -307,32 +324,32 @@ const AboutHero = () => {
                                 text-[10px]
                                 font-medium
                                 text-status-success
-                            ">
-                                <span className="
+                            "
+                            >
+                                <span
+                                    className="
                                     h-1.5
                                     w-1.5
                                     rounded-full
                                     bg-status-success
-                                " />
-
+                                "
+                                />
                                 ENGINEERED
                             </span>
-
                         </div>
-
 
                         {/* System areas */}
 
-                        <div className="
+                        <div
+                            className="
                             mt-5
                             space-y-2.5
-                        ">
-
-                            {systemAreas.map(
-                                ({ icon: Icon, label }, index) => (
-                                    <div
-                                        key={label}
-                                        className="
+                        "
+                        >
+                            {systemAreas.map(({ icon: Icon, label }, index) => (
+                                <div
+                                    key={label}
+                                    className="
                                             flex
                                             items-center
                                             gap-3
@@ -345,9 +362,9 @@ const AboutHero = () => {
                                             transition
                                             hover:border-accent-primary/30
                                         "
-                                    >
-
-                                        <div className="
+                                >
+                                    <div
+                                        className="
                                             flex
                                             h-9
                                             w-9
@@ -357,51 +374,45 @@ const AboutHero = () => {
                                             rounded-lg
                                             bg-accent-primary/10
                                             text-accent-primary
-                                        ">
-                                            <Icon size={17} />
-                                        </div>
+                                        "
+                                    >
+                                        <Icon size={17} />
+                                    </div>
 
-
-                                        <div className="min-w-0">
-
-                                            <p className="
+                                    <div className="min-w-0">
+                                        <p
+                                            className="
                                                 font-body
                                                 text-[10px]
                                                 font-medium
                                                 uppercase
                                                 tracking-wider
                                                 text-text-muted
-                                            ">
-                                                0{index + 1}
-                                            </p>
+                                            "
+                                        >
+                                            0{index + 1}
+                                        </p>
 
-                                            <p className="
+                                        <p
+                                            className="
                                                 mt-0.5
                                                 font-body
                                                 text-sm
                                                 font-medium
                                                 text-text-secondary
-                                            ">
-                                                {label}
-                                            </p>
-
-                                        </div>
-
+                                            "
+                                        >
+                                            {label}
+                                        </p>
                                     </div>
-                                )
-                            )}
-
+                                </div>
+                            ))}
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
     )
 }
-
 
 export default AboutHero

@@ -1,19 +1,8 @@
-import {
-    Clock3,
-    Eye,
-    FileVideo,
-    Hash,
-    Lock,
-    Video,
-} from "lucide-react"
+import { Clock3, Eye, FileVideo, Hash, Lock, Video } from "lucide-react"
 
-import {
-    RESOURCE_STATUS,
-} from "../../../../constants/resourceConstants.js"
-
+import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
 const formatDuration = (seconds) => {
-
     if (
         seconds === null ||
         seconds === undefined ||
@@ -22,52 +11,26 @@ const formatDuration = (seconds) => {
         return "Not available"
     }
 
+    const totalSeconds = Math.max(0, Math.floor(Number(seconds)))
 
-    const totalSeconds =
-        Math.max(
-            0,
-            Math.floor(Number(seconds))
-        )
+    const hours = Math.floor(totalSeconds / 3600)
 
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
 
-    const hours =
-        Math.floor(
-            totalSeconds / 3600
-        )
-
-
-    const minutes =
-        Math.floor(
-            (totalSeconds % 3600) / 60
-        )
-
-
-    const remainingSeconds =
-        totalSeconds % 60
-
+    const remainingSeconds = totalSeconds % 60
 
     if (hours > 0) {
-
         return [
             hours,
             String(minutes).padStart(2, "0"),
             String(remainingSeconds).padStart(2, "0"),
         ].join(":")
-
     }
 
-
-    return [
-        minutes,
-        String(remainingSeconds).padStart(2, "0"),
-    ].join(":")
+    return [minutes, String(remainingSeconds).padStart(2, "0")].join(":")
 }
 
-
-const LectureManageInformation = ({
-    lecture,
-}) => {
-
+const LectureManageInformation = ({ lecture }) => {
     ///////////////////////////////////////////////////////////////
     // Guard
 
@@ -75,27 +38,20 @@ const LectureManageInformation = ({
         return null
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Status
 
-    const isPublished =
-        lecture.status === RESOURCE_STATUS.PUBLISHED
-
+    const isPublished = lecture.status === RESOURCE_STATUS.PUBLISHED
 
     ///////////////////////////////////////////////////////////////
     // Preview
 
-    const isPreviewFree =
-        lecture.isPreviewFree === true
-
+    const isPreviewFree = lecture.isPreviewFree === true
 
     ///////////////////////////////////////////////////////////////
     // Video
 
-    const hasVideo =
-        Boolean(lecture.video?.url)
-
+    const hasVideo = Boolean(lecture.video?.url)
 
     ///////////////////////////////////////////////////////////////
     // Information items
@@ -108,9 +64,7 @@ const LectureManageInformation = ({
         },
         {
             label: "Status",
-            value: isPublished
-                ? "Published"
-                : "Draft",
+            value: isPublished ? "Published" : "Draft",
             icon: Video,
             valueClass: isPublished
                 ? "text-status-success"
@@ -118,18 +72,12 @@ const LectureManageInformation = ({
         },
         {
             label: "Preview",
-            value: isPreviewFree
-                ? "Available"
-                : "Locked",
-            icon: isPreviewFree
-                ? Eye
-                : Lock,
+            value: isPreviewFree ? "Available" : "Locked",
+            icon: isPreviewFree ? Eye : Lock,
         },
         {
             label: "Video",
-            value: hasVideo
-                ? "Uploaded"
-                : "Not uploaded",
+            value: hasVideo ? "Uploaded" : "Not uploaded",
             icon: FileVideo,
             valueClass: hasVideo
                 ? "text-status-success"
@@ -137,24 +85,21 @@ const LectureManageInformation = ({
         },
         ...(hasVideo
             ? [
-                {
-                    label: "Duration",
-                    value: formatDuration(
-                        lecture.video?.duration
-                    ),
-                    icon: Clock3,
-                },
-            ]
-            : []
-        ),
+                  {
+                      label: "Duration",
+                      value: formatDuration(lecture.video?.duration),
+                      icon: Clock3,
+                  },
+              ]
+            : []),
     ]
-
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -165,46 +110,44 @@ const LectureManageInformation = ({
             py-4
 
             sm:px-6
-        ">
-
-            {/* Header */}
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 flex
                 items-center
                 justify-between
                 gap-4
-            ">
-
+            "
+            >
                 <div>
-
-                    <h2 className="
+                    <h2
+                        className="
                         font-accent
                         text-sm
                         font-semibold
                         text-text-primary
-                    ">
+                    "
+                    >
                         Lecture Details
                     </h2>
 
-                    <p className="
+                    <p
+                        className="
                         mt-0.5
 
                         font-body
                         text-xs
                         text-text-muted
-                    ">
+                    "
+                    >
                         Quick overview of this lecture.
                     </p>
-
                 </div>
-
             </div>
 
-
-            {/* Information */}
-
-            <div className="
+            <div
+                className="
                 mt-4
 
                 grid
@@ -222,8 +165,8 @@ const LectureManageInformation = ({
 
                 sm:grid-cols-5
                 sm:divide-y-0
-            ">
-
+            "
+            >
                 {information.map(
                     ({
                         label,
@@ -231,7 +174,6 @@ const LectureManageInformation = ({
                         icon: Icon,
                         valueClass = "text-text-primary",
                     }) => (
-
                         <div
                             key={label}
                             className="
@@ -243,13 +185,13 @@ const LectureManageInformation = ({
                                 sm:px-4
                             "
                         >
-
-                            <div className="
+                            <div
+                                className="
                                 flex
                                 items-center
                                 gap-1.5
-                            ">
-
+                            "
+                            >
                                 <Icon
                                     size={13}
                                     className="
@@ -258,21 +200,22 @@ const LectureManageInformation = ({
                                     "
                                 />
 
-                                <span className="
+                                <span
+                                    className="
                                     truncate
 
                                     font-body
                                     text-[11px]
                                     font-medium
                                     text-text-muted
-                                ">
+                                "
+                                >
                                     {label}
                                 </span>
-
                             </div>
 
-
-                            <p className={`
+                            <p
+                                className={`
                                 mt-1.5
 
                                 truncate
@@ -282,20 +225,16 @@ const LectureManageInformation = ({
                                 font-semibold
 
                                 ${valueClass}
-                            `}>
+                            `}
+                            >
                                 {value}
                             </p>
-
                         </div>
-
                     )
                 )}
-
             </div>
-
         </section>
     )
 }
-
 
 export default LectureManageInformation

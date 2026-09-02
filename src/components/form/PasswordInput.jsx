@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Eye, EyeOff } from "lucide-react"
 
 import Input from "./Input"
 import mergeClass from "../../utils/tailwind-cn.js"
@@ -9,7 +10,6 @@ const PasswordInput = ({
     className,
     ...props
 }) => {
-
     const [showPassword, setShowPassword] = useState(false)
 
     const togglePasswordVisibility = () => {
@@ -22,15 +22,11 @@ const PasswordInput = ({
 
     return (
         <div className="relative">
-
             <Input
                 type={showPassword ? "text" : "password"}
                 disabled={disabled}
                 error={error}
-                className={mergeClass(
-                    "pr-16",
-                    className
-                )}
+                className={mergeClass("pr-12", className)}
                 {...props}
             />
 
@@ -38,11 +34,7 @@ const PasswordInput = ({
                 type="button"
                 onClick={togglePasswordVisibility}
                 disabled={disabled}
-                aria-label={
-                    showPassword
-                        ? "Hide password"
-                        : "Show password"
-                }
+                aria-label={showPassword ? "Hide password" : "Show password"}
                 aria-pressed={showPassword}
                 className="
                     absolute
@@ -52,12 +44,8 @@ const PasswordInput = ({
 
                     cursor-pointer
                     rounded-md
-                    px-2
-                    py-1
+                    p-1.5
 
-                    font-body
-                    text-xs
-                    font-medium
                     text-text-secondary
 
                     transition
@@ -65,17 +53,16 @@ const PasswordInput = ({
                     hover:text-text-primary
                     active:brightness-90
 
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-accent-primary/20
-
                     disabled:cursor-not-allowed
                     disabled:opacity-40
                 "
             >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword ? (
+                    <EyeOff size={18} strokeWidth={2} aria-hidden="true" />
+                ) : (
+                    <Eye size={18} strokeWidth={2} aria-hidden="true" />
+                )}
             </button>
-
         </div>
     )
 }

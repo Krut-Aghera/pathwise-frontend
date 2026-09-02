@@ -1,19 +1,15 @@
-import {
-    AlertTriangle,
-    RefreshCw,
-} from "lucide-react"
+import { AlertTriangle, RefreshCw } from "lucide-react"
 
 import Button from "./Button"
-
 
 const ErrorState = ({
     title = "Something went wrong",
     message = "Unable to load the requested data.",
     onRetry,
 }) => {
-
     return (
-        <section className="
+        <section
+            className="
             flex
             min-h-80
             w-full
@@ -32,11 +28,12 @@ const ErrorState = ({
 
             sm:px-8
             sm:py-12
-        ">
-
+        "
+        >
             {/* Icon */}
 
-            <div className="
+            <div
+                className="
                 flex
                 h-12
                 w-12
@@ -49,46 +46,43 @@ const ErrorState = ({
                 bg-status-danger/10
 
                 text-status-danger
-            ">
-
-                <AlertTriangle
-                    size={22}
-                    strokeWidth={1.8}
-                />
-
+            "
+            >
+                <AlertTriangle size={22} strokeWidth={1.8} />
             </div>
-
 
             {/* Content */}
 
-            <div className="
+            <div
+                className="
                 mt-4
                 max-w-md
-            ">
-
-                <h2 className="
+            "
+            >
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     {title}
                 </h2>
 
-
-                <p className="
+                <p
+                    className="
                     mt-2
 
                     font-body
                     text-sm
                     leading-6
                     text-text-secondary
-                ">
+                "
+                >
                     {message}
                 </p>
-
             </div>
-
 
             {/* Retry */}
 
@@ -103,17 +97,12 @@ const ErrorState = ({
                         sm:w-auto
                     "
                 >
-
                     <RefreshCw size={15} />
-
                     Try Again
-
                 </Button>
             )}
-
         </section>
     )
 }
-
 
 export default ErrorState

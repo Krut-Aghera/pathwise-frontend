@@ -1,15 +1,9 @@
 import InstructorCourseCard from "./InstructorCourseCard"
 
-
-const InstructorCourseGrid = ({
-    courses,
-    onPublish,
-    onDraft,
-    onRemove,
-}) => {
-
+const InstructorCourseGrid = ({ courses, onPublish, onDraft, onRemove }) => {
     return (
-        <div className="
+        <div
+            className="
             mt-5
 
             grid
@@ -18,10 +12,9 @@ const InstructorCourseGrid = ({
 
             sm:grid-cols-2
             xl:grid-cols-3
-        ">
-
+        "
+        >
             {courses.map((course) => (
-
                 <InstructorCourseCard
                     key={course._id}
                     course={course}
@@ -30,12 +23,9 @@ const InstructorCourseGrid = ({
                     onDraft={onDraft}
                     onRemove={onRemove}
                 />
-
             ))}
-
         </div>
     )
 }
-
 
 export default InstructorCourseGrid

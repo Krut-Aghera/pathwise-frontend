@@ -5,8 +5,4 @@ const rotateTokens = async () => {
     return response.data
 }
 
-export {
-    rotateTokens
-}
-
-
+export { rotateTokens }

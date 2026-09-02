@@ -1,36 +1,23 @@
-import {
-    useEffect,
-    useState,
-} from "react"
+import { useEffect, useState } from "react"
 
-import {
-    FileVideo,
-    X,
-} from "lucide-react"
+import { FileVideo, X } from "lucide-react"
 
-import {
-    useForm,
-} from "react-hook-form"
+import { useForm } from "react-hook-form"
 
-import VideoPlayer
-    from "../../../../components/video/VideoPlaye"
+import VideoPlayer from "../../../../components/video/VideoPlaye"
 
-import FormActions
-    from "../../../../components/form/FormActions"
+import formatFileSize from "../../../../utils/format-media-size"
 
-
-import formatFileSize
-    from "../../../../utils/format-media-size"
 import LectureVideoUploadField from "../form-children/LectureVideoUploadField"
-
+import FormActions from "../../../../components/form/FormActions"
 
 const LectureVideoUploadForm = ({
     lecture,
     onSubmit,
     onCancel,
     loading = false,
+    validationRules,
 }) => {
-
     ///////////////////////////////////////////////////////////////
     // Form
 
@@ -38,59 +25,42 @@ const LectureVideoUploadForm = ({
         register,
         handleSubmit,
         watch,
-        setValue,
-        formState: {
-            errors,
-        },
+        resetField,
+        formState: { errors },
     } = useForm({
         defaultValues: {
             video: null,
         },
-    })
 
+        mode: "onChange",
+
+        shouldFocusError: true,
+    })
 
     ///////////////////////////////////////////////////////////////
     // Selected video
 
-    const selectedVideo =
-        watch("video")?.[0] || null
-
+    const selectedVideo = watch("video")?.[0] || null
 
     ///////////////////////////////////////////////////////////////
     // Preview URL
 
-    const [
-        previewUrl,
-        setPreviewUrl,
-    ] = useState(null)
-
+    const [previewUrl, setPreviewUrl] = useState(null)
 
     ///////////////////////////////////////////////////////////////
     // Local error
 
-    const [
-        error,
-        setError,
-    ] = useState(null)
-
+    const [error, setError] = useState(null)
 
     ///////////////////////////////////////////////////////////////
     // Upload waiting message
 
-    const [
-        uploadMessageIndex,
-        setUploadMessageIndex,
-    ] = useState(0)
-
+    const [uploadMessageIndex, setUploadMessageIndex] = useState(0)
 
     ///////////////////////////////////////////////////////////////
     // Existing video
 
-    const hasExistingVideo =
-        Boolean(
-            lecture?.video?.url
-        )
-
+    const hasExistingVideo = Boolean(lecture?.video?.url)
 
     ///////////////////////////////////////////////////////////////
     // Upload waiting messages
@@ -102,94 +72,60 @@ const LectureVideoUploadForm = ({
         "Please wait...",
     ]
 
-
     ///////////////////////////////////////////////////////////////
     // Cycle upload waiting messages
 
     useEffect(() => {
-
         if (!loading) {
-
             setUploadMessageIndex(0)
 
             return
         }
 
-
-        const interval =
-            setInterval(() => {
-
-                setUploadMessageIndex(
-                    (currentIndex) =>
-                        (
-                            currentIndex + 1
-                        ) %
-                        uploadMessages.length
-                )
-
-            }, 2500)
-
+        const interval = setInterval(() => {
+            setUploadMessageIndex(
+                (currentIndex) => (currentIndex + 1) % uploadMessages.length
+            )
+        }, 2500)
 
         return () => {
-
             clearInterval(interval)
-
         }
-
     }, [loading])
-
 
     ///////////////////////////////////////////////////////////////
     // Create preview URL
 
     useEffect(() => {
-
         if (!selectedVideo) {
-
             setPreviewUrl(null)
 
             return
         }
 
-
-        const url =
-            URL.createObjectURL(
-                selectedVideo
-            )
-
+        const url = URL.createObjectURL(selectedVideo)
 
         setPreviewUrl(url)
 
-
         return () => {
-
             URL.revokeObjectURL(url)
-
         }
-
     }, [selectedVideo])
-
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
-    const handleFormSubmit = async (
-        data
-    ) => {
-
+    const handleFormSubmit = async (data) => {
         if (loading) {
             return
         }
 
-
         setError(null)
-
 
         ///////////////////////////////////////////////////////////
         // Existing video
 
         if (hasExistingVideo) {
-
             setError(
                 "This lecture already has a video. Remove the existing video before uploading another one."
             )
@@ -197,84 +133,55 @@ const LectureVideoUploadForm = ({
             return
         }
 
-
         ///////////////////////////////////////////////////////////
         // Video
 
-        const video =
-            data.video?.[0]
-
+        const video = data.video?.[0]
 
         if (!video) {
-
-            setError(
-                "Please select a video to upload."
-            )
-
             return
         }
-
 
         ///////////////////////////////////////////////////////////
         // Submit
 
-        await onSubmit?.(
-            video
-        )
-
+        await onSubmit?.(video)
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Remove selected video
 
     const handleRemoveSelectedVideo = () => {
-
         if (loading) {
             return
         }
 
-
-        setValue(
-            "video",
-            null,
-            {
-                shouldValidate: true,
-            }
-        )
-
-        setPreviewUrl(null)
+        resetField("video", {
+            defaultValue: null,
+        })
 
         setError(null)
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Cancel
 
     const handleCancel = () => {
-
         if (loading) {
             return
         }
 
-
         onCancel?.()
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
         <form
-            onSubmit={
-                handleSubmit(
-                    handleFormSubmit
-                )
-            }
+            onSubmit={handleSubmit(handleFormSubmit)}
+
+            noValidate
 
             className="
                 rounded-xl
@@ -287,10 +194,10 @@ const LectureVideoUploadForm = ({
                 sm:p-6
             "
         >
-
             {/* Lecture information */}
 
-            <div className="
+            <div
+                className="
                 mb-6
 
                 rounded-lg
@@ -301,37 +208,38 @@ const LectureVideoUploadForm = ({
 
                 px-4
                 py-3
-            ">
-
-                <p className="
+            "
+            >
+                <p
+                    className="
                     font-body
                     text-xs
                     font-medium
                     text-text-muted
-                ">
+                "
+                >
                     Lecture
                 </p>
 
-
-                <p className="
+                <p
+                    className="
                     mt-1
 
                     font-accent
                     text-sm
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     {lecture?.title || "Untitled Lecture"}
                 </p>
-
             </div>
-
 
             {/* Existing video warning */}
 
             {hasExistingVideo && (
-
-                <div className="
+                <div
+                    className="
                     mb-5
 
                     rounded-lg
@@ -342,83 +250,50 @@ const LectureVideoUploadForm = ({
 
                     px-4
                     py-3
-                ">
-
-                    <p className="
+                "
+                >
+                    <p
+                        className="
                         font-body
                         text-sm
                         font-medium
                         text-status-danger
-                    ">
+                    "
+                    >
                         This lecture already has a video.
                     </p>
 
-
-                    <p className="
+                    <p
+                        className="
                         mt-1
 
                         font-body
                         text-xs
                         leading-5
                         text-status-danger/80
-                    ">
-                        Remove the existing video from the lecture
-                        details page before uploading a new one.
+                    "
+                    >
+                        Remove the existing video from the lecture details page
+                        before uploading a new one.
                     </p>
-
                 </div>
-
             )}
-
 
             {/* Video field */}
 
             {!selectedVideo && (
-
                 <LectureVideoUploadField
                     register={register}
                     errors={errors}
-                    validationRules={{
-                        required: "Lecture video is required.",
-                        validate: {
-                            videoFile: (files) => {
-
-                                const file =
-                                    files?.[0]
-
-
-                                if (!file) {
-                                    return true
-                                }
-
-
-                                if (
-                                    !file.type.startsWith(
-                                        "video/"
-                                    )
-                                ) {
-
-                                    return (
-                                        "Please select a valid video file."
-                                    )
-
-                                }
-
-
-                                return true
-                            },
-                        },
-                    }}
+                    validationRules={validationRules}
                 />
-
             )}
-
 
             {/* Selected video */}
 
             {selectedVideo && previewUrl && (
-
-                <div className="
+                <div
+                    className="
                     rounded-lg
                     border
                     border-border-subtle
@@ -426,11 +301,12 @@ const LectureVideoUploadForm = ({
                     bg-background-elevated
 
                     p-4
-                ">
-
+                "
+                >
                     {/* Preview */}
 
-                    <div className="
+                    <div
+                        className="
                         overflow-hidden
                         rounded-lg
 
@@ -438,18 +314,46 @@ const LectureVideoUploadForm = ({
                         border-border-subtle
 
                         bg-background-base
-                    ">
-
-                        <VideoPlayer
-                            src={previewUrl}
-                        />
-
+                    "
+                    >
+                        <VideoPlayer src={previewUrl} />
                     </div>
 
+                    {/* Validation error */}
+
+                    {errors.video?.message && (
+                        <div
+                            role="alert"
+                            className="
+                                mt-4
+
+                                rounded-lg
+                                border
+                                border-status-danger/30
+
+                                bg-status-danger/10
+
+                                px-4
+                                py-3
+                            "
+                        >
+                            <p
+                                className="
+                                font-body
+                                text-sm
+                                font-medium
+                                text-status-danger
+                            "
+                            >
+                                {errors.video.message}
+                            </p>
+                        </div>
+                    )}
 
                     {/* File information */}
 
-                    <div className="
+                    <div
+                        className="
                         mt-4
 
                         flex
@@ -459,16 +363,18 @@ const LectureVideoUploadForm = ({
                         sm:flex-row
                         sm:items-center
                         sm:justify-between
-                    ">
-
-                        <div className="
+                    "
+                    >
+                        <div
+                            className="
                             flex
                             min-w-0
                             items-center
                             gap-3
-                        ">
-
-                            <div className="
+                        "
+                        >
+                            <div
+                                className="
                                 flex
                                 h-9
                                 w-9
@@ -480,51 +386,44 @@ const LectureVideoUploadForm = ({
 
                                 bg-accent-primary/10
                                 text-accent-primary
-                            ">
-
+                            "
+                            >
                                 <FileVideo size={17} />
-
                             </div>
 
-
                             <div className="min-w-0">
-
-                                <p className="
+                                <p
+                                    className="
                                     truncate
 
                                     font-body
                                     text-sm
                                     font-medium
                                     text-text-primary
-                                ">
+                                "
+                                >
                                     {selectedVideo.name}
                                 </p>
 
-
-                                <p className="
+                                <p
+                                    className="
                                     mt-0.5
 
                                     font-body
                                     text-xs
                                     text-text-muted
-                                ">
-                                    {formatFileSize(
-                                        selectedVideo.size
-                                    )}
+                                "
+                                >
+                                    {formatFileSize(selectedVideo.size)}
                                 </p>
-
                             </div>
-
                         </div>
-
 
                         {/* Remove selection */}
 
                         <button
                             type="button"
-                            onClick={
-                                handleRemoveSelectedVideo
-                            }
+                            onClick={handleRemoveSelectedVideo}
                             disabled={loading}
                             className="
                                 inline-flex
@@ -558,21 +457,16 @@ const LectureVideoUploadForm = ({
                                 disabled:opacity-50
                             "
                         >
-
                             <X size={14} />
-
                             Remove
-
                         </button>
-
                     </div>
-
 
                     {/* Upload waiting state */}
 
                     {loading && (
-
-                        <div className="
+                        <div
+                            className="
                             mt-4
 
                             rounded-lg
@@ -582,17 +476,19 @@ const LectureVideoUploadForm = ({
 
                             px-4
                             py-2
-                        ">
-
-                            <div className="
+                        "
+                        >
+                            <div
+                                className="
                                 flex
                                 items-center
                                 gap-3
-                            ">
-
+                            "
+                            >
                                 {/* Spinner */}
 
-                                <div className="
+                                <div
+                                    className="
                                     h-5
                                     w-5
                                     shrink-0
@@ -604,57 +500,48 @@ const LectureVideoUploadForm = ({
                                     border-2
                                     border-accent-secondary/20
                                     border-t-accent-secondary
-                                " />
-
+                                "
+                                />
 
                                 {/* Message */}
 
                                 <div>
-
-                                    <p className="
+                                    <p
+                                        className="
                                         font-body
                                         text-sm
                                         font-medium
                                         text-text-primary
-                                    ">
-                                        {
-                                            uploadMessages[
-                                                uploadMessageIndex
-                                            ]
-                                        }
+                                    "
+                                    >
+                                        {uploadMessages[uploadMessageIndex]}
                                     </p>
 
-
-                                    <p className="
+                                    <p
+                                        className="
                                         mt-1
 
                                         font-body
                                         text-xs
                                         leading-5
                                         text-text-muted
-                                    ">
-                                        Please keep this page open
-                                        until the upload is complete.
+                                    "
+                                    >
+                                        Please keep this page open until the
+                                        upload is complete.
                                     </p>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     )}
-
                 </div>
-
             )}
-
 
             {/* Local error */}
 
             {error && (
-
-                <div className="
+                <div
+                    className="
                     mt-5
 
                     rounded-lg
@@ -665,41 +552,37 @@ const LectureVideoUploadForm = ({
 
                     px-4
                     py-3
-                ">
-
-                    <p className="
+                "
+                >
+                    <p
+                        className="
                         font-body
                         text-sm
                         font-medium
                         text-status-danger
-                    ">
+                    "
+                    >
                         {error}
                     </p>
-
                 </div>
-
             )}
-
 
             {/* Actions */}
 
             <div className="mt-6">
-
                 <FormActions
                     onCancel={handleCancel}
                     loading={loading}
                     disabled={
                         hasExistingVideo ||
-                        !selectedVideo
+                        !selectedVideo ||
+                        Boolean(errors.video)
                     }
                     submitLabel="Upload Video"
                 />
-
             </div>
-
         </form>
     )
 }
-
 
 export default LectureVideoUploadForm

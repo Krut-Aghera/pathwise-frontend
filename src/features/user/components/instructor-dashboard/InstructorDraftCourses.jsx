@@ -1,56 +1,47 @@
-import {
-    ArrowRight,
-    Clock3,
-    FileEdit,
-} from "lucide-react"
+import { ArrowRight, Clock3, FileEdit } from "lucide-react"
 
 import { Link } from "react-router-dom"
 
-
-const InstructorDraftCourses = ({
-    courses,
-}) => {
-
+const InstructorDraftCourses = ({ courses }) => {
     return (
         <section>
-
             <div className="mb-4">
-
-                <p className="
+                <p
+                    className="
                     font-body
                     text-xs
                     font-medium
                     uppercase
                     tracking-wider
                     text-accent-secondary
-                ">
+                "
+                >
                     Work in progress
                 </p>
 
-
-                <h2 className="
+                <h2
+                    className="
                     mt-1
                     font-accent
                     text-xl
                     font-bold
                     text-text-primary
-                ">
+                "
+                >
                     Draft courses
                 </h2>
-
             </div>
 
-
-            <div className="
+            <div
+                className="
                 grid
                 grid-cols-1
                 gap-3
 
                 md:grid-cols-2
-            ">
-
+            "
+            >
                 {courses.map((course) => (
-
                     <article
                         key={course.id}
                         className="
@@ -66,35 +57,38 @@ const InstructorDraftCourses = ({
                             hover:bg-background-elevated
                         "
                     >
-
-                        <div className="
+                        <div
+                            className="
                             flex
                             items-start
                             justify-between
                             gap-4
-                        ">
-
+                        "
+                        >
                             <div className="min-w-0">
-
-                                <div className="
+                                <div
+                                    className="
                                     flex
                                     items-center
                                     gap-2
                                     text-accent-secondary
-                                ">
+                                "
+                                >
                                     <FileEdit size={14} />
 
-                                    <span className="
+                                    <span
+                                        className="
                                         font-body
                                         text-[10px]
                                         font-medium
-                                    ">
+                                    "
+                                    >
                                         Draft
                                     </span>
                                 </div>
 
-
-                                <h3 className="
+                                <h3
+                                    className="
                                     mt-2
                                     line-clamp-2
                                     font-accent
@@ -105,12 +99,11 @@ const InstructorDraftCourses = ({
                                     transition
 
                                     group-hover:text-accent-secondary
-                                ">
+                                "
+                                >
                                     {course.title}
                                 </h3>
-
                             </div>
-
 
                             <Link
                                 to={`/instructor/courses/${course.id}`}
@@ -125,11 +118,10 @@ const InstructorDraftCourses = ({
                             >
                                 <ArrowRight size={16} />
                             </Link>
-
                         </div>
 
-
-                        <div className="
+                        <div
+                            className="
                             mt-4
                             flex
                             items-center
@@ -140,34 +132,26 @@ const InstructorDraftCourses = ({
                             font-body
                             text-xs
                             text-text-muted
-                        ">
-
-                            <span className="
+                        "
+                        >
+                            <span
+                                className="
                                 flex
                                 items-center
                                 gap-1.5
-                            ">
+                            "
+                            >
                                 <Clock3 size={13} />
-
                                 {course.totalHours} hrs
                             </span>
 
-
-                            <span>
-                                Updated {course.updatedAt}
-                            </span>
-
+                            <span>Updated {course.updatedAt}</span>
                         </div>
-
                     </article>
-
                 ))}
-
             </div>
-
         </section>
     )
 }
-
 
 export default InstructorDraftCourses

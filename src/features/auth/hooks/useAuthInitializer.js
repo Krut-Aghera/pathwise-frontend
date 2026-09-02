@@ -1,14 +1,12 @@
 import { useGetCurrentUserQuery } from "../../user/userApi.js"
 
 const useAuthInitializer = () => {
-
     const {
         data: user,
         isLoading,
         isError,
         isSuccess,
     } = useGetCurrentUserQuery()
-
 
     return {
         user,
@@ -17,6 +15,5 @@ const useAuthInitializer = () => {
         isSuccess,
     }
 }
-
 
 export default useAuthInitializer

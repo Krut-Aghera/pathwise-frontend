@@ -3,9 +3,7 @@ import {
     useSaveLectureAsDraftMutation,
 } from "../lectureApi"
 
-
 const useLectureState = () => {
-
     ///////////////////////////////////////////////////////////////
     // Publish lecture
 
@@ -19,7 +17,6 @@ const useLectureState = () => {
             reset: resetPublish,
         },
     ] = usePublishLectureMutation()
-
 
     ///////////////////////////////////////////////////////////////
     // Save lecture as draft
@@ -35,14 +32,15 @@ const useLectureState = () => {
         },
     ] = useSaveLectureAsDraftMutation()
 
-
     ///////////////////////////////////////////////////////////////
     // Publish
 
-    const publishLecture = async (lectureId) => {
+    const publishLecture = async (lectureId, sectionId) => {
         try {
-            const result =
-                await publishLectureMutation(lectureId).unwrap()
+            const result = await publishLectureMutation({
+                lectureId,
+                sectionId,
+            }).unwrap()
 
             return {
                 success: true,
@@ -55,15 +53,16 @@ const useLectureState = () => {
             }
         }
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Save as draft
 
-    const saveLectureAsDraft = async (lectureId) => {
+    const saveLectureAsDraft = async (lectureId, sectionId) => {
         try {
-            const result =
-                await saveLectureAsDraftMutation(lectureId).unwrap()
+            const result = await saveLectureAsDraftMutation({
+                lectureId,
+                sectionId,
+            }).unwrap()
 
             return {
                 success: true,
@@ -76,7 +75,6 @@ const useLectureState = () => {
             }
         }
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Return
@@ -88,9 +86,7 @@ const useLectureState = () => {
         isPublishing,
         isSavingDraft,
 
-        isLoading:
-            isPublishing ||
-            isSavingDraft,
+        isLoading: isPublishing || isSavingDraft,
 
         isPublishSuccess,
         isDraftSuccess,
@@ -105,6 +101,5 @@ const useLectureState = () => {
         resetDraft,
     }
 }
-
 
 export default useLectureState

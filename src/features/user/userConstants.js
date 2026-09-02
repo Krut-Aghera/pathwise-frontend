@@ -4,7 +4,4 @@ const USER_ROLE = Object.freeze({
     STUDENT: "student",
 })
 
-
-export {
-    USER_ROLE
-}
+export { USER_ROLE }

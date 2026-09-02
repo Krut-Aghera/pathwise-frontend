@@ -1,34 +1,19 @@
 import { useNavigate, useParams } from "react-router-dom"
 
+import ErrorState from "../../../components/ui/ErrorState.jsx"
 
-import ErrorState
-    from "../../../components/ui/ErrorState.jsx"
+import { sectionValidationRules } from "../sectionValidations.js"
 
+import useSection from "../hooks/useSection.js"
 
-import { sectionValidationRules }
-    from "../sectionValidations.js"
+import useSectionManagement from "../hooks/useSectionManagement.js"
 
-
-import useSection
-    from "../hooks/useSection.js"
-
-
-import useSectionManagement
-    from "../hooks/useSectionManagement.js"
-
-
-import SectionUpdateForm
-    from "../components/form/SectionUpdateForm.jsx"
-
+import SectionUpdateForm from "../components/form/SectionUpdateForm.jsx"
 
 const SectionUpdatePage = () => {
-
     const navigate = useNavigate()
 
-    const {
-        sectionId,
-    } = useParams()
-
+    const { sectionId } = useParams()
 
     ///////////////////////////////////////////////////////////////
     // Section
@@ -43,98 +28,58 @@ const SectionUpdatePage = () => {
         sectionId,
     })
 
-
     ///////////////////////////////////////////////////////////////
     // Section management
 
-    const {
-        updateSection,
-        isUpdating,
-    } = useSectionManagement()
-
+    const { updateSection, isUpdating } = useSectionManagement()
 
     ///////////////////////////////////////////////////////////////
     // Course
 
-    const courseId =
-        section?.course?._id ||
-        section?.course
-
+    const courseId = section?.course?._id || section?.course
 
     ///////////////////////////////////////////////////////////////
     // Error message helper
 
-    const getErrorMessage = (
-        error,
-        fallback
-    ) => {
-
-        return (
-            error?.errors?.[0]?.message ||
-            error?.message ||
-            fallback
-        )
+    const getErrorMessage = (error, fallback) => {
+        return error?.errors?.[0]?.message || error?.message || fallback
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
-    const handleSubmit = async (
-        sectionData
-    ) => {
-
-        if (
-            !sectionId ||
-            !courseId ||
-            isUpdating
-        ) {
+    const handleSubmit = async (sectionData) => {
+        if (!sectionId || !courseId || isUpdating) {
             return
         }
 
-
-        const result =
-            await updateSection(
-                sectionId,
-                sectionData,
-                courseId
-            )
-
+        const result = await updateSection(sectionId, sectionData, courseId)
 
         if (!result?.success) {
             return
         }
 
-
-        navigate(
-            `/instructor/courses/${courseId}`
-        )
+        navigate(`/instructor/courses/${courseId}`)
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Cancel
 
     const handleCancel = () => {
-
         if (!courseId) {
             return
         }
 
-
-        navigate(
-            `/instructor/courses/${courseId}/sections/${sectionId}/manage`
-        )
+        navigate(`/instructor/courses/${courseId}/sections/${sectionId}/manage`)
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
     if (isSectionLoading) {
-
         return (
-            <main className="
+            <main
+                className="
                 mx-auto
                 w-full
                 max-w-3xl
@@ -147,9 +92,10 @@ const SectionUpdatePage = () => {
 
                 lg:px-8
                 lg:py-10
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     flex
                     min-h-80
                     items-center
@@ -159,44 +105,33 @@ const SectionUpdatePage = () => {
                     border
                     border-border-subtle
                     bg-background-surface
-                ">
-
-                    <p className="
+                "
+                >
+                    <p
+                        className="
                         font-body
                         text-sm
                         text-text-muted
-                    ">
-
+                    "
+                    >
                         Loading section...
-
                     </p>
-
                 </div>
-
             </main>
         )
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Error
 
-    if (
-        isSectionError ||
-        !section
-    ) {
-
-        const message =
-            isSectionError
-                ? getErrorMessage(
-                    sectionError,
-                    "Unable to load this section."
-                )
-                : "The requested section could not be found."
-
+    if (isSectionError || !section) {
+        const message = isSectionError
+            ? getErrorMessage(sectionError, "Unable to load this section.")
+            : "The requested section could not be found."
 
         return (
-            <main className="
+            <main
+                className="
                 mx-auto
                 w-full
                 max-w-3xl
@@ -209,24 +144,23 @@ const SectionUpdatePage = () => {
 
                 lg:px-8
                 lg:py-10
-            ">
-
+            "
+            >
                 <ErrorState
                     title="Unable to load section"
                     message={message}
                     onRetry={refetchSection}
                 />
-
             </main>
         )
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
-        <main className="
+        <main
+            className="
             mx-auto
             w-full
             max-w-3xl
@@ -239,27 +173,26 @@ const SectionUpdatePage = () => {
 
             lg:px-8
             lg:py-10
-        ">
-
+        "
+        >
             {/* Page Header */}
 
             <header className="mb-8">
-
-                <p className="
+                <p
+                    className="
                     font-body
                     text-xs
                     font-semibold
                     uppercase
                     tracking-wider
                     text-accent-primary
-                ">
-
+                "
+                >
                     Section {section.order}
-
                 </p>
 
-
-                <h1 className="
+                <h1
+                    className="
                     mt-1
 
                     font-accent
@@ -268,14 +201,13 @@ const SectionUpdatePage = () => {
                     text-text-primary
 
                     sm:text-3xl
-                ">
-
+                "
+                >
                     Edit Section
-
                 </h1>
 
-
-                <p className="
+                <p
+                    className="
                     mt-2
                     max-w-2xl
 
@@ -283,14 +215,11 @@ const SectionUpdatePage = () => {
                     text-sm
                     leading-6
                     text-text-secondary
-                ">
-
+                "
+                >
                     Update the title of this course section.
-
                 </p>
-
             </header>
-
 
             {/* Form */}
 
@@ -303,10 +232,8 @@ const SectionUpdatePage = () => {
                 loading={isUpdating}
                 validationRules={sectionValidationRules}
             />
-
         </main>
     )
 }
-
 
 export default SectionUpdatePage

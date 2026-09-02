@@ -5,50 +5,33 @@ import { lectureValidationRules } from "../lectureValidations.js"
 import LectureCreateForm from "../components/form/LectureCreateForm.jsx"
 
 const LectureCreatePage = () => {
-
     const navigate = useNavigate()
 
     const { sectionId } = useParams()
 
-
     ///////////////////////////////////////////////////////////////
     // Lecture management
 
-    const {
-        createLecture,
-        isCreating,
-    } = useLectureManagement()
-
+    const { createLecture, isCreating } = useLectureManagement()
 
     ///////////////////////////////////////////////////////////////
     // Validation rules
 
-    const validationRules =
-        lectureValidationRules
-
+    const validationRules = lectureValidationRules
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleSubmit = async (lectureData) => {
-
         if (!sectionId) {
-            throw new Error(
-                "Section ID is required to create a lecture."
-            )
+            throw new Error("Section ID is required to create a lecture.")
         }
 
-
-        const result = await createLecture(
-            sectionId,
-            lectureData
-        )
-
+        const result = await createLecture(sectionId, lectureData)
 
         if (!result.success) {
             throw result.error
         }
-
 
         ///////////////////////////////////////////////////////////
         // Success
@@ -56,22 +39,19 @@ const LectureCreatePage = () => {
         navigate(-1)
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Cancel
 
     const handleCancel = () => {
-
         navigate(-1)
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Render
 
     return (
-        <main className="
+        <main
+            className="
             mx-auto
             w-full
             max-w-5xl
@@ -84,37 +64,38 @@ const LectureCreatePage = () => {
 
             lg:px-8
             lg:py-10
-        ">
-
+        "
+        >
             {/* Page Header */}
 
             <header className="mb-8">
-
-                <h1 className="
+                <h1
+                    className="
                     font-accent
                     text-2xl
                     font-semibold
                     text-text-primary
 
                     sm:text-3xl
-                ">
+                "
+                >
                     Create Lecture
                 </h1>
 
-                <p className="
+                <p
+                    className="
                     mt-2
                     max-w-2xl
                     font-body
                     text-sm
                     leading-6
                     text-text-secondary
-                ">
+                "
+                >
                     Add a new lecture to this section. You can upload the
                     lecture video separately after creating the lecture.
                 </p>
-
             </header>
-
 
             {/* Lecture Form */}
 
@@ -124,10 +105,8 @@ const LectureCreatePage = () => {
                 loading={isCreating}
                 validationRules={validationRules}
             />
-
         </main>
     )
 }
-
 
 export default LectureCreatePage

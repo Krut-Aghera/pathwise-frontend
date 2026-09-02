@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom"
 
-
 const HomeCTA = () => {
-
     return (
         <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-
-            <div className="
+            <div
+                className="
                 relative
                 mx-auto
                 w-full
@@ -20,9 +18,10 @@ const HomeCTA = () => {
                 py-12
                 text-center
                 sm:px-10
-            ">
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     pointer-events-none
                     absolute
                     -right-24
@@ -33,9 +32,11 @@ const HomeCTA = () => {
                     bg-accent-primary
                     opacity-10
                     blur-[100px]
-                " />
+                "
+                />
 
-                <div className="
+                <div
+                    className="
                     pointer-events-none
                     absolute
                     -bottom-24
@@ -46,22 +47,24 @@ const HomeCTA = () => {
                     bg-accent-secondary
                     opacity-10
                     blur-[100px]
-                " />
-
+                "
+                />
 
                 <div className="relative">
-
-                    <h2 className="
+                    <h2
+                        className="
                         font-accent
                         text-2xl
                         font-bold
                         text-text-primary
                         sm:text-3xl
-                    ">
+                    "
+                    >
                         Ready to start learning?
                     </h2>
 
-                    <p className="
+                    <p
+                        className="
                         mx-auto
                         mt-3
                         max-w-xl
@@ -69,9 +72,10 @@ const HomeCTA = () => {
                         text-sm
                         leading-6
                         text-text-secondary
-                    ">
-                        Explore the catalog, find something that interests
-                        you, and start building your next skill.
+                    "
+                    >
+                        Explore the catalog, find something that interests you,
+                        and start building your next skill.
                     </p>
 
                     <Link
@@ -94,14 +98,10 @@ const HomeCTA = () => {
                     >
                         Explore Courses
                     </Link>
-
                 </div>
-
             </div>
-
         </section>
     )
 }
-
 
 export default HomeCTA

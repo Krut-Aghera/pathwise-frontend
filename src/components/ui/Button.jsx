@@ -8,14 +8,13 @@ const Button = ({
     className,
     ...props
 }) => {
-
     const isDisabled = disabled || loading
 
     const stateClasses = loading
         ? "bg-accent-primary opacity-50 cursor-not-allowed"
         : disabled
-            ? "bg-gray-500 opacity-40 cursor-not-allowed"
-            : "bg-accent-primary cursor-pointer hover:opacity-90 active:brightness-90"
+          ? "bg-gray-500 opacity-40 cursor-not-allowed"
+          : "bg-accent-primary cursor-pointer hover:opacity-90 active:brightness-90"
 
     return (
         <button

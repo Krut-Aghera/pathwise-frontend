@@ -2,7 +2,6 @@
 // Section validation rules
 
 const sectionValidationRules = {
-
     ///////////////////////////////////////////////////////////////
     // Basic information
 
@@ -24,7 +23,6 @@ const sectionValidationRules = {
     },
 }
 
-
 ///////////////////////////////////////////////////////////////
 // Reorder section validation rules
 //
@@ -41,21 +39,14 @@ const sectionValidationRules = {
 // - section ownership/course membership
 
 const reorderSectionValidationRules = {
-
     sections: {
-
         validate: {
-
             required: (value) =>
-                (
-                    Array.isArray(value) &&
-                    value.length >= 1
-                ) ||
+                (Array.isArray(value) && value.length >= 1) ||
                 "Sections must be a non-empty array",
         },
 
         item: {
-
             sectionId: {
                 required: {
                     value: true,
@@ -70,9 +61,7 @@ const reorderSectionValidationRules = {
                 },
 
                 validate: {
-
                     positiveInteger: (value) => {
-
                         if (
                             value === "" ||
                             value === null ||
@@ -84,10 +73,9 @@ const reorderSectionValidationRules = {
                         const order = Number(value)
 
                         return (
-                            Number.isInteger(order) &&
-                            order >= 1
-                        ) ||
-                        "Order must be a positive integer"
+                            (Number.isInteger(order) && order >= 1) ||
+                            "Order must be a positive integer"
+                        )
                     },
                 },
             },
@@ -95,11 +83,7 @@ const reorderSectionValidationRules = {
     },
 }
 
-
 ///////////////////////////////////////////////////////////////
 // exports
 
-export {
-    sectionValidationRules,
-    reorderSectionValidationRules,
-}
+export { sectionValidationRules, reorderSectionValidationRules }

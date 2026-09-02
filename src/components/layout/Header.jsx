@@ -5,9 +5,7 @@ import useSession from "../../features/auth/hooks/useSession"
 
 import pathwise_main_logo from "../../assets/pathwise_main_logo.png"
 
-
 const Header = () => {
-
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const { isAuthenticated } = useSession()
@@ -15,7 +13,6 @@ const Header = () => {
     const closeMobileMenu = () => {
         setIsMenuOpen(false)
     }
-
 
     const navLinkClass = ({ isActive }) => `
         rounded-md
@@ -25,18 +22,18 @@ const Header = () => {
         text-sm
         transition
 
-        ${isActive
-            ? `
+        ${
+            isActive
+                ? `
                     font-medium
                     text-text-primary
                 `
-            : `
+                : `
                     text-text-secondary
                     hover:text-text-primary
                 `
         }
     `
-
 
     const mobileNavLinkClass = ({ isActive }) => `
         rounded-md
@@ -46,13 +43,14 @@ const Header = () => {
         text-sm
         transition
 
-        ${isActive
-            ? `
+        ${
+            isActive
+                ? `
                     bg-background-elevated
                     font-medium
                     text-text-primary
                 `
-            : `
+                : `
                     text-text-secondary
                     hover:bg-background-elevated
                     hover:text-text-primary
@@ -60,9 +58,9 @@ const Header = () => {
         }
     `
 
-
     return (
-        <header className="
+        <header
+            className="
             sticky
             top-0
             z-50
@@ -71,9 +69,10 @@ const Header = () => {
             bg-background-base/70
             py-2
             backdrop-blur-md
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 mx-auto
                 flex
                 h-16
@@ -84,8 +83,8 @@ const Header = () => {
                 px-4
                 sm:px-6
                 lg:px-8
-            ">
-
+            "
+            >
                 {/* Brand */}
 
                 <Link
@@ -106,52 +105,40 @@ const Header = () => {
                     />
                 </Link>
 
-
                 {/* Desktop navigation */}
 
-                <nav className="
+                <nav
+                    className="
                     hidden
                     items-center
                     gap-5
                     md:flex
-                ">
-
-                    <NavLink
-                        to="/"
-                        end
-                        className={navLinkClass}
-                    >
+                "
+                >
+                    <NavLink to="/" end className={navLinkClass}>
                         Home
                     </NavLink>
 
-                    <NavLink
-                        to="/courses"
-                        className={navLinkClass}
-                    >
+                    <NavLink to="/courses" className={navLinkClass}>
                         Courses
                     </NavLink>
 
-                    <NavLink
-                        to="/about"
-                        className={navLinkClass}
-                    >
+                    <NavLink to="/about" className={navLinkClass}>
                         About Pathwise
                     </NavLink>
-
                 </nav>
-
 
                 {/* Desktop actions */}
 
-                <div className="
+                <div
+                    className="
                     hidden
                     items-center
                     gap-2
                     md:flex
-                ">
-
+                "
+                >
                     {!isAuthenticated ? (
-
                         <>
                             <Link
                                 to="/auth/login"
@@ -195,9 +182,7 @@ const Header = () => {
                                 Get Started
                             </Link>
                         </>
-
                     ) : (
-
                         <>
                             <NavLink
                                 to="/learning"
@@ -213,12 +198,13 @@ const Header = () => {
                                     font-medium
                                     transition
 
-                                    ${isActive
-                                        ? `
+                                    ${
+                                        isActive
+                                            ? `
                                                 bg-background-surface
                                                 text-text-primary
                                             `
-                                        : `
+                                            : `
                                                 text-text-secondary
                                                 hover:bg-background-surface
                                                 hover:text-text-primary
@@ -231,10 +217,8 @@ const Header = () => {
                                     strokeWidth={1.8}
                                     aria-hidden="true"
                                 />
-
                                 My Learning
                             </NavLink>
-
 
                             <NavLink
                                 to="/wishlist"
@@ -248,12 +232,13 @@ const Header = () => {
                                     p-2
                                     transition
 
-                                    ${isActive
-                                        ? `
+                                    ${
+                                        isActive
+                                            ? `
                                                 bg-background-surface
                                                 text-text-primary
                                             `
-                                        : `
+                                            : `
                                                 text-text-secondary
                                                 hover:bg-background-surface
                                                 hover:text-text-primary
@@ -268,7 +253,6 @@ const Header = () => {
                                 />
                             </NavLink>
 
-
                             <NavLink
                                 to="/dashboard"
                                 aria-label="User Dashboard"
@@ -281,12 +265,13 @@ const Header = () => {
                                     p-2
                                     transition
 
-                                    ${isActive
-                                        ? `
+                                    ${
+                                        isActive
+                                            ? `
                                                 bg-background-surface
                                                 text-text-primary
                                             `
-                                        : `
+                                            : `
                                                 text-text-secondary
                                                 hover:bg-background-surface
                                                 hover:text-text-primary
@@ -301,23 +286,16 @@ const Header = () => {
                                 />
                             </NavLink>
                         </>
-
                     )}
-
                 </div>
-
 
                 {/* Mobile menu button */}
 
                 <button
                     type="button"
-                    onClick={() =>
-                        setIsMenuOpen((current) => !current)
-                    }
+                    onClick={() => setIsMenuOpen((current) => !current)}
                     aria-label={
-                        isMenuOpen
-                            ? "Close navigation"
-                            : "Open navigation"
+                        isMenuOpen ? "Close navigation" : "Open navigation"
                     }
                     aria-expanded={isMenuOpen}
                     className="
@@ -341,28 +319,28 @@ const Header = () => {
                     <span className="mt-1 block h-0.5 w-5 bg-current" />
                     <span className="mt-1 block h-0.5 w-5 bg-current" />
                 </button>
-
             </div>
-
 
             {/* Mobile navigation */}
 
             {isMenuOpen && (
-                <div className="
+                <div
+                    className="
                     border-t
                     border-border-subtle
                     bg-background-surface
                     px-4
                     py-5
                     md:hidden
-                ">
-
-                    <nav className="
+                "
+                >
+                    <nav
+                        className="
                         flex
                         flex-col
                         gap-1
-                    ">
-
+                    "
+                    >
                         <NavLink
                             to="/"
                             end
@@ -388,12 +366,11 @@ const Header = () => {
                             About Pathwise
                         </NavLink>
 
-
                         {/* Authenticated mobile actions */}
 
                         {isAuthenticated ? (
-
-                            <div className="
+                            <div
+                                className="
                                 mt-3
                                 grid
                                 grid-cols-3
@@ -401,8 +378,8 @@ const Header = () => {
                                 border-t
                                 border-border-subtle
                                 pt-4
-                            ">
-
+                            "
+                            >
                                 <NavLink
                                     to="/learning"
                                     onClick={closeMobileMenu}
@@ -418,13 +395,14 @@ const Header = () => {
                                         py-3
                                         transition
 
-                                        ${isActive
-                                            ? `
+                                        ${
+                                            isActive
+                                                ? `
                                                     border-accent-primary/30
                                                     bg-background-base
                                                     text-text-primary
                                                 `
-                                            : `
+                                                : `
                                                     border-border-subtle
                                                     bg-background-base
                                                     text-text-secondary
@@ -433,16 +411,12 @@ const Header = () => {
                                         }
                                     `}
                                 >
-                                    <BookOpen
-                                        size={18}
-                                        strokeWidth={1.8}
-                                    />
+                                    <BookOpen size={18} strokeWidth={1.8} />
 
                                     <span className="text-xs font-medium">
                                         Learning
                                     </span>
                                 </NavLink>
-
 
                                 <NavLink
                                     to="/wishlist"
@@ -459,13 +433,14 @@ const Header = () => {
                                         py-3
                                         transition
 
-                                        ${isActive
-                                            ? `
+                                        ${
+                                            isActive
+                                                ? `
                                                     border-accent-primary/30
                                                     bg-background-base
                                                     text-text-primary
                                                 `
-                                            : `
+                                                : `
                                                     border-border-subtle
                                                     bg-background-base
                                                     text-text-secondary
@@ -474,16 +449,12 @@ const Header = () => {
                                         }
                                     `}
                                 >
-                                    <Heart
-                                        size={18}
-                                        strokeWidth={1.8}
-                                    />
+                                    <Heart size={18} strokeWidth={1.8} />
 
                                     <span className="text-xs font-medium">
                                         Wishlist
                                     </span>
                                 </NavLink>
-
 
                                 <NavLink
                                     to="/dashboard"
@@ -500,13 +471,14 @@ const Header = () => {
                                         py-3
                                         transition
 
-                                        ${isActive
-                                            ? `
+                                        ${
+                                            isActive
+                                                ? `
                                                     border-accent-primary/30
                                                     bg-background-base
                                                     text-text-primary
                                                 `
-                                            : `
+                                                : `
                                                     border-border-subtle
                                                     bg-background-base
                                                     text-text-secondary
@@ -515,31 +487,26 @@ const Header = () => {
                                         }
                                     `}
                                 >
-                                    <UserRound
-                                        size={18}
-                                        strokeWidth={1.8}
-                                    />
+                                    <UserRound size={18} strokeWidth={1.8} />
 
                                     <span className="text-xs font-medium">
                                         Account
                                     </span>
                                 </NavLink>
-
                             </div>
-
                         ) : (
-
                             /* Guest mobile actions */
 
-                            <div className="
+                            <div
+                                className="
                                 mt-3
                                 flex
                                 gap-3
                                 border-t
                                 border-border-subtle
                                 pt-4
-                            ">
-
+                            "
+                            >
                                 <Link
                                     to="/auth/login"
                                     onClick={closeMobileMenu}
@@ -582,19 +549,13 @@ const Header = () => {
                                 >
                                     Get Started
                                 </Link>
-
                             </div>
-
                         )}
-
                     </nav>
-
                 </div>
             )}
-
         </header>
     )
 }
-
 
 export default Header

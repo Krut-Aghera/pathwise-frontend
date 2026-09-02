@@ -1,18 +1,10 @@
-import {
-    ChevronDown,
-    ChevronRight,
-    FileVideo,
-    Lock,
-} from "lucide-react"
+import { ChevronDown, ChevronRight, FileVideo, Lock } from "lucide-react"
 import { useState } from "react"
 
-
 const CourseCurriculum = ({ sections = [] }) => {
-
     const [openSections, setOpenSections] = useState(
         () => new Set(sections.map((section) => section._id))
     )
-
 
     const toggleSection = (sectionId) => {
         setOpenSections((current) => {
@@ -28,10 +20,10 @@ const CourseCurriculum = ({ sections = [] }) => {
         })
     }
 
-
     if (sections.length === 0) {
         return (
-            <section className="
+            <section
+                className="
                 rounded-xl
                 border
                 border-border-subtle
@@ -43,18 +35,20 @@ const CourseCurriculum = ({ sections = [] }) => {
                 text-center
 
                 sm:px-6
-            ">
-                <p className="
+            "
+            >
+                <p
+                    className="
                     font-body
                     text-sm
                     text-text-muted
-                ">
+                "
+                >
                     No course content available yet.
                 </p>
             </section>
         )
     }
-
 
     return (
         <section
@@ -67,10 +61,10 @@ const CourseCurriculum = ({ sections = [] }) => {
                 bg-background-surface
             "
         >
-
             {/* Header */}
 
-            <div className="
+            <div
+                className="
                 border-b
                 border-border-subtle
 
@@ -78,8 +72,8 @@ const CourseCurriculum = ({ sections = [] }) => {
                 py-5
 
                 sm:px-6
-            ">
-
+            "
+            >
                 <h2
                     id="course-curriculum-heading"
                     className="
@@ -92,25 +86,24 @@ const CourseCurriculum = ({ sections = [] }) => {
                     Course Curriculum
                 </h2>
 
-                <p className="
+                <p
+                    className="
                     mt-1
 
                     font-body
                     text-xs
                     text-text-muted
-                ">
+                "
+                >
                     {sections.length}{" "}
                     {sections.length === 1 ? "section" : "sections"}
                 </p>
-
             </div>
-
 
             {/* Sections */}
 
             <div>
                 {sections.map((section) => {
-
                     const isOpen = openSections.has(section._id)
 
                     const lectures = section.lectures || []
@@ -124,7 +117,6 @@ const CourseCurriculum = ({ sections = [] }) => {
                                 last:border-b-0
                             "
                         >
-
                             {/* Section Header */}
 
                             <button
@@ -150,10 +142,10 @@ const CourseCurriculum = ({ sections = [] }) => {
                                     sm:px-6
                                 "
                             >
-
                                 {/* Chevron */}
 
-                                <span className="
+                                <span
+                                    className="
                                     flex
                                     h-7
                                     w-7
@@ -165,7 +157,8 @@ const CourseCurriculum = ({ sections = [] }) => {
 
                                     bg-accent-primary/10
                                     text-accent-primary
-                                ">
+                                "
+                                >
                                     {isOpen ? (
                                         <ChevronDown size={16} />
                                     ) : (
@@ -173,15 +166,16 @@ const CourseCurriculum = ({ sections = [] }) => {
                                     )}
                                 </span>
 
-
                                 {/* Section information */}
 
-                                <span className="
+                                <span
+                                    className="
                                     min-w-0
                                     flex-1
-                                ">
-
-                                    <span className="
+                                "
+                                >
+                                    <span
+                                        className="
                                         block
                                         truncate
 
@@ -189,40 +183,42 @@ const CourseCurriculum = ({ sections = [] }) => {
                                         text-sm
                                         font-semibold
                                         text-text-primary
-                                    ">
+                                    "
+                                    >
                                         {section.title}
                                     </span>
 
-                                    <span className="
+                                    <span
+                                        className="
                                         mt-0.5
                                         block
 
                                         font-body
                                         text-[11px]
                                         text-text-muted
-                                    ">
+                                    "
+                                    >
                                         {lectures.length}{" "}
                                         {lectures.length === 1
                                             ? "lecture"
                                             : "lectures"}
                                     </span>
-
                                 </span>
-
                             </button>
-
 
                             {/* Lectures */}
 
                             {isOpen && (
-                                <div className="
+                                <div
+                                    className="
                                     border-t
                                     border-border-subtle
                                     bg-background-elevated/40
-                                ">
-
+                                "
+                                >
                                     {lectures.length === 0 ? (
-                                        <div className="
+                                        <div
+                                            className="
                                             px-5
                                             py-4
 
@@ -231,7 +227,8 @@ const CourseCurriculum = ({ sections = [] }) => {
                                             text-text-muted
 
                                             sm:px-6
-                                        ">
+                                        "
+                                        >
                                             No lectures in this section.
                                         </div>
                                     ) : (
@@ -249,7 +246,6 @@ const CourseCurriculum = ({ sections = [] }) => {
                                                     sm:px-6
                                                 "
                                             >
-
                                                 {/* Lecture icon */}
 
                                                 <FileVideo
@@ -260,30 +256,33 @@ const CourseCurriculum = ({ sections = [] }) => {
                                                     "
                                                 />
 
-
                                                 {/* Lecture title */}
 
-                                                <span className="
+                                                <span
+                                                    className="
                                                     min-w-0
                                                     flex-1
 
                                                     font-body
                                                     text-sm
                                                     text-text-secondary
-                                                ">
-                                                    <span className="
+                                                "
+                                                >
+                                                    <span
+                                                        className="
                                                         block
                                                         truncate
-                                                    ">
+                                                    "
+                                                    >
                                                         {lecture.title}
                                                     </span>
                                                 </span>
 
-
                                                 {/* Preview / locked */}
 
                                                 {lecture.isPreviewFree ? (
-                                                    <span className="
+                                                    <span
+                                                        className="
                                                         shrink-0
 
                                                         rounded-md
@@ -296,7 +295,8 @@ const CourseCurriculum = ({ sections = [] }) => {
                                                         text-[10px]
                                                         font-medium
                                                         text-accent-primary
-                                                    ">
+                                                    "
+                                                    >
                                                         Preview
                                                     </span>
                                                 ) : (
@@ -309,22 +309,17 @@ const CourseCurriculum = ({ sections = [] }) => {
                                                         aria-label="Locked lecture"
                                                     />
                                                 )}
-
                                             </div>
                                         ))
                                     )}
-
                                 </div>
                             )}
-
                         </div>
                     )
                 })}
             </div>
-
         </section>
     )
 }
-
 
 export default CourseCurriculum

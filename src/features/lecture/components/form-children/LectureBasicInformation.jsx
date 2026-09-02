@@ -1,15 +1,10 @@
 import FormField from "../../../../components/form/FormField"
 import Input from "../../../../components/form/Input"
 
-
-const LectureBasicInformation = ({
-    register,
-    errors,
-    validationRules,
-}) => {
-
+const LectureBasicInformation = ({ register, errors, validationRules }) => {
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -18,38 +13,38 @@ const LectureBasicInformation = ({
             p-5
 
             sm:p-6
-        ">
-
+        "
+        >
             {/* Header */}
 
             <div className="mb-6">
-
-                <h2 className="
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     Lecture Information
                 </h2>
 
-                <p className="
+                <p
+                    className="
                     mt-1
                     font-body
                     text-sm
                     leading-5
                     text-text-secondary
-                ">
+                "
+                >
                     Provide the information students will see for this lecture.
                 </p>
-
             </div>
-
 
             {/* Fields */}
 
             <div className="space-y-5">
-
                 {/* Title */}
 
                 <FormField
@@ -58,7 +53,6 @@ const LectureBasicInformation = ({
                     error={errors.title?.message}
                     required
                 >
-
                     <Input
                         id="lecture-title"
                         type="text"
@@ -66,18 +60,11 @@ const LectureBasicInformation = ({
                         placeholder="Enter your lecture title"
                         error={Boolean(errors.title)}
                         aria-describedby={
-                            errors.title
-                                ? "lecture-title-error"
-                                : undefined
+                            errors.title ? "lecture-title-error" : undefined
                         }
-                        {...register(
-                            "title",
-                            validationRules.title
-                        )}
+                        {...register("title", validationRules.title)}
                     />
-
                 </FormField>
-
 
                 {/* Description */}
 
@@ -86,7 +73,6 @@ const LectureBasicInformation = ({
                     htmlFor="lecture-description"
                     error={errors.description?.message}
                 >
-
                     <textarea
                         id="lecture-description"
                         rows={7}
@@ -141,18 +127,11 @@ const LectureBasicInformation = ({
                             disabled:text-text-secondary
                         `}
                     />
-
                 </FormField>
-
 
                 {/* Free Preview */}
 
-                <FormField
-                    label="Free Preview"
-                    htmlFor="lecture-preview-free"
-                    error={errors.isPreviewFree?.message}
-                >
-
+                <FormField label="Free Preview" htmlFor="lecture-preview-free">
                     <label
                         htmlFor="lecture-preview-free"
                         className="
@@ -175,7 +154,6 @@ const LectureBasicInformation = ({
                             hover:border-accent-primary/40
                         "
                     >
-
                         {/* Toggle */}
 
                         <span
@@ -197,15 +175,10 @@ const LectureBasicInformation = ({
                                 has-[:checked]:bg-accent-primary
                             "
                         >
-
                             <Input
                                 id="lecture-preview-free"
                                 type="checkbox"
-                                error={Boolean(errors.isPreviewFree)}
-                                {...register(
-                                    "isPreviewFree",
-                                    validationRules.isPreviewFree
-                                )}
+                                {...register("isPreviewFree")}
                                 className="
                                     peer
                                     sr-only
@@ -236,29 +209,31 @@ const LectureBasicInformation = ({
                                     peer-checked:translate-x-4
                                 "
                             />
-
                         </span>
-
 
                         {/* Text */}
 
-                        <span className="
+                        <span
+                            className="
                             min-w-0
                             flex-1
-                        ">
-
-                            <span className="
+                        "
+                        >
+                            <span
+                                className="
                                 block
 
                                 font-body
                                 text-sm
                                 font-medium
                                 text-text-primary
-                            ">
+                            "
+                            >
                                 Allow free preview
                             </span>
 
-                            <span className="
+                            <span
+                                className="
                                 mt-0.5
                                 block
 
@@ -266,21 +241,17 @@ const LectureBasicInformation = ({
                                 text-xs
                                 leading-5
                                 text-text-secondary
-                            ">
-                                Let students watch this lecture before enrolling.
+                            "
+                            >
+                                Let students watch this lecture before
+                                enrolling.
                             </span>
-
                         </span>
-
                     </label>
-
                 </FormField>
-
             </div>
-
         </section>
     )
 }
-
 
 export default LectureBasicInformation

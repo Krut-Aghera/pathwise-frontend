@@ -4,7 +4,6 @@ export const COURSE_LEVELS = {
     ADVANCED: "advanced",
 }
 
-
 export const COURSE_LEVEL_OPTIONS = [
     {
         value: COURSE_LEVELS.BEGINNER,
@@ -20,12 +19,10 @@ export const COURSE_LEVEL_OPTIONS = [
     },
 ]
 
-
 export const COURSE_LANGUAGES = {
     ENGLISH: "English",
     HINDI: "Hindi",
 }
-
 
 export const COURSE_LANGUAGE_OPTIONS = [
     {

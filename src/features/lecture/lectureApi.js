@@ -2,7 +2,6 @@ import { createApi } from "@reduxjs/toolkit/query/react"
 
 import axiosBaseQuery from "../../app/network/axiosBaseQuery"
 
-
 const lectureApi = createApi({
     reducerPath: "lectureApi",
 
@@ -13,7 +12,6 @@ const lectureApi = createApi({
     tagTypes: ["Lecture"],
 
     endpoints: (builder) => ({
-
         ///////////////////////////////////////////////////////////////
         // Instructor lecture APIs
 
@@ -32,7 +30,6 @@ const lectureApi = createApi({
             ],
         }),
 
-
         // GET /lectures/:lectureId
         fetchInstructorLecture: builder.query({
             query: (lectureId) => ({
@@ -47,7 +44,6 @@ const lectureApi = createApi({
                 },
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Create lecture
@@ -68,7 +64,6 @@ const lectureApi = createApi({
             ],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Update lecture
 
@@ -85,17 +80,17 @@ const lectureApi = createApi({
                     type: "Lecture",
                     id: lectureId,
                 },
+
                 ...(sectionId
                     ? [
-                        {
-                            type: "Lecture",
-                            id: `SECTION-${sectionId}`,
-                        },
-                    ]
+                          {
+                              type: "Lecture",
+                              id: `SECTION-${sectionId}`,
+                          },
+                      ]
                     : []),
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Remove lecture
@@ -112,17 +107,17 @@ const lectureApi = createApi({
                     type: "Lecture",
                     id: lectureId,
                 },
+
                 ...(sectionId
                     ? [
-                        {
-                            type: "Lecture",
-                            id: `SECTION-${sectionId}`,
-                        },
-                    ]
+                          {
+                              type: "Lecture",
+                              id: `SECTION-${sectionId}`,
+                          },
+                      ]
                     : []),
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Reorder section lectures
@@ -145,64 +140,39 @@ const lectureApi = createApi({
             ],
         }),
 
-
         ///////////////////////////////////////////////////////////////
         // Lecture video APIs
 
         // PATCH /lectures/:lectureId/video
         uploadLectureVideo: builder.mutation({
+            query: ({ lectureId, video }) => {
+                const formData = new FormData()
 
-            query: ({
-                lectureId,
-                video,
-                sectionId,
-            }) => {
-
-                const formData =
-                    new FormData()
-
-
-                formData.append(
-                    "video",
-                    video
-                )
-
+                formData.append("video", video)
 
                 return {
-
                     url: `/${lectureId}/video`,
                     method: "PATCH",
                     data: formData,
-
                 }
             },
 
-            invalidatesTags: (
-                result,
-                error,
+            invalidatesTags: (result, error, { lectureId, sectionId }) => [
                 {
-                    lectureId,
-                    sectionId,
-                }
-            ) => [
+                    type: "Lecture",
+                    id: lectureId,
+                },
 
-                    {
-                        type: "Lecture",
-                        id: lectureId,
-                    },
-
-                    ...(sectionId
-                        ? [
-                            {
-                                type: "Lecture",
-                                id: `SECTION-${sectionId}`,
-                            },
-                        ]
-                        : []),
-
-                ],
+                ...(sectionId
+                    ? [
+                          {
+                              type: "Lecture",
+                              id: `SECTION-${sectionId}`,
+                          },
+                      ]
+                    : []),
+            ],
         }),
-
 
         // DELETE /lectures/:lectureId/video
         removeLectureVideo: builder.mutation({
@@ -216,55 +186,71 @@ const lectureApi = createApi({
                     type: "Lecture",
                     id: lectureId,
                 },
+
                 ...(sectionId
                     ? [
-                        {
-                            type: "Lecture",
-                            id: `SECTION-${sectionId}`,
-                        },
-                    ]
+                          {
+                              type: "Lecture",
+                              id: `SECTION-${sectionId}`,
+                          },
+                      ]
                     : []),
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Publish lecture
 
         // PATCH /lectures/:lectureId/publish
         publishLecture: builder.mutation({
-            query: (lectureId) => ({
+            query: ({ lectureId }) => ({
                 url: `/${lectureId}/publish`,
                 method: "PATCH",
             }),
 
-            invalidatesTags: (result, error, lectureId) => [
+            invalidatesTags: (result, error, { lectureId, sectionId }) => [
                 {
                     type: "Lecture",
                     id: lectureId,
                 },
+
+                ...(sectionId
+                    ? [
+                          {
+                              type: "Lecture",
+                              id: `SECTION-${sectionId}`,
+                          },
+                      ]
+                    : []),
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Save lecture as draft
 
         // PATCH /lectures/:lectureId/draft
         saveLectureAsDraft: builder.mutation({
-            query: (lectureId) => ({
+            query: ({ lectureId }) => ({
                 url: `/${lectureId}/draft`,
                 method: "PATCH",
             }),
 
-            invalidatesTags: (result, error, lectureId) => [
+            invalidatesTags: (result, error, { lectureId, sectionId }) => [
                 {
                     type: "Lecture",
                     id: lectureId,
                 },
+
+                ...(sectionId
+                    ? [
+                          {
+                              type: "Lecture",
+                              id: `SECTION-${sectionId}`,
+                          },
+                      ]
+                    : []),
             ],
         }),
-
 
         ///////////////////////////////////////////////////////////////
         // Student lecture API
@@ -283,10 +269,8 @@ const lectureApi = createApi({
                 },
             ],
         }),
-
     }),
 })
-
 
 export const {
     useFetchSectionLecturesQuery,
@@ -305,6 +289,5 @@ export const {
 
     useFetchStudentLectureQuery,
 } = lectureApi
-
 
 export default lectureApi

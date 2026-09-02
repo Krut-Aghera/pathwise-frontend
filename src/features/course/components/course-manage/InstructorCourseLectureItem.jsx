@@ -1,21 +1,13 @@
-import {
-    FileVideo,
-    GripVertical,
-} from "lucide-react"
+import { FileVideo, GripVertical } from "lucide-react"
 
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-
-const InstructorCourseLectureItem = ({
-    lecture,
-}) => {
-
-    const isPublished =
-        lecture?.status === RESOURCE_STATUS.PUBLISHED
-
+const InstructorCourseLectureItem = ({ lecture }) => {
+    const isPublished = lecture?.status === RESOURCE_STATUS.PUBLISHED
 
     return (
-        <div className="
+        <div
+            className="
             group
             flex
             items-center
@@ -24,8 +16,8 @@ const InstructorCourseLectureItem = ({
             py-3
 
             sm:gap-3
-        ">
-
+        "
+        >
             {/* Drag handle */}
 
             <button
@@ -45,15 +37,13 @@ const InstructorCourseLectureItem = ({
                     sm:inline-flex
                 "
             >
-
                 <GripVertical size={15} />
-
             </button>
-
 
             {/* Video icon */}
 
-            <div className="
+            <div
+                className="
                 flex
                 h-8
                 w-8
@@ -66,18 +56,16 @@ const InstructorCourseLectureItem = ({
                 bg-accent-secondary/10
 
                 text-accent-secondary
-            ">
-
+            "
+            >
                 <FileVideo size={14} />
-
             </div>
-
 
             {/* Lecture */}
 
             <div className="min-w-0 flex-1">
-
-                <p className="
+                <p
+                    className="
                     truncate
 
                     font-body
@@ -88,18 +76,16 @@ const InstructorCourseLectureItem = ({
                     transition-colors
 
                     group-hover:text-text-primary
-                ">
-
+                "
+                >
                     {lecture?.title}
-
                 </p>
-
             </div>
-
 
             {/* Duration */}
 
-            <span className="
+            <span
+                className="
                 hidden
                 shrink-0
 
@@ -108,16 +94,15 @@ const InstructorCourseLectureItem = ({
                 text-text-muted
 
                 sm:inline
-            ">
-
+            "
+            >
                 {lecture?.duration || "—"}
-
             </span>
-
 
             {/* Status */}
 
-            <span className={`
+            <span
+                className={`
                 shrink-0
 
                 rounded-md
@@ -143,18 +128,12 @@ const InstructorCourseLectureItem = ({
                             text-status-warning
                         `
                 }
-            `}>
-
-                {isPublished
-                    ? "Published"
-                    : "Draft"
-                }
-
+            `}
+            >
+                {isPublished ? "Published" : "Draft"}
             </span>
-
         </div>
     )
 }
-
 
 export default InstructorCourseLectureItem

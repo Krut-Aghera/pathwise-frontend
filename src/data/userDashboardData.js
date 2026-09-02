@@ -6,7 +6,6 @@ export const dashboardUser = {
     instructor: false,
 }
 
-
 export const dashboardCourses = [
     {
         id: "course-1",

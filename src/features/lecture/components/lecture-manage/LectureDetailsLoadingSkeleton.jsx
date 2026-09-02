@@ -1,23 +1,21 @@
-const SkeletonBlock = ({
-    className = "",
-}) => {
-
+const SkeletonBlock = ({ className = "" }) => {
     return (
-        <div className={`
+        <div
+            className={`
             animate-pulse
             rounded-lg
             bg-background-elevated
 
             ${className}
-        `} />
+        `}
+        />
     )
 }
 
-
 const LectureDetailsLoadingSkeleton = () => {
-
     return (
-        <main className="
+        <main
+            className="
             mx-auto
             w-full
             max-w-7xl
@@ -30,11 +28,12 @@ const LectureDetailsLoadingSkeleton = () => {
 
             lg:px-8
             lg:py-10
-        ">
-
+        "
+        >
             {/* Header */}
 
-            <div className="
+            <div
+                className="
                 overflow-hidden
 
                 rounded-2xl
@@ -43,11 +42,10 @@ const LectureDetailsLoadingSkeleton = () => {
                 border-border-subtle
 
                 bg-background-surface
-            ">
-
-                {/* Top */}
-
-                <div className="
+            "
+            >
+                <div
+                    className="
                     flex
                     items-center
                     justify-between
@@ -59,8 +57,8 @@ const LectureDetailsLoadingSkeleton = () => {
                     py-4
 
                     sm:px-6
-                ">
-
+                "
+                >
                     <SkeletonBlock
                         className="
                             h-7
@@ -75,13 +73,10 @@ const LectureDetailsLoadingSkeleton = () => {
                             rounded-full
                         "
                     />
-
                 </div>
 
-
-                {/* Main */}
-
-                <div className="
+                <div
+                    className="
                     flex
                     items-start
                     gap-4
@@ -91,8 +86,8 @@ const LectureDetailsLoadingSkeleton = () => {
 
                     sm:px-6
                     sm:py-7
-                ">
-
+                "
+                >
                     <SkeletonBlock
                         className="
                             h-12
@@ -102,11 +97,12 @@ const LectureDetailsLoadingSkeleton = () => {
                         "
                     />
 
-                    <div className="
+                    <div
+                        className="
                         min-w-0
                         flex-1
-                    ">
-
+                    "
+                    >
                         <SkeletonBlock
                             className="
                                 h-3
@@ -130,17 +126,14 @@ const LectureDetailsLoadingSkeleton = () => {
                                 max-w-2xl
                             "
                         />
-
                     </div>
-
                 </div>
-
             </div>
-
 
             {/* Content */}
 
-            <div className="
+            <div
+                className="
                 mt-6
 
                 grid
@@ -148,18 +141,20 @@ const LectureDetailsLoadingSkeleton = () => {
                 gap-6
 
                 lg:grid-cols-[minmax(0,1fr)_360px]
-            ">
-
+            "
+            >
                 {/* Main */}
 
-                <div className="
+                <div
+                    className="
                     min-w-0
                     space-y-6
-                ">
-
+                "
+                >
                     {/* Information */}
 
-                    <section className="
+                    <section
+                        className="
                         rounded-2xl
 
                         border
@@ -170,8 +165,8 @@ const LectureDetailsLoadingSkeleton = () => {
                         p-5
 
                         sm:p-6
-                    ">
-
+                    "
+                    >
                         <SkeletonBlock
                             className="
                                 h-3
@@ -195,8 +190,8 @@ const LectureDetailsLoadingSkeleton = () => {
                             "
                         />
 
-
-                        <div className="
+                        <div
+                            className="
                             mt-5
 
                             grid
@@ -204,16 +199,12 @@ const LectureDetailsLoadingSkeleton = () => {
                             gap-3
 
                             sm:grid-cols-2
-                        ">
-
-                            {Array.from(
-                                { length: 5 }
-                            ).map(
-                                (_, index) => (
-
-                                    <div
-                                        key={index}
-                                        className="
+                        "
+                        >
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <div
+                                    key={index}
+                                    className="
                                             rounded-xl
 
                                             border
@@ -224,36 +215,30 @@ const LectureDetailsLoadingSkeleton = () => {
                                             px-4
                                             py-4
                                         "
-                                    >
-
-                                        <SkeletonBlock
-                                            className="
+                                >
+                                    <SkeletonBlock
+                                        className="
                                                 h-3
                                                 w-24
                                             "
-                                        />
+                                    />
 
-                                        <SkeletonBlock
-                                            className="
+                                    <SkeletonBlock
+                                        className="
                                                 mt-3
                                                 h-4
                                                 w-20
                                             "
-                                        />
-
-                                    </div>
-
-                                )
-                            )}
-
+                                    />
+                                </div>
+                            ))}
                         </div>
-
                     </section>
-
 
                     {/* Video */}
 
-                    <section className="
+                    <section
+                        className="
                         overflow-hidden
 
                         rounded-2xl
@@ -262,9 +247,10 @@ const LectureDetailsLoadingSkeleton = () => {
                         border-border-subtle
 
                         bg-background-surface
-                    ">
-
-                        <div className="
+                    "
+                    >
+                        <div
+                            className="
                             flex
                             items-center
                             justify-between
@@ -276,14 +262,15 @@ const LectureDetailsLoadingSkeleton = () => {
                             py-5
 
                             sm:px-6
-                        ">
-
-                            <div className="
+                        "
+                        >
+                            <div
+                                className="
                                 flex
                                 items-center
                                 gap-3
-                            ">
-
+                            "
+                            >
                                 <SkeletonBlock
                                     className="
                                         h-10
@@ -293,7 +280,6 @@ const LectureDetailsLoadingSkeleton = () => {
                                 />
 
                                 <div>
-
                                     <SkeletonBlock
                                         className="
                                             h-5
@@ -308,11 +294,8 @@ const LectureDetailsLoadingSkeleton = () => {
                                             w-56
                                         "
                                     />
-
                                 </div>
-
                             </div>
-
 
                             <SkeletonBlock
                                 className="
@@ -323,16 +306,15 @@ const LectureDetailsLoadingSkeleton = () => {
                                     sm:block
                                 "
                             />
-
                         </div>
 
-
-                        <div className="
+                        <div
+                            className="
                             p-5
 
                             sm:p-6
-                        ">
-
+                        "
+                        >
                             <SkeletonBlock
                                 className="
                                     aspect-video
@@ -340,19 +322,15 @@ const LectureDetailsLoadingSkeleton = () => {
                                     rounded-xl
                                 "
                             />
-
                         </div>
-
                     </section>
-
                 </div>
-
 
                 {/* Sidebar */}
 
                 <aside>
-
-                    <section className="
+                    <section
+                        className="
                         overflow-hidden
 
                         rounded-2xl
@@ -361,9 +339,10 @@ const LectureDetailsLoadingSkeleton = () => {
                         border-border-subtle
 
                         bg-background-surface
-                    ">
-
-                        <div className="
+                    "
+                    >
+                        <div
+                            className="
                             border-b
                             border-border-subtle
 
@@ -371,8 +350,8 @@ const LectureDetailsLoadingSkeleton = () => {
                             py-5
 
                             sm:px-6
-                        ">
-
+                        "
+                        >
                             <SkeletonBlock
                                 className="
                                     h-3
@@ -395,22 +374,17 @@ const LectureDetailsLoadingSkeleton = () => {
                                     w-48
                                 "
                             />
-
                         </div>
 
-
-                        <div className="
+                        <div
+                            className="
                             space-y-0
-                        ">
-
-                            {Array.from(
-                                { length: 2 }
-                            ).map(
-                                (_, index) => (
-
-                                    <div
-                                        key={index}
-                                        className="
+                        "
+                        >
+                            {Array.from({ length: 2 }).map((_, index) => (
+                                <div
+                                    key={index}
+                                    className="
                                             flex
                                             items-center
                                             gap-3.5
@@ -425,61 +399,51 @@ const LectureDetailsLoadingSkeleton = () => {
 
                                             sm:px-6
                                         "
-                                    >
-
-                                        <SkeletonBlock
-                                            className="
+                                >
+                                    <SkeletonBlock
+                                        className="
                                                 h-10
                                                 w-10
                                                 shrink-0
                                                 rounded-xl
                                             "
-                                        />
+                                    />
 
-                                        <div className="
+                                    <div
+                                        className="
                                             flex-1
-                                        ">
-
-                                            <SkeletonBlock
-                                                className="
+                                        "
+                                    >
+                                        <SkeletonBlock
+                                            className="
                                                     h-4
                                                     w-28
                                                 "
-                                            />
+                                        />
 
-                                            <SkeletonBlock
-                                                className="
+                                        <SkeletonBlock
+                                            className="
                                                     mt-2
                                                     h-3
                                                     w-44
                                                 "
-                                            />
+                                        />
+                                    </div>
 
-                                        </div>
-
-                                        <SkeletonBlock
-                                            className="
+                                    <SkeletonBlock
+                                        className="
                                                 h-4
                                                 w-4
                                             "
-                                        />
-
-                                    </div>
-
-                                )
-                            )}
-
+                                    />
+                                </div>
+                            ))}
                         </div>
-
                     </section>
-
                 </aside>
-
             </div>
-
         </main>
     )
 }
-
 
 export default LectureDetailsLoadingSkeleton

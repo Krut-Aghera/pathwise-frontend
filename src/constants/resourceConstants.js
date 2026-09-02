@@ -3,7 +3,6 @@ export const RESOURCE_STATUS = {
     PUBLISHED: "published",
 }
 
-
 export const RESOURCE_STATUS_OPTIONS = [
     {
         value: RESOURCE_STATUS.DRAFT,

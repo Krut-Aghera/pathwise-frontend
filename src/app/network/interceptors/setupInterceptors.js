@@ -3,7 +3,6 @@ import authInterceptor from "./authInterceptor"
 import errorInterceptor from "./errorInterceptor"
 
 const setupInterceptors = () => {
-
     axiosClient.interceptors.response.use(
         (response) => response,
         (error) => authInterceptor(error, axiosClient)
@@ -13,7 +12,6 @@ const setupInterceptors = () => {
         (response) => response,
         errorInterceptor
     )
-
 }
 
 export default setupInterceptors

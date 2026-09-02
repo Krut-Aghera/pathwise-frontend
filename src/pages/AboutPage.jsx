@@ -6,11 +6,9 @@ import AboutPortfolioNotice from "../components/public/about/AboutPortfolioNotic
 import AboutTechnologyStack from "../components/public/about/AboutTechnologyStack"
 import AboutWhyPathwise from "../components/public/about/AboutWhyPathwise"
 
-
 const AboutPage = () => {
     return (
         <div className="bg-background-base">
-
             <AboutHero />
 
             <AboutWhyPathwise />
@@ -24,10 +22,8 @@ const AboutPage = () => {
             <AboutPortfolioNotice />
 
             <AboutCTA />
-
         </div>
     )
 }
-
 
 export default AboutPage

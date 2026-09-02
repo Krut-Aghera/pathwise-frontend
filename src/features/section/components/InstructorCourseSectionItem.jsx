@@ -1,85 +1,52 @@
-import {
-    ChevronDown,
-    GripVertical,
-    Plus,
-} from "lucide-react"
+import { ArrowRight, GripVertical } from "lucide-react"
 
-import { useState } from "react"
-
-import {
-    useSortable,
-} from "@dnd-kit/sortable"
-
-import {
-    CSS,
-} from "@dnd-kit/utilities"
-
-
-import { RESOURCE_STATUS }
-    from "../../../constants/resourceConstants.js"
-
-import Button
-    from "../../../components/ui/Button.jsx"
-import InstructorCourseLectureList from "../../lecture/components/course-manage/InstructorCourseLectureList.jsx"
-
+import { useSortable } from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
+import { RESOURCE_STATUS } from "../../../constants/resourceConstants"
 
 const InstructorCourseSectionItem = ({
-    course,
     section,
-    onManageSection,
-    onAddLecture,
+    onSectionDetail,
     isReorderingSections = false,
 }) => {
-
-    const [
-        isOpen,
-        setIsOpen,
-    ] = useState(true)
-
-
-    ///////////////////////////////////////////////////////////////
-    // Sortable
-
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-    } = useSortable({
-        id: section._id,
-        disabled: isReorderingSections,
-    })
-
-
-    ///////////////////////////////////////////////////////////////
-    // Styles
+    const { attributes, listeners, setNodeRef, transform, isDragging } =
+        useSortable({
+            id: section._id,
+            disabled: isReorderingSections,
+        })
 
     const style = {
-        transform: CSS.Transform.toString(
-            transform
-        ),
-        transition,
+        transform: CSS.Transform.toString(transform),
     }
 
+    const isPublished = section?.status === RESOURCE_STATUS.PUBLISHED
 
-    ///////////////////////////////////////////////////////////////
-    // Section status
+    const handleClick = () => {
+        if (isReorderingSections || isDragging) {
+            return
+        }
 
-    const isPublished =
-        section?.status === RESOURCE_STATUS.PUBLISHED
+        onSectionDetail?.(section)
+    }
 
-
-    ///////////////////////////////////////////////////////////////
-    // Render
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault()
+            handleClick()
+        }
+    }
 
     return (
         <article
             ref={setNodeRef}
             style={style}
+            role="button"
+            tabIndex={isReorderingSections ? -1 : 0}
+            aria-label={`Open section ${section?.title}`}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
             className={`
-                overflow-hidden
+                group
                 rounded-lg
                 border
                 border-border-subtle
@@ -93,23 +60,27 @@ const InstructorCourseSectionItem = ({
                             opacity-50
                             shadow-xl
                         `
-                        : ""
+                        : `
+                            cursor-pointer
+                            hover:bg-background-surface
+                        `
                 }
+
+                ${isReorderingSections ? "cursor-not-allowed" : ""}
             `}
         >
-
-            {/* Section header */}
-
-            <div className="
-                flex
-                items-center
-                gap-2
-                p-3
-                sm:p-4
-            ">
-
-                {/* Drag handle */}
-
+            <div
+                className="
+                    flex
+                    min-h-[72px]
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    sm:px-4
+                "
+            >
+                {/* Drag Handle */}
                 <button
                     type="button"
                     aria-label={`Reorder ${section?.title}`}
@@ -117,243 +88,113 @@ const InstructorCourseSectionItem = ({
                     disabled={isReorderingSections}
                     className="
                         inline-flex
+                        h-10
+                        w-12
                         shrink-0
                         cursor-grab
                         touch-none
                         select-none
                         items-center
                         justify-center
-
-                        text-text-muted
-
-                        transition-colors
-
-                        hover:text-text-secondary
-
+                        rounded-md
+                        text-text-secondary
+                        hover:bg-background-surface
+                        hover:text-text-primary
                         active:cursor-grabbing
-
                         disabled:cursor-not-allowed
                         disabled:opacity-50
                     "
                     {...attributes}
                     {...listeners}
+                    onClick={(event) => {
+                        event.stopPropagation()
+                    }}
                 >
-                    <GripVertical size={17} />
+                    <GripVertical size={19} />
                 </button>
 
-
-                {/* Expand / Section information */}
-
-                <button
-                    type="button"
-                    onClick={() =>
-                        setIsOpen(
-                            (value) => !value
-                        )
-                    }
-                    aria-expanded={isOpen}
-                    aria-label={
-                        isOpen
-                            ? `Collapse ${section?.title}`
-                            : `Expand ${section?.title}`
-                    }
-                    disabled={isReorderingSections}
-                    className="
-                        flex
-                        min-w-0
-                        flex-1
-                        items-center
-                        gap-2
-                        text-left
-
-                        disabled:cursor-not-allowed
-                    "
-                >
-
-                    <ChevronDown
-                        size={17}
-                        className={`
-                            shrink-0
+                {/* Section Information */}
+                <div className="min-w-0 flex-1 py-2">
+                    <span
+                        className="
+                            font-body
+                            text-[10px]
+                            font-semibold
+                            uppercase
+                            tracking-wider
                             text-text-muted
-                            transition-transform
-                            duration-200
+                        "
+                    >
+                        Section {section?.order}
+                    </span>
 
-                            ${
-                                isOpen
-                                    ? ""
-                                    : "-rotate-90"
-                            }
-                        `}
-                    />
-
-
-                    <div className="min-w-0">
-
-                        <div className="
-                            flex
-                            flex-wrap
-                            items-center
-                            gap-2
-                        ">
-
-                            <span className="
-                                font-body
-                                text-[10px]
-                                font-semibold
-                                uppercase
-                                tracking-wider
-                                text-text-muted
-                            ">
-                                Section {section?.order}
-                            </span>
-
-
-                            <span className={`
-                                rounded-md
-                                border
-                                px-1.5
-                                py-0.5
-
-                                font-body
-                                text-[10px]
-                                font-semibold
-
-                                ${
-                                    isPublished
-                                        ? `
-                                            border-status-success/30
-                                            bg-status-success/10
-                                            text-status-success
-                                        `
-                                        : `
-                                            border-status-warning/30
-                                            bg-status-warning/10
-                                            text-status-warning
-                                        `
-                                }
-                            `}>
-                                {
-                                    isPublished
-                                        ? "Published"
-                                        : "Draft"
-                                }
-                            </span>
-
-                        </div>
-
-
-                        <h3 className="
+                    <h3
+                        className="
                             mt-1
                             truncate
-
                             font-accent
                             text-sm
                             font-semibold
                             text-text-primary
-                        ">
-                            {section?.title}
-                        </h3>
-
-                    </div>
-
-                </button>
-
-
-                {/* Manage Section */}
-
-                <Button
-                    type="button"
-                    onClick={() =>
-                        onManageSection?.(
-                            section
-                        )
-                    }
-                    disabled={isReorderingSections}
-                    className="
-                        h-8
-                        shrink-0
-                        rounded-md
-
-                        px-3
-
-                        font-body
-                        text-xs
-                        font-semibold
-
-                        disabled:cursor-not-allowed
-                        disabled:opacity-50
-                    "
-                >
-                    Manage Section
-                </Button>
-
-
-                {/* Add Lecture */}
-
-                <Button
-                    type="button"
-                    onClick={() =>
-                        onAddLecture?.(
-                            section
-                        )
-                    }
-                    disabled={isReorderingSections}
-                    aria-label={`Add lecture to ${section?.title}`}
-                    title="Add lecture"
-                    className="
-                        h-8
-                        shrink-0
-                        rounded-md
-
-                        px-2.5
-
-                        font-body
-                        text-xs
-                        font-semibold
-
-                        disabled:cursor-not-allowed
-                        disabled:opacity-50
-                    "
-                >
-
-                    <Plus size={14} />
-
-                    <span className="hidden sm:inline">
-                        Add Lecture
-                    </span>
-
-                </Button>
-
-            </div>
-
-
-            {/* Lectures */}
-
-            {isOpen && (
-
-                <div className="
-                    border-t
-                    border-border-subtle
-                    px-3
-                    pb-3
-                    pt-2
-
-                    sm:px-4
-                ">
-
-                    <InstructorCourseLectureList
-                        course={course}
-                        section={section}
-                        enabled={isOpen}
-                    />
-
+                            group-hover:text-text-primary/80
+                        "
+                    >
+                        {section?.title}
+                    </h3>
                 </div>
 
-            )}
+                {/* Status + Navigation */}
+                <div
+                    className="
+                        flex
+                        shrink-0
+                        items-center
+                        gap-2
+                    "
+                >
+                    <span
+                        className={`
+                            mr-5
+                            hidden
+                            rounded-md
+                            border
+                            px-2
+                            py-1
+                            font-body
+                            text-[10px]
+                            font-semibold
+                            sm:inline-flex
 
+                            ${
+                                isPublished
+                                    ? `
+                                        border-status-success/30
+                                        bg-status-success/10
+                                        text-status-success
+                                    `
+                                    : `
+                                        border-status-warning/30
+                                        bg-status-warning/10
+                                        text-status-warning
+                                    `
+                            }
+                        `}
+                    >
+                        {isPublished ? "Published" : "Draft"}
+                    </span>
+
+                    <ArrowRight
+                        size={17}
+                        className="
+                            text-text-muted
+                            group-hover:translate-x-0.5
+                            group-hover:text-text-primary/80
+                        "
+                    />
+                </div>
+            </div>
         </article>
     )
 }
-
 
 export default InstructorCourseSectionItem

@@ -1,22 +1,17 @@
-import Button
-    from "../../../components/ui/Button.jsx"
+import Button from "../../../components/ui/Button.jsx"
 
-
-const SectionFormActions = ({
-    loading = false,
-    onCancel,
-}) => {
-
+const SectionFormActions = ({ loading = false, onCancel }) => {
     return (
-        <div className="
+        <div
+            className="
             flex
             flex-col-reverse
             gap-3
 
             sm:flex-row
             sm:justify-end
-        ">
-
+        "
+        >
             {/* Cancel */}
 
             <Button
@@ -38,11 +33,8 @@ const SectionFormActions = ({
                     sm:w-auto
                 "
             >
-
                 Cancel
-
             </Button>
-
 
             {/* Submit */}
 
@@ -55,14 +47,10 @@ const SectionFormActions = ({
                     sm:w-auto
                 "
             >
-
                 Create Section
-
             </Button>
-
         </div>
     )
 }
-
 
 export default SectionFormActions

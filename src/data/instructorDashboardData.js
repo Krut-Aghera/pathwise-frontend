@@ -7,7 +7,6 @@ export const instructorDashboardStats = {
     totalRevenue: "₹4,82,500",
 }
 
-
 export const instructorPublishedCourses = [
     {
         id: "course-1",
@@ -60,7 +59,6 @@ export const instructorPublishedCourses = [
     },
 ]
 
-
 export const instructorDraftCourses = [
     {
         id: "course-6",
@@ -78,7 +76,6 @@ export const instructorDraftCourses = [
         updatedAt: "Aug 21, 2026",
     },
 ]
-
 
 export const instructorDeletedCourses = [
     {

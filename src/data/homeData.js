@@ -42,7 +42,6 @@ export const featuredCourses = [
     },
 ]
 
-
 export const learningPaths = [
     {
         id: "path-1",

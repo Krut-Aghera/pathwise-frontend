@@ -4,28 +4,17 @@ import FormField from "../../../../components/form/FormField.jsx"
 import Button from "../../../../components/ui/Button.jsx"
 import Input from "../../../../components/form/Input.jsx"
 
-
-const CourseRequirements = ({
-    control,
-    register,
-    errors,
-    validationRules,
-}) => {
-
-    const {
-        fields,
-        append,
-        remove,
-    } = useFieldArray({
+const CourseRequirements = ({ control, register, errors, validationRules }) => {
+    const { fields, append, remove } = useFieldArray({
         control,
         name: "requirements",
 
         rules: validationRules.requirements,
     })
 
-
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -33,43 +22,40 @@ const CourseRequirements = ({
             p-5
 
             sm:p-6
-        ">
-
+        "
+        >
             {/* Header */}
 
             <div className="mb-6">
-
-                <h2 className="
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     Requirements
                 </h2>
 
-                <p className="
+                <p
+                    className="
                     mt-1
                     font-body
                     text-sm
                     leading-5
                     text-text-secondary
-                ">
+                "
+                >
                     Tell students what they need before starting this course.
                 </p>
-
             </div>
-
 
             {/* Requirements */}
 
             <div className="space-y-4">
-
                 {fields.map((field, index) => {
-
-                    const fieldError =
-                        errors.requirements?.[index]
-
+                    const fieldError = errors.requirements?.[index]
 
                     return (
                         <div
@@ -83,42 +69,35 @@ const CourseRequirements = ({
                                 sm:items-start
                             "
                         >
-
                             {/* Input */}
 
-                            <div className="
+                            <div
+                                className="
                                 min-w-0
                                 flex-1
-                            ">
-
+                            "
+                            >
                                 <FormField
                                     label={`Requirement ${index + 1}`}
                                     htmlFor={`requirement-${field.id}`}
                                     required
                                     error={fieldError?.message}
                                 >
-
                                     <Input
                                         id={`requirement-${field.id}`}
                                         placeholder="What does the student need?"
                                         error={Boolean(fieldError)}
                                         {...register(
                                             `requirements.${index}`,
-                                            validationRules
-                                                .requirements
-                                                .item
+                                            validationRules.requirements.item
                                         )}
                                     />
-
                                 </FormField>
-
                             </div>
-
 
                             {/* Remove */}
 
                             {fields.length > 1 && (
-
                                 <Button
                                     type="button"
                                     onClick={() => remove(index)}
@@ -148,19 +127,14 @@ const CourseRequirements = ({
                                 >
                                     Remove
                                 </Button>
-
                             )}
-
                         </div>
                     )
-
                 })}
-
 
                 {/* Array-level error */}
 
-                {errors.requirements?.root?.message && (
-
+                {errors?.requirements?.message && (
                     <p
                         role="alert"
                         className="
@@ -170,16 +144,13 @@ const CourseRequirements = ({
                             text-status-danger
                         "
                     >
-                        {errors.requirements.root.message}
+                        {errors.requirements.message}
                     </p>
-
                 )}
-
 
                 {/* Add */}
 
                 {fields.length < 10 && (
-
                     <Button
                         type="button"
                         onClick={() => append("")}
@@ -209,14 +180,10 @@ const CourseRequirements = ({
                     >
                         + Add Requirement
                     </Button>
-
                 )}
-
             </div>
-
         </section>
     )
 }
-
 
 export default CourseRequirements

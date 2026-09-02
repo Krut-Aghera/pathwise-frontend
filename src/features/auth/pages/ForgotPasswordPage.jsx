@@ -3,11 +3,10 @@ import { Link } from "react-router-dom"
 import pathwise_main_logo from "../../../assets/pathwise_main_logo.png"
 import ForgotPasswordForm from "../components/ForgotPasswordForm.jsx"
 
-
 const ForgotPasswordPage = () => {
-
     return (
-        <main className="
+        <main
+            className="
             flex
             min-h-screen
             items-center
@@ -16,20 +15,22 @@ const ForgotPasswordPage = () => {
             px-4
             py-8
             sm:px-6
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 w-full
                 max-w-md
-            ">
-
+            "
+            >
                 {/* Logo / Brand */}
 
-                <div className="
+                <div
+                    className="
                     mb-8
                     text-center
-                ">
-
+                "
+                >
                     <Link
                         to="/"
                         aria-label="Pathwise home"
@@ -50,8 +51,8 @@ const ForgotPasswordPage = () => {
                         />
                     </Link>
 
-
-                    <h1 className="
+                    <h1
+                        className="
                         mt-5
                         font-accent
                         text-2xl
@@ -59,12 +60,13 @@ const ForgotPasswordPage = () => {
                         tracking-tight
                         text-text-primary
                         sm:text-3xl
-                    ">
+                    "
+                    >
                         Forgot your password?
                     </h1>
 
-
-                    <p className="
+                    <p
+                        className="
                         mx-auto
                         mt-2
                         max-w-sm
@@ -72,17 +74,17 @@ const ForgotPasswordPage = () => {
                         text-sm
                         leading-6
                         text-text-secondary
-                    ">
-                        Enter your email address and we'll send you a
-                        link to reset your password.
+                    "
+                    >
+                        Enter your email address and we'll send you a link to
+                        reset your password.
                     </p>
-
                 </div>
-
 
                 {/* Forgot Password Card */}
 
-                <section className="
+                <section
+                    className="
                     rounded-xl
                     border
                     border-border-subtle
@@ -90,22 +92,23 @@ const ForgotPasswordPage = () => {
                     p-5
                     shadow-lg
                     sm:p-7
-                ">
+                "
+                >
                     <ForgotPasswordForm />
                 </section>
 
-
                 {/* Back to Login */}
 
-                <p className="
+                <p
+                    className="
                     mt-6
                     text-center
                     font-body
                     text-sm
                     text-text-secondary
-                ">
+                "
+                >
                     Remember your password?{" "}
-
                     <Link
                         to="/auth/login"
                         className="
@@ -124,10 +127,10 @@ const ForgotPasswordPage = () => {
                     </Link>
                 </p>
 
-
                 {/* Security Notice */}
 
-                <p className="
+                <p
+                    className="
                     mx-auto
                     mt-5
                     max-w-sm
@@ -136,16 +139,14 @@ const ForgotPasswordPage = () => {
                     text-xs
                     leading-5
                     text-text-muted
-                ">
-                    For your security, we'll only send a password reset
-                    link if the request can be processed for this account.
+                "
+                >
+                    For your security, we'll only send a password reset link if
+                    the request can be processed for this account.
                 </p>
-
             </div>
-
         </main>
     )
 }
-
 
 export default ForgotPasswordPage

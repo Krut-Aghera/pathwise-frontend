@@ -3,12 +3,7 @@ import {
     useFetchInstructorSectionQuery,
 } from "../sectionApi.js"
 
-
-const useSection = ({
-    courseId,
-    sectionId,
-} = {}) => {
-
+const useSection = ({ courseId, sectionId } = {}) => {
     ///////////////////////////////////////////////////////////////
     // Fetch course sections
 
@@ -20,13 +15,9 @@ const useSection = ({
         isError: isSectionsError,
         error: sectionsError,
         refetch: refetchSections,
-    } = useFetchCourseSectionsQuery(
-        courseId,
-        {
-            skip: !courseId,
-        }
-    )
-
+    } = useFetchCourseSectionsQuery(courseId, {
+        skip: !courseId,
+    })
 
     ///////////////////////////////////////////////////////////////
     // Fetch instructor section
@@ -39,34 +30,23 @@ const useSection = ({
         isError: isSectionError,
         error: sectionError,
         refetch: refetchSection,
-    } = useFetchInstructorSectionQuery(
-        sectionId,
-        {
-            skip: !sectionId,
-        }
-    )
-
+    } = useFetchInstructorSectionQuery(sectionId, {
+        skip: !sectionId,
+    })
 
     ///////////////////////////////////////////////////////////////
     // Data
 
     const sections =
-        courseSectionsResponse?.data ??
-        courseSectionsResponse ??
-        []
-
+        courseSectionsResponse?.data ?? courseSectionsResponse ?? []
 
     const section =
-        instructorSectionResponse?.data ??
-        instructorSectionResponse ??
-        null
-
+        instructorSectionResponse?.data ?? instructorSectionResponse ?? null
 
     ///////////////////////////////////////////////////////////////
     // Return
 
     return {
-
         ///////////////////////////////////////////////////////////
         // Course sections
 
@@ -83,7 +63,6 @@ const useSection = ({
         sectionsError,
 
         refetchSections,
-
 
         ///////////////////////////////////////////////////////////
         // Instructor section
@@ -103,6 +82,5 @@ const useSection = ({
         refetchSection,
     }
 }
-
 
 export default useSection

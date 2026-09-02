@@ -5,9 +5,7 @@ import {
     useReorderLecturesMutation,
 } from "../lectureApi"
 
-
 const useLectureManagement = () => {
-
     ///////////////////////////////////////////////////////////////
     // Create
 
@@ -21,7 +19,6 @@ const useLectureManagement = () => {
             reset: resetCreate,
         },
     ] = useCreateLectureMutation()
-
 
     ///////////////////////////////////////////////////////////////
     // Update
@@ -37,7 +34,6 @@ const useLectureManagement = () => {
         },
     ] = useUpdateLectureMutation()
 
-
     ///////////////////////////////////////////////////////////////
     // Remove
 
@@ -51,7 +47,6 @@ const useLectureManagement = () => {
             reset: resetRemove,
         },
     ] = useRemoveLectureMutation()
-
 
     ///////////////////////////////////////////////////////////////
     // Reorder
@@ -67,14 +62,10 @@ const useLectureManagement = () => {
         },
     ] = useReorderLecturesMutation()
 
-
     ///////////////////////////////////////////////////////////////
     // Create lecture
 
-    const createLecture = async (
-        sectionId,
-        lectureData
-    ) => {
+    const createLecture = async (sectionId, lectureData) => {
         try {
             const result = await createLectureMutation({
                 sectionId,
@@ -93,15 +84,10 @@ const useLectureManagement = () => {
         }
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Update lecture
 
-    const updateLecture = async (
-        lectureId,
-        lectureData,
-        sectionId
-    ) => {
+    const updateLecture = async (lectureId, lectureData, sectionId) => {
         try {
             const result = await updateLectureMutation({
                 lectureId,
@@ -121,14 +107,10 @@ const useLectureManagement = () => {
         }
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Remove lecture
 
-    const removeLecture = async (
-        lectureId,
-        sectionId
-    ) => {
+    const removeLecture = async (lectureId, sectionId) => {
         try {
             const result = await removeLectureMutation({
                 lectureId,
@@ -147,14 +129,10 @@ const useLectureManagement = () => {
         }
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Reorder lectures
 
-    const reorderLectures = async (
-        sectionId,
-        lectures
-    ) => {
+    const reorderLectures = async (sectionId, lectures) => {
         try {
             const result = await reorderLecturesMutation({
                 sectionId,
@@ -173,7 +151,6 @@ const useLectureManagement = () => {
         }
     }
 
-
     ///////////////////////////////////////////////////////////////
     // Return
 
@@ -188,11 +165,7 @@ const useLectureManagement = () => {
         isRemoving,
         isReordering,
 
-        isLoading:
-            isCreating ||
-            isUpdating ||
-            isRemoving ||
-            isReordering,
+        isLoading: isCreating || isUpdating || isRemoving || isReordering,
 
         isCreateSuccess,
         isUpdateSuccess,
@@ -215,6 +188,5 @@ const useLectureManagement = () => {
         resetReorder,
     }
 }
-
 
 export default useLectureManagement

@@ -3,9 +3,7 @@ import {
     useSaveSectionAsDraftMutation,
 } from "../sectionApi"
 
-
 const useSectionState = () => {
-
     const [
         publishSection,
         {
@@ -17,7 +15,6 @@ const useSectionState = () => {
         },
     ] = usePublishSectionMutation()
 
-
     const [
         saveSectionAsDraft,
         {
@@ -28,7 +25,6 @@ const useSectionState = () => {
             reset: resetDraft,
         },
     ] = useSaveSectionAsDraftMutation()
-
 
     const handlePublish = async (sectionId) => {
         try {
@@ -46,7 +42,6 @@ const useSectionState = () => {
         }
     }
 
-
     const handleSaveAsDraft = async (sectionId) => {
         try {
             const result = await saveSectionAsDraft(sectionId).unwrap()
@@ -62,7 +57,6 @@ const useSectionState = () => {
             }
         }
     }
-
 
     return {
         publishSection: handlePublish,
@@ -86,6 +80,5 @@ const useSectionState = () => {
         resetDraft,
     }
 }
-
 
 export default useSectionState

@@ -1,16 +1,11 @@
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
-import {
-    useUpdateCourseThumbnailMutation,
-} from "../../courseApi.js"
+import { useUpdateCourseThumbnailMutation } from "../../courseApi.js"
 
-import CourseThumbnailUpload
-    from "../create-course/CourseThumbnailUpload.jsx"
+import CourseThumbnailUpload from "../create-course/CourseThumbnailUpload.jsx"
 
-import Button
-    from "../../../../components/ui/Button.jsx"
-
+import Button from "../../../../components/ui/Button.jsx"
 
 const CourseThumbnailEditForm = ({
     courseId,
@@ -19,20 +14,13 @@ const CourseThumbnailEditForm = ({
     onCancel,
     validationRules,
 }) => {
-
     const globalErrorRef = useRef(null)
-
 
     ///////////////////////////////////////////////////////////////
     // Mutation
 
-    const [
-        updateCourseThumbnail,
-        {
-            isLoading: isUpdating,
-        },
-    ] = useUpdateCourseThumbnailMutation()
-
+    const [updateCourseThumbnail, { isLoading: isUpdating }] =
+        useUpdateCourseThumbnailMutation()
 
     ///////////////////////////////////////////////////////////////
     // Form
@@ -42,12 +30,8 @@ const CourseThumbnailEditForm = ({
         handleSubmit,
         setError,
         clearErrors,
-        formState: {
-            errors,
-            isSubmitting,
-        },
+        formState: { errors, isSubmitting },
     } = useForm({
-
         defaultValues: {
             thumbnail: null,
         },
@@ -57,79 +41,56 @@ const CourseThumbnailEditForm = ({
         shouldFocusError: true,
     })
 
-
     ///////////////////////////////////////////////////////////////
     // Global error scroll
 
     useEffect(() => {
-
         if (!errors.root?.message) {
             return
         }
 
-
         requestAnimationFrame(() => {
-
             globalErrorRef.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
             })
 
             globalErrorRef.current?.focus()
-
         })
-
     }, [errors.root?.message])
-
 
     ///////////////////////////////////////////////////////////////
     // Submit
 
     const handleFormSubmit = async (formData) => {
-
         clearErrors("root")
 
-
-        const thumbnailFile =
-            formData.thumbnail?.[0]
-
+        const thumbnailFile = formData.thumbnail?.[0]
 
         if (!thumbnailFile) {
             return
         }
 
-
         ///////////////////////////////////////////////////////////
         // Update thumbnail
 
         try {
-
             await updateCourseThumbnail({
-
                 courseId,
 
                 thumbnail: thumbnailFile,
-
             }).unwrap()
-
 
             /////////////////////////////////////////////////////////
             // Success
 
             onSuccess()
-
         } catch (error) {
-
             /////////////////////////////////////////////////////////
             // Backend validation errors
 
-            if (
-                error?.statusCode === 400 &&
-                Array.isArray(error?.errors)
-            ) {
-
+            if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
-
                     if (!field) {
                         return
                     }
@@ -138,37 +99,28 @@ const CourseThumbnailEditForm = ({
                         type: "server",
                         message,
                     })
-
                 })
 
                 return
             }
 
-
             /////////////////////////////////////////////////////////
             // General server error
 
             setError("root", {
-
                 type: "server",
 
                 message:
                     error?.message ||
                     "Unable to update course thumbnail. Please try again.",
             })
-
         }
-
     }
-
 
     ///////////////////////////////////////////////////////////////
     // Loading
 
-    const isFormLoading =
-        isUpdating ||
-        isSubmitting
-
+    const isFormLoading = isUpdating || isSubmitting
 
     ///////////////////////////////////////////////////////////////
     // Render
@@ -179,11 +131,9 @@ const CourseThumbnailEditForm = ({
             noValidate
             className="space-y-6"
         >
-
             {/* Global server error */}
 
             {errors.root?.message && (
-
                 <div
                     ref={globalErrorRef}
                     role="alert"
@@ -210,9 +160,7 @@ const CourseThumbnailEditForm = ({
                 >
                     {errors.root.message}
                 </div>
-
             )}
-
 
             {/* Thumbnail */}
 
@@ -223,10 +171,10 @@ const CourseThumbnailEditForm = ({
                 validationRules={validationRules}
             />
 
-
             {/* Actions */}
 
-            <div className="
+            <div
+                className="
                 flex
                 flex-col-reverse
                 gap-3
@@ -237,8 +185,8 @@ const CourseThumbnailEditForm = ({
 
                 sm:flex-row
                 sm:justify-end
-            ">
-
+            "
+            >
                 {/* Cancel */}
 
                 <Button
@@ -271,7 +219,6 @@ const CourseThumbnailEditForm = ({
                 >
                     Cancel
                 </Button>
-
 
                 {/* Update */}
 
@@ -306,12 +253,9 @@ const CourseThumbnailEditForm = ({
                 >
                     Update Thumbnail
                 </Button>
-
             </div>
-
         </form>
     )
 }
-
 
 export default CourseThumbnailEditForm

@@ -1,15 +1,10 @@
 import FormField from "../../../../components/form/FormField"
 import Input from "../../../../components/form/Input"
 
-
-const CourseBasicInformation = ({
-    register,
-    errors,
-    validationRules,
-}) => {
-
+const CourseBasicInformation = ({ register, errors, validationRules }) => {
     return (
-        <section className="
+        <section
+            className="
             rounded-xl
             border
             border-border-subtle
@@ -17,38 +12,38 @@ const CourseBasicInformation = ({
             p-5
 
             sm:p-6
-        ">
-
+        "
+        >
             {/* Section Header */}
 
             <div className="mb-6">
-
-                <h2 className="
+                <h2
+                    className="
                     font-accent
                     text-lg
                     font-semibold
                     text-text-primary
-                ">
+                "
+                >
                     Basic Information
                 </h2>
 
-                <p className="
+                <p
+                    className="
                     mt-1
                     font-body
                     text-sm
                     leading-5
                     text-text-secondary
-                ">
+                "
+                >
                     Provide the basic information about your course.
                 </p>
-
             </div>
-
 
             {/* Fields */}
 
             <div className="space-y-5">
-
                 {/* Title */}
 
                 <FormField
@@ -57,7 +52,6 @@ const CourseBasicInformation = ({
                     error={errors.title?.message}
                     required
                 >
-
                     <Input
                         id="course-title"
                         type="text"
@@ -65,18 +59,11 @@ const CourseBasicInformation = ({
                         placeholder="Enter your course title"
                         error={Boolean(errors.title)}
                         aria-describedby={
-                            errors.title
-                                ? "course-title-error"
-                                : undefined
+                            errors.title ? "course-title-error" : undefined
                         }
-                        {...register(
-                            "title",
-                            validationRules.title
-                        )}
+                        {...register("title", validationRules.title)}
                     />
-
                 </FormField>
-
 
                 {/* Subtitle */}
 
@@ -86,7 +73,6 @@ const CourseBasicInformation = ({
                     error={errors.subtitle?.message}
                     required
                 >
-
                     <Input
                         id="course-subtitle"
                         type="text"
@@ -98,14 +84,9 @@ const CourseBasicInformation = ({
                                 ? "course-subtitle-error"
                                 : undefined
                         }
-                        {...register(
-                            "subtitle",
-                            validationRules.subtitle
-                        )}
+                        {...register("subtitle", validationRules.subtitle)}
                     />
-
                 </FormField>
-
 
                 {/* Description */}
 
@@ -115,7 +96,6 @@ const CourseBasicInformation = ({
                     error={errors.description?.message}
                     required
                 >
-
                     <textarea
                         id="course-description"
                         rows={7}
@@ -170,14 +150,10 @@ const CourseBasicInformation = ({
                             disabled:text-text-secondary
                         `}
                     />
-
                 </FormField>
-
             </div>
-
         </section>
     )
 }
-
 
 export default CourseBasicInformation

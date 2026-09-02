@@ -1,13 +1,8 @@
-import {
-    useEffect,
-    useRef,
-} from "react"
+import { useEffect, useRef } from "react"
 
-import videojs
-    from "video.js"
+import videojs from "video.js"
 
 import "video.js/dist/video-js.css"
-
 
 const VideoPlayer = ({
     src,
@@ -21,227 +16,152 @@ const VideoPlayer = ({
 
     preload = "metadata",
 
-    playbackRates = [
-        0.5,
-        0.75,
-        1,
-        1.25,
-        1.5,
-        1.75,
-        2,
-    ],
+    playbackRates = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
 
     className = "",
 }) => {
+    const videoElementRef = useRef(null)
 
-    const videoElementRef =
-        useRef(null)
-
-
-    const playerRef =
-        useRef(null)
-
+    const playerRef = useRef(null)
 
     ///////////////////////////////////////////////////////////////
     // Initialize player
 
     useEffect(() => {
-
-        if (
-            !videoElementRef.current ||
-            playerRef.current
-        ) {
+        if (!videoElementRef.current || playerRef.current) {
             return
         }
 
+        const player = videojs(videoElementRef.current, {
+            controls,
 
-        const player =
-            videojs(
-                videoElementRef.current,
-                {
-                    controls,
+            autoplay,
 
-                    autoplay,
+            muted,
 
-                    muted,
+            loop,
 
-                    loop,
+            responsive: true,
 
-                    responsive: true,
+            fluid: true,
 
-                    fluid: true,
+            preload,
 
-                    preload,
+            playbackRates,
 
-                    playbackRates,
+            controlBar: {
+                children: [
+                    "playToggle",
 
-                    controlBar: {
+                    "progressControl",
 
-                        children: [
-                            "playToggle",
+                    "currentTimeDisplay",
 
-                            "progressControl",
+                    "timeDivider",
 
-                            "currentTimeDisplay",
+                    "durationDisplay",
 
-                            "timeDivider",
+                    "volumePanel",
 
-                            "durationDisplay",
+                    "playbackRateMenuButton",
 
-                            "volumePanel",
+                    "pictureInPictureToggle",
 
-                            "playbackRateMenuButton",
+                    "fullscreenToggle",
+                ],
+            },
 
-                            "pictureInPictureToggle",
+            userActions: {
+                hotkeys: true,
+            },
 
-                            "fullscreenToggle",
-                        ],
+            sources: src
+                ? [
+                      {
+                          src,
+                          type: getVideoMimeType(src),
+                      },
+                  ]
+                : [],
+        })
 
-                    },
-
-                    userActions: {
-
-                        hotkeys: true,
-
-                    },
-
-                    sources: src
-                        ? [
-                            {
-                                src,
-                                type: getVideoMimeType(src),
-                            },
-                        ]
-                        : [],
-                }
-            )
-
-
-        playerRef.current =
-            player
-
+        playerRef.current = player
 
         ///////////////////////////////////////////////////////////
         // Cleanup
 
         return () => {
-
-            if (
-                playerRef.current &&
-                !playerRef.current.isDisposed()
-            ) {
+            if (playerRef.current && !playerRef.current.isDisposed()) {
                 playerRef.current.dispose()
             }
 
-
             playerRef.current = null
-
         }
-
     }, [])
-
 
     ///////////////////////////////////////////////////////////////
     // Source
 
     useEffect(() => {
+        const player = playerRef.current
 
-        const player =
-            playerRef.current
-
-
-        if (
-            !player ||
-            !src
-        ) {
+        if (!player || !src) {
             return
         }
 
-
-        const currentSource =
-            player.currentSource()
-
+        const currentSource = player.currentSource()
 
         ///////////////////////////////////////////////////////////
         // Avoid unnecessary source replacement
 
-        if (
-            currentSource?.src === src
-        ) {
+        if (currentSource?.src === src) {
             return
         }
-
 
         player.src({
             src,
             type: getVideoMimeType(src),
         })
-
     }, [src])
-
 
     ///////////////////////////////////////////////////////////////
     // Poster
 
     useEffect(() => {
-
-        const player =
-            playerRef.current
-
+        const player = playerRef.current
 
         if (!player) {
             return
         }
 
-
-        player.poster(
-            poster || ""
-        )
-
+        player.poster(poster || "")
     }, [poster])
-
 
     ///////////////////////////////////////////////////////////////
     // Autoplay
 
     useEffect(() => {
-
-        const player =
-            playerRef.current
-
+        const player = playerRef.current
 
         if (!player) {
             return
         }
 
-
-        player.autoplay(
-            autoplay
-        )
-
+        player.autoplay(autoplay)
     }, [autoplay])
-
 
     ///////////////////////////////////////////////////////////////
     // Muted
 
     useEffect(() => {
-
-        const player =
-            playerRef.current
-
+        const player = playerRef.current
 
         if (!player) {
             return
         }
 
-
-        player.muted(
-            muted
-        )
-
+        player.muted(muted)
     }, [muted])
-
 
     ///////////////////////////////////////////////////////////////
     // Render
@@ -254,9 +174,7 @@ const VideoPlayer = ({
                 ${className}
             `}
         >
-
             <div data-vjs-player>
-
                 <video
                     ref={videoElementRef}
                     className="
@@ -264,55 +182,38 @@ const VideoPlayer = ({
                         vjs-big-play-centered
                     "
                 />
-
             </div>
-
         </div>
     )
 }
-
 
 ///////////////////////////////////////////////////////////////
 // MIME type
 
 const getVideoMimeType = (src) => {
-
     if (!src) {
         return "video/mp4"
     }
 
-
-    const cleanSrc =
-        src
-            .split("?")[0]
-            .toLowerCase()
-
+    const cleanSrc = src.split("?")[0].toLowerCase()
 
     if (cleanSrc.endsWith(".webm")) {
         return "video/webm"
     }
 
-
-    if (
-        cleanSrc.endsWith(".mov") ||
-        cleanSrc.endsWith(".qt")
-    ) {
+    if (cleanSrc.endsWith(".mov") || cleanSrc.endsWith(".qt")) {
         return "video/quicktime"
     }
-
 
     if (cleanSrc.endsWith(".m3u8")) {
         return "application/x-mpegURL"
     }
 
-
     if (cleanSrc.endsWith(".mp4")) {
         return "video/mp4"
     }
 
-
     return "video/mp4"
 }
-
 
 export default VideoPlayer

@@ -11,15 +11,10 @@ import {
 
 import { Link } from "react-router-dom"
 
-
-const CourseCard = ({
-    course,
-}) => {
-
+const CourseCard = ({ course }) => {
     const [isWishlisted, setIsWishlisted] = useState(
         course.isWishlisted ?? false
     )
-
 
     const levelConfig = {
         beginner: {
@@ -53,26 +48,21 @@ const CourseCard = ({
         },
     }
 
-
     const currentLevel =
-        levelConfig[course.level?.toLowerCase()] ||
-        levelConfig.beginner
-
+        levelConfig[course.level?.toLowerCase()] || levelConfig.beginner
 
     const LevelIcon = currentLevel.icon
 
-
     const handleWishlistToggle = (event) => {
-
         event.preventDefault()
         event.stopPropagation()
 
         setIsWishlisted((current) => !current)
     }
 
-
     return (
-        <article className="
+        <article
+            className="
             group
             flex
             h-full
@@ -89,18 +79,19 @@ const CourseCard = ({
 
             hover:border-accent-primary/50
             hover:bg-background-elevated
-        ">
-
+        "
+        >
             {/* Thumbnail */}
 
-            <div className="
+            <div
+                className="
                 relative
                 aspect-16/8
                 shrink-0
                 overflow-hidden
                 bg-background-elevated
-            ">
-
+            "
+            >
                 <img
                     src={
                         course.thumbnail ||
@@ -114,39 +105,42 @@ const CourseCard = ({
                     "
                 />
 
-                <div className="
+                <div
+                    className="
                     absolute
                     inset-0
                     bg-linear-to-t
                     from-black/35
                     via-transparent
                     to-transparent
-                " />
-
+                "
+                />
             </div>
-
 
             {/* Content */}
 
-            <div className="
+            <div
+                className="
                 flex
                 flex-1
                 flex-col
                 px-5
                 py-4
-            ">
-
+            "
+            >
                 {/* Title + Wishlist */}
 
-                <div className="
+                <div
+                    className="
     flex
     items-start
     gap-3
-">
-
+"
+                >
                     {/* Title */}
 
-                    <h3 className="
+                    <h3
+                        className="
         min-h-12
         min-w-0
         flex-1
@@ -161,10 +155,10 @@ const CourseCard = ({
         duration-300
 
         group-hover:text-accent-primary
-    ">
+    "
+                    >
                         {course.title}
                     </h3>
-
 
                     {/* Wishlist */}
 
@@ -191,29 +185,25 @@ const CourseCard = ({
                                  transition-all
                                  duration-200
                                                 
-                                 ${isWishlisted
-                                        ? "text-emerald-600"
-                                        : "text-text-muted hover:text-emerald-800"
-                                }
+                                 ${
+                                     isWishlisted
+                                         ? "text-emerald-600"
+                                         : "text-text-muted hover:text-emerald-800"
+                                 }
                             `}
                     >
                         <Heart
                             size={18}
                             strokeWidth={1.8}
-                            fill={
-                                isWishlisted
-                                    ? "currentColor"
-                                    : "none"
-                            }
+                            fill={isWishlisted ? "currentColor" : "none"}
                         />
                     </button>
-
                 </div>
-
 
                 {/* Instructor */}
 
-                <div className="
+                <div
+                    className="
                     mt-2.5
                     flex
                     items-center
@@ -222,23 +212,17 @@ const CourseCard = ({
                     font-body
                     text-xs
                     text-text-secondary
-                ">
+                "
+                >
+                    <UserRound size={13} className="shrink-0" />
 
-                    <UserRound
-                        size={13}
-                        className="shrink-0"
-                    />
-
-                    <span className="truncate">
-                        {course.instructor}
-                    </span>
-
+                    <span className="truncate">{course.instructor}</span>
                 </div>
-
 
                 {/* Metadata */}
 
-                <div className="
+                <div
+                    className="
                     mt-3
                     flex
                     flex-wrap
@@ -246,11 +230,12 @@ const CourseCard = ({
                     justify-between
                     gap-x-3
                     gap-y-2
-                ">
-
+                "
+                >
                     {/* Level */}
 
-                    <span className={`
+                    <span
+                        className={`
                         inline-flex
                         items-center
                         gap-1.5
@@ -266,18 +251,17 @@ const CourseCard = ({
                         font-medium
 
                         ${currentLevel.classes}
-                    `}>
-
+                    `}
+                    >
                         <LevelIcon size={11} />
 
                         {currentLevel.label}
-
                     </span>
-
 
                     {/* Duration */}
 
-                    <span className="
+                    <span
+                        className="
                         flex
                         items-center
                         gap-1.5
@@ -285,22 +269,17 @@ const CourseCard = ({
                         font-body
                         text-xs
                         text-text-muted
-                    ">
-
+                    "
+                    >
                         <Clock3 size={13} />
-
                         32 hrs on-demand videos
-
                     </span>
-
-
-
                 </div>
-
 
                 {/* Footer */}
 
-                <div className="
+                <div
+                    className="
                     mt-4
                     flex
                     items-center
@@ -309,16 +288,17 @@ const CourseCard = ({
                     border-t
                     border-border-subtle
                     pt-3.5
-                ">
-
-                    <span className="
+                "
+                >
+                    <span
+                        className="
                         font-body
                         text-[11px]
                         text-text-muted
-                    ">
+                    "
+                    >
                         Self-paced learning
                     </span>
-
 
                     <Link
                         to={`/courses/${course.id}`}
@@ -340,9 +320,7 @@ const CourseCard = ({
                             hover:text-accent-primary
                         "
                     >
-
                         View Course
-
                         <ArrowRight
                             size={14}
                             className="
@@ -352,16 +330,11 @@ const CourseCard = ({
                                 group-hover:translate-x-1
                             "
                         />
-
                     </Link>
-
                 </div>
-
             </div>
-
         </article>
     )
 }
-
 
 export default CourseCard

@@ -1,19 +1,12 @@
-import {
-    FileVideo,
-} from "lucide-react"
+import { FileVideo } from "lucide-react"
 
-import InstructorCourseLectureItem
-    from "./InstructorCourseLectureItem.jsx"
+import InstructorCourseLectureItem from "./InstructorCourseLectureItem.jsx"
 
-
-const InstructorCourseLectureList = ({
-    lectures = [],
-}) => {
-
+const InstructorCourseLectureList = ({ lectures = [] }) => {
     if (lectures.length === 0) {
-
         return (
-            <div className="
+            <div
+                className="
                 flex
                 items-center
                 gap-2
@@ -24,37 +17,30 @@ const InstructorCourseLectureList = ({
                 font-body
                 text-xs
                 text-text-muted
-            ">
-
+            "
+            >
                 <FileVideo size={14} />
 
-                <span>
-                    No lectures in this section.
-                </span>
-
+                <span>No lectures in this section.</span>
             </div>
         )
     }
 
-
     return (
-        <div className="
+        <div
+            className="
             divide-y
             divide-border-subtle
-        ">
-
+        "
+        >
             {lectures.map((lecture) => (
-
                 <InstructorCourseLectureItem
                     key={lecture._id}
                     lecture={lecture}
                 />
-
             ))}
-
         </div>
     )
 }
-
 
 export default InstructorCourseLectureList

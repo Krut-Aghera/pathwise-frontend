@@ -1,17 +1,8 @@
-import {
-    ArrowRight,
-    CheckCircle2,
-    Clock3,
-    UserRound,
-} from "lucide-react"
+import { ArrowRight, CheckCircle2, Clock3, UserRound } from "lucide-react"
 
 import { Link } from "react-router-dom"
 
-
-const DashboardCourseCard = ({
-    course,
-}) => {
-
+const DashboardCourseCard = ({ course }) => {
     const accentClasses = {
         primary: {
             border: "hover:border-accent-primary/50",
@@ -35,14 +26,9 @@ const DashboardCourseCard = ({
         },
     }
 
-
-    const accent =
-        accentClasses[course.accent] ||
-        accentClasses.primary
-
+    const accent = accentClasses[course.accent] || accentClasses.primary
 
     const isCompleted = course.progress >= 100
-
 
     return (
         <Link
@@ -63,10 +49,10 @@ const DashboardCourseCard = ({
                 ${accent.border}
             `}
         >
-
             {/* Course visual */}
 
-            <div className="
+            <div
+                className="
                 relative
                 flex
                 h-32
@@ -74,10 +60,9 @@ const DashboardCourseCard = ({
                 justify-center
                 overflow-hidden
                 bg-background-elevated
-            ">
-
+            "
+            >
                 {course.thumbnail ? (
-
                     <img
                         src={course.thumbnail}
                         alt=""
@@ -90,18 +75,18 @@ const DashboardCourseCard = ({
                             group-hover:scale-105
                         "
                     />
-
                 ) : (
-
-                    <div className="
+                    <div
+                        className="
                         absolute
                         inset-0
                         flex
                         items-center
                         justify-center
-                    ">
-
-                        <div className="
+                    "
+                    >
+                        <div
+                            className="
                             h-24
                             w-24
                             rounded-full
@@ -109,29 +94,26 @@ const DashboardCourseCard = ({
                             border-accent-primary/10
                             bg-accent-primary/5
                             blur-xl
-                        "/>
-
+                        "
+                        />
                     </div>
-
                 )}
-
             </div>
-
 
             {/* Content */}
 
             <div className="p-5">
-
-                <div className="
+                <div
+                    className="
                     flex
                     items-start
                     justify-between
                     gap-4
-                ">
-
+                "
+                >
                     <div className="min-w-0">
-
-                        <h3 className={`
+                        <h3
+                            className={`
                             font-accent
                             text-base
                             font-semibold
@@ -141,12 +123,13 @@ const DashboardCourseCard = ({
                             duration-200
 
                             ${accent.title}
-                        `}>
+                        `}
+                        >
                             {course.title}
                         </h3>
 
-
-                        <div className="
+                        <div
+                            className="
                             mt-2
                             flex
                             items-center
@@ -154,19 +137,17 @@ const DashboardCourseCard = ({
                             font-body
                             text-xs
                             text-text-secondary
-                        ">
-
+                        "
+                        >
                             <UserRound size={13} />
 
                             {course.instructor}
-
                         </div>
-
                     </div>
 
-
                     {isCompleted && (
-                        <div className={`
+                        <div
+                            className={`
                             flex
                             shrink-0
                             items-center
@@ -179,56 +160,55 @@ const DashboardCourseCard = ({
                             font-medium
 
                             ${accent.badge}
-                        `}>
-
+                        `}
+                        >
                             <CheckCircle2 size={12} />
-
                             Complete
-
                         </div>
                     )}
-
                 </div>
-
 
                 {/* Progress */}
 
                 <div className="mt-6">
-
-                    <div className="
+                    <div
+                        className="
                         mb-2
                         flex
                         items-center
                         justify-between
-                    ">
-
-                        <span className="
+                    "
+                    >
+                        <span
+                            className="
                             font-body
                             text-xs
                             text-text-muted
-                        ">
+                        "
+                        >
                             Course progress
                         </span>
 
-                        <span className="
+                        <span
+                            className="
                             font-body
                             text-xs
                             font-medium
                             text-text-primary
-                        ">
+                        "
+                        >
                             {course.progress}%
                         </span>
-
                     </div>
 
-
-                    <div className="
+                    <div
+                        className="
                         h-1.5
                         overflow-hidden
                         rounded-full
                         bg-background-elevated
-                    ">
-
+                    "
+                    >
                         <div
                             className={`
                                 h-full
@@ -239,21 +219,16 @@ const DashboardCourseCard = ({
                                 ${accent.progress}
                             `}
                             style={{
-                                width: `${Math.min(
-                                    course.progress,
-                                    100
-                                )}%`,
+                                width: `${Math.min(course.progress, 100)}%`,
                             }}
                         />
-
                     </div>
-
                 </div>
-
 
                 {/* Footer */}
 
-                <div className="
+                <div
+                    className="
                     mt-5
                     flex
                     items-center
@@ -262,34 +237,34 @@ const DashboardCourseCard = ({
                     border-t
                     border-border-subtle
                     pt-4
-                ">
-
-                    <div className="
+                "
+                >
+                    <div
+                        className="
                         flex
                         items-center
                         gap-3
                         font-body
                         text-xs
                         text-text-muted
-                    ">
-
-                        <span className="
+                    "
+                    >
+                        <span
+                            className="
                             flex
                             items-center
                             gap-1.5
-                        ">
+                        "
+                        >
                             <Clock3 size={13} />
                             {course.totalHours} hrs
                         </span>
 
-                        <span>
-                            {course.enrolledAt}
-                        </span>
-
+                        <span>{course.enrolledAt}</span>
                     </div>
 
-
-                    <span className={`
+                    <span
+                        className={`
                         flex
                         shrink-0
                         items-center
@@ -301,12 +276,9 @@ const DashboardCourseCard = ({
                         transition-colors
 
                         ${accent.title}
-                    `}>
-
-                        {isCompleted
-                            ? "Review"
-                            : "Continue"
-                        }
+                    `}
+                    >
+                        {isCompleted ? "Review" : "Continue"}
 
                         <ArrowRight
                             size={14}
@@ -316,16 +288,11 @@ const DashboardCourseCard = ({
                                 group-hover:translate-x-1
                             "
                         />
-
                     </span>
-
                 </div>
-
             </div>
-
         </Link>
     )
 }
-
 
 export default DashboardCourseCard

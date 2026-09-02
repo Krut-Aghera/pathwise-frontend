@@ -5,24 +5,20 @@ import SignupForm from "../components/SignupForm"
 
 import useSession from "../hooks/useSession"
 
-
 const SignupPage = () => {
-
-    const { userSignup, isSignupLoading, } = useSession()
+    const { userSignup, isSignupLoading } = useSession()
     const navigate = useNavigate()
 
     // Submit
     const handleSubmit = async (formData) => {
-        await userSignup(
-            formData
-        )
+        await userSignup(formData)
 
         navigate("/")
     }
 
-
     return (
-        <main className="
+        <main
+            className="
             flex
             h-screen
             w-full
@@ -34,25 +30,27 @@ const SignupPage = () => {
             py-4
             sm:px-6
             sm:py-6
-        ">
-
-            <div className="
+        "
+        >
+            <div
+                className="
                 flex
                 h-full
                 w-full
                 max-w-md
                 flex-col
                 justify-center
-            ">
-
+            "
+            >
                 {/* Logo / Brand */}
 
-                <div className="
+                <div
+                    className="
                     mb-4
                     text-center
                     sm:mb-5
-                ">
-
+                "
+                >
                     <Link
                         to="/"
                         aria-label="Pathwise home"
@@ -76,8 +74,8 @@ const SignupPage = () => {
                         />
                     </Link>
 
-
-                    <h1 className="
+                    <h1
+                        className="
                         mt-3
                         font-accent
                         text-xl
@@ -85,12 +83,13 @@ const SignupPage = () => {
                         tracking-tight
                         text-text-primary
                         sm:text-2xl
-                    ">
+                    "
+                    >
                         Create your account
                     </h1>
 
-
-                    <p className="
+                    <p
+                        className="
                         mx-auto
                         mt-1
                         max-w-sm
@@ -99,16 +98,16 @@ const SignupPage = () => {
                         leading-5
                         text-text-secondary
                         sm:text-sm
-                    ">
+                    "
+                    >
                         Join Pathwise and start learning at your own pace.
                     </p>
-
                 </div>
-
 
                 {/* Signup Card */}
 
-                <section className="
+                <section
+                    className="
                     rounded-xl
                     border
                     border-border-subtle
@@ -116,17 +115,18 @@ const SignupPage = () => {
                     p-4
                     shadow-lg
                     sm:p-6
-                ">
+                "
+                >
                     <SignupForm
                         onSubmit={handleSubmit}
                         loading={isSignupLoading}
                     />
                 </section>
 
-
                 {/* Login Link */}
 
-                <p className="
+                <p
+                    className="
                     mt-3
                     text-center
                     font-body
@@ -134,9 +134,9 @@ const SignupPage = () => {
                     text-text-secondary
                     sm:mt-4
                     sm:text-sm
-                ">
+                "
+                >
                     Already have an account?{" "}
-
                     <Link
                         to="/auth/login"
                         className="
@@ -155,10 +155,10 @@ const SignupPage = () => {
                     </Link>
                 </p>
 
-
                 {/* Verification Notice */}
 
-                <p className="
+                <p
+                    className="
                     mx-auto
                     mt-2
                     max-w-sm
@@ -170,16 +170,14 @@ const SignupPage = () => {
                     sm:mt-3
                     sm:text-xs
                     sm:leading-5
-                ">
-                    After creating your account, we'll send a verification
-                    link to your email address.
+                "
+                >
+                    After creating your account, we'll send a verification link
+                    to your email address.
                 </p>
-
             </div>
-
         </main>
     )
 }
-
 
 export default SignupPage
