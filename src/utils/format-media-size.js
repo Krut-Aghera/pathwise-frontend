@@ -25,3 +25,4 @@ const formatFileSize = (bytes) => {
 }
 
 export default formatFileSize
+

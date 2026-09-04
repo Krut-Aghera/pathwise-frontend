@@ -1,33 +1,23 @@
 import { useState } from "react"
-
 import { useNavigate, useParams } from "react-router-dom"
 
 import useLecture from "../hooks/useLecture.js"
-
 import useLectureVideo from "../hooks/useLectureVideo.js"
-
-import { lectureVideoValidationRules } from "../lectureValidations.js"
-
-import LectureVideoUploadForm from "../components/form/LectureVideoUploadForm.jsx"
 
 import ErrorState from "../../../components/ui/ErrorState.jsx"
 
-import LectureDetailsLoadingSkeleton from "../components/lecture-manage/LectureDetailsLoadingSkeleton.jsx"
+import { lectureVideoValidationRules } from "../lectureValidations.js"
+import LectureVideoUploadForm from "../components/form/LectureVideoUploadForm.jsx"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureVideoUploadPage = () => {
-    ///////////////////////////////////////////////////////////////
-    // Route params
 
     const { courseId, sectionId, lectureId } = useParams()
-
-    ///////////////////////////////////////////////////////////////
-    // Navigation
-
     const navigate = useNavigate()
 
-    ///////////////////////////////////////////////////////////////
     // Lecture
-
     const {
         lecture,
 
@@ -40,59 +30,39 @@ const LectureVideoUploadPage = () => {
         lectureId,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Lecture video
-
     const {
         uploadLectureVideo,
-
         isUploading,
-
         resetUpload,
     } = useLectureVideo()
 
-    ///////////////////////////////////////////////////////////////
     // Action error
-
     const [actionError, setActionError] = useState(null)
 
-    ///////////////////////////////////////////////////////////////
-    // Loading
-
-    const isLoading = isLectureLoading
-
-    ///////////////////////////////////////////////////////////////
     // Error helper
-
     const getErrorMessage = (error, fallback) => {
         return error?.errors?.[0]?.message || error?.message || fallback
     }
 
-    ///////////////////////////////////////////////////////////////
     // Clear action error
-
     const clearActionError = () => {
         setActionError(null)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Cancel
-
     const handleCancel = () => {
         if (isUploading) {
             return
         }
 
         resetUpload()
-
         navigate(
             `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${lectureId}/manage`
         )
     }
 
-    ///////////////////////////////////////////////////////////////
     // Upload video
-
     const handleSubmit = async (video) => {
         if (!lecture?._id || !video || isUploading) {
             return
@@ -102,16 +72,12 @@ const LectureVideoUploadPage = () => {
             setActionError(
                 "Section ID is required to upload the lecture video."
             )
-
             return
         }
 
         clearActionError()
 
         const result = await uploadLectureVideo(lecture._id, video, sectionId)
-
-        ///////////////////////////////////////////////////////////
-        // Upload failed
 
         if (!result?.success) {
             setActionError(
@@ -120,28 +86,15 @@ const LectureVideoUploadPage = () => {
                     "Unable to upload lecture video."
                 )
             )
-
             return result
         }
-
-        ///////////////////////////////////////////////////////////
-        // Success
 
         navigate(
             `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${lectureId}/manage`
         )
     }
 
-    ///////////////////////////////////////////////////////////////
-    // Loading state
-
-    if (isLoading) {
-        return <LectureDetailsLoadingSkeleton />
-    }
-
-    ///////////////////////////////////////////////////////////////
     // Error state
-
     if (isLectureError || !lecture) {
         const message = isLectureError
             ? getErrorMessage(lectureError, "Unable to load this lecture.")
@@ -173,7 +126,7 @@ const LectureVideoUploadPage = () => {
         )
     }
 
-    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
 
     return (

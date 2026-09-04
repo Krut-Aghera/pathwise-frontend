@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
-
+import { useForm } from "react-hook-form"
 import { FileVideo, X } from "lucide-react"
 
-import { useForm } from "react-hook-form"
-
+import formatFileSize from "../../../../utils/format-media-size"
 import VideoPlayer from "../../../../components/video/VideoPlaye"
 
-import formatFileSize from "../../../../utils/format-media-size"
-
-import LectureVideoUploadField from "../form-children/LectureVideoUploadField"
 import FormActions from "../../../../components/form/FormActions"
+import LectureFormVideoUploadField from "../form-children/LectureFormVideoUploadField"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureVideoUploadForm = ({
     lecture,
@@ -18,9 +18,7 @@ const LectureVideoUploadForm = ({
     loading = false,
     validationRules,
 }) => {
-    ///////////////////////////////////////////////////////////////
-    // Form
-
+    
     const {
         register,
         handleSubmit,
@@ -33,38 +31,25 @@ const LectureVideoUploadForm = ({
         },
 
         mode: "onChange",
-
         shouldFocusError: true,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Selected video
-
     const selectedVideo = watch("video")?.[0] || null
 
-    ///////////////////////////////////////////////////////////////
     // Preview URL
-
     const [previewUrl, setPreviewUrl] = useState(null)
 
-    ///////////////////////////////////////////////////////////////
     // Local error
-
     const [error, setError] = useState(null)
 
-    ///////////////////////////////////////////////////////////////
     // Upload waiting message
-
     const [uploadMessageIndex, setUploadMessageIndex] = useState(0)
 
-    ///////////////////////////////////////////////////////////////
     // Existing video
-
     const hasExistingVideo = Boolean(lecture?.video?.url)
 
-    ///////////////////////////////////////////////////////////////
     // Upload waiting messages
-
     const uploadMessages = [
         "Uploading video...",
         "Processing video...",
@@ -72,9 +57,7 @@ const LectureVideoUploadForm = ({
         "Please wait...",
     ]
 
-    ///////////////////////////////////////////////////////////////
     // Cycle upload waiting messages
-
     useEffect(() => {
         if (!loading) {
             setUploadMessageIndex(0)
@@ -93,13 +76,10 @@ const LectureVideoUploadForm = ({
         }
     }, [loading])
 
-    ///////////////////////////////////////////////////////////////
     // Create preview URL
-
     useEffect(() => {
         if (!selectedVideo) {
             setPreviewUrl(null)
-
             return
         }
 
@@ -112,18 +92,13 @@ const LectureVideoUploadForm = ({
         }
     }, [selectedVideo])
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleFormSubmit = async (data) => {
         if (loading) {
             return
         }
 
         setError(null)
-
-        ///////////////////////////////////////////////////////////
-        // Existing video
 
         if (hasExistingVideo) {
             setError(
@@ -133,24 +108,16 @@ const LectureVideoUploadForm = ({
             return
         }
 
-        ///////////////////////////////////////////////////////////
-        // Video
-
         const video = data.video?.[0]
 
         if (!video) {
             return
         }
 
-        ///////////////////////////////////////////////////////////
-        // Submit
-
         await onSubmit?.(video)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Remove selected video
-
     const handleRemoveSelectedVideo = () => {
         if (loading) {
             return
@@ -163,9 +130,7 @@ const LectureVideoUploadForm = ({
         setError(null)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Cancel
-
     const handleCancel = () => {
         if (loading) {
             return
@@ -174,7 +139,7 @@ const LectureVideoUploadForm = ({
         onCancel?.()
     }
 
-    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
 
     return (
@@ -282,7 +247,7 @@ const LectureVideoUploadForm = ({
             {/* Video field */}
 
             {!selectedVideo && (
-                <LectureVideoUploadField
+                <LectureFormVideoUploadField
                     register={register}
                     errors={errors}
                     validationRules={validationRules}

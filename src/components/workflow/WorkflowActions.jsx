@@ -1,4 +1,4 @@
-import { Pencil, Trash2, ChevronRight, Upload, RotateCcw } from "lucide-react"
+import { ChevronRight, Pencil, RotateCcw, Trash2, Upload } from "lucide-react"
 
 import { RESOURCE_STATUS } from "../../constants/resourceConstants.js"
 
@@ -9,6 +9,7 @@ const WorkflowActions = ({
     onRemove,
 
     onPublish,
+    onPublishInvalid,
     onSaveDraft,
 
     loading = false,
@@ -16,7 +17,7 @@ const WorkflowActions = ({
     resourceName = "Resource",
     resourceDescription = `Manage this ${resourceName.toLowerCase()}.`,
 
-    canPublish = false,
+    publishEnabled = false,
     publishDisabledMessage = `Complete this ${resourceName.toLowerCase()} before publishing.`,
 
     editDescription = `Update ${resourceName.toLowerCase()} details and settings.`,
@@ -24,23 +25,54 @@ const WorkflowActions = ({
     draftDescription = `Remove this ${resourceName.toLowerCase()} from the published curriculum.`,
     removeDescription = `Remove this ${resourceName.toLowerCase()} from the curriculum.`,
 }) => {
-    // Guard
+    /*
+     * Guard
+     */
 
     if (!status) {
         return null
     }
 
-    // Status
+    /*
+     * Status
+     */
 
     const isPublished = status === RESOURCE_STATUS.PUBLISHED
-
     const isDraft = status === RESOURCE_STATUS.DRAFT
 
-    // Action state
+    /*
+     * Action state
+     */
 
-    const publishDisabled = loading
+    const isPublishDisabled = loading || !publishEnabled
 
-    // Render
+    /*
+     * Publish handler
+     *
+     * The native `disabled` attribute protects the
+     * normal UI.
+     *
+     * This handler provides an additional defensive
+     * check if the disabled attribute is manually
+     * removed through browser DevTools.
+     */
+
+    const handlePublishClick = () => {
+        if (loading) {
+            return
+        }
+
+        if (!publishEnabled) {
+            onPublishInvalid?.(publishDisabledMessage)
+            return
+        }
+
+        onPublish?.()
+    }
+
+    /*
+     * Render
+     */
 
     return (
         <section
@@ -52,6 +84,8 @@ const WorkflowActions = ({
                 bg-background-surface
             "
         >
+            {/* Header */}
+
             <div
                 className="
                     border-b
@@ -82,6 +116,8 @@ const WorkflowActions = ({
                     {resourceDescription}
                 </p>
             </div>
+
+            {/* Actions */}
 
             <div className="divide-y divide-border-subtle">
                 {/* Edit */}
@@ -172,8 +208,8 @@ const WorkflowActions = ({
                 {isDraft && (
                     <button
                         type="button"
-                        onClick={onPublish}
-                        disabled={publishDisabled}
+                        onClick={handlePublishClick}
+                        disabled={isPublishDisabled}
                         className="
                             group
                             flex
@@ -234,7 +270,7 @@ const WorkflowActions = ({
                                     text-text-muted
                                 "
                             >
-                                {canPublish
+                                {publishEnabled
                                     ? publishDescription
                                     : publishDisabledMessage}
                             </span>

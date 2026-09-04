@@ -1,34 +1,10 @@
 import { Clock3, Eye, FileVideo, Hash, Lock, Video } from "lucide-react"
 
+import formatDuration from "../../../../utils/format-media-duration.js"
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-const formatDuration = (seconds) => {
-    if (
-        seconds === null ||
-        seconds === undefined ||
-        Number.isNaN(Number(seconds))
-    ) {
-        return "Not available"
-    }
-
-    const totalSeconds = Math.max(0, Math.floor(Number(seconds)))
-
-    const hours = Math.floor(totalSeconds / 3600)
-
-    const minutes = Math.floor((totalSeconds % 3600) / 60)
-
-    const remainingSeconds = totalSeconds % 60
-
-    if (hours > 0) {
-        return [
-            hours,
-            String(minutes).padStart(2, "0"),
-            String(remainingSeconds).padStart(2, "0"),
-        ].join(":")
-    }
-
-    return [minutes, String(remainingSeconds).padStart(2, "0")].join(":")
-}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureManageInformation = ({ lecture }) => {
     ///////////////////////////////////////////////////////////////

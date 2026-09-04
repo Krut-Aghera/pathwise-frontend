@@ -16,22 +16,35 @@ import {
     sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable"
 
-import InstructorCourseSectionItem from "./InstructorCourseSectionItem"
+import InstructorSectionItem from "./InstructorSectionItem"
 
-const InstructorCourseSectionList = ({
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const InstructorSectionList = ({
     sections = [],
-    onSectionClick,
     onSectionDetail,
     onReorderSections,
     isReorderingSections = false,
 }) => {
     const [localSections, setLocalSections] = useState(sections)
 
+    /*
+     * Sync server state into local ordering.
+     *
+     * Do not overwrite optimistic ordering while
+     * a reorder request is still in progress.
+     */
+
     useEffect(() => {
         if (!isReorderingSections) {
             setLocalSections(sections)
         }
     }, [sections, isReorderingSections])
+
+    /*
+     * DnD sensors
+     */
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
@@ -44,53 +57,12 @@ const InstructorCourseSectionList = ({
         })
     )
 
-    if (localSections.length === 0) {
-        return (
-            <div
-                className="
-                rounded-lg
-                border
-                border-dashed
-                border-border-subtle
-                bg-background-elevated
-                px-5
-                py-10
-                text-center
-            "
-            >
-                <p
-                    className="
-                    font-body
-                    text-sm
-                    font-medium
-                    text-text-secondary
-                "
-                >
-                    No sections yet.
-                </p>
+    /*
+     * Handle completed drag
+     */
 
-                <p
-                    className="
-                    mt-1
-                    font-body
-                    text-xs
-                    text-text-muted
-                "
-                >
-                    Add a section to start building the course.
-                </p>
-            </div>
-        )
-    }
-
-    const handleDragEnd = async (event) => {
-        if (isReorderingSections) {
-            return
-        }
-
-        const { active, over } = event
-
-        if (!over || active.id === over.id) {
+    const handleDragEnd = async ({ active, over }) => {
+        if (isReorderingSections || !over || active.id === over.id) {
             return
         }
 
@@ -106,18 +78,81 @@ const InstructorCourseSectionList = ({
             return
         }
 
-        const previousSections = [...localSections]
+        /*
+         * Keep the current state for rollback.
+         */
+
+        const previousSections = localSections
+
+        /*
+         * Optimistically update the UI.
+         */
 
         const reorderedSections = arrayMove(localSections, oldIndex, newIndex)
 
         setLocalSections(reorderedSections)
 
+        /*
+         * Ask the page to persist the new order.
+         */
+
         const success = await onReorderSections?.(reorderedSections)
+
+        /*
+         * Roll back if the API operation failed.
+         */
 
         if (!success) {
             setLocalSections(previousSections)
         }
     }
+
+    /*
+     * Empty state
+     */
+
+    if (!localSections.length) {
+        return (
+            <div
+                className="
+                    rounded-lg
+                    border
+                    border-dashed
+                    border-border-subtle
+                    px-5
+                    py-10
+                    text-center
+                "
+            >
+                <p
+                    className="
+                        font-body
+                        text-sm
+                        font-medium
+                        text-text-primary
+                    "
+                >
+                    No sections yet.
+                </p>
+
+                <p
+                    className="
+                        mt-1
+                        font-body
+                        text-xs
+                        text-text-muted
+                    "
+                >
+                    Add your first section to start building the course
+                    curriculum.
+                </p>
+            </div>
+        )
+    }
+
+    /*
+     * DnD list
+     */
 
     return (
         <DndContext
@@ -131,10 +166,9 @@ const InstructorCourseSectionList = ({
             >
                 <div className="space-y-2.5">
                     {localSections.map((section) => (
-                        <InstructorCourseSectionItem
+                        <InstructorSectionItem
                             key={section._id}
                             section={section}
-                            onSectionClick={onSectionClick}
                             onSectionDetail={onSectionDetail}
                             isReorderingSections={isReorderingSections}
                         />
@@ -145,4 +179,4 @@ const InstructorCourseSectionList = ({
     )
 }
 
-export default InstructorCourseSectionList
+export default InstructorSectionList

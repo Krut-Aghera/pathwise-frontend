@@ -1,3 +1,4 @@
+import { memo } from "react"
 import {
     ArrowRight,
     FileVideo,
@@ -11,24 +12,34 @@ import { CSS } from "@dnd-kit/utilities"
 
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-const InstructorCourseLectureItem = ({
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const InstructorLectureItem = ({
     lecture,
     onManageLecture,
     isReorderingLectures = false,
 }) => {
-    const { attributes, listeners, setNodeRef, transform, isDragging } =
-        useSortable({
-            id: lecture._id,
-            disabled: isReorderingLectures,
-        })
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-    }
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({
+        id: lecture._id,
+        disabled: isReorderingLectures,
+    })
 
     const isPublished = lecture?.status === RESOURCE_STATUS.PUBLISHED
 
     const hasVideo = Boolean(lecture?.video?.url)
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    }
 
     const handleClick = () => {
         if (isReorderingLectures || isDragging) {
@@ -39,14 +50,16 @@ const InstructorCourseLectureItem = ({
     }
 
     const handleKeyDown = (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault()
-            handleClick()
+        if (event.key !== "Enter" && event.key !== " ") {
+            return
         }
+
+        event.preventDefault()
+        handleClick()
     }
 
     return (
-        <article
+        <div
             ref={setNodeRef}
             style={style}
             role="button"
@@ -56,11 +69,9 @@ const InstructorCourseLectureItem = ({
             onKeyDown={handleKeyDown}
             className={`
                 group
-
                 rounded-lg
                 border
                 border-border-subtle
-
                 bg-background-elevated
 
                 ${
@@ -83,58 +94,49 @@ const InstructorCourseLectureItem = ({
             <div
                 className="
                     flex
-                    min-h-[72px]
+                    min-h-18
                     items-center
                     gap-3
-
                     px-3
                     py-3
-
                     sm:px-4
                 "
             >
-                {/* Drag Handle */}
+                {/* Drag handle */}
 
                 <button
                     type="button"
                     aria-label={`Reorder ${lecture?.title}`}
                     title="Drag to reorder"
                     disabled={isReorderingLectures}
-                    className="
-                        inline-flex
-                        h-10
-                        w-12
-                        shrink-0
-
-                        cursor-grab
-                        touch-none
-                        select-none
-
-                        items-center
-                        justify-center
-
-                        rounded-md
-
-                        text-text-secondary
-
-                        hover:bg-background-surface
-                        hover:text-text-primary
-
-                        active:cursor-grabbing
-
-                        disabled:cursor-not-allowed
-                        disabled:opacity-50
-                    "
                     {...attributes}
                     {...listeners}
                     onClick={(event) => {
                         event.stopPropagation()
                     }}
+                    className="
+                        inline-flex
+                        h-10
+                        w-12
+                        shrink-0
+                        cursor-grab
+                        touch-none
+                        select-none
+                        items-center
+                        justify-center
+                        rounded-md
+                        text-text-secondary
+                        hover:bg-background-surface
+                        hover:text-text-primary
+                        active:cursor-grabbing
+                        disabled:cursor-not-allowed
+                        disabled:opacity-50
+                    "
                 >
                     <GripVertical size={19} />
                 </button>
 
-                {/* Lecture Icon */}
+                {/* Lecture icon */}
 
                 <div
                     className="
@@ -142,12 +144,9 @@ const InstructorCourseLectureItem = ({
                         h-10
                         w-10
                         shrink-0
-
                         items-center
                         justify-center
-
                         rounded-lg
-
                         bg-accent-primary/10
                         text-accent-primary
                     "
@@ -155,7 +154,7 @@ const InstructorCourseLectureItem = ({
                     <FileVideo size={17} />
                 </div>
 
-                {/* Lecture Information */}
+                {/* Lecture information */}
 
                 <div
                     className="
@@ -176,14 +175,12 @@ const InstructorCourseLectureItem = ({
                             className="
                                 hidden
                                 shrink-0
-
                                 font-body
                                 text-[10px]
                                 font-semibold
                                 uppercase
                                 tracking-wider
                                 text-text-muted
-
                                 sm:inline
                             "
                         >
@@ -194,12 +191,10 @@ const InstructorCourseLectureItem = ({
                             className="
                                 min-w-0
                                 truncate
-
                                 font-accent
                                 text-sm
                                 font-semibold
                                 text-text-primary
-
                                 group-hover:text-text-primary/80
                             "
                         >
@@ -207,12 +202,9 @@ const InstructorCourseLectureItem = ({
                         </h3>
                     </div>
 
-                    {/* Metadata */}
-
                     <div
                         className="
                             mt-2
-
                             flex
                             flex-wrap
                             items-center
@@ -220,33 +212,30 @@ const InstructorCourseLectureItem = ({
                             gap-y-2
                         "
                     >
-                        {/* Lecture Number - Mobile */}
+                        {/* Mobile lecture number */}
 
                         <span
                             className="
                                 shrink-0
-
                                 font-body
                                 text-[10px]
                                 font-semibold
                                 uppercase
                                 tracking-wider
                                 text-text-muted
-
                                 sm:hidden
                             "
                         >
                             Lecture {lecture?.order}
                         </span>
 
-                        {/* Video Status */}
+                        {/* Video */}
 
                         <span
                             className="
                                 inline-flex
                                 items-center
                                 gap-1.5
-
                                 font-body
                                 text-[10px]
                                 text-text-muted
@@ -271,12 +260,9 @@ const InstructorCourseLectureItem = ({
                             <span
                                 className="
                                     rounded-md
-
                                     bg-accent-secondary/10
-
                                     px-2
                                     py-1
-
                                     font-body
                                     text-[10px]
                                     font-medium
@@ -289,7 +275,7 @@ const InstructorCourseLectureItem = ({
                     </div>
                 </div>
 
-                {/* Status + Navigation */}
+                {/* Status + navigation */}
 
                 <div
                     className="
@@ -303,17 +289,13 @@ const InstructorCourseLectureItem = ({
                         className={`
                             mr-5
                             hidden
-
                             rounded-md
                             border
-
                             px-2
                             py-1
-
                             font-body
                             text-[10px]
                             font-semibold
-
                             sm:inline-flex
 
                             ${
@@ -338,18 +320,16 @@ const InstructorCourseLectureItem = ({
                         size={17}
                         className="
                             text-text-muted
-
                             transition-transform
                             duration-200
-
                             group-hover:translate-x-0.5
                             group-hover:text-text-primary/80
                         "
                     />
                 </div>
             </div>
-        </article>
+        </div>
     )
 }
 
-export default InstructorCourseLectureItem
+export default memo(InstructorLectureItem)

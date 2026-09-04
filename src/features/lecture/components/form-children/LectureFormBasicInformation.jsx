@@ -1,7 +1,10 @@
 import FormField from "../../../../components/form/FormField"
 import Input from "../../../../components/form/Input"
 
-const LectureBasicInformation = ({ register, errors, validationRules }) => {
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const LectureFormBasicInformation = ({ register, errors, validationRules }) => {
     return (
         <section
             className="
@@ -172,7 +175,7 @@ const LectureBasicInformation = ({ register, errors, validationRules }) => {
                                 transition-colors
                                 duration-200
 
-                                has-[:checked]:bg-accent-primary
+                                has-checked:bg-accent-primary
                             "
                         >
                             <Input
@@ -254,4 +257,4 @@ const LectureBasicInformation = ({ register, errors, validationRules }) => {
     )
 }
 
-export default LectureBasicInformation
+export default LectureFormBasicInformation

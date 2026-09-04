@@ -1,21 +1,20 @@
 import { useNavigate, useParams } from "react-router-dom"
 
+import { lectureValidationRules } from "../lectureValidations.js"
 import useLecture from "../hooks/useLecture.js"
 import useLectureManagement from "../hooks/useLectureManagement.js"
-import { lectureValidationRules } from "../lectureValidations.js"
 
 import LectureUpdateForm from "../components/form/LectureUpdateForm.jsx"
-
 import ErrorState from "../../../components/ui/ErrorState.jsx"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureUpdatePage = () => {
     const navigate = useNavigate()
+    const { courseId, sectionId, lectureId } = useParams()
 
-    const { sectionId, lectureId } = useParams()
-
-    ///////////////////////////////////////////////////////////////
     // Fetch lecture
-
     const {
         lecture,
 
@@ -28,26 +27,18 @@ const LectureUpdatePage = () => {
         lectureId,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Lecture management
-
     const { updateLecture, isUpdating } = useLectureManagement()
 
-    ///////////////////////////////////////////////////////////////
     // Validation rules
-
     const validationRules = lectureValidationRules
 
-    ///////////////////////////////////////////////////////////////
     // Error helper
-
     const getErrorMessage = (error, fallback) => {
         return error?.errors?.[0]?.message || error?.message || fallback
     }
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleSubmit = async (lectureData) => {
         if (!lectureId) {
             throw new Error("Lecture ID is required to update a lecture.")
@@ -63,22 +54,18 @@ const LectureUpdatePage = () => {
             throw result.error
         }
 
-        ///////////////////////////////////////////////////////////
-        // Success
-
-        navigate(-1)
+        navigate(
+            `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${result?.data._id}/manage` ||
+            -1
+        )
     }
 
-    ///////////////////////////////////////////////////////////////
     // Cancel
-
     const handleCancel = () => {
         navigate(-1)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Loading
-
     if (isLectureLoading) {
         return (
             <main
@@ -138,9 +125,7 @@ const LectureUpdatePage = () => {
         )
     }
 
-    ///////////////////////////////////////////////////////////////
     // Error state
-
     if (isLectureError || !lecture) {
         const message = isLectureError
             ? getErrorMessage(lectureError, "Unable to load this lecture.")
@@ -172,7 +157,8 @@ const LectureUpdatePage = () => {
         )
     }
 
-    ///////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
 
     return (

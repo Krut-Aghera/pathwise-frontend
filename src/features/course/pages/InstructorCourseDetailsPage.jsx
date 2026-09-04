@@ -1,5 +1,8 @@
-import { useState } from "react"
+import { BookOpen } from "lucide-react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+
+import { RESOURCE_STATUS } from "../../../constants/resourceConstants.js"
 
 import {
     useFetchInstructorCourseQuery,
@@ -7,30 +10,66 @@ import {
     useSaveCourseAsDraftMutation,
     useRemoveCourseMutation,
 } from "../courseApi.js"
-import useSession from "../../auth/hooks/useSession.js"
 
-import useSection from "../../section/hooks/useSection.js"
-import useSectionManagement from "../../section/hooks/useSectionManagement.js"
-
-import InstructorCourseDetailsHeader from "../components/course-manage/InstructorCourseDetailsHeader.jsx"
 import InstructorCourseOverview from "../components/course-manage/InstructorCourseOverview.jsx"
 import InstructorCourseInformation from "../components/course-manage/InstructorCourseInformation.jsx"
-import InstructorCourseDetailsLoadingSkeleton from "../components/skeletons/InstructorCourseDetailsSkeleton.jsx"
 import InstructorCourseSectionArea from "../components/course-manage/InstructorCourseSectionArea.jsx"
+import InstructorCourseDetailsLoadingSkeleton from "../components/skeletons/InstructorCourseDetailsSkeleton.jsx"
 
 import ErrorState from "../../../components/ui/ErrorState.jsx"
 import ActionError from "../../../components/ui/ActionError.jsx"
 import ConfirmDialog from "../../../components/ui/ConfirmDialog.jsx"
 import WorkflowActions from "../../../components/workflow/WorkflowActions.jsx"
+import ManagementPageHeader from "../../../components/workflow/ManagementPageHeader.jsx"
+
+import useSection from "../../section/hooks/useSection.js"
+import useSectionManagement from "../../section/hooks/useSectionManagement.js"
+
+const PAGE_CONTAINER = `
+    mx-auto
+    w-full
+    max-w-7xl
+    px-4
+    py-6
+    sm:px-6
+    lg:px-8
+`
 
 const InstructorCourseDetailsPage = () => {
     const { courseId } = useParams()
     const navigate = useNavigate()
 
-    const { user } = useSession()
+    /*
+     * Temporary page state
+     */
 
     const [courseToRemove, setCourseToRemove] = useState(null)
-    const [actionError, setActionError] = useState(null)
+
+    /*
+     * Action errors
+     *
+     * workflowError:
+     * Course-level workflow actions
+     * (publish, draft, remove)
+     *
+     * sectionError:
+     * Section management actions
+     * (reorder)
+     */
+
+    const [workflowError, setWorkflowError] = useState(null)
+    const [sectionError, setSectionError] = useState(null)
+
+    /*
+     * Error refs
+     */
+
+    const workflowErrorRef = useRef(null)
+    const sectionErrorRef = useRef(null)
+
+    /*
+     * Course data
+     */
 
     const {
         data: courseResponse,
@@ -40,15 +79,21 @@ const InstructorCourseDetailsPage = () => {
         refetch: refetchCourse,
     } = useFetchInstructorCourseQuery(courseId)
 
+    /*
+     * Section data
+     */
+
     const {
         sections,
         isSectionsLoading,
         isSectionsError,
         sectionsError,
         refetchSections,
-    } = useSection({
-        courseId,
-    })
+    } = useSection({ courseId })
+
+    /*
+     * Course workflow mutations
+     */
 
     const [publishCourse, { isLoading: isPublishing }] =
         usePublishCourseMutation()
@@ -58,298 +103,400 @@ const InstructorCourseDetailsPage = () => {
 
     const [removeCourse, { isLoading: isRemoving }] = useRemoveCourseMutation()
 
+    /*
+     * Section management
+     */
+
     const { reorderSections, isReordering: isReorderingSections } =
         useSectionManagement()
 
+    /*
+     * Derived state
+     */
+
     const course = courseResponse?.data
 
-    // Loading
+    const hasPublishedSection = sections.some(
+        (section) => section.status === RESOURCE_STATUS.PUBLISHED
+    )
 
-    const isCourseWorkflowLoading = isPublishing || isSavingDraft || isRemoving
+    const isWorkflowLoading = isPublishing || isSavingDraft || isRemoving
 
     const isLoading = isCourseLoading || isSectionsLoading
 
-    // Error message
+    /*
+     * Error helpers
+     */
 
-    const getErrorMessage = (error, fallback) => {
-        return (
-            error?.errors?.[0]?.message ||
-            error?.data?.errors?.[0]?.message ||
-            error?.data?.message ||
-            error?.message ||
-            fallback
-        )
-    }
+    const getErrorMessage = useCallback((error, fallbackMessage) => {
+        return error?.message || error?.data?.message || fallbackMessage
+    }, [])
 
-    // Action error
+    const clearWorkflowError = useCallback(() => {
+        setWorkflowError(null)
+    }, [])
 
-    const clearActionError = () => {
-        setActionError(null)
-    }
+    const clearSectionError = useCallback(() => {
+        setSectionError(null)
+    }, [])
 
-    // Edit
+    /*
+     * Smooth scroll helper
+     */
 
-    const handleEdit = () => {
-        if (!course?._id || isCourseWorkflowLoading) {
+    const scrollToError = useCallback((ref) => {
+        requestAnimationFrame(() => {
+            ref.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            })
+        })
+    }, [])
+
+    /*
+     * Scroll to workflow error
+     */
+
+    useEffect(() => {
+        if (!workflowError) {
             return
         }
 
-        clearActionError()
+        scrollToError(workflowErrorRef)
+    }, [workflowError, scrollToError])
+
+    /*
+     * Scroll to section error
+     */
+
+    useEffect(() => {
+        if (!sectionError) {
+            return
+        }
+
+        scrollToError(sectionErrorRef)
+    }, [sectionError, scrollToError])
+
+    /*
+     * Shared page handlers
+     */
+
+    const handleBack = useCallback(() => {
+        navigate("/instructor/courses")
+    }, [navigate])
+
+    /*
+     * Edit course
+     */
+
+    const handleEdit = useCallback(() => {
+        if (!course?._id || isWorkflowLoading) {
+            return
+        }
+
+        clearWorkflowError()
 
         navigate(`/instructor/courses/${course._id}/edit`)
-    }
+    }, [course?._id, isWorkflowLoading, clearWorkflowError, navigate])
 
-    // Publish
+    /*
+     * Publish course
+     *
+     * This is the final defensive business-rule
+     * validation before calling the API.
+     */
 
-    const handlePublish = async () => {
-        if (!course?._id || isCourseWorkflowLoading) {
+    const handlePublish = useCallback(async () => {
+        if (!course?._id || isWorkflowLoading) {
             return
         }
 
-        clearActionError()
+        clearWorkflowError()
+
+        /*
+         * Defensive business-rule validation
+         *
+         * This protects the action even if the
+         * WorkflowActions disabled attribute is
+         * manually removed through DevTools.
+         */
+
+        if (!hasPublishedSection) {
+            setWorkflowError(
+                "The course must contain at least one published section before it can be published."
+            )
+
+            return
+        }
 
         try {
             await publishCourse(course._id).unwrap()
         } catch (error) {
-            setActionError(
-                getErrorMessage(error, "Unable to publish this course.")
+            setWorkflowError(
+                getErrorMessage(error, "Unable to publish course.")
             )
         }
-    }
+    }, [
+        course?._id,
+        isWorkflowLoading,
+        hasPublishedSection,
+        clearWorkflowError,
+        publishCourse,
+        getErrorMessage,
+    ])
 
-    // Save as draft
+    /*
+     * Save course as draft
+     */
 
-    const handleSaveDraft = async () => {
-        if (!course?._id || isCourseWorkflowLoading) {
+    const handleSaveDraft = useCallback(async () => {
+        if (!course?._id || isWorkflowLoading) {
             return
         }
 
-        clearActionError()
+        clearWorkflowError()
 
         try {
             await saveCourseAsDraft(course._id).unwrap()
         } catch (error) {
-            setActionError(
-                getErrorMessage(error, "Unable to save this course as draft.")
+            setWorkflowError(
+                getErrorMessage(error, "Unable to save course as draft.")
             )
         }
-    }
+    }, [
+        course?._id,
+        isWorkflowLoading,
+        clearWorkflowError,
+        saveCourseAsDraft,
+        getErrorMessage,
+    ])
 
-    // Remove
+    /*
+     * Start remove workflow
+     */
 
-    const handleRemove = () => {
-        if (!course?._id || isCourseWorkflowLoading) {
+    const handleRemove = useCallback(() => {
+        if (!course?._id || isWorkflowLoading) {
             return
         }
 
-        clearActionError()
+        clearWorkflowError()
 
-        setCourseToRemove(course)
-    }
+        setCourseToRemove({
+            id: course._id,
+            title: course.title,
+        })
+    }, [course?._id, course?.title, isWorkflowLoading, clearWorkflowError])
 
-    const handleCancelRemove = () => {
+    /*
+     * Cancel remove workflow
+     */
+
+    const handleCancelRemove = useCallback(() => {
         if (isRemoving) {
             return
         }
 
         setCourseToRemove(null)
-    }
+    }, [isRemoving])
 
-    const handleConfirmRemove = async () => {
-        if (!courseToRemove?._id || isRemoving) {
+    /*
+     * Confirm course removal
+     */
+
+    const handleConfirmRemove = useCallback(async () => {
+        if (!courseToRemove?.id || isRemoving) {
             return
         }
 
-        clearActionError()
+        clearWorkflowError()
 
         try {
-            await removeCourse(courseToRemove._id).unwrap()
+            await removeCourse(courseToRemove.id).unwrap()
 
             setCourseToRemove(null)
 
             navigate("/instructor/courses")
         } catch (error) {
-            setActionError(
-                getErrorMessage(error, "Unable to remove this course.")
-            )
+            setWorkflowError(getErrorMessage(error, "Unable to remove course."))
         }
-    }
+    }, [
+        courseToRemove?.id,
+        isRemoving,
+        clearWorkflowError,
+        removeCourse,
+        navigate,
+        getErrorMessage,
+    ])
 
-    // Add section
+    /*
+     * Add section
+     */
 
-    const handleAddSection = () => {
+    const handleAddSection = useCallback(() => {
         if (!course?._id || isReorderingSections) {
             return
         }
 
-        clearActionError()
+        clearSectionError()
 
         navigate(`/instructor/courses/${course._id}/sections/create`)
-    }
+    }, [course?._id, isReorderingSections, clearSectionError, navigate])
 
-    // Manage section
-    const handleSectionDetails = (section) => {
-        if (!course?._id || !section?._id || isReorderingSections) {
-            return
-        }
+    /*
+     * Section details
+     */
 
-        clearActionError()
+    const handleSectionDetails = useCallback(
+        (section) => {
+            if (!course?._id || !section?._id || isReorderingSections) {
+                return
+            }
 
-        navigate(
-            `/instructor/courses/${course._id}/sections/${section._id}/manage`
-        )
-    }
+            clearSectionError()
 
-    // Add lecture
-
-    const handleAddLecture = (section) => {
-        if (!course?._id || !section?._id || isReorderingSections) {
-            return
-        }
-
-        clearActionError()
-
-        navigate(
-            `/instructor/courses/${course._id}/sections/${section._id}/lectures/create`
-        )
-    }
-
-    // Reorder sections
-
-    const handleReorderSections = async (reorderedSections) => {
-        if (
-            !course?._id ||
-            isReorderingSections ||
-            !reorderedSections?.length
-        ) {
-            return false
-        }
-
-        clearActionError()
-
-        const sectionsPayload = reorderedSections.map((section, index) => ({
-            sectionId: section._id,
-            order: index + 1,
-        }))
-
-        const result = await reorderSections(course._id, sectionsPayload)
-
-        if (!result?.success) {
-            setActionError(
-                getErrorMessage(
-                    result?.error,
-                    "Unable to reorder course sections."
-                )
+            navigate(
+                `/instructor/courses/${course._id}/sections/${section._id}/manage`
             )
+        },
+        [course?._id, isReorderingSections, clearSectionError, navigate]
+    )
 
-            return false
-        }
+    /*
+     * Reorder sections
+     */
 
-        return true
-    }
+    const handleReorderSections = useCallback(
+        async (reorderedSections) => {
+            if (
+                !course?._id ||
+                isReorderingSections ||
+                !reorderedSections?.length
+            ) {
+                return false
+            }
 
-    // Loading state
+            clearSectionError()
+
+            const sectionsPayload = reorderedSections.map((section, index) => ({
+                sectionId: section._id,
+                order: index + 1,
+            }))
+
+            try {
+                const result = await reorderSections(
+                    course._id,
+                    sectionsPayload
+                )
+
+                if (!result?.success) {
+                    setSectionError(
+                        result?.error?.message ||
+                            "Unable to reorder course sections."
+                    )
+
+                    return false
+                }
+
+                return true
+            } catch (error) {
+                setSectionError(
+                    getErrorMessage(error, "Unable to reorder course sections.")
+                )
+
+                return false
+            }
+        },
+        [
+            course?._id,
+            isReorderingSections,
+            clearSectionError,
+            reorderSections,
+            getErrorMessage,
+        ]
+    )
+
+    /*
+     * Initial loading
+     */
 
     if (isLoading) {
         return (
-            <main
-                className="
-                    mx-auto
-                    w-full
-                    max-w-7xl
-                    px-4
-                    py-6
-                    sm:px-6
-                    lg:px-8
-                "
-            >
+            <main className={PAGE_CONTAINER}>
                 <InstructorCourseDetailsLoadingSkeleton />
             </main>
         )
     }
 
-    // Course error
+    /*
+     * Course loading error
+     */
 
     if (isCourseError || !course) {
-        const message = isCourseError
-            ? getErrorMessage(courseError, "Unable to load this course.")
-            : "The requested course could not be found."
-
         return (
-            <main
-                className="
-                    mx-auto
-                    w-full
-                    max-w-7xl
-                    px-4
-                    py-6
-                    sm:px-6
-                    lg:px-8
-                "
-            >
+            <main className={PAGE_CONTAINER}>
                 <ErrorState
                     title="Unable to load course"
-                    message={message}
+                    message={
+                        isCourseError
+                            ? getErrorMessage(
+                                  courseError,
+                                  "Unable to load course."
+                              )
+                            : "The requested course could not be found."
+                    }
                     onRetry={refetchCourse}
                 />
             </main>
         )
     }
 
-    // Curriculum error
+    /*
+     * Section loading error
+     */
 
     if (isSectionsError) {
-        const message = getErrorMessage(
-            sectionsError,
-            "Unable to load the course curriculum."
-        )
-
         return (
-            <main
-                className="
-                    mx-auto
-                    w-full
-                    max-w-7xl
-                    px-4
-                    py-6
-                    sm:px-6
-                    lg:px-8
-                "
-            >
+            <main className={PAGE_CONTAINER}>
                 <ErrorState
-                    title="Unable to load curriculum"
-                    message={message}
+                    title="Unable to load course curriculum"
+                    message={getErrorMessage(
+                        sectionsError,
+                        "Unable to load course curriculum."
+                    )}
                     onRetry={refetchSections}
                 />
             </main>
         )
     }
 
-    // Render
+    /*
+     * Page
+     */
 
     return (
         <>
-            <main
-                className="
-                    mx-auto
-                    w-full
-                    max-w-7xl
-                    px-4
-                    py-6
-                    sm:px-6
-                    lg:px-8
-                "
-            >
-                <InstructorCourseDetailsHeader
-                    course={course}
-                    instructor={user}
+            <main className={PAGE_CONTAINER}>
+                <ManagementPageHeader
+                    pageTitle="Course Management"
+                    context={[course?.title]}
+                    thumbnail={course?.thumbnail?.url}
+                    icon={BookOpen}
+                    onBack={handleBack}
+                    backLabel="Back to My Courses"
+                    status={course?.status}
+                    showStatus
                 />
 
-                <ActionError
-                    open={Boolean(actionError)}
-                    message={actionError}
-                    onDismiss={clearActionError}
-                />
+                {/* Course workflow error */}
+
+                <div ref={workflowErrorRef} className="scroll-mt-6">
+                    <ActionError
+                        open={Boolean(workflowError)}
+                        message={workflowError}
+                        onDismiss={clearWorkflowError}
+                    />
+                </div>
 
                 <div
                     className="
@@ -368,12 +515,20 @@ const InstructorCourseDetailsPage = () => {
                     >
                         <InstructorCourseOverview course={course} />
 
+                        {/* Section action error */}
+
+                        <div ref={sectionErrorRef} className="scroll-mt-6">
+                            <ActionError
+                                open={Boolean(sectionError)}
+                                message={sectionError}
+                                onDismiss={clearSectionError}
+                            />
+                        </div>
+
                         <InstructorCourseSectionArea
-                            course={course}
                             sections={sections}
                             onAddSection={handleAddSection}
                             onSectionDetail={handleSectionDetails}
-                            onAddLecture={handleAddLecture}
                             onReorderSections={handleReorderSections}
                             isReorderingSections={isReorderingSections}
                         />
@@ -388,18 +543,17 @@ const InstructorCourseDetailsPage = () => {
                         <InstructorCourseInformation course={course} />
 
                         <WorkflowActions
-                            status={course.status}
+                            status={course?.status}
                             resourceName="Course"
                             resourceDescription="Manage this course."
                             onEdit={handleEdit}
                             onPublish={handlePublish}
+                            onPublishInvalid={setWorkflowError}
                             onSaveDraft={handleSaveDraft}
                             onRemove={handleRemove}
-                            loading={isCourseWorkflowLoading}
-                            canPublish={true}
-                            publishDisabledMessage="
-                                The course must contain at least one published section before it can be published.
-                            "
+                            loading={isWorkflowLoading}
+                            publishEnabled={hasPublishedSection}
+                            publishDisabledMessage="The course must contain at least one published section before it can be published."
                         />
                     </aside>
                 </div>
@@ -408,10 +562,11 @@ const InstructorCourseDetailsPage = () => {
             <ConfirmDialog
                 open={Boolean(courseToRemove)}
                 title="Remove Course"
+                subtitle={courseToRemove?.title}
                 description="This will remove the course from your instructor course list."
                 message={
                     courseToRemove
-                        ? `Are you sure you want to remove "${courseToRemove.title}"?`
+                        ? `Are you sure you want to remove "${courseToRemove?.title}"?`
                         : "Are you sure you want to remove this course?"
                 }
                 confirmLabel="Remove Course"

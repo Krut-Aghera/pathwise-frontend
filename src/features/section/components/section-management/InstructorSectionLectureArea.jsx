@@ -1,17 +1,15 @@
-import { FileVideo, Plus } from "lucide-react"
+import { ArrowUpDown, FileVideo, Plus } from "lucide-react"
+import Button from "../../../../components/ui/Button"
+import InstructorLectureList from "../../../lecture/components/lecture-management/InstructorLectureList"
 
-import Button from "../../../components/ui/Button.jsx"
-import InstructorCourseLectureList from "../../lecture/components/course-manage/InstructorCourseLectureList.jsx"
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const InstructorSectionLectureArea = ({
-    course,
-    section,
     lectures = [],
     onAddLecture,
     onManageLecture,
-    onRemoveLecture,
     onReorderLectures,
-    isActionLoading = false,
     isReorderingLectures = false,
 }) => {
     return (
@@ -67,23 +65,28 @@ const InstructorSectionLectureArea = ({
                 <Button
                     type="button"
                     onClick={onAddLecture}
-                    disabled={isActionLoading}
+                    disabled={isReorderingLectures}
                     className="w-full sm:w-auto"
                 >
-                    <Plus size={15} />
-                    Add Lecture
+                    {isReorderingLectures ? (
+                        <>
+                            <ArrowUpDown size={15} />
+                            Reordering...
+                        </>
+                    ) : (
+                        <>
+                            <Plus size={15} />
+                            Add Lecture
+                        </>
+                    )}
                 </Button>
             </div>
 
             <div className="mt-5">
-                <InstructorCourseLectureList
-                    course={course}
-                    section={section}
+                <InstructorLectureList
                     lectures={lectures}
                     onManageLecture={onManageLecture}
-                    onRemoveLecture={onRemoveLecture}
                     onReorderLectures={onReorderLectures}
-                    isActionLoading={isActionLoading}
                     isReorderingLectures={isReorderingLectures}
                 />
             </div>

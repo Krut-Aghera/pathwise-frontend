@@ -35,11 +35,12 @@ import CourseThumbnailEditPage from "../../features/course/pages/CourseThumbnail
 import InstructorCourseDetailsPage from "../../features/course/pages/InstructorCourseDetailsPage"
 import SectionCreatePage from "../../features/section/pages/SectionCreatePage"
 import SectionUpdatePage from "../../features/section/pages/SectionUpdatePage"
-import SectionDetailsPage from "../../features/section/pages/SectionDetailsPage"
 import LectureCreatePage from "../../features/lecture/pages/LectureCreatePage"
-import LectureDetailsPage from "../../features/lecture/pages/LectureDetailsPage"
+
 import LectureUpdatePage from "../../features/lecture/pages/LectureUpdatePage"
 import LectureVideoUploadPage from "../../features/lecture/pages/LectureVideoUploadPage"
+import SectionManagementPage from "../../features/section/pages/SectionManagementPage"
+import LectureManagementPage from "../../features/lecture/pages/LectureManagementPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -140,7 +141,7 @@ const routerConfig = createBrowserRouter(
 
                     <Route
                         path="instructor/courses/:courseId/sections/:sectionId/manage"
-                        element={<SectionDetailsPage />}
+                        element={<SectionManagementPage />}
                     />
 
                     <Route
@@ -160,7 +161,7 @@ const routerConfig = createBrowserRouter(
 
                     <Route
                         path="instructor/courses/:courseId/sections/:sectionId/lectures/:lectureId/manage"
-                        element={<LectureDetailsPage />}
+                        element={<LectureManagementPage />}
                     />
 
                     <Route

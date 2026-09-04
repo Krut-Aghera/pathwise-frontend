@@ -1,13 +1,11 @@
-import { BookOpen, Plus } from "lucide-react"
+import { ArrowUpDown, Layers3, Plus } from "lucide-react"
 
 import Button from "../../../../components/ui/Button.jsx"
-
-import InstructorCourseSectionList from "../../../section/components/InstructorCourseSectionList.jsx"
+import InstructorSectionList from "../../../section/components/section-management/InstructorSectionList.jsx"
 
 const InstructorCourseSectionArea = ({
     sections = [],
     onAddSection,
-    onSectionClick,
     onSectionDetail,
     onReorderSections,
     isReorderingSections = false,
@@ -15,35 +13,35 @@ const InstructorCourseSectionArea = ({
     return (
         <section
             className="
-            rounded-xl
-            border
-            border-border-subtle
-            bg-background-surface
-            p-5
-            sm:p-6
-        "
+                rounded-xl
+                border
+                border-border-subtle
+                bg-background-surface
+                p-5
+                sm:p-6
+            "
         >
             <div
                 className="
-                flex
-                flex-col
-                gap-3
-                sm:flex-row
-                sm:items-center
-                sm:justify-between
-            "
+                    flex
+                    flex-col
+                    gap-3
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                "
             >
                 <div>
                     <div className="flex items-center gap-2">
-                        <BookOpen size={18} className="text-accent-primary" />
+                        <Layers3 size={18} className="text-accent-primary" />
 
                         <h2
                             className="
-                            font-accent
-                            text-lg
-                            font-semibold
-                            text-text-primary
-                        "
+                                font-accent
+                                text-lg
+                                font-semibold
+                                text-text-primary
+                            "
                         >
                             Course Sections
                         </h2>
@@ -51,14 +49,14 @@ const InstructorCourseSectionArea = ({
 
                     <p
                         className="
-                        mt-1
-                        font-body
-                        text-xs
-                        leading-5
-                        text-text-muted
-                    "
+                            mt-1
+                            font-body
+                            text-xs
+                            leading-5
+                            text-text-muted
+                        "
                     >
-                        Organize and manage the sections of this course.
+                        Organize the sections that make up this course.
                     </p>
                 </div>
 
@@ -68,15 +66,23 @@ const InstructorCourseSectionArea = ({
                     disabled={isReorderingSections}
                     className="w-full sm:w-auto"
                 >
-                    <Plus size={15} />
-                    Add Section
+                    {isReorderingSections ? (
+                        <>
+                            <ArrowUpDown size={15} />
+                            Reordering...
+                        </>
+                    ) : (
+                        <>
+                            <Plus size={15} />
+                            Add Section
+                        </>
+                    )}
                 </Button>
             </div>
 
             <div className="mt-5">
-                <InstructorCourseSectionList
+                <InstructorSectionList
                     sections={sections}
-                    onSectionClick={onSectionClick}
                     onSectionDetail={onSectionDetail}
                     onReorderSections={onReorderSections}
                     isReorderingSections={isReorderingSections}

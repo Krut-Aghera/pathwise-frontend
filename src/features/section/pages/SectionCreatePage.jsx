@@ -2,10 +2,13 @@ import { useNavigate, useParams } from "react-router-dom"
 
 import { sectionValidationRules } from "../sectionValidations.js"
 import useSectionManagement from "../hooks/useSectionManagement.js"
-
 import SectionCreateForm from "../components/form/SectionCreateForm.jsx"
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 const SectionCreatePage = () => {
+
     const navigate = useNavigate()
     const { courseId } = useParams()
 

@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
-import LectureBasicInformation from "../form-children/LectureBasicInformation"
 import FormActions from "../../../../components/form/FormActions"
+import LectureFormBasicInformation from "../form-children/LectureFormBasicInformation"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureCreateForm = ({
     onSubmit,
@@ -11,10 +14,6 @@ const LectureCreateForm = ({
     validationRules,
 }) => {
     const globalErrorRef = useRef(null)
-
-    ///////////////////////////////////////////////////////////////
-    // Form
-
     const {
         register,
         handleSubmit,
@@ -29,13 +28,10 @@ const LectureCreateForm = ({
         },
 
         mode: "onBlur",
-
         shouldFocusError: true,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Global error scroll
-
     useEffect(() => {
         if (!errors.root?.message) {
             return
@@ -51,29 +47,23 @@ const LectureCreateForm = ({
         })
     }, [errors.root?.message])
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleFormSubmit = async (formData) => {
         clearErrors("root")
 
         const lectureData = {
             title: formData.title,
-
             description: formData.description,
-
             isPreviewFree: formData.isPreviewFree,
         }
 
-        ///////////////////////////////////////////////////////////
         // Send to page
-
         try {
             await onSubmit(lectureData)
-        } catch (error) {
-            /////////////////////////////////////////////////////////
-            // Backend validation errors
 
+        } catch (error) {
+
+            // Backend validation errors
             if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
                     if (!field) {
@@ -89,9 +79,7 @@ const LectureCreateForm = ({
                 return
             }
 
-            /////////////////////////////////////////////////////////
             // General server error
-
             setError("root", {
                 type: "server",
 
@@ -102,14 +90,12 @@ const LectureCreateForm = ({
         }
     }
 
-    ///////////////////////////////////////////////////////////////
     // Loading
-
     const isFormLoading = loading || isSubmitting
 
-    ///////////////////////////////////////////////////////////////
-    // Render
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Render
     return (
         <form
             onSubmit={handleSubmit(handleFormSubmit)}
@@ -149,7 +135,7 @@ const LectureCreateForm = ({
 
             {/* Basic Information */}
 
-            <LectureBasicInformation
+            <LectureFormBasicInformation
                 register={register}
                 errors={errors}
                 validationRules={validationRules}

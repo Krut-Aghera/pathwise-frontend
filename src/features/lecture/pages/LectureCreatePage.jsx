@@ -1,27 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom"
 
-import useLectureManagement from "../hooks/useLectureManagement.js"
 import { lectureValidationRules } from "../lectureValidations.js"
+import useLectureManagement from "../hooks/useLectureManagement.js"
 import LectureCreateForm from "../components/form/LectureCreateForm.jsx"
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 const LectureCreatePage = () => {
+    
     const navigate = useNavigate()
+    const { sectionId, courseId } = useParams()
 
-    const { sectionId } = useParams()
-
-    ///////////////////////////////////////////////////////////////
     // Lecture management
-
     const { createLecture, isCreating } = useLectureManagement()
 
-    ///////////////////////////////////////////////////////////////
     // Validation rules
-
     const validationRules = lectureValidationRules
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleSubmit = async (lectureData) => {
         if (!sectionId) {
             throw new Error("Section ID is required to create a lecture.")
@@ -33,20 +30,18 @@ const LectureCreatePage = () => {
             throw result.error
         }
 
-        ///////////////////////////////////////////////////////////
-        // Success
-
-        navigate(-1)
+        navigate(
+            `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${result?.data._id}/manage` ||
+            -1
+        )
     }
 
-    ///////////////////////////////////////////////////////////////
     // Cancel
-
     const handleCancel = () => {
         navigate(-1)
     }
 
-    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
 
     return (

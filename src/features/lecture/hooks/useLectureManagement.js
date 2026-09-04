@@ -74,7 +74,7 @@ const useLectureManagement = () => {
 
             return {
                 success: true,
-                data: result,
+                data: result.data,
             }
         } catch (error) {
             return {
@@ -97,7 +97,7 @@ const useLectureManagement = () => {
 
             return {
                 success: true,
-                data: result,
+                data: result.data,
             }
         } catch (error) {
             return {
@@ -119,7 +119,7 @@ const useLectureManagement = () => {
 
             return {
                 success: true,
-                data: result,
+                data: result.data,
             }
         } catch (error) {
             return {

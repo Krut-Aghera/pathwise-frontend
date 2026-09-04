@@ -3,7 +3,11 @@ import { useForm } from "react-hook-form"
 
 import FormField from "../../../../components/form/FormField.jsx"
 import Input from "../../../../components/form/Input.jsx"
-import Button from "../../../../components/ui/Button.jsx"
+import FormActions from "../../../../components/form/FormActions.jsx"
+
+
+////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 
 const SectionCreateForm = ({
     onSubmit,
@@ -12,8 +16,6 @@ const SectionCreateForm = ({
     validationRules,
 }) => {
     const globalErrorRef = useRef(null)
-
-    // Form
 
     const {
         register,
@@ -31,8 +33,8 @@ const SectionCreateForm = ({
         shouldFocusError: true,
     })
 
-    // Global error scroll
 
+    // Global error scroll
     useEffect(() => {
         if (!errors.root?.message) {
             return
@@ -48,7 +50,8 @@ const SectionCreateForm = ({
         })
     }, [errors.root?.message])
 
-    // course creation handle sumbit
+
+    // Submit
     const handleFormSubmit = async (formData) => {
         clearErrors("root")
 
@@ -56,10 +59,14 @@ const SectionCreateForm = ({
             title: formData.title.trim(),
         }
 
+
+        // Send to page
         try {
             await onSubmit(sectionData)
+
         } catch (error) {
-            // backend validation errors
+
+            // Backend validation errors
             if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
                     if (!field) {
@@ -75,8 +82,8 @@ const SectionCreateForm = ({
                 return
             }
 
-            // General server error
 
+            // General server error
             setError("root", {
                 type: "server",
                 message:
@@ -86,9 +93,12 @@ const SectionCreateForm = ({
         }
     }
 
-    // Loading
 
+    // Loadin
     const isFormLoading = loading || isSubmitting
+
+    ///////////////////////////////////////////////////////////////
+    // Render
 
     return (
         <form
@@ -132,39 +142,39 @@ const SectionCreateForm = ({
 
             <section
                 className="
-                rounded-xl
-                border
-                border-border-subtle
-                bg-background-surface
+                    rounded-xl
+                    border
+                    border-border-subtle
+                    bg-background-surface
 
-                p-5
+                    p-5
 
-                sm:p-6
-            "
+                    sm:p-6
+                "
             >
-                {/* Header */}
+                {/* Section Header */}
 
                 <div className="mb-6">
                     <h2
                         className="
-                        font-accent
-                        text-lg
-                        font-semibold
-                        text-text-primary
-                    "
+                            font-accent
+                            text-lg
+                            font-semibold
+                            text-text-primary
+                        "
                     >
                         Section Information
                     </h2>
 
                     <p
                         className="
-                        mt-1
+                            mt-1
 
-                        font-body
-                        text-sm
-                        leading-5
-                        text-text-secondary
-                    "
+                            font-body
+                            text-sm
+                            leading-5
+                            text-text-secondary
+                        "
                     >
                         Give this section a clear title that describes the
                         lectures it will contain.
@@ -189,7 +199,9 @@ const SectionCreateForm = ({
                             placeholder="Enter your section title"
                             error={Boolean(errors.title)}
                             aria-describedby={
-                                errors.title ? "section-title-error" : undefined
+                                errors.title
+                                    ? "section-title-error"
+                                    : undefined
                             }
                             disabled={isFormLoading}
                             {...register("title", validationRules.title)}
@@ -200,50 +212,11 @@ const SectionCreateForm = ({
 
             {/* Actions */}
 
-            <div
-                className="
-                flex
-                flex-col-reverse
-                gap-3
-
-                sm:flex-row
-                sm:justify-end
-            "
-            >
-                <Button
-                    type="button"
-                    disabled={isFormLoading}
-                    onClick={onCancel}
-                    className="
-                        w-full
-
-                        border
-                        border-border-subtle
-                        bg-background-elevated
-
-                        text-text-secondary
-
-                        hover:bg-background-surface
-                        hover:text-text-primary
-
-                        sm:w-auto
-                    "
-                >
-                    Cancel
-                </Button>
-
-                <Button
-                    type="submit"
-                    loading={isFormLoading}
-                    className="
-                        w-full
-
-                        sm:w-auto
-                    "
-                >
-                    Create Section
-                </Button>
-            </div>
+            <FormActions
+                loading={isFormLoading}
+                onCancel={onCancel}
+                submitLabel="Create Section"
+            />
         </form>
     )
 }

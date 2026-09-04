@@ -1,26 +1,20 @@
-import { BookOpen, FileVideo, Hash, Layers, Video } from "lucide-react"
+import { BookOpen, FileVideo, Hash, Video } from "lucide-react"
+import { RESOURCE_STATUS } from "../../../../constants/resourceConstants"
 
-import { RESOURCE_STATUS } from "../../../constants/resourceConstants.js"
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const SectionOverview = ({
     section,
     lectureCount = 0,
     publishedLectureCount = 0,
 }) => {
-    ///////////////////////////////////////////////////////////////
-    // Guard
 
     if (!section) {
         return null
     }
 
-    ///////////////////////////////////////////////////////////////
-    // Status
-
     const isPublished = section.status === RESOURCE_STATUS.PUBLISHED
-
-    ///////////////////////////////////////////////////////////////
-    // Information items
 
     const information = [
         {
@@ -47,9 +41,6 @@ const SectionOverview = ({
                 : "text-status-warning",
         },
     ]
-
-    ///////////////////////////////////////////////////////////////
-    // Render
 
     return (
         <section

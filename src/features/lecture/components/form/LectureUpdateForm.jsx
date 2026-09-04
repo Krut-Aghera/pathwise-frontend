@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
-import LectureBasicInformation from "../form-children/LectureBasicInformation"
 import FormActions from "../../../../components/form/FormActions"
+import LectureFormBasicInformation from "../form-children/LectureFormBasicInformation"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureUpdateForm = ({
     lecture,
@@ -12,9 +15,6 @@ const LectureUpdateForm = ({
     validationRules,
 }) => {
     const globalErrorRef = useRef(null)
-
-    ///////////////////////////////////////////////////////////////
-    // Form
 
     const {
         register,
@@ -31,13 +31,10 @@ const LectureUpdateForm = ({
         },
 
         mode: "onBlur",
-
         shouldFocusError: true,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Populate form
-
     useEffect(() => {
         if (!lecture) {
             return
@@ -45,16 +42,12 @@ const LectureUpdateForm = ({
 
         reset({
             title: lecture.title ?? "",
-
             description: lecture.description ?? "",
-
             isPreviewFree: lecture.isPreviewFree ?? false,
         })
     }, [lecture, reset])
 
-    ///////////////////////////////////////////////////////////////
     // Global error scroll
-
     useEffect(() => {
         if (!errors.root?.message) {
             return
@@ -70,29 +63,23 @@ const LectureUpdateForm = ({
         })
     }, [errors.root?.message])
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleFormSubmit = async (formData) => {
         clearErrors("root")
 
         const lectureData = {
             title: formData.title,
-
             description: formData.description,
-
             isPreviewFree: formData.isPreviewFree,
         }
 
-        ///////////////////////////////////////////////////////////
         // Send to page
-
         try {
             await onSubmit(lectureData)
-        } catch (error) {
-            /////////////////////////////////////////////////////////
-            // Backend validation errors
 
+        } catch (error) {
+
+            // Backend validation errors
             if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
                     if (!field) {
@@ -108,9 +95,7 @@ const LectureUpdateForm = ({
                 return
             }
 
-            /////////////////////////////////////////////////////////
             // General server error
-
             setError("root", {
                 type: "server",
 
@@ -121,14 +106,11 @@ const LectureUpdateForm = ({
         }
     }
 
-    ///////////////////////////////////////////////////////////////
     // Loading
-
     const isFormLoading = loading || isSubmitting
 
-    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
-
     return (
         <form
             onSubmit={handleSubmit(handleFormSubmit)}
@@ -168,7 +150,7 @@ const LectureUpdateForm = ({
 
             {/* Basic Information */}
 
-            <LectureBasicInformation
+            <LectureFormBasicInformation
                 register={register}
                 errors={errors}
                 validationRules={validationRules}

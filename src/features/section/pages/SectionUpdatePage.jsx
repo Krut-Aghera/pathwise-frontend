@@ -5,10 +5,11 @@ import ErrorState from "../../../components/ui/ErrorState.jsx"
 import { sectionValidationRules } from "../sectionValidations.js"
 
 import useSection from "../hooks/useSection.js"
-
 import useSectionManagement from "../hooks/useSectionManagement.js"
-
 import SectionUpdateForm from "../components/form/SectionUpdateForm.jsx"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const SectionUpdatePage = () => {
     const navigate = useNavigate()

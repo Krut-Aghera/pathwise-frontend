@@ -1,7 +1,10 @@
 import FormField from "../../../../components/form/FormField"
 import Input from "../../../../components/form/Input"
 
-const LectureVideoUploadField = ({ register, errors, validationRules }) => {
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const LectureFormVideoUploadField = ({ register, errors, validationRules }) => {
     return (
         <section
             className="
@@ -9,9 +12,7 @@ const LectureVideoUploadField = ({ register, errors, validationRules }) => {
             border
             border-border-subtle
             bg-background-surface
-
             p-5
-
             sm:p-6
         "
         >
@@ -32,7 +33,6 @@ const LectureVideoUploadField = ({ register, errors, validationRules }) => {
                 <p
                     className="
                     mt-1
-
                     font-body
                     text-sm
                     leading-5
@@ -80,4 +80,4 @@ const LectureVideoUploadField = ({ register, errors, validationRules }) => {
     )
 }
 
-export default LectureVideoUploadField
+export default LectureFormVideoUploadField

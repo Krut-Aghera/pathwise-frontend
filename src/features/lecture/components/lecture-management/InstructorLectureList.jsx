@@ -16,9 +16,12 @@ import {
     sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable"
 
-import InstructorCourseLectureItem from "./InstructorCourseLectureItem.jsx"
+import InstructorLectureItem from "./InstructorLectureItem"
 
-const InstructorCourseLectureList = ({
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const InstructorLectureList = ({
     lectures = [],
     onManageLecture,
     onReorderLectures,
@@ -43,7 +46,37 @@ const InstructorCourseLectureList = ({
         })
     )
 
-    if (localLectures.length === 0) {
+    const handleDragEnd = async ({ active, over }) => {
+        if (isReorderingLectures || !over || active.id === over.id) {
+            return
+        }
+
+        const oldIndex = localLectures.findIndex(
+            (lecture) => lecture._id === active.id
+        )
+
+        const newIndex = localLectures.findIndex(
+            (lecture) => lecture._id === over.id
+        )
+
+        if (oldIndex === -1 || newIndex === -1) {
+            return
+        }
+
+        const previousLectures = localLectures
+
+        const reorderedLectures = arrayMove(localLectures, oldIndex, newIndex)
+
+        setLocalLectures(reorderedLectures)
+
+        const success = await onReorderLectures?.(reorderedLectures)
+
+        if (!success) {
+            setLocalLectures(previousLectures)
+        }
+    }
+
+    if (!localLectures.length) {
         return (
             <div
                 className="
@@ -51,12 +84,9 @@ const InstructorCourseLectureList = ({
                     border
                     border-dashed
                     border-border-subtle
-
                     bg-background-elevated
-
                     px-5
                     py-10
-
                     text-center
                 "
             >
@@ -74,7 +104,6 @@ const InstructorCourseLectureList = ({
                 <p
                     className="
                         mt-1
-
                         font-body
                         text-xs
                         text-text-muted
@@ -84,42 +113,6 @@ const InstructorCourseLectureList = ({
                 </p>
             </div>
         )
-    }
-
-    const handleDragEnd = async (event) => {
-        if (isReorderingLectures) {
-            return
-        }
-
-        const { active, over } = event
-
-        if (!over || active.id === over.id) {
-            return
-        }
-
-        const oldIndex = localLectures.findIndex(
-            (lecture) => lecture._id === active.id
-        )
-
-        const newIndex = localLectures.findIndex(
-            (lecture) => lecture._id === over.id
-        )
-
-        if (oldIndex === -1 || newIndex === -1) {
-            return
-        }
-
-        const previousLectures = [...localLectures]
-
-        const reorderedLectures = arrayMove(localLectures, oldIndex, newIndex)
-
-        setLocalLectures(reorderedLectures)
-
-        const success = await onReorderLectures?.(reorderedLectures)
-
-        if (!success) {
-            setLocalLectures(previousLectures)
-        }
     }
 
     return (
@@ -134,7 +127,7 @@ const InstructorCourseLectureList = ({
             >
                 <div className="space-y-2.5">
                     {localLectures.map((lecture) => (
-                        <InstructorCourseLectureItem
+                        <InstructorLectureItem
                             key={lecture._id}
                             lecture={lecture}
                             onManageLecture={onManageLecture}
@@ -147,4 +140,4 @@ const InstructorCourseLectureList = ({
     )
 }
 
-export default InstructorCourseLectureList
+export default InstructorLectureList
