@@ -1,17 +1,12 @@
-import { ArrowRight, BookOpen, UserRound } from "lucide-react"
-
+import { BookOpen, UserRound } from "lucide-react"
 import { Link } from "react-router-dom"
-
 import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 const InstructorCourseCard = ({ course }) => {
-    ///////////////////////////////////////////////////////////////
-    // Course status
-
     const isPublished = course.status === RESOURCE_STATUS.PUBLISHED
-
-    ///////////////////////////////////////////////////////////////
-    // Render
 
     return (
         <article
@@ -34,7 +29,7 @@ const InstructorCourseCard = ({ course }) => {
             hover:bg-background-elevated/50
         "
         >
-            <Link to={`/instructor/courses/${course._id}`}>
+            <Link to={`/instructor/courses/${course._id}/manage`}>
                 {/* Thumbnail */}
 
                 <div

@@ -2,7 +2,7 @@ import HomeHero from "../components/public/home/HomeHero"
 import HomeCTA from "../components/public/home/HomeCTA"
 import LearningPaths from "../components/public/home/LearningPath"
 import WhyPathwise from "../components/public/home/WhyPathwise"
-import FeaturedCourses from "../features/course/components/FeaturedCourses"
+import FeaturedCourses from "../features/course/components/course-public/FeaturedCourses"
 
 const HomePage = () => {
     return (

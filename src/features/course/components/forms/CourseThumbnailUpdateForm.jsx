@@ -1,19 +1,21 @@
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
-import FormActions from "../../../../components/form/FormActions"
-import LectureFormBasicInformation from "../form-children/LectureFormBasicInformation"
+import FormActions from "../../../../components/form/FormActions.jsx"
+import CourseFormThumbnailUpload from "../form-children/CourseFormThumbnailUpload.jsx"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-const LectureCreateForm = ({
+const CourseThumbnailUpdateForm = ({
+    currentThumbnail,
     onSubmit,
     onCancel,
     loading = false,
     validationRules,
 }) => {
     const globalErrorRef = useRef(null)
+
     const {
         register,
         handleSubmit,
@@ -22,11 +24,8 @@ const LectureCreateForm = ({
         formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
-            title: "",
-            description: "",
-            isPreviewFree: false,
+            thumbnail: null,
         },
-
         mode: "onBlur",
         shouldFocusError: true,
     })
@@ -51,41 +50,43 @@ const LectureCreateForm = ({
     const handleFormSubmit = async (formData) => {
         clearErrors("root")
 
-        const lectureData = {
-            title: formData.title,
-            description: formData.description,
-            isPreviewFree: formData.isPreviewFree,
+        const thumbnailFile = formData.thumbnail?.[0]
+
+        if (!thumbnailFile) {
+            return
         }
 
-        // Send to page
-        try {
-            await onSubmit(lectureData)
-        } catch (error) {
-            // Backend validation errors
-            if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
-                error.errors.forEach(({ field, message }) => {
-                    if (!field) {
-                        return
-                    }
+        const result = await onSubmit(thumbnailFile)
 
-                    setError(field, {
-                        type: "server",
-                        message,
-                    })
+        if (result?.success) {
+            return
+        }
+
+        const error = result?.error
+
+        // Backend validation errors
+        if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
+            error.errors.forEach(({ field, message }) => {
+                if (!field) {
+                    return
+                }
+
+                setError(field, {
+                    type: "server",
+                    message,
                 })
-
-                return
-            }
-
-            // General server error
-            setError("root", {
-                type: "server",
-
-                message:
-                    error?.message ||
-                    "Unable to create lecture. Please try again.",
             })
+
+            return
         }
+
+        // General server error
+        setError("root", {
+            type: "server",
+            message:
+                error?.message ||
+                "Unable to update course thumbnail. Please try again.",
+        })
     }
 
     // Loading
@@ -93,6 +94,7 @@ const LectureCreateForm = ({
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
+
     return (
         <form
             onSubmit={handleSubmit(handleFormSubmit)}
@@ -130,23 +132,24 @@ const LectureCreateForm = ({
                 </div>
             )}
 
-            {/* Basic Information */}
+            {/* Thumbnail */}
 
-            <LectureFormBasicInformation
+            <CourseFormThumbnailUpload
                 register={register}
                 errors={errors}
+                currentThumbnail={currentThumbnail}
                 validationRules={validationRules}
             />
 
             {/* Actions */}
 
             <FormActions
-                onCancel={onCancel}
                 loading={isFormLoading}
-                submitLabel="Create Lecture"
+                onCancel={onCancel}
+                submitLabel="Update Thumbnail"
             />
         </form>
     )
 }
 
-export default LectureCreateForm
+export default CourseThumbnailUpdateForm

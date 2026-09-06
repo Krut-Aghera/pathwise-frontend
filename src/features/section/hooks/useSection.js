@@ -4,9 +4,7 @@ import {
 } from "../sectionApi.js"
 
 const useSection = ({ courseId, sectionId } = {}) => {
-    ///////////////////////////////////////////////////////////////
     // Fetch course sections
-
     const {
         data: courseSectionsResponse,
         isLoading: isSectionsLoading,
@@ -19,9 +17,7 @@ const useSection = ({ courseId, sectionId } = {}) => {
         skip: !courseId,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Fetch instructor section
-
     const {
         data: instructorSectionResponse,
         isLoading: isSectionLoading,
@@ -34,49 +30,36 @@ const useSection = ({ courseId, sectionId } = {}) => {
         skip: !sectionId,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Data
-
     const sections =
         courseSectionsResponse?.data ?? courseSectionsResponse ?? []
 
     const section =
         instructorSectionResponse?.data ?? instructorSectionResponse ?? null
 
-    ///////////////////////////////////////////////////////////////
-    // Return
-
     return {
-        ///////////////////////////////////////////////////////////
         // Course sections
-
         sections,
 
         isSectionsLoading,
-
         isSectionsFetching,
 
         isSectionsSuccess,
 
         isSectionsError,
-
         sectionsError,
 
         refetchSections,
 
-        ///////////////////////////////////////////////////////////
         // Instructor section
-
         section,
 
         isSectionLoading,
-
         isSectionFetching,
 
         isSectionSuccess,
 
         isSectionError,
-
         sectionError,
 
         refetchSection,

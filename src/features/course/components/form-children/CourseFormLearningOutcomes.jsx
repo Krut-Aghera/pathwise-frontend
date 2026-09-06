@@ -4,7 +4,10 @@ import FormField from "../../../../components/form/FormField.jsx"
 import Button from "../../../../components/ui/Button.jsx"
 import Input from "../../../../components/form/Input.jsx"
 
-const CourseLearningOutcomes = ({
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const CourseFormLearningOutcomes = ({
     control,
     register,
     errors,
@@ -192,4 +195,4 @@ const CourseLearningOutcomes = ({
     )
 }
 
-export default CourseLearningOutcomes
+export default CourseFormLearningOutcomes

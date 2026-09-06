@@ -18,7 +18,6 @@ import NotFoundPage from "../../pages/NotFoundPage"
 
 import HomePage from "../../pages/HomePage"
 import AboutPage from "../../pages/AboutPage"
-import CourseDetailsPage from "../../features/course/pages/CourseDetailsPage"
 
 import LoginPage from "../../features/auth/pages/LoginPage"
 import SignupPage from "../../features/auth/pages/SignupPage"
@@ -26,20 +25,22 @@ import ForgotPasswordPage from "../../features/auth/pages/ForgotPasswordPage"
 
 import UserDashboardPage from "../../features/user/pages/UserDashboardPage"
 import WishlistPage from "../../features/wishlist/pages/WishlistPage"
+
 import InstructorDashboardPage from "../../features/user/pages/InstructorDashboardPage"
+import InstructorCourseListingPage from "../../features/course/pages/InstructorCourseListingPage"
 
 import CourseCreatePage from "../../features/course/pages/CourseCreatePage"
-import InstructorCoursesPage from "../../features/course/pages/InstructorCoursesPage"
 import CourseUpdatePage from "../../features/course/pages/CourseUpdatePage"
-import CourseThumbnailEditPage from "../../features/course/pages/CourseThumbnailEditPage"
-import InstructorCourseDetailsPage from "../../features/course/pages/InstructorCourseDetailsPage"
+import CourseManagementPage from "../../features/course/pages/CourseManagementPage"
+import CourseThumbnailUpdatePage from "../../features/course/pages/CourseThumbnailUpdatePage"
+
 import SectionCreatePage from "../../features/section/pages/SectionCreatePage"
 import SectionUpdatePage from "../../features/section/pages/SectionUpdatePage"
-import LectureCreatePage from "../../features/lecture/pages/LectureCreatePage"
+import SectionManagementPage from "../../features/section/pages/SectionManagementPage"
 
+import LectureCreatePage from "../../features/lecture/pages/LectureCreatePage"
 import LectureUpdatePage from "../../features/lecture/pages/LectureUpdatePage"
 import LectureVideoUploadPage from "../../features/lecture/pages/LectureVideoUploadPage"
-import SectionManagementPage from "../../features/section/pages/SectionManagementPage"
 import LectureManagementPage from "../../features/lecture/pages/LectureManagementPage"
 
 const routerConfig = createBrowserRouter(
@@ -52,11 +53,6 @@ const routerConfig = createBrowserRouter(
                 <Route index element={<HomePage />} />
 
                 <Route path="about" element={<AboutPage />} />
-
-                <Route
-                    path="courses/:courseId"
-                    element={<CourseDetailsPage />}
-                />
             </Route>
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}
@@ -116,7 +112,7 @@ const routerConfig = createBrowserRouter(
 
                     <Route
                         path="instructor/courses"
-                        element={<InstructorCoursesPage />}
+                        element={<InstructorCourseListingPage />}
                     />
 
                     <Route
@@ -126,12 +122,12 @@ const routerConfig = createBrowserRouter(
 
                     <Route
                         path="instructor/courses/:courseId/thumbnail"
-                        element={<CourseThumbnailEditPage />}
+                        element={<CourseThumbnailUpdatePage />}
                     />
 
                     <Route
-                        path="instructor/courses/:courseId"
-                        element={<InstructorCourseDetailsPage />}
+                        path="instructor/courses/:courseId/manage"
+                        element={<CourseManagementPage />}
                     />
 
                     <Route

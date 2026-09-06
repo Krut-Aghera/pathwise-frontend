@@ -33,7 +33,6 @@ const PAGE_CONTAINER = `
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureManagementPage = () => {
-
     const { courseId, sectionId, lectureId } = useParams()
     const navigate = useNavigate()
 
@@ -123,7 +122,9 @@ const LectureManagementPage = () => {
         }
 
         clearWorkflowError()
-        navigate(`/instructor/courses/${courseId}/sections/${sectionId}/lectures/${lectureId}/edit`)
+        navigate(
+            `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${lectureId}/edit`
+        )
     }, [
         courseId,
         sectionId,
@@ -163,19 +164,14 @@ const LectureManagementPage = () => {
 
         if (!result?.success) {
             setWorkflowError(
-                getErrorMessage(
-                    result?.error,
-                    "Unable to remove this lecture."
-                )
+                getErrorMessage(result?.error, "Unable to remove this lecture.")
             )
             return
         }
 
         setIsRemoveDialogOpen(false)
 
-        navigate(
-            `/instructor/courses/${courseId}/sections/${sectionId}/manage`
-        )
+        navigate(`/instructor/courses/${courseId}/sections/${sectionId}/manage`)
     }, [
         lecture?._id,
         sectionId,
@@ -343,9 +339,9 @@ const LectureManagementPage = () => {
                     message={
                         isLectureError
                             ? getErrorMessage(
-                                lectureError,
-                                "Unable to load this lecture."
-                            )
+                                  lectureError,
+                                  "Unable to load this lecture."
+                              )
                             : "The requested lecture could not be found."
                     }
                     onRetry={refetchLecture}
@@ -360,7 +356,6 @@ const LectureManagementPage = () => {
         lecture?.section?.title,
         lecture?.title,
     ].filter(Boolean)
-
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
@@ -382,10 +377,7 @@ const LectureManagementPage = () => {
 
                 {/* Workflow error */}
 
-                <div
-                    ref={workflowErrorRef}
-                    className="scroll-mt-6"
-                >
+                <div ref={workflowErrorRef} className="scroll-mt-6">
                     <ActionError
                         open={Boolean(workflowError)}
                         message={workflowError}

@@ -8,7 +8,6 @@ import SectionCreateForm from "../components/form/SectionCreateForm.jsx"
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 const SectionCreatePage = () => {
-
     const navigate = useNavigate()
     const { courseId } = useParams()
 
@@ -18,6 +17,7 @@ const SectionCreatePage = () => {
     const handleSubmit = async (sectionData) => {
         const result = await createSection(courseId, sectionData)
 
+        console.log(result)
         if (!result.success) {
             throw result.error
         }

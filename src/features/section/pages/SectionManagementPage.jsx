@@ -191,7 +191,7 @@ const SectionManagementPage = () => {
             return
         }
 
-        navigate(`/instructor/courses/${courseId}`)
+        navigate(`/instructor/courses/${courseId}/manage`)
     }, [courseId, navigate])
 
     /*
@@ -434,7 +434,7 @@ const SectionManagementPage = () => {
 
             setShowRemoveDialog(false)
 
-            navigate(`/instructor/courses/${courseId}`)
+            navigate(`/instructor/courses/${courseId}/manage`)
         } catch (error) {
             setWorkflowError(error?.message || "Unable to remove section.")
         }

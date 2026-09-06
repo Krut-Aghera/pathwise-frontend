@@ -1,45 +1,44 @@
 import { useNavigate } from "react-router-dom"
 
 import CourseCreateForm from "../components/forms/CourseCreateForm.jsx"
-import { useCreateCourseMutation } from "../courseApi.js"
+import useCourseManagement from "../hooks/useCourseManagement.js"
 
 import {
     courseValidationRules,
     courseThumbnailValidationRules,
 } from "../courseValidations.js"
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 const CourseCreatePage = () => {
     const navigate = useNavigate()
 
-    const [createCourse, { isLoading }] = useCreateCourseMutation()
+    const { createCourse, isCreating } = useCourseManagement()
 
-    ///////////////////////////////////////////////////////////////
     // Validation rules
-
     const validationRules = {
         ...courseValidationRules,
-
         thumbnail: courseThumbnailValidationRules,
     }
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleSubmit = async (multipartFormData) => {
-        await createCourse(multipartFormData).unwrap()
+        const result = await createCourse(multipartFormData)
+        if (!result.success) {
+            return
+        }
 
-        ///////////////////////////////////////////////////////////
-        // Success
-
-        navigate("/instructor/courses")
+        navigate(`/instructor/courses`)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Cancel
-
     const handleCancel = () => {
         navigate("/instructor/dashboard")
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Render
 
     return (
         <main
@@ -93,7 +92,7 @@ const CourseCreatePage = () => {
             <CourseCreateForm
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
-                loading={isLoading}
+                loading={isCreating}
                 validationRules={validationRules}
             />
         </main>

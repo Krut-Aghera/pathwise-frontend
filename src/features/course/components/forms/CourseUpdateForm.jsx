@@ -1,12 +1,16 @@
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
-import CourseBasicInformation from "../create-course/CourseBasicInformation.jsx"
-import CourseDetails from "../create-course/CourseDetails.jsx"
-import CourseLearningOutcomes from "../create-course/CourseLearningOutcomes.jsx"
-import CourseTargetAudience from "../create-course/CourseTargetAudience.jsx"
-import CourseRequirements from "../create-course/CourseRequirements.jsx"
-import CourseFormActions from "../create-course/CourseFormActions.jsx"
+import FormActions from "../../../../components/form/FormActions.jsx"
+
+import CourseFormBasicInformation from "../form-children/CourseFormBasicInformation.jsx"
+import CourseFormStateDetails from "../form-children/CourseFormStateDetails.jsx"
+import CourseFormLearningOutcomes from "../form-children/CourseFormLearningOutcomes.jsx"
+import CourseFormTargetAudience from "../form-children/CourseFormTargetAudience.jsx"
+import CourseFormRequirements from "../form-children/CourseFormRequirements.jsx"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const CourseUpdateForm = ({
     course,
@@ -16,9 +20,6 @@ const CourseUpdateForm = ({
     validationRules,
 }) => {
     const globalErrorRef = useRef(null)
-
-    ///////////////////////////////////////////////////////////////
-    // Form
 
     const {
         register,
@@ -46,9 +47,7 @@ const CourseUpdateForm = ({
         shouldFocusError: true,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Populate form
-
     useEffect(() => {
         if (!course) {
             return
@@ -56,15 +55,10 @@ const CourseUpdateForm = ({
 
         reset({
             title: course.title ?? "",
-
             subtitle: course.subtitle ?? "",
-
             description: course.description ?? "",
-
             price: course.price ?? "",
-
             language: course.language ?? "",
-
             level: course.level ?? "",
 
             learningOutcomes: course.learningOutcomes?.length
@@ -81,9 +75,7 @@ const CourseUpdateForm = ({
         })
     }, [course, reset])
 
-    ///////////////////////////////////////////////////////////////
     // Global error scroll
-
     useEffect(() => {
         if (!errors.root?.message) {
             return
@@ -99,14 +91,9 @@ const CourseUpdateForm = ({
         })
     }, [errors.root?.message])
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleFormSubmit = async (formData) => {
         clearErrors("root")
-
-        ///////////////////////////////////////////////////////////
-        // Normalize array fields
 
         const learningOutcomes = formData.learningOutcomes
             .map((item) => item.trim())
@@ -120,72 +107,60 @@ const CourseUpdateForm = ({
             .map((item) => item.trim())
             .filter(Boolean)
 
-        ///////////////////////////////////////////////////////////
-        // Update payload
-
         const courseData = {
             title: formData.title,
-
             subtitle: formData.subtitle,
-
             description: formData.description,
-
             price: formData.price,
-
             language: formData.language,
-
             level: formData.level,
-
             learningOutcomes,
-
             targetAudience,
-
             requirements,
         }
 
-        ///////////////////////////////////////////////////////////
         // Send to page
+        const result = await onSubmit(courseData)
 
-        try {
-            await onSubmit(courseData)
-        } catch (error) {
-            /////////////////////////////////////////////////////////
-            // Backend validation errors
-
-            if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
-                error.errors.forEach(({ field, message }) => {
-                    if (!field) {
-                        return
-                    }
-
-                    setError(field, {
-                        type: "server",
-                        message,
-                    })
-                })
-
-                return
-            }
-
-            /////////////////////////////////////////////////////////
-            // General server error
-
-            setError("root", {
-                type: "server",
-
-                message:
-                    error?.message ||
-                    "Unable to update course. Please try again.",
-            })
+        if (result?.success) {
+            return
         }
+
+        const error = result?.error
+
+        // Backend validation errors
+        if (
+            error?.statusCode === 400 &&
+            Array.isArray(error?.errors) &&
+            error.errors.length > 0
+        ) {
+            error.errors.forEach(({ field, message }) => {
+                if (!field) {
+                    return
+                }
+
+                setError(field, {
+                    type: "server",
+                    message,
+                })
+            })
+
+            return
+        }
+
+        // General server error
+        setError("root", {
+            type: "server",
+
+            message:
+                error?.message || "Unable to update course. Please try again.",
+        })
     }
 
-    ///////////////////////////////////////////////////////////////
     // Loading
-
     const isFormLoading = loading || isSubmitting
 
-    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
 
     return (
@@ -227,7 +202,7 @@ const CourseUpdateForm = ({
 
             {/* Basic Information */}
 
-            <CourseBasicInformation
+            <CourseFormBasicInformation
                 register={register}
                 errors={errors}
                 validationRules={validationRules}
@@ -235,7 +210,7 @@ const CourseUpdateForm = ({
 
             {/* Course Details */}
 
-            <CourseDetails
+            <CourseFormStateDetails
                 register={register}
                 errors={errors}
                 validationRules={validationRules}
@@ -243,7 +218,7 @@ const CourseUpdateForm = ({
 
             {/* Learning Outcomes */}
 
-            <CourseLearningOutcomes
+            <CourseFormLearningOutcomes
                 control={control}
                 register={register}
                 errors={errors}
@@ -252,7 +227,7 @@ const CourseUpdateForm = ({
 
             {/* Target Audience */}
 
-            <CourseTargetAudience
+            <CourseFormTargetAudience
                 control={control}
                 register={register}
                 errors={errors}
@@ -261,7 +236,7 @@ const CourseUpdateForm = ({
 
             {/* Requirements */}
 
-            <CourseRequirements
+            <CourseFormRequirements
                 control={control}
                 register={register}
                 errors={errors}
@@ -270,7 +245,7 @@ const CourseUpdateForm = ({
 
             {/* Actions */}
 
-            <CourseFormActions onCancel={onCancel} loading={isFormLoading} />
+            <FormActions onCancel={onCancel} loading={isFormLoading} />
         </form>
     )
 }

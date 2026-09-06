@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 import CourseCard from "./CourseCard"
-import { featuredCourses } from "../../../data/homeData"
+import { featuredCourses } from "../../../../data/homeData"
 
 const FeaturedCourses = () => {
     return (

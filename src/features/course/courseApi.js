@@ -209,17 +209,30 @@ const courseApi = createApi({
 })
 
 export const {
+    // Public course queries
     useFetchCoursesQuery,
+    useLazyFetchCoursesQuery,
+
     useFetchCurrentCourseQuery,
+    useLazyFetchCurrentCourseQuery,
 
+    // Instructor course queries
     useFetchInstructorCoursesQuery,
-    useFetchInstructorCourseQuery,
+    useLazyFetchInstructorCoursesQuery,
 
+    useFetchInstructorCourseQuery,
+    useLazyFetchInstructorCourseQuery,
+
+    // Course management
     useCreateCourseMutation,
     useUpdateCourseMutation,
     useRemoveCourseMutation,
+
+    // Course state
     usePublishCourseMutation,
     useSaveCourseAsDraftMutation,
+
+    // Course thumbnail
     useUpdateCourseThumbnailMutation,
 } = courseApi
 

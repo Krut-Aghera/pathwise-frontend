@@ -8,7 +8,6 @@ import LectureCreateForm from "../components/form/LectureCreateForm.jsx"
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureCreatePage = () => {
-    
     const navigate = useNavigate()
     const { sectionId, courseId } = useParams()
 
@@ -32,7 +31,7 @@ const LectureCreatePage = () => {
 
         navigate(
             `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${result?.data._id}/manage` ||
-            -1
+                -1
         )
     }
 

@@ -4,12 +4,20 @@ import FormField from "../../../../components/form/FormField.jsx"
 import Button from "../../../../components/ui/Button.jsx"
 import Input from "../../../../components/form/Input.jsx"
 
-const CourseRequirements = ({ control, register, errors, validationRules }) => {
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const CourseFormTargetAudience = ({
+    control,
+    register,
+    errors,
+    validationRules,
+}) => {
     const { fields, append, remove } = useFieldArray({
         control,
-        name: "requirements",
+        name: "targetAudience",
 
-        rules: validationRules.requirements,
+        rules: validationRules.targetAudience,
     })
 
     return (
@@ -35,7 +43,7 @@ const CourseRequirements = ({ control, register, errors, validationRules }) => {
                     text-text-primary
                 "
                 >
-                    Requirements
+                    Target Audience
                 </h2>
 
                 <p
@@ -47,15 +55,15 @@ const CourseRequirements = ({ control, register, errors, validationRules }) => {
                     text-text-secondary
                 "
                 >
-                    Tell students what they need before starting this course.
+                    Describe who this course is designed for.
                 </p>
             </div>
 
-            {/* Requirements */}
+            {/* Audience Items */}
 
             <div className="space-y-4">
                 {fields.map((field, index) => {
-                    const fieldError = errors.requirements?.[index]
+                    const fieldError = errors.targetAudience?.[index]
 
                     return (
                         <div
@@ -78,18 +86,18 @@ const CourseRequirements = ({ control, register, errors, validationRules }) => {
                             "
                             >
                                 <FormField
-                                    label={`Requirement ${index + 1}`}
-                                    htmlFor={`requirement-${field.id}`}
+                                    label={`Audience ${index + 1}`}
+                                    htmlFor={`targetAudience-${field.id}`}
                                     required
                                     error={fieldError?.message}
                                 >
                                     <Input
-                                        id={`requirement-${field.id}`}
-                                        placeholder="What does the student need?"
+                                        id={`targetAudience-${field.id}`}
+                                        placeholder="Who is this course for?"
                                         error={Boolean(fieldError)}
                                         {...register(
-                                            `requirements.${index}`,
-                                            validationRules.requirements.item
+                                            `targetAudience.${index}`,
+                                            validationRules.targetAudience.item
                                         )}
                                     />
                                 </FormField>
@@ -134,7 +142,7 @@ const CourseRequirements = ({ control, register, errors, validationRules }) => {
 
                 {/* Array-level error */}
 
-                {errors?.requirements?.message && (
+                {errors?.targetAudience?.message && (
                     <p
                         role="alert"
                         className="
@@ -144,7 +152,7 @@ const CourseRequirements = ({ control, register, errors, validationRules }) => {
                             text-status-danger
                         "
                     >
-                        {errors.requirements.message}
+                        {errors.targetAudience.message}
                     </p>
                 )}
 
@@ -178,7 +186,7 @@ const CourseRequirements = ({ control, register, errors, validationRules }) => {
                             sm:w-auto
                         "
                     >
-                        + Add Requirement
+                        + Add Target Audience
                     </Button>
                 )}
             </div>
@@ -186,4 +194,4 @@ const CourseRequirements = ({ control, register, errors, validationRules }) => {
     )
 }
 
-export default CourseRequirements
+export default CourseFormTargetAudience

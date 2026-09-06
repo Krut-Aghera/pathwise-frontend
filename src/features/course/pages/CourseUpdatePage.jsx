@@ -1,10 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { Image } from "lucide-react"
 
-import {
-    useFetchInstructorCourseQuery,
-    useUpdateCourseMutation,
-} from "../courseApi.js"
+import useCourse from "../hooks/useCourse.js"
+import useCourseManagement from "../hooks/useCourseManagement.js"
 
 import Button from "../../../components/ui/Button.jsx"
 import CourseUpdateLoadingSkeleton from "../components/skeletons/CourseUpdateLoadingSkeleton.jsx"
@@ -12,63 +10,60 @@ import CourseUpdateLoadingSkeleton from "../components/skeletons/CourseUpdateLoa
 import { courseValidationRules } from "../courseValidations.js"
 import CourseUpdateForm from "../components/forms/CourseUpdateForm.jsx"
 import ErrorState from "../../../components/ui/ErrorState.jsx"
+import { useEffect } from "react"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const CourseUpdatePage = () => {
     const navigate = useNavigate()
     const { courseId } = useParams()
 
-    ///////////////////////////////////////////////////////////////
-    // Fetch course
-
-    const { data, isLoading } = useFetchInstructorCourseQuery(courseId)
-
-    ///////////////////////////////////////////////////////////////
-    // Update course
-
-    const [updateCourse, { isLoading: isUpdating }] = useUpdateCourseMutation()
-
-    ///////////////////////////////////////////////////////////////
     // Course
+    const {
+        fetchInstructorCourse,
+        instructorCourse: course,
+        isInstructorCourseLoading: isLoading,
+        isInstructorCourseError: isError,
+        instructorCourseError: error,
+    } = useCourse()
 
-    const course = data?.data
+    // Course management
+    const { updateCourse, isUpdating } = useCourseManagement()
 
-    ///////////////////////////////////////////////////////////////
+    // Fetch course
+    useEffect(() => {
+        if (!courseId) {
+            return
+        }
+
+        fetchInstructorCourse(courseId)
+    }, [courseId])
+
     // Validation rules
-
     const validationRules = courseValidationRules
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleSubmit = async (formData) => {
-        await updateCourse({
-            courseId,
-            courseData: formData,
-        }).unwrap()
+        const result = await updateCourse(courseId, formData)
+        if (!result.success) {
+            return
+        }
 
-        ///////////////////////////////////////////////////////////
-        // Success
-
-        navigate("/instructor/courses")
+        navigate(`/instructor/courses/${courseId}/manage`)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Change thumbnail
-
     const handleChangeThumbnail = () => {
         navigate(`/instructor/courses/${course._id}/thumbnail`)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Cancel
-
     const handleCancel = () => {
         navigate(`/instructor/courses/${course._id}`)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Loading
-
     if (isLoading) {
         return (
             <main
@@ -92,9 +87,38 @@ const CourseUpdatePage = () => {
         )
     }
 
-    ///////////////////////////////////////////////////////////////
-    // Course not found
+    // Course fetch error
+    if (isError) {
+        return (
+            <main
+                className="
+                mx-auto
+                w-full
+                max-w-5xl
 
+                px-4
+                py-6
+
+                sm:px-6
+                sm:py-8
+
+                lg:px-8
+                lg:py-10
+            "
+            >
+                <ErrorState
+                    title="Unable to load course"
+                    message={
+                        error?.data?.message ||
+                        error?.message ||
+                        "Something went wrong while loading the course."
+                    }
+                />
+            </main>
+        )
+    }
+
+    // Course not found
     if (!course) {
         return (
             <main
@@ -121,7 +145,7 @@ const CourseUpdatePage = () => {
         )
     }
 
-    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
 
     return (

@@ -5,7 +5,6 @@ import FormField from "../../../../components/form/FormField.jsx"
 import Input from "../../../../components/form/Input.jsx"
 import FormActions from "../../../../components/form/FormActions.jsx"
 
-
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +32,6 @@ const SectionCreateForm = ({
         shouldFocusError: true,
     })
 
-
     // Global error scroll
     useEffect(() => {
         if (!errors.root?.message) {
@@ -50,7 +48,6 @@ const SectionCreateForm = ({
         })
     }, [errors.root?.message])
 
-
     // Submit
     const handleFormSubmit = async (formData) => {
         clearErrors("root")
@@ -59,13 +56,10 @@ const SectionCreateForm = ({
             title: formData.title.trim(),
         }
 
-
         // Send to page
         try {
             await onSubmit(sectionData)
-
         } catch (error) {
-
             // Backend validation errors
             if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
@@ -82,7 +76,6 @@ const SectionCreateForm = ({
                 return
             }
 
-
             // General server error
             setError("root", {
                 type: "server",
@@ -92,7 +85,6 @@ const SectionCreateForm = ({
             })
         }
     }
-
 
     // Loadin
     const isFormLoading = loading || isSubmitting
@@ -199,9 +191,7 @@ const SectionCreateForm = ({
                             placeholder="Enter your section title"
                             error={Boolean(errors.title)}
                             aria-describedby={
-                                errors.title
-                                    ? "section-title-error"
-                                    : undefined
+                                errors.title ? "section-title-error" : undefined
                             }
                             disabled={isFormLoading}
                             {...register("title", validationRules.title)}

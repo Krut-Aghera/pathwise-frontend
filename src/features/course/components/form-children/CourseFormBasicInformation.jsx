@@ -1,7 +1,10 @@
 import FormField from "../../../../components/form/FormField"
 import Input from "../../../../components/form/Input"
 
-const CourseBasicInformation = ({ register, errors, validationRules }) => {
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const CourseFormBasicInformation = ({ register, errors, validationRules }) => {
     return (
         <section
             className="
@@ -156,4 +159,4 @@ const CourseBasicInformation = ({ register, errors, validationRules }) => {
     )
 }
 
-export default CourseBasicInformation
+export default CourseFormBasicInformation

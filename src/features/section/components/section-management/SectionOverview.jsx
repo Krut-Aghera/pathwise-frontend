@@ -9,7 +9,6 @@ const SectionOverview = ({
     lectureCount = 0,
     publishedLectureCount = 0,
 }) => {
-
     if (!section) {
         return null
     }

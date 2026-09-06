@@ -1,52 +1,93 @@
+import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-import { useFetchInstructorCourseQuery } from "../courseApi.js"
+import useCourse from "../hooks/useCourse.js"
+import useCourseThumbnail from "../hooks/useCourseThumbnail.js"
 
 import { courseThumbnailValidationRules } from "../courseValidations.js"
 
-import CourseThumbnailEditForm from "../components/forms/CourseThumbnailEditForm.jsx"
-
-import InstructorCourseLoadingSkeleton from "../components/course-manage/InstructorCourseLoadingSkeleton"
-
 import ErrorState from "../../../components/ui/ErrorState.jsx"
+import CourseThumbnailUpdateForm from "../components/forms/CourseThumbnailUpdateForm.jsx"
 
-const CourseThumbnailEditPage = () => {
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const CourseThumbnailUpdatePage = () => {
     const navigate = useNavigate()
-
     const { courseId } = useParams()
 
-    ///////////////////////////////////////////////////////////////
-    // Fetch course
-
-    const { data, isLoading } = useFetchInstructorCourseQuery(courseId)
-
-    ///////////////////////////////////////////////////////////////
     // Course
+    const {
+        fetchInstructorCourse,
+        instructorCourse: course,
+        isInstructorCourseLoading: isLoading,
+        isInstructorCourseError: isError,
+        instructorCourseError: error,
+    } = useCourse()
 
-    const course = data?.data
+    // Course thumbnail
+    const { updateCourseThumbnail, isUpdatingThumbnail } = useCourseThumbnail()
 
-    ///////////////////////////////////////////////////////////////
+    // Fetch course
+    useEffect(() => {
+        if (!courseId) {
+            return
+        }
+
+        fetchInstructorCourse(courseId)
+    }, [courseId, fetchInstructorCourse])
+
     // Validation rules
-
     const validationRules = courseThumbnailValidationRules
 
-    ///////////////////////////////////////////////////////////////
-    // Success
+    // Submit
+    const handleSubmit = async (thumbnail) => {
+        const result = await updateCourseThumbnail(courseId, thumbnail)
 
-    const handleSuccess = () => {
-        navigate("/instructor/courses")
+        if (!result.success) {
+            return
+        }
+
+        navigate(`/instructor/courses/${courseId}/manage`)
     }
 
-    ///////////////////////////////////////////////////////////////
     // Cancel
-
     const handleCancel = () => {
         navigate(`/instructor/courses/${course._id}/edit`)
     }
 
-    ///////////////////////////////////////////////////////////////
-    // Loading
+    // Course loading error
+    if (isError) {
+        return (
+            <main
+                className="
+                mx-auto
+                w-full
+                max-w-4xl
 
+                px-4
+                py-6
+
+                sm:px-6
+                sm:py-8
+
+                lg:px-8
+                lg:py-10
+            "
+            >
+                <ErrorState
+                    title="Unable to load course"
+                    message={
+                        error?.data?.message ||
+                        error?.message ||
+                        "Unable to load course."
+                    }
+                />
+            </main>
+        )
+    }
+
+    // Course loading
     if (isLoading) {
         return (
             <main
@@ -65,14 +106,14 @@ const CourseThumbnailEditPage = () => {
                 lg:py-10
             "
             >
-                <InstructorCourseLoadingSkeleton />
+                <div className="font-body text-sm text-text-secondary">
+                    Loading course...
+                </div>
             </main>
         )
     }
 
-    ///////////////////////////////////////////////////////////////
     // Course not found
-
     if (!course) {
         return (
             <main
@@ -99,7 +140,7 @@ const CourseThumbnailEditPage = () => {
         )
     }
 
-    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
 
     return (
@@ -151,15 +192,16 @@ const CourseThumbnailEditPage = () => {
 
             {/* Form */}
 
-            <CourseThumbnailEditForm
+            <CourseThumbnailUpdateForm
                 courseId={courseId}
                 currentThumbnail={course.thumbnail?.url}
-                onSuccess={handleSuccess}
+                onSubmit={handleSubmit}
                 onCancel={handleCancel}
+                loading={isUpdatingThumbnail}
                 validationRules={validationRules}
             />
         </main>
     )
 }
 
-export default CourseThumbnailEditPage
+export default CourseThumbnailUpdatePage

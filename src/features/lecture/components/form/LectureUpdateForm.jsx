@@ -76,9 +76,7 @@ const LectureUpdateForm = ({
         // Send to page
         try {
             await onSubmit(lectureData)
-
         } catch (error) {
-
             // Backend validation errors
             if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {

@@ -4,7 +4,10 @@ import FormField from "../../../../components/form/FormField.jsx"
 import Button from "../../../../components/ui/Button.jsx"
 import Input from "../../../../components/form/Input.jsx"
 
-const CourseTargetAudience = ({
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const CourseFormRequirements = ({
     control,
     register,
     errors,
@@ -12,9 +15,9 @@ const CourseTargetAudience = ({
 }) => {
     const { fields, append, remove } = useFieldArray({
         control,
-        name: "targetAudience",
+        name: "requirements",
 
-        rules: validationRules.targetAudience,
+        rules: validationRules.requirements,
     })
 
     return (
@@ -40,7 +43,7 @@ const CourseTargetAudience = ({
                     text-text-primary
                 "
                 >
-                    Target Audience
+                    Requirements
                 </h2>
 
                 <p
@@ -52,15 +55,15 @@ const CourseTargetAudience = ({
                     text-text-secondary
                 "
                 >
-                    Describe who this course is designed for.
+                    Tell students what they need before starting this course.
                 </p>
             </div>
 
-            {/* Audience Items */}
+            {/* Requirements */}
 
             <div className="space-y-4">
                 {fields.map((field, index) => {
-                    const fieldError = errors.targetAudience?.[index]
+                    const fieldError = errors.requirements?.[index]
 
                     return (
                         <div
@@ -83,18 +86,18 @@ const CourseTargetAudience = ({
                             "
                             >
                                 <FormField
-                                    label={`Audience ${index + 1}`}
-                                    htmlFor={`targetAudience-${field.id}`}
+                                    label={`Requirement ${index + 1}`}
+                                    htmlFor={`requirement-${field.id}`}
                                     required
                                     error={fieldError?.message}
                                 >
                                     <Input
-                                        id={`targetAudience-${field.id}`}
-                                        placeholder="Who is this course for?"
+                                        id={`requirement-${field.id}`}
+                                        placeholder="What does the student need?"
                                         error={Boolean(fieldError)}
                                         {...register(
-                                            `targetAudience.${index}`,
-                                            validationRules.targetAudience.item
+                                            `requirements.${index}`,
+                                            validationRules.requirements.item
                                         )}
                                     />
                                 </FormField>
@@ -139,7 +142,7 @@ const CourseTargetAudience = ({
 
                 {/* Array-level error */}
 
-                {errors?.targetAudience?.message && (
+                {errors?.requirements?.message && (
                     <p
                         role="alert"
                         className="
@@ -149,7 +152,7 @@ const CourseTargetAudience = ({
                             text-status-danger
                         "
                     >
-                        {errors.targetAudience.message}
+                        {errors.requirements.message}
                     </p>
                 )}
 
@@ -183,7 +186,7 @@ const CourseTargetAudience = ({
                             sm:w-auto
                         "
                     >
-                        + Add Target Audience
+                        + Add Requirement
                     </Button>
                 )}
             </div>
@@ -191,4 +194,4 @@ const CourseTargetAudience = ({
     )
 }
 
-export default CourseTargetAudience
+export default CourseFormRequirements

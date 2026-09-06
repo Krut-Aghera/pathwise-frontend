@@ -1,13 +1,17 @@
 import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
-import CourseBasicInformation from "../create-course/CourseBasicInformation.jsx"
-import CourseDetails from "../create-course/CourseDetails.jsx"
-import CourseThumbnailUpload from "../create-course/CourseThumbnailUpload.jsx"
-import CourseLearningOutcomes from "../create-course/CourseLearningOutcomes.jsx"
-import CourseTargetAudience from "../create-course/CourseTargetAudience.jsx"
-import CourseRequirements from "../create-course/CourseRequirements.jsx"
-import CourseFormActions from "../create-course/CourseFormActions.jsx"
+import FormActions from "../../../../components/form/FormActions.jsx"
+
+import CourseFormBasicInformation from "../form-children/CourseFormBasicInformation.jsx"
+import CourseFormStateDetails from "../form-children/CourseFormStateDetails.jsx"
+import CourseFormThumbnailUpload from "../form-children/CourseFormThumbnailUpload.jsx"
+import CourseFormLearningOutcomes from "../form-children/CourseFormLearningOutcomes.jsx"
+import CourseFormTargetAudience from "../form-children/CourseFormTargetAudience.jsx"
+import CourseFormRequirements from "../form-children/CourseFormRequirements.jsx"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const CourseCreateForm = ({
     onSubmit,
@@ -16,9 +20,6 @@ const CourseCreateForm = ({
     validationRules,
 }) => {
     const globalErrorRef = useRef(null)
-
-    ///////////////////////////////////////////////////////////////
-    // Form
 
     const {
         register,
@@ -46,9 +47,7 @@ const CourseCreateForm = ({
         shouldFocusError: true,
     })
 
-    ///////////////////////////////////////////////////////////////
     // Global error scroll
-
     useEffect(() => {
         if (!errors.root?.message) {
             return
@@ -64,14 +63,9 @@ const CourseCreateForm = ({
         })
     }, [errors.root?.message])
 
-    ///////////////////////////////////////////////////////////////
     // Submit
-
     const handleFormSubmit = async (formData) => {
         clearErrors("root")
-
-        /////////////////////////////////////////////////////////////
-        // Normalize array fields
 
         const learningOutcomes = formData.learningOutcomes
             .map((item) => item.trim())
@@ -85,32 +79,17 @@ const CourseCreateForm = ({
             .map((item) => item.trim())
             .filter(Boolean)
 
-        /////////////////////////////////////////////////////////////
         // Create multipart form data
-
         const multipartFormData = new FormData()
 
-        /////////////////////////////////////////////////////////////
-        // Basic information
-
         multipartFormData.append("title", formData.title)
-
         multipartFormData.append("subtitle", formData.subtitle)
-
         multipartFormData.append("description", formData.description)
-
-        /////////////////////////////////////////////////////////////
-        // Course details
-
         multipartFormData.append("price", formData.price)
-
         multipartFormData.append("language", formData.language)
-
         multipartFormData.append("level", formData.level)
 
-        /////////////////////////////////////////////////////////////
         // Array fields
-
         multipartFormData.append(
             "learningOutcomes",
             JSON.stringify(learningOutcomes)
@@ -123,73 +102,64 @@ const CourseCreateForm = ({
 
         multipartFormData.append("requirements", JSON.stringify(requirements))
 
-        /////////////////////////////////////////////////////////////
         // Thumbnail
-
         const thumbnail = formData.thumbnail?.[0]
 
         if (thumbnail) {
             multipartFormData.append("thumbnail", thumbnail)
         }
 
-        /////////////////////////////////////////////////////////////
         // Send to page
+        const result = await onSubmit(multipartFormData)
 
-        try {
-            await onSubmit(multipartFormData)
-        } catch (error) {
-            ///////////////////////////////////////////////////////////
-            // Backend validation errors
-
-            if (
-                error?.status === 400 &&
-                Array.isArray(error?.errors) &&
-                error.errors.length > 0
-            ) {
-                error.errors.forEach(({ field, message }) => {
-                    if (!field) {
-                        return
-                    }
-
-                    setError(field, {
-                        type: "server",
-                        message,
-                    })
-                })
-
-                return
-            }
-
-            /////////////////////////////////////////////////////////////
-            // Thumbnail validation error
-
-            if (error?.status === 400 && error?.message) {
-                setError("thumbnail", {
-                    type: "server",
-                    message: error.message,
-                })
-
-                return
-            }
-
-            ///////////////////////////////////////////////////////////
-            // General server error
-
-            setError("root", {
-                type: "server",
-                message:
-                    error?.message ||
-                    "Unable to create course. Please try again.",
-            })
+        if (result?.success) {
+            return
         }
+
+        const error = result?.error
+
+        // Backend validation errors
+        if (
+            error?.statusCode === 400 &&
+            Array.isArray(error?.errors) &&
+            error.errors.length > 0
+        ) {
+            error.errors.forEach(({ field, message }) => {
+                if (!field) {
+                    return
+                }
+
+                setError(field, {
+                    type: "server",
+                    message,
+                })
+            })
+
+            return
+        }
+
+        // Thumbnail validation error
+        if (error?.statusCode === 400 && error?.message) {
+            setError("thumbnail", {
+                type: "server",
+                message: error.message,
+            })
+
+            return
+        }
+
+        // General server error
+        setError("root", {
+            type: "server",
+            message:
+                error?.message || "Unable to create course. Please try again.",
+        })
     }
 
-    ///////////////////////////////////////////////////////////////
     // Loading
-
     const isFormLoading = loading || isSubmitting
 
-    ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
 
     return (
@@ -231,7 +201,7 @@ const CourseCreateForm = ({
 
             {/* Basic Information */}
 
-            <CourseBasicInformation
+            <CourseFormBasicInformation
                 register={register}
                 errors={errors}
                 validationRules={validationRules}
@@ -239,7 +209,7 @@ const CourseCreateForm = ({
 
             {/* Course Details */}
 
-            <CourseDetails
+            <CourseFormStateDetails
                 register={register}
                 errors={errors}
                 validationRules={validationRules}
@@ -247,7 +217,7 @@ const CourseCreateForm = ({
 
             {/* Thumbnail */}
 
-            <CourseThumbnailUpload
+            <CourseFormThumbnailUpload
                 register={register}
                 errors={errors}
                 validationRules={validationRules}
@@ -255,7 +225,7 @@ const CourseCreateForm = ({
 
             {/* Learning Outcomes */}
 
-            <CourseLearningOutcomes
+            <CourseFormLearningOutcomes
                 control={control}
                 register={register}
                 errors={errors}
@@ -264,7 +234,7 @@ const CourseCreateForm = ({
 
             {/* Target Audience */}
 
-            <CourseTargetAudience
+            <CourseFormTargetAudience
                 control={control}
                 register={register}
                 errors={errors}
@@ -273,7 +243,7 @@ const CourseCreateForm = ({
 
             {/* Requirements */}
 
-            <CourseRequirements
+            <CourseFormRequirements
                 control={control}
                 register={register}
                 errors={errors}
@@ -282,7 +252,7 @@ const CourseCreateForm = ({
 
             {/* Actions */}
 
-            <CourseFormActions loading={isFormLoading} onCancel={onCancel} />
+            <FormActions loading={isFormLoading} onCancel={onCancel} />
         </form>
     )
 }

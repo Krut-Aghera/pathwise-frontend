@@ -1,7 +1,10 @@
 import FormField from "../../../../components/form/FormField.jsx"
 import Input from "../../../../components/form/Input.jsx"
 
-const CourseThumbnailUpload = ({ register, errors, validationRules }) => {
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const CourseFormThumbnailUpload = ({ register, errors, validationRules }) => {
     return (
         <section
             className="
@@ -80,4 +83,4 @@ const CourseThumbnailUpload = ({ register, errors, validationRules }) => {
     )
 }
 
-export default CourseThumbnailUpload
+export default CourseFormThumbnailUpload

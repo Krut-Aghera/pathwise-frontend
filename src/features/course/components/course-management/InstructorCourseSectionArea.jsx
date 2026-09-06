@@ -3,6 +3,9 @@ import { ArrowUpDown, Layers3, Plus } from "lucide-react"
 import Button from "../../../../components/ui/Button.jsx"
 import InstructorSectionList from "../../../section/components/section-management/InstructorSectionList.jsx"
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 const InstructorCourseSectionArea = ({
     sections = [],
     onAddSection,

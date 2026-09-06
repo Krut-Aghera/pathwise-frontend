@@ -4,16 +4,9 @@ import { useNavigate, useParams } from "react-router-dom"
 
 import { RESOURCE_STATUS } from "../../../constants/resourceConstants.js"
 
-import {
-    useFetchInstructorCourseQuery,
-    usePublishCourseMutation,
-    useSaveCourseAsDraftMutation,
-    useRemoveCourseMutation,
-} from "../courseApi.js"
-
-import InstructorCourseOverview from "../components/course-manage/InstructorCourseOverview.jsx"
-import InstructorCourseInformation from "../components/course-manage/InstructorCourseInformation.jsx"
-import InstructorCourseSectionArea from "../components/course-manage/InstructorCourseSectionArea.jsx"
+import InstructorCourseOverview from "../components/course-management/InstructorCourseOverview.jsx"
+import InstructorCourseInformation from "../components/course-management/InstructorCourseInformation.jsx"
+import InstructorCourseSectionArea from "../components/course-management/InstructorCourseSectionArea.jsx"
 import InstructorCourseDetailsLoadingSkeleton from "../components/skeletons/InstructorCourseDetailsSkeleton.jsx"
 
 import ErrorState from "../../../components/ui/ErrorState.jsx"
@@ -21,6 +14,10 @@ import ActionError from "../../../components/ui/ActionError.jsx"
 import ConfirmDialog from "../../../components/ui/ConfirmDialog.jsx"
 import WorkflowActions from "../../../components/workflow/WorkflowActions.jsx"
 import ManagementPageHeader from "../../../components/workflow/ManagementPageHeader.jsx"
+
+import useCourse from "../hooks/useCourse.js"
+import useCourseManagement from "../hooks/useCourseManagement.js"
+import useCourseState from "../hooks/useCourseState.js"
 
 import useSection from "../../section/hooks/useSection.js"
 import useSectionManagement from "../../section/hooks/useSectionManagement.js"
@@ -35,7 +32,10 @@ const PAGE_CONTAINER = `
     lg:px-8
 `
 
-const InstructorCourseDetailsPage = () => {
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const CourseManagementPage = () => {
     const { courseId } = useParams()
     const navigate = useNavigate()
 
@@ -72,12 +72,25 @@ const InstructorCourseDetailsPage = () => {
      */
 
     const {
-        data: courseResponse,
-        isLoading: isCourseLoading,
-        isError: isCourseError,
-        error: courseError,
-        refetch: refetchCourse,
-    } = useFetchInstructorCourseQuery(courseId)
+        fetchInstructorCourse,
+        instructorCourse: course,
+        isInstructorCourseLoading: isCourseLoading,
+        isInstructorCourseError: isCourseError,
+        instructorCourseError: courseError,
+    } = useCourse()
+
+    /*
+     * Course management
+     */
+
+    const { removeCourse, isRemoving } = useCourseManagement()
+
+    /*
+     * Course workflow state
+     */
+
+    const { publishCourse, saveCourseAsDraft, isPublishing, isSavingDraft } =
+        useCourseState()
 
     /*
      * Section data
@@ -92,16 +105,16 @@ const InstructorCourseDetailsPage = () => {
     } = useSection({ courseId })
 
     /*
-     * Course workflow mutations
+     * Derived state
      */
 
-    const [publishCourse, { isLoading: isPublishing }] =
-        usePublishCourseMutation()
+    const hasPublishedSection = sections.some(
+        (section) => section.status === RESOURCE_STATUS.PUBLISHED
+    )
 
-    const [saveCourseAsDraft, { isLoading: isSavingDraft }] =
-        useSaveCourseAsDraftMutation()
+    const isWorkflowLoading = isPublishing || isSavingDraft || isRemoving
 
-    const [removeCourse, { isLoading: isRemoving }] = useRemoveCourseMutation()
+    const isLoading = isCourseLoading || isSectionsLoading
 
     /*
      * Section management
@@ -111,18 +124,16 @@ const InstructorCourseDetailsPage = () => {
         useSectionManagement()
 
     /*
-     * Derived state
+     * Fetch course
      */
 
-    const course = courseResponse?.data
+    useEffect(() => {
+        if (!courseId) {
+            return
+        }
 
-    const hasPublishedSection = sections.some(
-        (section) => section.status === RESOURCE_STATUS.PUBLISHED
-    )
-
-    const isWorkflowLoading = isPublishing || isSavingDraft || isRemoving
-
-    const isLoading = isCourseLoading || isSectionsLoading
+        fetchInstructorCourse(courseId)
+    }, [courseId, fetchInstructorCourse])
 
     /*
      * Error helpers
@@ -202,8 +213,8 @@ const InstructorCourseDetailsPage = () => {
     /*
      * Publish course
      *
-     * This is the final defensive business-rule
-     * validation before calling the API.
+     * Final defensive business-rule validation
+     * before calling the API.
      */
 
     const handlePublish = useCallback(async () => {
@@ -215,10 +226,6 @@ const InstructorCourseDetailsPage = () => {
 
         /*
          * Defensive business-rule validation
-         *
-         * This protects the action even if the
-         * WorkflowActions disabled attribute is
-         * manually removed through DevTools.
          */
 
         if (!hasPublishedSection) {
@@ -229,11 +236,11 @@ const InstructorCourseDetailsPage = () => {
             return
         }
 
-        try {
-            await publishCourse(course._id).unwrap()
-        } catch (error) {
+        const result = await publishCourse(course._id)
+
+        if (!result.success) {
             setWorkflowError(
-                getErrorMessage(error, "Unable to publish course.")
+                getErrorMessage(result.error, "Unable to publish course.")
             )
         }
     }, [
@@ -256,11 +263,11 @@ const InstructorCourseDetailsPage = () => {
 
         clearWorkflowError()
 
-        try {
-            await saveCourseAsDraft(course._id).unwrap()
-        } catch (error) {
+        const result = await saveCourseAsDraft(course._id)
+
+        if (!result.success) {
             setWorkflowError(
-                getErrorMessage(error, "Unable to save course as draft.")
+                getErrorMessage(result.error, "Unable to save course as draft.")
             )
         }
     }, [
@@ -311,15 +318,19 @@ const InstructorCourseDetailsPage = () => {
 
         clearWorkflowError()
 
-        try {
-            await removeCourse(courseToRemove.id).unwrap()
+        const result = await removeCourse(courseToRemove.id)
 
-            setCourseToRemove(null)
+        if (!result.success) {
+            setWorkflowError(
+                getErrorMessage(result.error, "Unable to remove course.")
+            )
 
-            navigate("/instructor/courses")
-        } catch (error) {
-            setWorkflowError(getErrorMessage(error, "Unable to remove course."))
+            return
         }
+
+        setCourseToRemove(null)
+
+        navigate("/instructor/courses")
     }, [
         courseToRemove?.id,
         isRemoving,
@@ -383,29 +394,20 @@ const InstructorCourseDetailsPage = () => {
                 order: index + 1,
             }))
 
-            try {
-                const result = await reorderSections(
-                    course._id,
-                    sectionsPayload
-                )
+            const result = await reorderSections(course._id, sectionsPayload)
 
-                if (!result?.success) {
-                    setSectionError(
-                        result?.error?.message ||
-                            "Unable to reorder course sections."
-                    )
-
-                    return false
-                }
-
-                return true
-            } catch (error) {
+            if (!result?.success) {
                 setSectionError(
-                    getErrorMessage(error, "Unable to reorder course sections.")
+                    getErrorMessage(
+                        result?.error,
+                        "Unable to reorder course sections."
+                    )
                 )
 
                 return false
             }
+
+            return true
         },
         [
             course?._id,
@@ -415,6 +417,18 @@ const InstructorCourseDetailsPage = () => {
             getErrorMessage,
         ]
     )
+
+    /*
+     * Retry course
+     */
+
+    const handleRetryCourse = useCallback(() => {
+        if (!courseId) {
+            return
+        }
+
+        fetchInstructorCourse(courseId)
+    }, [courseId, fetchInstructorCourse])
 
     /*
      * Initial loading
@@ -445,7 +459,7 @@ const InstructorCourseDetailsPage = () => {
                               )
                             : "The requested course could not be found."
                     }
-                    onRetry={refetchCourse}
+                    onRetry={handleRetryCourse}
                 />
             </main>
         )
@@ -479,12 +493,12 @@ const InstructorCourseDetailsPage = () => {
             <main className={PAGE_CONTAINER}>
                 <ManagementPageHeader
                     pageTitle="Course Management"
-                    context={[course?.title]}
-                    thumbnail={course?.thumbnail?.url}
+                    context={[course.title]}
+                    thumbnail={course.thumbnail?.url}
                     icon={BookOpen}
                     onBack={handleBack}
                     backLabel="Back to My Courses"
-                    status={course?.status}
+                    status={course.status}
                     showStatus
                 />
 
@@ -543,7 +557,7 @@ const InstructorCourseDetailsPage = () => {
                         <InstructorCourseInformation course={course} />
 
                         <WorkflowActions
-                            status={course?.status}
+                            status={course.status}
                             resourceName="Course"
                             resourceDescription="Manage this course."
                             onEdit={handleEdit}
@@ -566,7 +580,7 @@ const InstructorCourseDetailsPage = () => {
                 description="This will remove the course from your instructor course list."
                 message={
                     courseToRemove
-                        ? `Are you sure you want to remove "${courseToRemove?.title}"?`
+                        ? `Are you sure you want to remove "${courseToRemove.title}"?`
                         : "Are you sure you want to remove this course?"
                 }
                 confirmLabel="Remove Course"
@@ -580,4 +594,4 @@ const InstructorCourseDetailsPage = () => {
     )
 }
 
-export default InstructorCourseDetailsPage
+export default CourseManagementPage

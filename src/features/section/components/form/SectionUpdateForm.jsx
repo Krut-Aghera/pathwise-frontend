@@ -62,7 +62,6 @@ const SectionUpdateForm = ({
         })
     }, [errors.root?.message])
 
-
     // Submit
     const handleFormSubmit = async (formData) => {
         clearErrors("root")
@@ -72,13 +71,10 @@ const SectionUpdateForm = ({
             title: formData.title.trim(),
         }
 
-
         // Send to page
         try {
             await onSubmit(sectionData)
-
         } catch (error) {
-
             // Backend validation errors
             if (error?.statusCode === 400 && Array.isArray(error?.errors)) {
                 error.errors.forEach(({ field, message }) => {
@@ -105,10 +101,8 @@ const SectionUpdateForm = ({
         }
     }
 
-
     // Loading
     const isFormLoading = loading || isSubmitting
-
 
     // Render
 
@@ -208,9 +202,7 @@ const SectionUpdateForm = ({
                         disabled={isFormLoading}
                         error={Boolean(errors.title)}
                         aria-describedby={
-                            errors.title
-                                ? "section-title-error"
-                                : undefined
+                            errors.title ? "section-title-error" : undefined
                         }
                         {...register("title", validationRules.title)}
                     />

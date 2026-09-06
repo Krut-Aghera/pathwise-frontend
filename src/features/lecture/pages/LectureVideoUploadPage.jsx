@@ -13,7 +13,6 @@ import LectureVideoUploadForm from "../components/form/LectureVideoUploadForm.js
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 const LectureVideoUploadPage = () => {
-
     const { courseId, sectionId, lectureId } = useParams()
     const navigate = useNavigate()
 
@@ -31,11 +30,7 @@ const LectureVideoUploadPage = () => {
     })
 
     // Lecture video
-    const {
-        uploadLectureVideo,
-        isUploading,
-        resetUpload,
-    } = useLectureVideo()
+    const { uploadLectureVideo, isUploading, resetUpload } = useLectureVideo()
 
     // Action error
     const [actionError, setActionError] = useState(null)

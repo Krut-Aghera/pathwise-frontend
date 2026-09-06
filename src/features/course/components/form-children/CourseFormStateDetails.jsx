@@ -6,7 +6,10 @@ import {
     COURSE_LEVEL_OPTIONS,
 } from "../../courseConstants.js"
 
-const CourseDetails = ({ register, errors, validationRules }) => {
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+const CourseFormStateDetails = ({ register, errors, validationRules }) => {
     return (
         <section
             className="
@@ -212,4 +215,4 @@ const CourseDetails = ({ register, errors, validationRules }) => {
     )
 }
 
-export default CourseDetails
+export default CourseFormStateDetails

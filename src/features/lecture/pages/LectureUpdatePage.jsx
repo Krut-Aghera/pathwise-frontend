@@ -56,7 +56,7 @@ const LectureUpdatePage = () => {
 
         navigate(
             `/instructor/courses/${courseId}/sections/${sectionId}/lectures/${result?.data._id}/manage` ||
-            -1
+                -1
         )
     }
 
@@ -156,7 +156,6 @@ const LectureUpdatePage = () => {
             </main>
         )
     }
-
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render

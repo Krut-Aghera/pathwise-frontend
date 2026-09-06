@@ -18,7 +18,6 @@ const LectureVideoUploadForm = ({
     loading = false,
     validationRules,
 }) => {
-    
     const {
         register,
         handleSubmit,
