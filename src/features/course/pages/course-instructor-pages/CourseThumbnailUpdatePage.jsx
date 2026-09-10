@@ -1,13 +1,13 @@
 import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-import useCourse from "../hooks/useCourse.js"
-import useCourseThumbnail from "../hooks/useCourseThumbnail.js"
+import useCourse from "../../hooks/useCourse.js"
+import useCourseThumbnail from "../../hooks/useCourseThumbnail.js"
 
-import { courseThumbnailValidationRules } from "../courseValidations.js"
+import { courseThumbnailValidationRules } from "../../courseValidations.js"
 
-import ErrorState from "../../../components/ui/ErrorState.jsx"
-import CourseThumbnailUpdateForm from "../components/forms/CourseThumbnailUpdateForm.jsx"
+import ErrorState from "../../../../components/ui/ErrorState.jsx"
+import CourseThumbnailUpdateForm from "../../components/forms/CourseThumbnailUpdateForm.jsx"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////

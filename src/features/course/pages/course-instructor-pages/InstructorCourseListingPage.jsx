@@ -1,12 +1,12 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-import useCourse from "../hooks/useCourse.js"
+import useCourse from "../../hooks/useCourse.js"
 
-import InstructorCoursesHeader from "../components/course-management/InstructorCoursesHeader.jsx"
-import InstructorCourseGrid from "../components/course-management/InstructorCourseGrid.jsx"
-import InstructorCourseEmpty from "../components/course-management/InstructorCourseEmpty.jsx"
-import ErrorState from "../../../components/ui/ErrorState.jsx"
+import InstructorCoursesHeader from "../../components/course-management/InstructorCoursesHeader.jsx"
+import InstructorCourseGrid from "../../components/course-management/InstructorCourseGrid.jsx"
+import InstructorCourseEmpty from "../../components/course-management/InstructorCourseEmpty.jsx"
+import ErrorState from "../../../../components/ui/ErrorState.jsx"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////

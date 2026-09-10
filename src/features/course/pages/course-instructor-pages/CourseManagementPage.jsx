@@ -2,25 +2,25 @@ import { Layers3 } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-import { RESOURCE_STATUS } from "../../../constants/resourceConstants.js"
+import { RESOURCE_STATUS } from "../../../../constants/resourceConstants.js"
 
-import InstructorCourseOverview from "../components/course-management/InstructorCourseOverview.jsx"
-import InstructorCourseInformation from "../components/course-management/InstructorCourseInformation.jsx"
-import InstructorCourseSectionArea from "../components/course-management/InstructorCourseSectionArea.jsx"
-import InstructorCourseDetailsLoadingSkeleton from "../components/skeletons/InstructorCourseDetailsSkeleton.jsx"
+import InstructorCourseOverview from "../../components/course-management/InstructorCourseOverview.jsx"
+import InstructorCourseInformation from "../../components/course-management/InstructorCourseInformation.jsx"
+import InstructorCourseSectionArea from "../../components/course-management/InstructorCourseSectionArea.jsx"
+import InstructorCourseDetailsLoadingSkeleton from "../../components/skeletons/InstructorCourseDetailsSkeleton.jsx"
 
-import ErrorState from "../../../components/ui/ErrorState.jsx"
-import ActionError from "../../../components/ui/ActionError.jsx"
-import ConfirmDialog from "../../../components/ui/ConfirmDialog.jsx"
-import WorkflowActions from "../../../components/workflow/WorkflowActions.jsx"
-import ManagementPageHeader from "../../../components/workflow/ManagementPageHeader.jsx"
+import ErrorState from "../../../../components/ui/ErrorState.jsx"
+import ActionError from "../../../../components/ui/ActionError.jsx"
+import ConfirmDialog from "../../../../components/ui/ConfirmDialog.jsx"
+import WorkflowActions from "../../../../components/workflow/WorkflowActions.jsx"
+import ManagementPageHeader from "../../../../components/workflow/ManagementPageHeader.jsx"
 
-import useCourse from "../hooks/useCourse.js"
-import useCourseManagement from "../hooks/useCourseManagement.js"
-import useCourseState from "../hooks/useCourseState.js"
+import useCourse from "../../hooks/useCourse.js"
+import useCourseManagement from "../../hooks/useCourseManagement.js"
+import useCourseState from "../../hooks/useCourseState.js"
 
-import useSection from "../../section/hooks/useSection.js"
-import useSectionManagement from "../../section/hooks/useSectionManagement.js"
+import useSection from "../../../section/hooks/useSection.js"
+import useSectionManagement from "../../../section/hooks/useSectionManagement.js"
 
 const PAGE_CONTAINER = `
     mx-auto

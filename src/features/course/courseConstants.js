@@ -34,3 +34,43 @@ export const COURSE_LANGUAGE_OPTIONS = [
         label: "Hindi",
     },
 ]
+
+///////////////////////////////////////////////////////////////
+// Course sorting
+
+export const COURSE_SORT_FIELDS = {
+    CREATED_AT: "createdAt",
+    TITLE: "title",
+    PRICE: "price",
+}
+
+export const COURSE_SORT_OPTIONS = [
+    {
+        value: COURSE_SORT_FIELDS.CREATED_AT,
+        label: "Newest",
+    },
+    {
+        value: COURSE_SORT_FIELDS.TITLE,
+        label: "Title",
+    },
+    {
+        value: COURSE_SORT_FIELDS.PRICE,
+        label: "Price",
+    },
+]
+
+export const SORT_ORDERS = {
+    ASC: "asc",
+    DESC: "desc",
+}
+
+export const SORT_ORDER_OPTIONS = [
+    {
+        value: SORT_ORDERS.ASC,
+        label: "Ascending",
+    },
+    {
+        value: SORT_ORDERS.DESC,
+        label: "Descending",
+    },
+]

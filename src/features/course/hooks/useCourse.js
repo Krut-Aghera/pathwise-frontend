@@ -156,16 +156,18 @@ const useCourse = () => {
     ///////////////////////////////////////////////////////////////
     // Data
 
-    const courses = coursesResponse?.data ?? coursesResponse ?? []
+    const courses = coursesResponse?.data ?? []
 
-    const currentCourse =
-        currentCourseResponse?.data ?? currentCourseResponse ?? null
+    const coursesPagination = coursesResponse?.meta?.pagination ?? null
 
-    const instructorCourses =
-        instructorCoursesResponse?.data ?? instructorCoursesResponse ?? []
+    const currentCourse = currentCourseResponse?.data ?? null
 
-    const instructorCourse =
-        instructorCourseResponse?.data ?? instructorCourseResponse ?? null
+    const instructorCourses = instructorCoursesResponse?.data ?? []
+
+    const instructorCoursesPagination =
+        instructorCoursesResponse?.meta?.pagination ?? null
+
+    const instructorCourse = instructorCourseResponse?.data ?? null
 
     ///////////////////////////////////////////////////////////////
     // Loading
@@ -186,6 +188,7 @@ const useCourse = () => {
         // Public courses
         fetchCourses,
         courses,
+        coursesPagination,
 
         isCoursesLoading,
         isCoursesFetching,
@@ -210,6 +213,7 @@ const useCourse = () => {
         // Instructor courses
         fetchInstructorCourses,
         instructorCourses,
+        instructorCoursesPagination,
 
         isInstructorCoursesLoading,
         isInstructorCoursesFetching,

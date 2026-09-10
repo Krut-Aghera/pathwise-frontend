@@ -18,6 +18,8 @@ import NotFoundPage from "../../pages/NotFoundPage"
 
 import HomePage from "../../pages/HomePage"
 import AboutPage from "../../pages/AboutPage"
+import CoursesPage from "../../features/course/pages/course-public-pages/CoursesPage"
+import CourseDetailsPage from "../../features/course/pages/course-public-pages/CourseDetailsPage"
 
 import LoginPage from "../../features/auth/pages/LoginPage"
 import SignupPage from "../../features/auth/pages/SignupPage"
@@ -27,12 +29,12 @@ import UserDashboardPage from "../../features/user/pages/UserDashboardPage"
 import WishlistPage from "../../features/wishlist/pages/WishlistPage"
 
 import InstructorDashboardPage from "../../features/user/pages/InstructorDashboardPage"
-import InstructorCourseListingPage from "../../features/course/pages/InstructorCourseListingPage"
+import InstructorCourseListingPage from "../../features/course/pages/course-instructor-pages/InstructorCourseListingPage"
 
-import CourseCreatePage from "../../features/course/pages/CourseCreatePage"
-import CourseUpdatePage from "../../features/course/pages/CourseUpdatePage"
-import CourseManagementPage from "../../features/course/pages/CourseManagementPage"
-import CourseThumbnailUpdatePage from "../../features/course/pages/CourseThumbnailUpdatePage"
+import CourseCreatePage from "../../features/course/pages/course-instructor-pages/CourseCreatePage"
+import CourseUpdatePage from "../../features/course/pages/course-instructor-pages/CourseUpdatePage"
+import CourseManagementPage from "../../features/course/pages/course-instructor-pages/CourseManagementPage"
+import CourseThumbnailUpdatePage from "../../features/course/pages/course-instructor-pages/CourseThumbnailUpdatePage"
 
 import SectionCreatePage from "../../features/section/pages/SectionCreatePage"
 import SectionUpdatePage from "../../features/section/pages/SectionUpdatePage"
@@ -55,8 +57,9 @@ const routerConfig = createBrowserRouter(
 
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<HomePage />} />
-
                 <Route path="about" element={<AboutPage />} />
+                <Route path="courses" element={<CoursesPage />}/>
+                <Route path="courses/:courseId" element={<CourseDetailsPage />}/>
             </Route>
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}

@@ -3,17 +3,14 @@ import {
     ArrowRight,
     Award,
     BookOpen,
-    Clock3,
     Heart,
     Layers3,
     UserRound,
 } from "lucide-react"
 
-import { Link } from "react-router-dom"
-
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, onClick }) => {
     const [isWishlisted, setIsWishlisted] = useState(
-        course.isWishlisted ?? false
+        course?.isWishlisted ?? false
     )
 
     const levelConfig = {
@@ -49,7 +46,8 @@ const CourseCard = ({ course }) => {
     }
 
     const currentLevel =
-        levelConfig[course.level?.toLowerCase()] || levelConfig.beginner
+        levelConfig[course?.level?.toLowerCase()] ??
+        levelConfig.beginner
 
     const LevelIcon = currentLevel.icon
 
@@ -60,104 +58,145 @@ const CourseCard = ({ course }) => {
         setIsWishlisted((current) => !current)
     }
 
+    const handleCourseClick = () => {
+        if (!onClick) {
+            return
+        }
+
+        onClick(course)
+    }
+
     return (
         <article
             className="
-            group
-            flex
-            h-full
-            flex-col
-            overflow-hidden
+                group
+                flex
+                h-full
+                flex-col
+                overflow-hidden
 
-            rounded-xl
-            border
-            border-border-subtle
-            bg-background-surface
+                rounded-xl
+                border
+                border-border-subtle
+                bg-background-surface
 
-            transition-all
-            duration-300
+                transition-all
+                duration-300
 
-            hover:border-accent-primary/50
-            hover:bg-background-elevated
-        "
+                hover:border-accent-primary/50
+                hover:bg-background-elevated
+            "
         >
             {/* Thumbnail */}
 
             <div
                 className="
-                relative
-                aspect-16/8
-                shrink-0
-                overflow-hidden
-                bg-background-elevated
-            "
+                    relative
+                    aspect-video
+                    shrink-0
+                    overflow-hidden
+                    bg-background-elevated
+                "
             >
                 <img
-                    src={
-                        course.thumbnail ||
-                        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80"
+                    src={course?.thumbnail?.url}
+                    alt={
+                        course?.title ??
+                        "Course thumbnail"
                     }
-                    alt={course.title}
                     className="
                         h-full
                         w-full
                         object-cover
+
+                        transition-transform
+                        duration-500
+
+                        group-hover:scale-105
                     "
                 />
 
                 <div
                     className="
-                    absolute
-                    inset-0
-                    bg-linear-to-t
-                    from-black/35
-                    via-transparent
-                    to-transparent
-                "
+                        absolute
+                        inset-0
+                        bg-linear-to-t
+                        from-black/35
+                        via-transparent
+                        to-transparent
+                    "
                 />
+
+                {/* Price */}
+
+                <span
+                    className="
+                        absolute
+                        bottom-3
+                        left-3
+
+                        rounded-md
+                        bg-black/70
+
+                        px-2.5
+                        py-1
+
+                        font-body
+                        text-sm
+                        font-semibold
+                        text-white
+
+                        backdrop-blur-sm
+                    "
+                >
+                    ₹{course?.price ?? 0}
+                </span>
             </div>
 
             {/* Content */}
 
             <div
                 className="
-                flex
-                flex-1
-                flex-col
-                px-5
-                py-4
-            "
+                    flex
+                    flex-1
+                    flex-col
+                    px-5
+                    py-4
+                "
             >
                 {/* Title + Wishlist */}
 
                 <div
                     className="
-    flex
-    items-start
-    gap-3
-"
+                        flex
+                        items-start
+                        gap-3
+                    "
                 >
-                    {/* Title */}
-
                     <h3
                         className="
-        min-h-12
-        min-w-0
-        flex-1
+                            min-h-12
+                            min-w-0
+                            flex-1
 
-        font-accent
-        text-base
-        font-semibold
-        leading-6
-        text-text-primary
+                            overflow-hidden
 
-        transition-colors
-        duration-300
+                            font-accent
+                            text-base
+                            font-semibold
+                            leading-6
+                            text-text-primary
 
-        group-hover:text-accent-primary
-    "
+                            line-clamp-2
+
+                            transition-colors
+                            duration-300
+
+                            group-hover:text-accent-primary
+                        "
                     >
-                        {course.title}
+                        {course?.title ??
+                            "Untitled course"}
                     </h3>
 
                     {/* Wishlist */}
@@ -167,35 +206,41 @@ const CourseCard = ({ course }) => {
                         onClick={handleWishlistToggle}
                         aria-label={
                             isWishlisted
-                                ? `Remove ${course.title} from wishlist`
-                                : `Add ${course.title} to wishlist`
+                                ? `Remove ${course?.title ??
+                                  "course"} from wishlist`
+                                : `Add ${course?.title ??
+                                  "course"} to wishlist`
                         }
                         aria-pressed={isWishlisted}
                         className={`
-                                 flex
-                                 h-8
-                                 w-8
-                                 shrink-0
-                                 items-center
-                                 justify-center
-                                                
-                                 cursor-pointer
-                                 rounded-md
-                                                
-                                 transition-all
-                                 duration-200
-                                                
-                                 ${
-                                     isWishlisted
-                                         ? "text-emerald-600"
-                                         : "text-text-muted hover:text-emerald-800"
-                                 }
-                            `}
+                            flex
+                            h-8
+                            w-8
+                            shrink-0
+                            items-center
+                            justify-center
+
+                            cursor-pointer
+                            rounded-md
+
+                            transition-colors
+                            duration-200
+
+                            ${
+                                isWishlisted
+                                    ? "text-accent-primary"
+                                    : "text-text-muted hover:text-accent-primary"
+                            }
+                        `}
                     >
                         <Heart
                             size={18}
                             strokeWidth={1.8}
-                            fill={isWishlisted ? "currentColor" : "none"}
+                            fill={
+                                isWishlisted
+                                    ? "currentColor"
+                                    : "none"
+                            }
                         />
                     </button>
                 </div>
@@ -204,75 +249,89 @@ const CourseCard = ({ course }) => {
 
                 <div
                     className="
-                    mt-2.5
-                    flex
-                    items-center
-                    gap-1.5
+                        mt-2.5
+                        flex
+                        min-w-0
+                        items-center
+                        gap-1.5
 
-                    font-body
-                    text-xs
-                    text-text-secondary
-                "
+                        font-body
+                        text-xs
+                        text-text-secondary
+                    "
                 >
-                    <UserRound size={13} className="shrink-0" />
+                    <UserRound
+                        size={13}
+                        className="shrink-0"
+                    />
 
-                    <span className="truncate">{course.instructor}</span>
+                    <span className="truncate">
+                        {course?.instructor
+                            ?.username ??
+                            "Unknown instructor"}
+                    </span>
                 </div>
 
                 {/* Metadata */}
 
                 <div
                     className="
-                    mt-3
-                    flex
-                    flex-wrap
-                    items-center
-                    justify-between
-                    gap-x-3
-                    gap-y-2
-                "
+                        mt-3
+                        flex
+                        flex-wrap
+                        items-center
+                        gap-2
+                    "
                 >
                     {/* Level */}
 
                     <span
                         className={`
-                        inline-flex
-                        items-center
-                        gap-1.5
+                            inline-flex
+                            items-center
+                            gap-1.5
 
-                        rounded-md
-                        border
+                            rounded-md
+                            border
 
-                        px-2
-                        py-1
+                            px-2
+                            py-1
 
-                        font-body
-                        text-[10px]
-                        font-medium
+                            font-body
+                            text-[10px]
+                            font-medium
 
-                        ${currentLevel.classes}
-                    `}
+                            ${currentLevel.classes}
+                        `}
                     >
                         <LevelIcon size={11} />
 
                         {currentLevel.label}
                     </span>
 
-                    {/* Duration */}
+                    {/* Language */}
 
                     <span
                         className="
-                        flex
-                        items-center
-                        gap-1.5
+                            inline-flex
+                            items-center
 
-                        font-body
-                        text-xs
-                        text-text-muted
-                    "
+                            rounded-md
+                            border
+                            border-border-subtle
+                            bg-background-elevated
+
+                            px-2
+                            py-1
+
+                            font-body
+                            text-[10px]
+                            font-medium
+                            text-text-secondary
+                        "
                     >
-                        <Clock3 size={13} />
-                        32 hrs on-demand videos
+                        {course?.language ??
+                            "Unknown"}
                     </span>
                 </div>
 
@@ -280,28 +339,34 @@ const CourseCard = ({ course }) => {
 
                 <div
                     className="
-                    mt-4
-                    flex
-                    items-center
-                    justify-between
+                        mt-4
+                        flex
+                        items-center
+                        justify-between
 
-                    border-t
-                    border-border-subtle
-                    pt-3.5
-                "
+                        border-t
+                        border-border-subtle
+                        pt-3.5
+                    "
                 >
+                    {/* Price */}
+
                     <span
                         className="
-                        font-body
-                        text-[11px]
-                        text-text-muted
-                    "
+                            font-accent
+                            text-sm
+                            font-semibold
+                            text-text-primary
+                        "
                     >
-                        Self-paced learning
+                        ₹{course?.price ?? 0}
                     </span>
 
-                    <Link
-                        to={`/courses/${course.id}`}
+                    {/* View Course */}
+
+                    <button
+                        type="button"
+                        onClick={handleCourseClick}
                         className="
                             inline-flex
                             items-center
@@ -321,6 +386,7 @@ const CourseCard = ({ course }) => {
                         "
                     >
                         View Course
+
                         <ArrowRight
                             size={14}
                             className="
@@ -330,7 +396,7 @@ const CourseCard = ({ course }) => {
                                 group-hover:translate-x-1
                             "
                         />
-                    </Link>
+                    </button>
                 </div>
             </div>
         </article>

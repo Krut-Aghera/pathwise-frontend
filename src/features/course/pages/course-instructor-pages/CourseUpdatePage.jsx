@@ -1,15 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { Image } from "lucide-react"
 
-import useCourse from "../hooks/useCourse.js"
-import useCourseManagement from "../hooks/useCourseManagement.js"
+import useCourse from "../../hooks/useCourse.js"
+import useCourseManagement from "../../hooks/useCourseManagement.js"
 
-import Button from "../../../components/ui/Button.jsx"
-import CourseUpdateLoadingSkeleton from "../components/skeletons/CourseUpdateLoadingSkeleton.jsx"
+import Button from "../../../../components/ui/Button.jsx"
+import CourseUpdateLoadingSkeleton from "../../components/skeletons/CourseUpdateLoadingSkeleton.jsx"
 
-import { courseValidationRules } from "../courseValidations.js"
-import CourseUpdateForm from "../components/forms/CourseUpdateForm.jsx"
-import ErrorState from "../../../components/ui/ErrorState.jsx"
+import { courseValidationRules } from "../../courseValidations.js"
+import CourseUpdateForm from "../../components/forms/CourseUpdateForm.jsx"
+import ErrorState from "../../../../components/ui/ErrorState.jsx"
 import { useEffect } from "react"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

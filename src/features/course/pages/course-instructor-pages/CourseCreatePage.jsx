@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom"
 
-import CourseCreateForm from "../components/forms/CourseCreateForm.jsx"
-import useCourseManagement from "../hooks/useCourseManagement.js"
+import CourseCreateForm from "../../components/forms/CourseCreateForm.jsx"
+import useCourseManagement from "../../hooks/useCourseManagement.js"
 
 import {
     courseValidationRules,
     courseThumbnailValidationRules,
-} from "../courseValidations.js"
+} from "../../courseValidations.js"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
