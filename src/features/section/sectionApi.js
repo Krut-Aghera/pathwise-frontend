@@ -168,9 +168,14 @@ const sectionApi = createApi({
 })
 
 export const {
+    // Section queries
     useFetchCourseSectionsQuery,
-    useFetchInstructorSectionQuery,
+    useLazyFetchCourseSectionsQuery,
 
+    useFetchInstructorSectionQuery,
+    useLazyFetchInstructorSectionQuery,
+
+    // Section mutations
     useCreateSectionMutation,
     useReorderSectionsMutation,
     useUpdateSectionMutation,

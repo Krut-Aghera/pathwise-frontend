@@ -1,3 +1,5 @@
+import { useCallback } from "react"
+
 import {
     useLazyFetchCoursesQuery,
     useLazyFetchCurrentCourseQuery,
@@ -65,78 +67,91 @@ const useCourse = () => {
     ///////////////////////////////////////////////////////////////
     // Fetch public courses
 
-    const fetchCourses = async (query = {}) => {
-        try {
-            const result = await fetchCoursesQuery(query).unwrap()
+    const fetchCourses = useCallback(
+        async (query = {}) => {
+            try {
+                const result = await fetchCoursesQuery(query).unwrap()
 
-            return {
-                success: true,
-                data: result,
+                return {
+                    success: true,
+                    data: result,
+                }
+            } catch (error) {
+                return {
+                    success: false,
+                    error,
+                }
             }
-        } catch (error) {
-            return {
-                success: false,
-                error,
-            }
-        }
-    }
+        },
+        [fetchCoursesQuery]
+    )
 
     ///////////////////////////////////////////////////////////////
     // Fetch public current course
 
-    const fetchCurrentCourse = async (courseId) => {
-        try {
-            const result = await fetchCurrentCourseQuery(courseId).unwrap()
+    const fetchCurrentCourse = useCallback(
+        async (courseId) => {
+            try {
+                const result = await fetchCurrentCourseQuery(courseId).unwrap()
 
-            return {
-                success: true,
-                data: result,
+                return {
+                    success: true,
+                    data: result,
+                }
+            } catch (error) {
+                return {
+                    success: false,
+                    error,
+                }
             }
-        } catch (error) {
-            return {
-                success: false,
-                error,
-            }
-        }
-    }
+        },
+        [fetchCurrentCourseQuery]
+    )
 
     ///////////////////////////////////////////////////////////////
     // Fetch instructor courses
 
-    const fetchInstructorCourses = async (query = {}) => {
-        try {
-            const result = await fetchInstructorCoursesQuery(query).unwrap()
+    const fetchInstructorCourses = useCallback(
+        async (query = {}) => {
+            try {
+                const result = await fetchInstructorCoursesQuery(query).unwrap()
 
-            return {
-                success: true,
-                data: result,
+                return {
+                    success: true,
+                    data: result,
+                }
+            } catch (error) {
+                return {
+                    success: false,
+                    error,
+                }
             }
-        } catch (error) {
-            return {
-                success: false,
-                error,
-            }
-        }
-    }
+        },
+        [fetchInstructorCoursesQuery]
+    )
 
     ///////////////////////////////////////////////////////////////
     // Fetch instructor current course
 
-    const fetchInstructorCourse = async (courseId) => {
-        try {
-            const result = await fetchInstructorCourseQuery(courseId).unwrap()
+    const fetchInstructorCourse = useCallback(
+        async (courseId) => {
+            try {
+                const result =
+                    await fetchInstructorCourseQuery(courseId).unwrap()
 
-            return {
-                success: true,
-                data: result,
+                return {
+                    success: true,
+                    data: result,
+                }
+            } catch (error) {
+                return {
+                    success: false,
+                    error,
+                }
             }
-        } catch (error) {
-            return {
-                success: false,
-                error,
-            }
-        }
-    }
+        },
+        [fetchInstructorCourseQuery]
+    )
 
     ///////////////////////////////////////////////////////////////
     // Data

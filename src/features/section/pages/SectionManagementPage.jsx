@@ -71,13 +71,29 @@ const SectionManagementPage = () => {
 
     const {
         section,
+        fetchSection,
+
         isSectionLoading,
         isSectionError,
         sectionError,
-        refetchSection,
-    } = useSection({
-        sectionId,
-    })
+
+        isSectionSuccess,
+    } = useSection()
+
+    /*
+     * Fetch section
+     *
+     * useSection now uses a lazy query, so the
+     * section must be fetched explicitly.
+     */
+
+    useEffect(() => {
+        if (!sectionId) {
+            return
+        }
+
+        fetchSection(sectionId)
+    }, [sectionId, fetchSection])
 
     /*
      * Section workflow state
@@ -467,7 +483,7 @@ const SectionManagementPage = () => {
      * Section loading error
      */
 
-    if (isSectionError || !section) {
+    if (isSectionError || (!isSectionSuccess && !section)) {
         return (
             <main className={PAGE_CONTAINER}>
                 <ErrorState
@@ -477,7 +493,13 @@ const SectionManagementPage = () => {
                             ? sectionError?.message || "Unable to load section."
                             : "The requested section could not be found."
                     }
-                    onRetry={refetchSection}
+                    onRetry={() => {
+                        if (!sectionId) {
+                            return
+                        }
+
+                        fetchSection(sectionId)
+                    }}
                 />
             </main>
         )
@@ -574,102 +596,28 @@ const SectionManagementPage = () => {
                         className="
                             min-w-0
                             space-y-6
-                        "
-                    >
-                        <div
-                            className="
-                                rounded-2xl
-                                border
-                                border-border-subtle
-                                bg-background-surface
-                                p-5
-                                sm:p-6
-                            "
-                        >
-                            <h2
-                                className="
-                                    font-accent
-                                    text-lg
-                                    font-semibold
-                                    text-text-primary
-                                "
-                            >
-                                Section Information
-                            </h2>
-
-                            <p
-                                className="
-                                    mt-1
-                                    font-body
-                                    text-sm
-                                    leading-5
-                                    text-text-secondary
-                                "
-                            >
-                                View the current section status and lecture
-                                progress.
-                            </p>
-
-                            <div className="mt-5 space-y-4">
-                                <div>
-                                    <p className="font-body text-xs text-text-muted">
-                                        Section
-                                    </p>
-
-                                    <p className="mt-1 font-body text-sm font-medium text-text-primary">
-                                        {section.order}
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <p className="font-body text-xs text-text-muted">
-                                        Lectures
-                                    </p>
-
-                                    <p className="mt-1 font-body text-sm font-medium text-text-primary">
-                                        {lectures.length}
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <p className="font-body text-xs text-text-muted">
-                                        Published Lectures
-                                    </p>
-
-                                    <p className="mt-1 font-body text-sm font-medium text-text-primary">
-                                        {
-                                            lectures.filter(
-                                                (lecture) =>
-                                                    lecture.status ===
-                                                    RESOURCE_STATUS.PUBLISHED
-                                            ).length
-                                        }
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <WorkflowActions
-                            status={section.status}
-                            onEdit={handleEdit}
-                            onRemove={handleOpenRemove}
-                            onPublish={handlePublish}
-                            onPublishBlocked={() =>
-                                setWorkflowError(
-                                    "The section must contain at least one published lecture before it can be published."
-                                )
-                            }
-                            onSaveDraft={handleSaveDraft}
-                            loading={isWorkflowLoading}
-                            resourceName="Section"
-                            resourceDescription="Manage this section and control its publication status."
-                            publishEnabled={hasPublishedLecture}
-                            publishDisabledMessage="The section must contain at least one published lecture before it can be published."
-                            editDescription="Update this section's title and settings."
-                            publishDescription="Make this section available as part of the published course curriculum."
-                            draftDescription="Move this section back to draft status."
-                            removeDescription="Remove this section and its lectures from the course."
-                        />
+                        ">
+                            <WorkflowActions
+                                status={section.status}
+                                onEdit={handleEdit}
+                                onRemove={handleOpenRemove}
+                                onPublish={handlePublish}
+                                onPublishBlocked={() =>
+                                    setWorkflowError(
+                                        "The section must contain at least one published lecture before it can be published."
+                                    )
+                                }
+                                onSaveDraft={handleSaveDraft}
+                                loading={isWorkflowLoading}
+                                resourceName="Section"
+                                resourceDescription="Manage this section and control its publication status."
+                                publishEnabled={hasPublishedLecture}
+                                publishDisabledMessage="The section must contain at least one published lecture before it can be published."
+                                editDescription="Update this section's title and settings."
+                                publishDescription="Make this section available as part of the published course curriculum."
+                                draftDescription="Move this section back to draft status."
+                                removeDescription="Remove this section and its lectures from the course."
+                            />
                     </aside>
                 </div>
             </main>

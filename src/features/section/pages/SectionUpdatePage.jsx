@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import ErrorState from "../../../components/ui/ErrorState.jsx"
@@ -21,13 +22,25 @@ const SectionUpdatePage = () => {
 
     const {
         section,
+        fetchSection,
+
         isSectionLoading,
         isSectionError,
         sectionError,
-        refetchSection,
-    } = useSection({
-        sectionId,
-    })
+
+        isSectionSuccess,
+    } = useSection()
+
+    ///////////////////////////////////////////////////////////////
+    // Fetch section
+
+    useEffect(() => {
+        if (!sectionId) {
+            return
+        }
+
+        fetchSection(sectionId)
+    }, [sectionId, fetchSection])
 
     ///////////////////////////////////////////////////////////////
     // Section management
@@ -60,7 +73,7 @@ const SectionUpdatePage = () => {
             return
         }
 
-        navigate(`/instructor/courses/${courseId}`)
+        navigate(`/instructor/courses/${courseId}/manage`)
     }
 
     ///////////////////////////////////////////////////////////////
@@ -125,7 +138,7 @@ const SectionUpdatePage = () => {
     ///////////////////////////////////////////////////////////////
     // Error
 
-    if (isSectionError || !section) {
+    if (isSectionError || (!isSectionSuccess && !section)) {
         const message = isSectionError
             ? getErrorMessage(sectionError, "Unable to load this section.")
             : "The requested section could not be found."
@@ -150,7 +163,13 @@ const SectionUpdatePage = () => {
                 <ErrorState
                     title="Unable to load section"
                     message={message}
-                    onRetry={refetchSection}
+                    onRetry={() => {
+                        if (!sectionId) {
+                            return
+                        }
+
+                        fetchSection(sectionId)
+                    }}
                 />
             </main>
         )

@@ -152,13 +152,12 @@ const ManagementPageHeader = ({
                         gap-4
                     "
                 >
-                    {/* Thumbnail / Icon */}
+                    {/* Thumbnail */}
 
-                    {thumbnail ? (
+                    {thumbnail && (
                         <div
                             className="
-                                h-50
-                                w-90
+                                w-24
                                 shrink-0
 
                                 overflow-hidden
@@ -169,6 +168,12 @@ const ManagementPageHeader = ({
                                 border-border-subtle
 
                                 bg-background-elevated
+
+                                aspect-video
+
+                                sm:w-36
+                                md:w-44
+                                lg:w-52
                             "
                         >
                             <img
@@ -181,25 +186,27 @@ const ManagementPageHeader = ({
                                 "
                             />
                         </div>
-                    ) : (
-                        <div
-                            className="
-                                flex
-                                h-12
-                                w-12
-                                shrink-0
-                                items-center
-                                justify-center
-
-                                rounded-xl
-
-                                bg-accent-primary/10
-                                text-accent-primary
-                            "
-                        >
-                            <Icon size={21} />
-                        </div>
                     )}
+
+                    {/* Icon */}
+
+                    <div
+                        className="
+                            flex
+                            h-12
+                            w-12
+                            shrink-0
+                            items-center
+                            justify-center
+
+                            rounded-xl
+
+                            bg-accent-primary/10
+                            text-accent-primary
+                        "
+                    >
+                        <Icon size={21} />
+                    </div>
 
                     {/* Content */}
 
@@ -245,18 +252,18 @@ const ManagementPageHeader = ({
                                     <div
                                         key={`${item}-${index}`}
                                         className="
-                                                flex
-                                                min-w-0
-                                                items-center
-                                                gap-2
-                                            "
+                                            flex
+                                            min-w-0
+                                            items-center
+                                            gap-2
+                                        "
                                     >
                                         {index > 0 && (
                                             <span
                                                 className="
-                                                        shrink-0
-                                                        text-text-muted/40
-                                                    "
+                                                    shrink-0
+                                                    text-text-muted/40
+                                                "
                                             >
                                                 /
                                             </span>
@@ -264,25 +271,24 @@ const ManagementPageHeader = ({
 
                                         <span
                                             className={`
-                                                    min-w-0
-                                                    wrap-break-word
+                                                min-w-0
+                                                wrap-break-word
 
-                                                    font-body
-                                                    text-sm
+                                                font-body
+                                                text-sm
 
-                                                    ${
-                                                        index ===
-                                                        context.length - 1
-                                                            ? `
-                                                                font-medium
-                                                                text-text-primary
-                                                            `
-                                                            : `
-                                                                font-medium
-                                                                text-text-muted
-                                                            `
-                                                    }
-                                                `}
+                                                ${
+                                                    index === context.length - 1
+                                                        ? `
+                                                            font-medium
+                                                            text-text-primary
+                                                        `
+                                                        : `
+                                                            font-medium
+                                                            text-text-muted
+                                                        `
+                                                }
+                                            `}
                                         >
                                             {item}
                                         </span>

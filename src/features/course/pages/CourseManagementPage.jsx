@@ -1,4 +1,4 @@
-import { BookOpen } from "lucide-react"
+import { Layers3 } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -43,7 +43,7 @@ const CourseManagementPage = () => {
      * Temporary page state
      */
 
-    const [courseToRemove, setCourseToRemove] = useState(null)
+    const [showRemoveDialog, setShowRemoveDialog] = useState(false)
 
     /*
      * Action errors
@@ -98,11 +98,12 @@ const CourseManagementPage = () => {
 
     const {
         sections,
+        fetchSections,
+
         isSectionsLoading,
         isSectionsError,
         sectionsError,
-        refetchSections,
-    } = useSection({ courseId })
+    } = useSection()
 
     /*
      * Derived state
@@ -134,6 +135,21 @@ const CourseManagementPage = () => {
 
         fetchInstructorCourse(courseId)
     }, [courseId, fetchInstructorCourse])
+
+    /*
+     * Fetch course sections
+     *
+     * useSection now uses a lazy query, so sections
+     * must be fetched explicitly.
+     */
+
+    useEffect(() => {
+        if (!courseId) {
+            return
+        }
+
+        fetchSections(courseId)
+    }, [courseId, fetchSections])
 
     /*
      * Error helpers
@@ -289,11 +305,8 @@ const CourseManagementPage = () => {
 
         clearWorkflowError()
 
-        setCourseToRemove({
-            id: course._id,
-            title: course.title,
-        })
-    }, [course?._id, course?.title, isWorkflowLoading, clearWorkflowError])
+        setShowRemoveDialog(true)
+    }, [course?._id, isWorkflowLoading, clearWorkflowError])
 
     /*
      * Cancel remove workflow
@@ -304,7 +317,7 @@ const CourseManagementPage = () => {
             return
         }
 
-        setCourseToRemove(null)
+        setShowRemoveDialog(false)
     }, [isRemoving])
 
     /*
@@ -312,13 +325,13 @@ const CourseManagementPage = () => {
      */
 
     const handleConfirmRemove = useCallback(async () => {
-        if (!courseToRemove?.id || isRemoving) {
+        if (!course?._id || isRemoving) {
             return
         }
 
         clearWorkflowError()
 
-        const result = await removeCourse(courseToRemove.id)
+        const result = await removeCourse(course._id)
 
         if (!result.success) {
             setWorkflowError(
@@ -328,11 +341,11 @@ const CourseManagementPage = () => {
             return
         }
 
-        setCourseToRemove(null)
+        setShowRemoveDialog(false)
 
         navigate("/instructor/courses")
     }, [
-        courseToRemove?.id,
+        course?._id,
         isRemoving,
         clearWorkflowError,
         removeCourse,
@@ -431,6 +444,18 @@ const CourseManagementPage = () => {
     }, [courseId, fetchInstructorCourse])
 
     /*
+     * Retry sections
+     */
+
+    const handleRetrySections = useCallback(() => {
+        if (!courseId) {
+            return
+        }
+
+        fetchSections(courseId)
+    }, [courseId, fetchSections])
+
+    /*
      * Initial loading
      */
 
@@ -478,7 +503,7 @@ const CourseManagementPage = () => {
                         sectionsError,
                         "Unable to load course curriculum."
                     )}
-                    onRetry={refetchSections}
+                    onRetry={handleRetrySections}
                 />
             </main>
         )
@@ -495,7 +520,7 @@ const CourseManagementPage = () => {
                     pageTitle="Course Management"
                     context={[course.title]}
                     thumbnail={course.thumbnail?.url}
-                    icon={BookOpen}
+                    icon={Layers3}
                     onBack={handleBack}
                     backLabel="Back to My Courses"
                     status={course.status}
@@ -574,21 +599,25 @@ const CourseManagementPage = () => {
             </main>
 
             <ConfirmDialog
-                open={Boolean(courseToRemove)}
+                open={showRemoveDialog}
                 title="Remove Course"
-                subtitle={courseToRemove?.title}
-                description="This will remove the course from your instructor course list."
+                subtitle="This action cannot be undone."
                 message={
-                    courseToRemove
-                        ? `Are you sure you want to remove "${courseToRemove.title}"?`
-                        : "Are you sure you want to remove this course?"
+                    <>
+                        Are you sure you want to remove{" "}
+                        <span className="font-semibold text-text-primary">
+                            "{course.title}"
+                        </span>
+                        ? This will remove the course from your instructor
+                        course list.
+                    </>
                 }
                 confirmLabel="Remove Course"
                 cancelLabel="Cancel"
+                variant="danger"
                 loading={isRemoving}
                 onConfirm={handleConfirmRemove}
                 onCancel={handleCancelRemove}
-                variant="danger"
             />
         </>
     )

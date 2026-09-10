@@ -17,17 +17,16 @@ const SectionCreatePage = () => {
     const handleSubmit = async (sectionData) => {
         const result = await createSection(courseId, sectionData)
 
-        console.log(result)
         if (!result.success) {
             throw result.error
         }
 
-        navigate(`/instructor/courses/${courseId}`)
+        navigate(`/instructor/courses/${courseId}/manage`)
     }
 
     // Cancel button handler
     const handleCancel = () => {
-        navigate(`/instructor/courses/${courseId}`)
+        navigate(`/instructor/courses/${courseId}/manage`)
     }
 
     return (

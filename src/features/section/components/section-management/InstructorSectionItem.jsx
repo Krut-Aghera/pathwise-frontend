@@ -2,7 +2,7 @@ import { memo } from "react"
 
 import {
     ArrowRight,
-    BookOpen,
+    Layers3,
     CheckCircle2,
     CircleDashed,
     GripVertical,
@@ -151,7 +151,7 @@ const InstructorSectionItem = ({
                         text-accent-primary
                     "
                 >
-                    <BookOpen size={17} />
+                    <Layers3 size={17} />
                 </div>
 
                 {/* Section information */}
