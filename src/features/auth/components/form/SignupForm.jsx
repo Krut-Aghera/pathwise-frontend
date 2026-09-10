@@ -1,13 +1,11 @@
 import { useForm } from "react-hook-form"
 
-import Input from "../../../components/form/Input"
-import PasswordInput from "../../../components/form/PasswordInput"
-import FormField from "../../../components/form/FormField"
-import Button from "../../../components/ui/Button"
+import Input from "../../../../components/form/Input"
+import PasswordInput from "../../../../components/form/PasswordInput"
+import FormField from "../../../../components/form/FormField"
+import Button from "../../../../components/ui/Button"
 
-import { signupValidationRules } from "../authValidation"
-
-const SignupForm = ({ onSubmit, loading = false }) => {
+const SignupForm = ({ onSubmit, loading = false, validationRules }) => {
     const {
         register,
         handleSubmit,
@@ -120,7 +118,7 @@ const SignupForm = ({ onSubmit, loading = false }) => {
                     aria-describedby={
                         errors.username ? "signup-username-error" : undefined
                     }
-                    {...register("username", signupValidationRules.username)}
+                    {...register("username", validationRules.username)}
                 />
             </FormField>
 
@@ -141,7 +139,7 @@ const SignupForm = ({ onSubmit, loading = false }) => {
                     aria-describedby={
                         errors.email ? "signup-email-error" : undefined
                     }
-                    {...register("email", signupValidationRules.email)}
+                    {...register("email", validationRules.email)}
                 />
             </FormField>
 
@@ -161,7 +159,7 @@ const SignupForm = ({ onSubmit, loading = false }) => {
                     aria-describedby={
                         errors.password ? "signup-password-error" : undefined
                     }
-                    {...register("password", signupValidationRules.password)}
+                    {...register("password", validationRules.password)}
                 />
             </FormField>
 

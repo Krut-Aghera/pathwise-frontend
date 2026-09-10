@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom"
 
 import pathwise_main_logo from "../../../assets/pathwise_main_logo.png"
-import LoginForm from "../components/LoginForm"
 import useSession from "../hooks/useSession"
+import LoginForm from "../components/form/LoginForm"
+import { loginValidationRules } from "../authValidation"
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -125,6 +126,7 @@ const LoginPage = () => {
                     <LoginForm
                         onSubmit={handleSubmit}
                         loading={isLoginLoading}
+                        validationRules={loginValidationRules}
                     />
                 </section>
 

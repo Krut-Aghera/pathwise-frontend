@@ -1,9 +1,25 @@
 import { Link } from "react-router-dom"
 
 import pathwise_main_logo from "../../../assets/pathwise_main_logo.png"
-import ForgotPasswordForm from "../components/ForgotPasswordForm.jsx"
+import ForgotPasswordForm from "../components/form/ForgotPasswordForm"
+
+import useAuthManagement from "../hooks/useAuthManagement"
+import { forgotPasswordValidationRules } from "../authValidation"
 
 const ForgotPasswordPage = () => {
+    const { userRequestPasswordReset, isRequestPasswordResetLoading } =
+        useAuthManagement()
+
+    ///////////////////////////////////////////////////////////////
+    // Submit
+
+    const handleSubmit = async (formData) => {
+        return await userRequestPasswordReset(formData)
+    }
+
+    ///////////////////////////////////////////////////////////////
+    // Render
+
     return (
         <main
             className="
@@ -94,7 +110,11 @@ const ForgotPasswordPage = () => {
                     sm:p-7
                 "
                 >
-                    <ForgotPasswordForm />
+                    <ForgotPasswordForm
+                        onSubmit={handleSubmit}
+                        loading={isRequestPasswordResetLoading}
+                        validationRules={forgotPasswordValidationRules}
+                    />
                 </section>
 
                 {/* Back to Login */}

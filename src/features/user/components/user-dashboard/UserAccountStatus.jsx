@@ -1,7 +1,13 @@
 import UserEmailVerificationCard from "./UserEmailVerificationCard"
 import UserInstructorAccessCard from "./UserInstructorAccessCard"
 
-const UserAccountStatus = () => {
+const UserAccountStatus = ({
+    onRequestEmailVerification,
+    isRequestEmailVerificationLoading,
+    emailVerificationError,
+    isEmailVerificationSent,
+    onDismissEmailVerificationError,
+}) => {
     return (
         <section>
             <div
@@ -10,7 +16,7 @@ const UserAccountStatus = () => {
                 flex
                 flex-col
                 gap-1
-            "
+                "
             >
                 <p
                     className="
@@ -20,7 +26,7 @@ const UserAccountStatus = () => {
                     uppercase
                     tracking-[0.16em]
                     text-accent-primary
-                "
+                    "
                 >
                     Account status
                 </p>
@@ -32,7 +38,7 @@ const UserAccountStatus = () => {
                     font-semibold
                     tracking-tight
                     text-text-primary
-                "
+                    "
                 >
                     Keep your account ready
                 </h2>
@@ -44,7 +50,7 @@ const UserAccountStatus = () => {
                     text-xs
                     leading-5
                     text-text-secondary
-                "
+                    "
                 >
                     Review your account security and access status.
                 </p>
@@ -57,9 +63,19 @@ const UserAccountStatus = () => {
                 gap-4
 
                 lg:grid-cols-2
-            "
+                "
             >
-                <UserEmailVerificationCard />
+                <UserEmailVerificationCard
+                    onRequestEmailVerification={onRequestEmailVerification}
+                    isRequestEmailVerificationLoading={
+                        isRequestEmailVerificationLoading
+                    }
+                    emailVerificationError={emailVerificationError}
+                    isEmailVerificationSent={isEmailVerificationSent}
+                    onDismissEmailVerificationError={
+                        onDismissEmailVerificationError
+                    }
+                />
 
                 <UserInstructorAccessCard />
             </div>

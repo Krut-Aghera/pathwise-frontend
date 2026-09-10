@@ -1,6 +1,17 @@
-import { ArrowRight, AtSign, KeyRound, Trash2, UserRound } from "lucide-react"
+import {
+    ArrowRight,
+    AtSign,
+    KeyRound,
+    LogOut,
+    Trash2,
+    UserRound,
+} from "lucide-react"
 
-const UserAccountManagement = () => {
+const UserAccountManagement = ({
+    onLogout,
+    isLogoutLoading,
+    onChangePassword,
+}) => {
     return (
         <section
             className="
@@ -9,56 +20,64 @@ const UserAccountManagement = () => {
             border
             border-border-subtle
             bg-background-surface
-        "
+            "
         >
+            {/* Header */}
+
+            <div
+                className="
+                border-b
+                border-border-subtle
+                px-5
+                py-5
+
+                sm:px-6
+                "
+            >
+                <h2
+                    className="
+                    font-accent
+                    text-base
+                    font-semibold
+                    text-text-primary
+                    "
+                >
+                    Account management
+                </h2>
+
+                <p
+                    className="
+                    mt-1
+                    max-w-2xl
+                    font-body
+                    text-xs
+                    leading-5
+                    text-text-muted
+                    "
+                >
+                    Manage your account information, security, and active
+                    session.
+                </p>
+            </div>
+
             {/* Personal information */}
 
             <div>
-                <div
-                    className="
-                    border-b
-                    border-border-subtle
-                    px-5
-                    py-4
-
-                    sm:px-6
-                "
-                >
-                    <h3
-                        className="
-                        font-accent
-                        text-sm
-                        font-semibold
-                        text-text-primary
-                    "
-                    >
-                        Personal information
-                    </h3>
-
-                    <p
-                        className="
-                        mt-1
-                        font-body
-                        text-xs
-                        leading-5
-                        text-text-muted
-                    "
-                    >
-                        Manage the information associated with your account.
-                    </p>
-                </div>
+                <UserAccountManagementSectionTitle>
+                    Personal information
+                </UserAccountManagementSectionTitle>
 
                 <div>
                     <UserAccountManagementOption
                         icon={UserRound}
-                        title="Update username"
+                        title="Username"
                         description="Change the name displayed across Pathwise."
                         accent="primary"
                     />
 
                     <UserAccountManagementOption
                         icon={AtSign}
-                        title="Update email address"
+                        title="Email address"
                         description="Change the email address associated with your account."
                         accent="secondary"
                     />
@@ -67,52 +86,112 @@ const UserAccountManagement = () => {
 
             {/* Security */}
 
-            <div
-                className="
-                border-t
-                border-border-subtle
-            "
-            >
-                <div
-                    className="
-                    border-b
-                    border-border-subtle
-                    px-5
-                    py-4
-
-                    sm:px-6
-                "
-                >
-                    <h3
-                        className="
-                        font-accent
-                        text-sm
-                        font-semibold
-                        text-text-primary
-                    "
-                    >
-                        Security
-                    </h3>
-
-                    <p
-                        className="
-                        mt-1
-                        font-body
-                        text-xs
-                        leading-5
-                        text-text-muted
-                    "
-                    >
-                        Keep your account credentials secure.
-                    </p>
-                </div>
+            <div className="border-t border-border-subtle">
+                <UserAccountManagementSectionTitle>
+                    Security
+                </UserAccountManagementSectionTitle>
 
                 <UserAccountManagementOption
                     icon={KeyRound}
-                    title="Change password"
+                    title="Password"
                     description="Update your password to keep your account secure."
                     accent="unique"
+                    onClick={onChangePassword}
                 />
+            </div>
+
+            {/* Session */}
+
+            <div className="border-t border-border-subtle">
+                <UserAccountManagementSectionTitle>
+                    Session
+                </UserAccountManagementSectionTitle>
+
+                <button
+                    type="button"
+                    onClick={onLogout}
+                    disabled={isLogoutLoading}
+                    className="
+                    group
+                    flex
+                    w-full
+                    items-center
+                    gap-4
+                    px-5
+                    py-4
+                    text-left
+                    transition-colors
+                    duration-200
+
+                    hover:bg-background-elevated
+
+                    focus:outline-none
+                    focus-visible:bg-background-elevated
+
+                    disabled:cursor-not-allowed
+                    disabled:opacity-60
+
+                    sm:px-6
+                    "
+                >
+                    <div
+                        className="
+                        flex
+                        h-10
+                        w-10
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-xl
+                        border
+                        border-accent-primary/20
+                        bg-accent-primary/10
+                        text-accent-primary
+                        "
+                    >
+                        <LogOut size={17} strokeWidth={1.9} />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                        <h3
+                            className="
+                            font-accent
+                            text-sm
+                            font-medium
+                            text-text-primary
+                            "
+                        >
+                            {isLogoutLoading ? "Signing out..." : "Sign out"}
+                        </h3>
+
+                        <p
+                            className="
+                            mt-0.5
+                            font-body
+                            text-xs
+                            leading-5
+                            text-text-secondary
+                            "
+                        >
+                            {isLogoutLoading
+                                ? "Ending your current Pathwise session..."
+                                : "Sign out from your current Pathwise session."}
+                        </p>
+                    </div>
+
+                    <ArrowRight
+                        size={16}
+                        className="
+                        shrink-0
+                        text-text-muted
+                        transition-all
+                        duration-200
+
+                        group-hover:translate-x-1
+                        group-hover:text-text-primary
+                        "
+                    />
+                </button>
             </div>
 
             {/* Danger zone */}
@@ -122,24 +201,28 @@ const UserAccountManagement = () => {
                 border-t
                 border-status-danger/15
                 bg-status-danger/5
-            "
+                "
             >
                 <div
                     className="
                     px-5
-                    py-4
+                    py-5
 
                     sm:px-6
-                "
+                    "
                 >
                     <div
                         className="
                         flex
                         items-center
-                        gap-2
-                    "
+                        gap-2.5
+                        "
                     >
-                        <Trash2 size={15} className="text-status-danger" />
+                        <Trash2
+                            size={15}
+                            strokeWidth={1.9}
+                            className="text-status-danger"
+                        />
 
                         <h3
                             className="
@@ -147,7 +230,7 @@ const UserAccountManagement = () => {
                             text-sm
                             font-semibold
                             text-status-danger
-                        "
+                            "
                         >
                             Danger zone
                         </h3>
@@ -156,13 +239,15 @@ const UserAccountManagement = () => {
                     <p
                         className="
                         mt-1
+                        max-w-2xl
                         font-body
                         text-xs
                         leading-5
                         text-text-secondary
-                    "
+                        "
                     >
-                        These actions can affect your account permanently.
+                        Permanent actions that can affect your account and
+                        cannot be undone.
                     </p>
                 </div>
 
@@ -171,10 +256,10 @@ const UserAccountManagement = () => {
                     border-t
                     border-status-danger/10
                     px-5
-                    py-4
+                    py-5
 
                     sm:px-6
-                "
+                    "
                 >
                     <div
                         className="
@@ -185,19 +270,19 @@ const UserAccountManagement = () => {
                         sm:flex-row
                         sm:items-center
                         sm:justify-between
-                    "
+                        "
                     >
-                        <div>
-                            <h4
+                        <div className="min-w-0">
+                            <h3
                                 className="
                                 font-accent
                                 text-sm
-                                font-semibold
+                                font-medium
                                 text-text-primary
-                            "
+                                "
                             >
-                                Permanently delete account
-                            </h4>
+                                Delete account
+                            </h3>
 
                             <p
                                 className="
@@ -207,45 +292,44 @@ const UserAccountManagement = () => {
                                 text-xs
                                 leading-5
                                 text-text-secondary
-                            "
+                                "
                             >
                                 Permanently remove your Pathwise account and
-                                associated account data. This action cannot be
-                                undone.
+                                associated data.
                             </p>
                         </div>
 
                         <button
                             type="button"
                             className="
-                                inline-flex
-                                shrink-0
-                                items-center
-                                justify-center
-                                gap-2
-                                rounded-lg
-                                border
-                                border-status-danger/25
-                                bg-status-danger/10
-                                px-4
-                                py-2.5
-                                font-body
-                                text-xs
-                                font-semibold
-                                text-status-danger
-                                transition-all
-                                duration-200
+                            inline-flex
+                            shrink-0
+                            items-center
+                            justify-center
+                            gap-2
+                            rounded-lg
+                            border
+                            border-status-danger/25
+                            bg-status-danger/10
+                            px-4
+                            py-2.5
+                            font-body
+                            text-xs
+                            font-semibold
+                            text-status-danger
+                            transition-all
+                            duration-200
 
-                                hover:border-status-danger/40
-                                hover:bg-status-danger/15
+                            hover:border-status-danger/40
+                            hover:bg-status-danger/15
 
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-status-danger/20
+                            focus:outline-none
+                            focus:ring-2
+                            focus:ring-status-danger/20
                             "
                         >
                             Delete account
-                            <ArrowRight size={14} />
+                            <ArrowRight size={14} strokeWidth={1.9} />
                         </button>
                     </div>
                 </div>
@@ -254,11 +338,39 @@ const UserAccountManagement = () => {
     )
 }
 
+const UserAccountManagementSectionTitle = ({ children }) => {
+    return (
+        <div
+            className="
+            px-5
+            pb-2
+            pt-5
+
+            sm:px-6
+            "
+        >
+            <h3
+                className="
+                font-accent
+                text-[11px]
+                font-semibold
+                uppercase
+                tracking-[0.08em]
+                text-text-muted
+                "
+            >
+                {children}
+            </h3>
+        </div>
+    )
+}
+
 const UserAccountManagementOption = ({
     icon: Icon,
     title,
     description,
     accent,
+    onClick,
 }) => {
     const accentClasses = {
         primary: {
@@ -294,21 +406,18 @@ const UserAccountManagementOption = ({
     return (
         <button
             type="button"
+            onClick={onClick}
             className={`
                 group
                 flex
                 w-full
                 items-center
                 gap-4
-                border-b
-                border-border-subtle
                 px-5
                 py-4
                 text-left
                 transition-colors
                 duration-200
-
-                last:border-b-0
 
                 ${classes.hover}
 
@@ -329,7 +438,7 @@ const UserAccountManagementOption = ({
                 rounded-xl
                 border
                 ${classes.icon}
-            `}
+                `}
             >
                 <Icon size={17} strokeWidth={1.9} />
             </div>
@@ -341,7 +450,7 @@ const UserAccountManagementOption = ({
                     text-sm
                     font-medium
                     text-text-primary
-                "
+                    "
                 >
                     {title}
                 </h4>
@@ -353,7 +462,7 @@ const UserAccountManagementOption = ({
                     text-xs
                     leading-5
                     text-text-secondary
-                "
+                    "
                 >
                     {description}
                 </p>
@@ -362,13 +471,13 @@ const UserAccountManagementOption = ({
             <ArrowRight
                 size={16}
                 className="
-                    shrink-0
-                    text-text-muted
-                    transition-transform
-                    duration-200
+                shrink-0
+                text-text-muted
+                transition-all
+                duration-200
 
-                    group-hover:translate-x-1
-                    group-hover:text-text-primary
+                group-hover:translate-x-1
+                group-hover:text-text-primary
                 "
             />
         </button>

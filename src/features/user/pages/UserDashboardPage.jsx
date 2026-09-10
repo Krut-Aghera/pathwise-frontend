@@ -1,16 +1,74 @@
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+
 import UserDashboardHeader from "../components/user-dashboard/UserDashboardHeader"
 import UserLearningOverview from "../components/user-dashboard/UserLearningOverview"
 import UserAccountStatus from "../components/user-dashboard/UserAccountStatus"
 import UserProfileSummary from "../components/user-dashboard/UserProfileSummary"
 import UserAccountManagement from "../components/user-dashboard/UserAccountManagement"
 
+import useAuthManagement from "../../auth/hooks/useAuthManagement"
+import useSession from "../../auth/hooks/useSession"
+
 const UserDashboardPage = () => {
+    const { userRequestEmailVerification, isRequestEmailVerificationLoading } =
+        useAuthManagement()
+
+    const { userLogout, isLogoutLoading } = useSession()
+
+    const [emailVerificationError, setEmailVerificationError] = useState("")
+
+    const [isEmailVerificationSent, setIsEmailVerificationSent] =
+        useState(false)
+
+    // Request email verification
+
+    const handleRequestEmailVerification = async () => {
+        if (isRequestEmailVerificationLoading) {
+            return
+        }
+
+        setEmailVerificationError("")
+
+        try {
+            await userRequestEmailVerification()
+
+            setIsEmailVerificationSent(true)
+        } catch (error) {
+            setEmailVerificationError(
+                error?.message ||
+                    "Unable to send the verification email. Please try again."
+            )
+        }
+    }
+
+    // Logout
+
+    const handleLogout = async () => {
+        if (isLogoutLoading) {
+            return
+        }
+
+        await userLogout()
+    }
+
+    const navigate = useNavigate()
+
+    // Navigate to change password
+
+    const handleChangePassword = () => {
+        navigate("/auth/change-password")
+    }
+
+    ///////////////////////////////////////////////////////////////
+    // Render
+
     return (
         <main
             className="
             min-h-[calc(100vh-4rem)]
             bg-background-base
-        "
+            "
         >
             <div
                 className="
@@ -25,7 +83,7 @@ const UserDashboardPage = () => {
 
                 lg:px-8
                 lg:py-10
-            "
+                "
             >
                 {/* Header */}
 
@@ -40,7 +98,7 @@ const UserDashboardPage = () => {
 
                     lg:mt-8
                     lg:space-y-10
-                "
+                    "
                 >
                     {/* Learning overview */}
 
@@ -48,7 +106,19 @@ const UserDashboardPage = () => {
 
                     {/* Account status */}
 
-                    <UserAccountStatus />
+                    <UserAccountStatus
+                        onRequestEmailVerification={
+                            handleRequestEmailVerification
+                        }
+                        isRequestEmailVerificationLoading={
+                            isRequestEmailVerificationLoading
+                        }
+                        emailVerificationError={emailVerificationError}
+                        isEmailVerificationSent={isEmailVerificationSent}
+                        onDismissEmailVerificationError={() =>
+                            setEmailVerificationError("")
+                        }
+                    />
 
                     {/* Profile */}
 
@@ -63,7 +133,7 @@ const UserDashboardPage = () => {
                             flex
                             flex-col
                             gap-1
-                        "
+                            "
                         >
                             <p
                                 className="
@@ -73,7 +143,7 @@ const UserDashboardPage = () => {
                                 uppercase
                                 tracking-[0.16em]
                                 text-accent-primary
-                            "
+                                "
                             >
                                 Account
                             </p>
@@ -85,7 +155,7 @@ const UserDashboardPage = () => {
                                 font-semibold
                                 tracking-tight
                                 text-text-primary
-                            "
+                                "
                             >
                                 Manage your account
                             </h2>
@@ -97,14 +167,18 @@ const UserDashboardPage = () => {
                                 text-xs
                                 leading-5
                                 text-text-secondary
-                            "
+                                "
                             >
                                 Update your personal information and security
                                 settings.
                             </p>
                         </div>
 
-                        <UserAccountManagement />
+                        <UserAccountManagement
+                            onLogout={handleLogout}
+                            isLogoutLoading={isLogoutLoading}
+                            onChangePassword={handleChangePassword}
+                        />
                     </section>
                 </div>
             </div>

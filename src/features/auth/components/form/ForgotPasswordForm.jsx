@@ -1,18 +1,16 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 
-import FormField from "../../../components/form/FormField"
-import Input from "../../../components/form/Input"
-import Button from "../../../components/ui/Button"
+import FormField from "../../../../components/form/FormField"
+import Input from "../../../../components/form/Input"
+import Button from "../../../../components/ui/Button"
 
-import { forgotPasswordValidationRules } from "../authValidation"
-// import { requestPasswordReset } from "../authService"
-
-const ForgotPasswordForm = () => {
+const ForgotPasswordForm = ({ onSubmit, loading = false, validationRules }) => {
     const {
         register,
         handleSubmit,
         setError,
+        clearErrors,
         formState: { errors, isSubmitting },
     } = useForm({
         defaultValues: {
@@ -20,41 +18,60 @@ const ForgotPasswordForm = () => {
         },
     })
 
-    const [passwordResponse, setPasswordResponse] = useState(null)
+    const [passwordResponse, setPasswordResponse] = useState("")
 
-    const onSubmit = async (formData) => {
+    ///////////////////////////////////////////////////////////////
+    // Submit
+
+    const handleFormSubmit = async (formData) => {
+        setPasswordResponse("")
+        clearErrors("root")
+
         try {
-            // const response = await requestPasswordReset({
-            //     email: formData.email,
-            // })
+            const response = await onSubmit({
+                email: formData.email,
+            })
 
-            setPasswordResponse(response.message)
-            // toast
-
-            // We can show a success state here later.
-            // For now, the request completes successfully.
+            setPasswordResponse(
+                response?.message ||
+                    "If the account exists, a password reset link has been sent to your email."
+            )
         } catch (error) {
-            if (error.statusCode === 400) {
+            /////////////////////////////////////////////////////////
+            // Backend validation / email error
+
+            if (error?.statusCode === 400) {
                 setError("email", {
                     type: "server",
-                    message: error.message,
+                    message: error?.message,
                 })
 
                 return
             }
 
+            /////////////////////////////////////////////////////////
+            // General / unexpected error
+
             setError("root", {
                 type: "server",
                 message:
-                    error.message ||
+                    error?.message ||
                     "Unable to process your request. Please try again.",
             })
         }
     }
 
+    ///////////////////////////////////////////////////////////////
+    // Loading
+
+    const isFormLoading = loading || isSubmitting
+
+    ///////////////////////////////////////////////////////////////
+    // Render
+
     return (
         <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(handleFormSubmit)}
             noValidate
             className="
                 w-full
@@ -100,7 +117,7 @@ const ForgotPasswordForm = () => {
                     aria-describedby={
                         errors.email ? "forgot-password-email-error" : undefined
                     }
-                    {...register("email", forgotPasswordValidationRules.email)}
+                    {...register("email", validationRules.email)}
                 />
             </FormField>
 
@@ -113,14 +130,14 @@ const ForgotPasswordForm = () => {
                         border
                         border-status-success/30
                         bg-status-success/5
-                        font-body
-                        font-medium
                         px-3
                         py-2.5
+                        font-body
                         text-sm
+                        font-medium
                         leading-5
                         text-status-success
-                        "
+                    "
                 >
                     {passwordResponse}
                 </p>
@@ -128,7 +145,12 @@ const ForgotPasswordForm = () => {
 
             {/* Submit */}
 
-            <Button type="submit" loading={isSubmitting} className="w-full">
+            <Button
+                type="submit"
+                loading={isFormLoading}
+                disabled={isFormLoading}
+                className="w-full"
+            >
                 Send Reset Link
             </Button>
         </form>

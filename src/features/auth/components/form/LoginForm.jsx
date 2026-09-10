@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 
-import FormField from "../../../components/form/FormField"
-import Input from "../../../components/form/Input"
-import PasswordInput from "../../../components/form/PasswordInput"
-import Button from "../../../components/ui/Button"
+import FormField from "../../../../components/form/FormField"
+import Input from "../../../../components/form/Input"
+import PasswordInput from "../../../../components/form/PasswordInput"
+import Button from "../../../../components/ui/Button"
 
-import { loginValidationRules } from "../authValidation"
-
-const LoginForm = ({ onSubmit, loading = false }) => {
+const LoginForm = ({ onSubmit, loading = false, validationRules }) => {
     const {
         register,
         handleSubmit,
@@ -108,7 +106,7 @@ const LoginForm = ({ onSubmit, loading = false }) => {
                     aria-describedby={
                         errors.email ? "login-email-error" : undefined
                     }
-                    {...register("email", loginValidationRules.email)}
+                    {...register("email", validationRules.email)}
                 />
             </FormField>
 
@@ -128,7 +126,7 @@ const LoginForm = ({ onSubmit, loading = false }) => {
                     aria-describedby={
                         errors.password ? "login-password-error" : undefined
                     }
-                    {...register("password", loginValidationRules.password)}
+                    {...register("password", validationRules.password)}
                 />
             </FormField>
 

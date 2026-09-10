@@ -1,4 +1,6 @@
-import { useGetCurrentUserQuery } from "../../user/userApi"
+import { useDispatch } from "react-redux"
+
+import userApi, { useGetCurrentUserQuery } from "../../user/userApi"
 
 import {
     useSignupMutation,
@@ -7,7 +9,9 @@ import {
 } from "../authApi"
 
 const useSession = () => {
-    // Current user
+    const dispatch = useDispatch()
+
+    // Current authenticated user
     const {
         data: userResponse,
         isLoading: isAuthInitializing,
@@ -17,47 +21,68 @@ const useSession = () => {
 
     const user = userResponse?.data || null
 
-    // Authentication mutations
+    // Session mutations
     const [signup, { isLoading: isSignupLoading }] = useSignupMutation()
 
     const [login, { isLoading: isLoginLoading }] = useLoginMutation()
 
     const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation()
 
+    ///////////////////////////////////////////////////////////////
     // Derived authentication state
-    const isAuthenticated = Boolean(
-        userResponse?.statusCode === 200 || userResponse?.suceess || user
-    )
 
+    const isAuthenticated = Boolean(user)
+
+    ///////////////////////////////////////////////////////////////
     // Signup
+
     const userSignup = async (userData) => {
         await signup(userData).unwrap()
+
         await refetchCurrentUser()
     }
 
+    ///////////////////////////////////////////////////////////////
     // Login
+
     const userLogin = async (credentials) => {
         await login(credentials).unwrap()
+
         await refetchCurrentUser()
     }
 
+    ///////////////////////////////////////////////////////////////
     // Logout
+
     const userLogout = async () => {
-        await logout().unwrap()
-        await refetchCurrentUser()
+        try {
+            await logout().unwrap()
+        } finally {
+            dispatch(
+                userApi.util.upsertQueryData("getCurrentUser", undefined, {
+                    data: null,
+                })
+            )
+        }
     }
 
-    // Return session interface
+    ///////////////////////////////////////////////////////////////
+
     return {
+        // Current user
         user,
+
+        // Authentication state
         isAuthenticated,
         isAuthInitializing,
         isAuthError,
 
+        // Session actions
         userSignup,
         userLogin,
         userLogout,
 
+        // Loading states
         isSignupLoading,
         isLoginLoading,
         isLogoutLoading,

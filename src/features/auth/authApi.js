@@ -1,4 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react"
+
 import axiosBaseQuery from "../../app/network/axiosBaseQuery"
 
 const authApi = createApi({
@@ -12,7 +13,7 @@ const authApi = createApi({
 
     endpoints: (builder) => ({
         ///////////////////////////////////////////////////////////////
-        // User registration
+        // Authentication
 
         // POST /auth/users
         signup: builder.mutation({
@@ -21,12 +22,7 @@ const authApi = createApi({
                 method: "POST",
                 data: userData,
             }),
-
-            invalidatesTags: ["Auth"],
         }),
-
-        ///////////////////////////////////////////////////////////////
-        // User login
 
         // POST /auth/sessions
         login: builder.mutation({
@@ -35,12 +31,7 @@ const authApi = createApi({
                 method: "POST",
                 data: credentials,
             }),
-
-            invalidatesTags: ["Auth"],
         }),
-
-        ///////////////////////////////////////////////////////////////
-        // User logout
 
         // POST /auth/sessions/current
         logout: builder.mutation({
@@ -48,12 +39,7 @@ const authApi = createApi({
                 url: "/sessions/current",
                 method: "POST",
             }),
-
-            invalidatesTags: ["Auth"],
         }),
-
-        ///////////////////////////////////////////////////////////////
-        // Rotate authentication tokens
 
         // POST /auth/tokens/rotate
         rotateTokens: builder.mutation({
@@ -64,7 +50,7 @@ const authApi = createApi({
         }),
 
         ///////////////////////////////////////////////////////////////
-        // Request password reset
+        // Password reset
 
         // POST /auth/password-reset
         requestPasswordReset: builder.mutation({
@@ -74,9 +60,6 @@ const authApi = createApi({
                 data,
             }),
         }),
-
-        ///////////////////////////////////////////////////////////////
-        // Reset password
 
         // POST /auth/password-reset/confirm/:token
         resetPassword: builder.mutation({
@@ -88,20 +71,7 @@ const authApi = createApi({
         }),
 
         ///////////////////////////////////////////////////////////////
-        // Confirm email verification
-
-        // POST /auth/email-verification/confirm/:token
-        confirmEmailVerification: builder.mutation({
-            query: (token) => ({
-                url: `/email-verification/confirm/${token}`,
-                method: "POST",
-            }),
-
-            invalidatesTags: ["Auth"],
-        }),
-
-        ///////////////////////////////////////////////////////////////
-        // Request email verification
+        // Email verification
 
         // POST /auth/email-verification
         requestEmailVerification: builder.mutation({
@@ -111,8 +81,16 @@ const authApi = createApi({
             }),
         }),
 
+        // POST /auth/email-verification/confirm/:token
+        confirmEmailVerification: builder.mutation({
+            query: (token) => ({
+                url: `/email-verification/confirm/${token}`,
+                method: "POST",
+            }),
+        }),
+
         ///////////////////////////////////////////////////////////////
-        // Change password
+        // Password
 
         // PATCH /auth/password
         changePassword: builder.mutation({
@@ -130,13 +108,10 @@ export const {
     useLoginMutation,
     useLogoutMutation,
     useRotateTokensMutation,
-
     useRequestPasswordResetMutation,
     useResetPasswordMutation,
-
-    useConfirmEmailVerificationMutation,
     useRequestEmailVerificationMutation,
-
+    useConfirmEmailVerificationMutation,
     useChangePasswordMutation,
 } = authApi
 

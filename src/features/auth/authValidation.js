@@ -102,9 +102,66 @@ const forgotPasswordValidationRules = {
     },
 }
 
+const changePasswordValidationRules = {
+    currentPassword: {
+        required: {
+            value: true,
+            message: "Current password is required",
+        },
+
+        pattern: {
+            value: SIGNUP_REGEX_VALIDATIONS.password.PATTERN,
+            message: "Current password is incorrect",
+        },
+    },
+
+    newPassword: {
+        required: {
+            value: true,
+            message: "New password is required",
+        },
+
+        pattern: {
+            value: SIGNUP_REGEX_VALIDATIONS.password.PATTERN,
+            message: SIGNUP_REGEX_VALIDATIONS.password.MESSAGE,
+        },
+    },
+}
+
+const resetPasswordValidationRules = {
+    newPassword: {
+        required: {
+            value: true,
+            message: "New password is required",
+        },
+
+        pattern: {
+            value: SIGNUP_REGEX_VALIDATIONS.password.PATTERN,
+            message: SIGNUP_REGEX_VALIDATIONS.password.MESSAGE,
+        },
+    },
+
+    confirmPassword: {
+        required: {
+            value: true,
+            message: "Confirm password is required",
+        },
+
+        validate: (value, formValues) => {
+            if (value !== formValues.newPassword) {
+                return "Passwords do not match."
+            }
+
+            return true
+        },
+    },
+}
+
 export {
     SIGNUP_REGEX_VALIDATIONS,
     signupValidationRules,
     loginValidationRules,
     forgotPasswordValidationRules,
+    changePasswordValidationRules,
+    resetPasswordValidationRules,
 }

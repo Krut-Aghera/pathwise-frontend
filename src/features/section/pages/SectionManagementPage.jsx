@@ -596,28 +596,29 @@ const SectionManagementPage = () => {
                         className="
                             min-w-0
                             space-y-6
-                        ">
-                            <WorkflowActions
-                                status={section.status}
-                                onEdit={handleEdit}
-                                onRemove={handleOpenRemove}
-                                onPublish={handlePublish}
-                                onPublishBlocked={() =>
-                                    setWorkflowError(
-                                        "The section must contain at least one published lecture before it can be published."
-                                    )
-                                }
-                                onSaveDraft={handleSaveDraft}
-                                loading={isWorkflowLoading}
-                                resourceName="Section"
-                                resourceDescription="Manage this section and control its publication status."
-                                publishEnabled={hasPublishedLecture}
-                                publishDisabledMessage="The section must contain at least one published lecture before it can be published."
-                                editDescription="Update this section's title and settings."
-                                publishDescription="Make this section available as part of the published course curriculum."
-                                draftDescription="Move this section back to draft status."
-                                removeDescription="Remove this section and its lectures from the course."
-                            />
+                        "
+                    >
+                        <WorkflowActions
+                            status={section.status}
+                            onEdit={handleEdit}
+                            onRemove={handleOpenRemove}
+                            onPublish={handlePublish}
+                            onPublishBlocked={() =>
+                                setWorkflowError(
+                                    "The section must contain at least one published lecture before it can be published."
+                                )
+                            }
+                            onSaveDraft={handleSaveDraft}
+                            loading={isWorkflowLoading}
+                            resourceName="Section"
+                            resourceDescription="Manage this section and control its publication status."
+                            publishEnabled={hasPublishedLecture}
+                            publishDisabledMessage="The section must contain at least one published lecture before it can be published."
+                            editDescription="Update this section's title and settings."
+                            publishDescription="Make this section available as part of the published course curriculum."
+                            draftDescription="Move this section back to draft status."
+                            removeDescription="Remove this section and its lectures from the course."
+                        />
                     </aside>
                 </div>
             </main>

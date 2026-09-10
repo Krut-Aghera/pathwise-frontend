@@ -15,12 +15,14 @@ const ActionError = ({
     autoHide = false,
     autoHideDuration = 5000,
 
+    scrollIntoView = true,
+
     onDismiss,
 }) => {
     const errorRef = useRef(null)
 
     useEffect(() => {
-        if (!open) {
+        if (!open || !scrollIntoView) {
             return
         }
 
@@ -30,7 +32,7 @@ const ActionError = ({
                 block: "center",
             })
         })
-    }, [open])
+    }, [open, scrollIntoView])
 
     useEffect(() => {
         if (!open || !dismissible) {

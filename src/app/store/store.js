@@ -1,7 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
 
-import authReducer from "../../features/auth/authSlice"
-
 import authApi from "../../features/auth/authApi"
 import userApi from "../../features/user/userApi"
 import courseApi from "../../features/course/courseApi"
@@ -10,8 +8,6 @@ import lectureApi from "../../features/lecture/lectureApi"
 
 const store = configureStore({
     reducer: {
-        auth: authReducer,
-
         [authApi.reducerPath]: authApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [courseApi.reducerPath]: courseApi.reducer,

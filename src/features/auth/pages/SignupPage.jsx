@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom"
 
 import pathwise_main_logo from "../../../assets/pathwise_main_logo.png"
-import SignupForm from "../components/SignupForm"
-
 import useSession from "../hooks/useSession"
+import SignupForm from "../components/form/SignupForm"
+import { signupValidationRules } from "../authValidation"
 
 const SignupPage = () => {
     const { userSignup, isSignupLoading } = useSession()
@@ -120,6 +120,7 @@ const SignupPage = () => {
                     <SignupForm
                         onSubmit={handleSubmit}
                         loading={isSignupLoading}
+                        validationRules={signupValidationRules}
                     />
                 </section>
 

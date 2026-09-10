@@ -42,6 +42,10 @@ import LectureCreatePage from "../../features/lecture/pages/LectureCreatePage"
 import LectureUpdatePage from "../../features/lecture/pages/LectureUpdatePage"
 import LectureVideoUploadPage from "../../features/lecture/pages/LectureVideoUploadPage"
 import LectureManagementPage from "../../features/lecture/pages/LectureManagementPage"
+import VerifyEmailPage from "../../features/auth/pages/VerifyEmailPage"
+import ChangePasswordPage from "../../features/auth/pages/ChangePasswordPage"
+import UserAuthLayout from "../../layouts/UserAuthLayout"
+import ResetPasswordPage from "../../features/auth/pages/ResetPasswordPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -66,6 +70,10 @@ const routerConfig = createBrowserRouter(
                         path="forgot-password"
                         element={<ForgotPasswordPage />}
                     />
+                    <Route
+                        path="reset-password/:token"
+                        element={<ResetPasswordPage />}
+                    />
                 </Route>
             </Route>
 
@@ -83,7 +91,26 @@ const routerConfig = createBrowserRouter(
                     />
                 }
             >
+                <Route path="auth" element={<UserAuthLayout />}>
+                    <Route
+                        path="change-password"
+                        element={<ChangePasswordPage />}
+                    />
+                    <Route
+                        path="verify-email/:token"
+                        element={<VerifyEmailPage />}
+                    />
+                </Route>
+
                 <Route element={<AppLayout />}>
+                    <Route
+                        path="auth/change-password"
+                        element={<ChangePasswordPage />}
+                    />
+                    <Route
+                        path="auth/verify-email/:token"
+                        element={<VerifyEmailPage />}
+                    />
                     <Route path="dashboard" element={<UserDashboardPage />} />
                     <Route path="wishlist" element={<WishlistPage />} />
                 </Route>

@@ -1,9 +1,17 @@
 import { CheckCircle2, Mail, ShieldAlert } from "lucide-react"
 
 import useSession from "../../../auth/hooks/useSession"
+
+import ActionError from "../../../../components/ui/ActionError"
 import Button from "../../../../components/ui/Button"
 
-const UserEmailVerificationCard = () => {
+const UserEmailVerificationCard = ({
+    onRequestEmailVerification,
+    isRequestEmailVerificationLoading,
+    emailVerificationError,
+    isEmailVerificationSent,
+    onDismissEmailVerificationError,
+}) => {
     const { user } = useSession()
 
     if (user?.isEmailVerified) {
@@ -17,7 +25,7 @@ const UserEmailVerificationCard = () => {
                 border-status-success/20
                 bg-background-surface
                 p-5
-            "
+                "
             >
                 <div
                     className="
@@ -30,7 +38,7 @@ const UserEmailVerificationCard = () => {
                     rounded-full
                     bg-status-success/5
                     blur-2xl
-                "
+                    "
                 />
 
                 <div
@@ -39,7 +47,7 @@ const UserEmailVerificationCard = () => {
                     flex
                     items-start
                     gap-4
-                "
+                    "
                 >
                     <div
                         className="
@@ -54,7 +62,7 @@ const UserEmailVerificationCard = () => {
                         border-status-success/20
                         bg-status-success/10
                         text-status-success
-                    "
+                        "
                     >
                         <CheckCircle2 size={20} strokeWidth={1.9} />
                     </div>
@@ -66,7 +74,7 @@ const UserEmailVerificationCard = () => {
                             flex-wrap
                             items-center
                             gap-2
-                        "
+                            "
                         >
                             <h3
                                 className="
@@ -74,7 +82,7 @@ const UserEmailVerificationCard = () => {
                                 text-sm
                                 font-semibold
                                 text-text-primary
-                            "
+                                "
                             >
                                 Email verified
                             </h3>
@@ -89,7 +97,7 @@ const UserEmailVerificationCard = () => {
                                 text-[10px]
                                 font-medium
                                 text-status-success
-                            "
+                                "
                             >
                                 Verified
                             </span>
@@ -102,7 +110,7 @@ const UserEmailVerificationCard = () => {
                             text-xs
                             leading-5
                             text-text-secondary
-                        "
+                            "
                         >
                             Your email address is verified and your account is
                             fully active.
@@ -123,7 +131,7 @@ const UserEmailVerificationCard = () => {
             border-status-warning/20
             bg-background-surface
             p-5
-        "
+            "
         >
             <div
                 className="
@@ -136,7 +144,7 @@ const UserEmailVerificationCard = () => {
                 rounded-full
                 bg-status-warning/5
                 blur-3xl
-            "
+                "
             />
 
             <div
@@ -145,14 +153,14 @@ const UserEmailVerificationCard = () => {
                 flex
                 flex-col
                 gap-5
-            "
+                "
             >
                 <div
                     className="
                     flex
                     items-start
                     gap-4
-                "
+                    "
                 >
                     <div
                         className="
@@ -168,19 +176,19 @@ const UserEmailVerificationCard = () => {
                         border-status-warning/20
                         bg-status-warning/10
                         text-status-warning
-                    "
+                        "
                     >
                         <span
-                            className="
-                            absolute
-                            inset-0
-                            animate-ping
-                            rounded-xl
-                            bg-status-warning/10
-                        "
+                            className={`
+                                absolute
+                                inset-0
+                                rounded-xl
+                                bg-status-warning/10
+                                ${isEmailVerificationSent ? "" : "animate-ping"}
+                            `}
                         />
 
-                        <ShieldAlert
+                        <Mail
                             size={20}
                             strokeWidth={1.9}
                             className="relative z-10"
@@ -194,7 +202,7 @@ const UserEmailVerificationCard = () => {
                             flex-wrap
                             items-center
                             gap-2
-                        "
+                            "
                         >
                             <h3
                                 className="
@@ -202,9 +210,11 @@ const UserEmailVerificationCard = () => {
                                 text-sm
                                 font-semibold
                                 text-text-primary
-                            "
+                                "
                             >
-                                Verify your email
+                                {isEmailVerificationSent
+                                    ? "Verification email sent"
+                                    : "Verify your email"}
                             </h3>
 
                             <span
@@ -217,9 +227,11 @@ const UserEmailVerificationCard = () => {
                                 text-[10px]
                                 font-medium
                                 text-status-warning
-                            "
+                                "
                             >
-                                Action required
+                                {isEmailVerificationSent
+                                    ? "Check your inbox"
+                                    : "Action required"}
                             </span>
                         </div>
 
@@ -230,16 +242,19 @@ const UserEmailVerificationCard = () => {
                             text-xs
                             leading-5
                             text-text-secondary
-                        "
+                            "
                         >
-                            Verify your email to unlock all Pathwise features
-                            and keep your account secure.
+                            {isEmailVerificationSent
+                                ? "We sent a verification link to your email address. Open the email and click the link to continue."
+                                : "Verify your email to unlock all Pathwise features and keep your account secure."}
                         </p>
                     </div>
                 </div>
 
                 <Button
                     type="button"
+                    loading={isRequestEmailVerificationLoading}
+                    onClick={onRequestEmailVerification}
                     className="
                         w-full
                         bg-status-warning
@@ -251,8 +266,16 @@ const UserEmailVerificationCard = () => {
                     "
                 >
                     <Mail size={15} />
-                    Verify email
+
+                    {isEmailVerificationSent ? "Resend email" : "Verify email"}
                 </Button>
+
+                <ActionError
+                    open={Boolean(emailVerificationError)}
+                    title="Unable to send email"
+                    message={emailVerificationError}
+                    onDismiss={onDismissEmailVerificationError}
+                />
             </div>
         </section>
     )
