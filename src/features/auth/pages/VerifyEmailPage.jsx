@@ -9,10 +9,8 @@ const VerifyEmailPage = () => {
     const { token } = useParams()
     const navigate = useNavigate()
 
-    const {
-        userConfirmEmailVerification,
-        isConfirmEmailVerificationLoading,
-    } = useAuthManagement()
+    const { userConfirmEmailVerification, isConfirmEmailVerificationLoading } =
+        useAuthManagement()
 
     const [verificationError, setVerificationError] = useState("")
 

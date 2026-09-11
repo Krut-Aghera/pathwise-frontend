@@ -1,30 +1,18 @@
-import {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
-import {
-    Search,
-    SlidersHorizontal,
-} from "lucide-react"
+import { Search, SlidersHorizontal } from "lucide-react"
 
 import { useNavigate, useSearchParams } from "react-router-dom"
 
 import useCourse from "../../hooks/useCourse.js"
 
-import CourseFilters from "../../components/course-public/CourseFilters.jsx"
-import CourseGrid from "../../components/course-public/CourseGrid.jsx"
-import CourseGridSkeleton from "../../components/course-public/CourseGridSkeleton.jsx"
-import CoursePagination from "../../components/course-public/CoursePagination.jsx"
-import CourseSearch from "../../components/course-public/CourseSearch.jsx"
+import CourseFilters from "../../components/course-public/course-listing/CourseFilters.jsx"
+import CourseGrid from "../../components/course-public/course-listing/CourseGrid.jsx"
+import CourseGridSkeleton from "../../components/course-public/course-listing/CourseGridSkeleton.jsx"
+import CoursePagination from "../../components/course-public/course-listing/CoursePagination.jsx"
+import CourseSearch from "../../components/course-public/course-listing/CourseSearch.jsx"
 
-import {
-    COURSE_SORT_FIELDS,
-    SORT_ORDERS,
-} from "../../courseConstants.js"
+import { COURSE_SORT_FIELDS, SORT_ORDERS } from "../../courseConstants.js"
 
 const DEFAULT_PAGE = 1
 const DEFAULT_LIMIT = 12
@@ -32,10 +20,8 @@ const DEFAULT_SORT_BY = COURSE_SORT_FIELDS.CREATED_AT
 const DEFAULT_SORT_ORDER = SORT_ORDERS.DESC
 
 const CoursesPage = () => {
-
     const navigate = useNavigate()
-    const [searchParams, setSearchParams] =
-        useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const {
         fetchCourses,
@@ -53,45 +39,32 @@ const CoursesPage = () => {
 
     const pageParam = Number(searchParams.get("page"))
 
-    const limitParam = Number(
-        searchParams.get("limit")
-    )
+    const limitParam = Number(searchParams.get("limit"))
 
     const page =
-        Number.isFinite(pageParam) && pageParam > 0
-            ? pageParam
-            : DEFAULT_PAGE
+        Number.isFinite(pageParam) && pageParam > 0 ? pageParam : DEFAULT_PAGE
 
     const limit =
         Number.isFinite(limitParam) && limitParam > 0
             ? limitParam
             : DEFAULT_LIMIT
 
-    const search =
-        searchParams.get("search") ?? ""
+    const search = searchParams.get("search") ?? ""
 
-    const level =
-        searchParams.get("level") ?? ""
+    const level = searchParams.get("level") ?? ""
 
-    const language =
-        searchParams.get("language") ?? ""
+    const language = searchParams.get("language") ?? ""
 
-    const sortBy =
-        searchParams.get("sortBy") ??
-        DEFAULT_SORT_BY
+    const sortBy = searchParams.get("sortBy") ?? DEFAULT_SORT_BY
 
-    const sortOrder =
-        searchParams.get("sortOrder") ??
-        DEFAULT_SORT_ORDER
+    const sortOrder = searchParams.get("sortOrder") ?? DEFAULT_SORT_ORDER
 
     ///////////////////////////////////////////////////////////////
     // Local state
 
-    const [searchInput, setSearchInput] =
-        useState(search)
+    const [searchInput, setSearchInput] = useState(search)
 
-    const [isMobileFiltersOpen, setIsMobileFiltersOpen] =
-        useState(false)
+    const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false)
 
     const isFirstSearchRender = useRef(true)
 
@@ -108,16 +81,7 @@ const CoursesPage = () => {
             level: level || undefined,
             language: language || undefined,
         })
-    }, [
-        fetchCourses,
-        page,
-        limit,
-        search,
-        sortBy,
-        sortOrder,
-        level,
-        language,
-    ])
+    }, [fetchCourses, page, limit, search, sortBy, sortOrder, level, language])
 
     useEffect(() => {
         loadCourses()
@@ -140,21 +104,14 @@ const CoursesPage = () => {
         }
 
         const timeoutId = setTimeout(() => {
-            const trimmedSearch =
-                searchInput.trim()
+            const trimmedSearch = searchInput.trim()
 
             setSearchParams(
                 (currentParams) => {
-                    const nextParams =
-                        new URLSearchParams(
-                            currentParams
-                        )
+                    const nextParams = new URLSearchParams(currentParams)
 
                     if (trimmedSearch) {
-                        nextParams.set(
-                            "search",
-                            trimmedSearch
-                        )
+                        nextParams.set("search", trimmedSearch)
                     } else {
                         nextParams.delete("search")
                     }
@@ -170,10 +127,7 @@ const CoursesPage = () => {
         }, 400)
 
         return () => clearTimeout(timeoutId)
-    }, [
-        searchInput,
-        setSearchParams,
-    ])
+    }, [searchInput, setSearchParams])
 
     ///////////////////////////////////////////////////////////////
     // Filter update
@@ -182,10 +136,7 @@ const CoursesPage = () => {
         (key, value) => {
             setSearchParams(
                 (currentParams) => {
-                    const nextParams =
-                        new URLSearchParams(
-                            currentParams
-                        )
+                    const nextParams = new URLSearchParams(currentParams)
 
                     if (value) {
                         nextParams.set(key, value)
@@ -215,17 +166,12 @@ const CoursesPage = () => {
 
         setSearchParams(
             (currentParams) => {
-                const nextParams =
-                    new URLSearchParams()
+                const nextParams = new URLSearchParams()
 
-                const currentLimit =
-                    currentParams.get("limit")
+                const currentLimit = currentParams.get("limit")
 
                 if (currentLimit) {
-                    nextParams.set(
-                        "limit",
-                        currentLimit
-                    )
+                    nextParams.set("limit", currentLimit)
                 }
 
                 return nextParams
@@ -249,28 +195,19 @@ const CoursesPage = () => {
 
             if (
                 coursesPagination?.totalPages &&
-                nextPage >
-                coursesPagination.totalPages
+                nextPage > coursesPagination.totalPages
             ) {
                 return
             }
 
             setSearchParams(
                 (currentParams) => {
-                    const nextParams =
-                        new URLSearchParams(
-                            currentParams
-                        )
+                    const nextParams = new URLSearchParams(currentParams)
 
-                    if (
-                        nextPage === DEFAULT_PAGE
-                    ) {
+                    if (nextPage === DEFAULT_PAGE) {
                         nextParams.delete("page")
                     } else {
-                        nextParams.set(
-                            "page",
-                            String(nextPage)
-                        )
+                        nextParams.set("page", String(nextPage))
                     }
 
                     return nextParams
@@ -285,10 +222,7 @@ const CoursesPage = () => {
                 behavior: "smooth",
             })
         },
-        [
-            coursesPagination?.totalPages,
-            setSearchParams,
-        ]
+        [coursesPagination?.totalPages, setSearchParams]
     )
 
     ///////////////////////////////////////////////////////////////
@@ -300,26 +234,17 @@ const CoursesPage = () => {
                 search ||
                 level ||
                 language ||
-                sortBy !==
-                DEFAULT_SORT_BY ||
-                sortOrder !==
-                DEFAULT_SORT_ORDER
+                sortBy !== DEFAULT_SORT_BY ||
+                sortOrder !== DEFAULT_SORT_ORDER
             ),
-        [
-            search,
-            level,
-            language,
-            sortBy,
-            sortOrder,
-        ]
+        [search, level, language, sortBy, sortOrder]
     )
 
     ///////////////////////////////////////////////////////////////
     // Result count
 
     const resultText = useMemo(() => {
-        const totalItems =
-            coursesPagination?.totalItems ?? 0
+        const totalItems = coursesPagination?.totalItems ?? 0
 
         if (totalItems === 0) {
             return "No courses found"
@@ -330,10 +255,7 @@ const CoursesPage = () => {
         }
 
         return `${totalItems} courses`
-    }, [
-        coursesPagination?.totalItems,
-    ])
-
+    }, [coursesPagination?.totalItems])
 
     // Course detail page navigator
 
@@ -353,10 +275,7 @@ const CoursesPage = () => {
     ///////////////////////////////////////////////////////////////
     // Initial loading
 
-    if (
-        isCoursesLoading &&
-        courses?.length === 0
-    ) {
+    if (isCoursesLoading && courses?.length === 0) {
         return (
             <main
                 className="
@@ -424,9 +343,7 @@ const CoursesPage = () => {
                             "
                         />
 
-                        <CourseGridSkeleton
-                            count={DEFAULT_LIMIT}
-                        />
+                        <CourseGridSkeleton count={DEFAULT_LIMIT} />
                     </div>
                 </div>
             </main>
@@ -436,10 +353,7 @@ const CoursesPage = () => {
     ///////////////////////////////////////////////////////////////
     // Error
 
-    if (
-        isCoursesError &&
-        courses?.length === 0
-    ) {
+    if (isCoursesError && courses?.length === 0) {
         return (
             <main
                 className="
@@ -589,10 +503,7 @@ const CoursesPage = () => {
                     <button
                         type="button"
                         onClick={() =>
-                            setIsMobileFiltersOpen(
-                                (current) =>
-                                    !current
-                            )
+                            setIsMobileFiltersOpen((current) => !current)
                         }
                         className="
                             inline-flex
@@ -621,13 +532,9 @@ const CoursesPage = () => {
                             hover:text-text-primary
                         "
                     >
-                        <SlidersHorizontal
-                            size={16}
-                        />
+                        <SlidersHorizontal size={16} />
 
-                        {isMobileFiltersOpen
-                            ? "Hide filters"
-                            : "Show filters"}
+                        {isMobileFiltersOpen ? "Hide filters" : "Show filters"}
                     </button>
                 </div>
 
@@ -646,10 +553,7 @@ const CoursesPage = () => {
 
                     <div
                         className={`
-                            ${isMobileFiltersOpen
-                                ? "block"
-                                : "hidden"
-                            }
+                            ${isMobileFiltersOpen ? "block" : "hidden"}
 
                             lg:sticky
                             lg:top-6
@@ -662,48 +566,25 @@ const CoursesPage = () => {
                             sortBy={sortBy}
                             sortOrder={sortOrder}
                             onLevelChange={(value) =>
-                                updateFilter(
-                                    "level",
-                                    value
-                                )
+                                updateFilter("level", value)
                             }
-                            onLanguageChange={(
-                                value
-                            ) =>
-                                updateFilter(
-                                    "language",
-                                    value
-                                )
+                            onLanguageChange={(value) =>
+                                updateFilter("language", value)
                             }
                             onSortByChange={(value) =>
-                                updateFilter(
-                                    "sortBy",
-                                    value
-                                )
+                                updateFilter("sortBy", value)
                             }
-                            onSortOrderChange={(
-                                value
-                            ) =>
-                                updateFilter(
-                                    "sortOrder",
-                                    value
-                                )
+                            onSortOrderChange={(value) =>
+                                updateFilter("sortOrder", value)
                             }
-                            onReset={
-                                handleResetFilters
-                            }
-                            hasActiveFilters={
-                                hasActiveFilters
-                            }
+                            onReset={handleResetFilters}
+                            hasActiveFilters={hasActiveFilters}
                         />
                     </div>
 
                     {/* Results */}
 
-                    <section
-                        aria-label="Course results"
-                        className="min-w-0"
-                    >
+                    <section aria-label="Course results" className="min-w-0">
                         {/* Results header */}
 
                         <div
@@ -726,18 +607,17 @@ const CoursesPage = () => {
                                 {resultText}
                             </p>
 
-                            {isCoursesFetching &&
-                                !isCoursesLoading && (
-                                    <span
-                                        className="
+                            {isCoursesFetching && !isCoursesLoading && (
+                                <span
+                                    className="
                                             font-body
                                             text-xs
                                             text-text-muted
                                         "
-                                    >
-                                        Updating...
-                                    </span>
-                                )}
+                                >
+                                    Updating...
+                                </span>
+                            )}
                         </div>
 
                         {/* Empty state */}
@@ -781,20 +661,14 @@ const CoursesPage = () => {
                                             text-text-secondary
                                         "
                                     >
-                                        Try changing
-                                        your search or
-                                        adjusting the
-                                        filters to find
-                                        available
-                                        courses.
+                                        Try changing your search or adjusting
+                                        the filters to find available courses.
                                     </p>
 
                                     {hasActiveFilters && (
                                         <button
                                             type="button"
-                                            onClick={
-                                                handleResetFilters
-                                            }
+                                            onClick={handleResetFilters}
                                             className="
                                                 mt-5
 
@@ -847,15 +721,9 @@ const CoursesPage = () => {
 
                                 <div className="mt-10">
                                     <CoursePagination
-                                        pagination={
-                                            coursesPagination
-                                        }
-                                        onPageChange={
-                                            handlePageChange
-                                        }
-                                        disabled={
-                                            isCoursesFetching
-                                        }
+                                        pagination={coursesPagination}
+                                        onPageChange={handlePageChange}
+                                        disabled={isCoursesFetching}
                                     />
                                 </div>
                             </>

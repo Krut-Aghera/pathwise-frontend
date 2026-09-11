@@ -46,8 +46,7 @@ const CourseCard = ({ course, onClick }) => {
     }
 
     const currentLevel =
-        levelConfig[course?.level?.toLowerCase()] ??
-        levelConfig.beginner
+        levelConfig[course?.level?.toLowerCase()] ?? levelConfig.beginner
 
     const LevelIcon = currentLevel.icon
 
@@ -83,8 +82,8 @@ const CourseCard = ({ course, onClick }) => {
                 transition-all
                 duration-300
 
-                hover:border-accent-primary/50
-                hover:bg-background-elevated
+                hover:border-accent-primary/30
+                hover:bg-background-elevated/70
             "
         >
             {/* Thumbnail */}
@@ -100,10 +99,7 @@ const CourseCard = ({ course, onClick }) => {
             >
                 <img
                     src={course?.thumbnail?.url}
-                    alt={
-                        course?.title ??
-                        "Course thumbnail"
-                    }
+                    alt={course?.title ?? "Course thumbnail"}
                     className="
                         h-full
                         w-full
@@ -126,31 +122,6 @@ const CourseCard = ({ course, onClick }) => {
                         to-transparent
                     "
                 />
-
-                {/* Price */}
-
-                <span
-                    className="
-                        absolute
-                        bottom-3
-                        left-3
-
-                        rounded-md
-                        bg-black/70
-
-                        px-2.5
-                        py-1
-
-                        font-body
-                        text-sm
-                        font-semibold
-                        text-white
-
-                        backdrop-blur-sm
-                    "
-                >
-                    ₹{course?.price ?? 0}
-                </span>
             </div>
 
             {/* Content */}
@@ -195,8 +166,7 @@ const CourseCard = ({ course, onClick }) => {
                             group-hover:text-accent-primary
                         "
                     >
-                        {course?.title ??
-                            "Untitled course"}
+                        {course?.title ?? "Untitled course"}
                     </h3>
 
                     {/* Wishlist */}
@@ -206,10 +176,10 @@ const CourseCard = ({ course, onClick }) => {
                         onClick={handleWishlistToggle}
                         aria-label={
                             isWishlisted
-                                ? `Remove ${course?.title ??
-                                  "course"} from wishlist`
-                                : `Add ${course?.title ??
-                                  "course"} to wishlist`
+                                ? `Remove ${
+                                      course?.title ?? "course"
+                                  } from wishlist`
+                                : `Add ${course?.title ?? "course"} to wishlist`
                         }
                         aria-pressed={isWishlisted}
                         className={`
@@ -228,19 +198,15 @@ const CourseCard = ({ course, onClick }) => {
 
                             ${
                                 isWishlisted
-                                    ? "text-accent-primary"
-                                    : "text-text-muted hover:text-accent-primary"
+                                    ? "text-status-success"
+                                    : "text-text-muted hover:text-status-success"
                             }
                         `}
                     >
                         <Heart
                             size={18}
                             strokeWidth={1.8}
-                            fill={
-                                isWishlisted
-                                    ? "currentColor"
-                                    : "none"
-                            }
+                            fill={isWishlisted ? "currentColor" : "none"}
                         />
                     </button>
                 </div>
@@ -260,15 +226,10 @@ const CourseCard = ({ course, onClick }) => {
                         text-text-secondary
                     "
                 >
-                    <UserRound
-                        size={13}
-                        className="shrink-0"
-                    />
+                    <UserRound size={13} className="shrink-0" />
 
                     <span className="truncate">
-                        {course?.instructor
-                            ?.username ??
-                            "Unknown instructor"}
+                        {course?.instructor?.username ?? "Unknown instructor"}
                     </span>
                 </div>
 
@@ -330,8 +291,7 @@ const CourseCard = ({ course, onClick }) => {
                             text-text-secondary
                         "
                     >
-                        {course?.language ??
-                            "Unknown"}
+                        {course?.language ?? "Unknown"}
                     </span>
                 </div>
 
@@ -386,7 +346,6 @@ const CourseCard = ({ course, onClick }) => {
                         "
                     >
                         View Course
-
                         <ArrowRight
                             size={14}
                             className="

@@ -96,5 +96,3 @@ const CourseGridSkeleton = ({ count = 8 }) => {
 }
 
 export default CourseGridSkeleton
-
-

@@ -5,14 +5,9 @@ import {
     COURSE_LEVEL_OPTIONS,
     COURSE_SORT_OPTIONS,
     SORT_ORDER_OPTIONS,
-} from "../../courseConstants"
+} from "../../../courseConstants"
 
-const FilterOption = ({
-    id,
-    label,
-    checked,
-    onChange,
-}) => {
+const FilterOption = ({ id, label, checked, onChange }) => {
     return (
         <label
             htmlFor={id}
@@ -117,13 +112,7 @@ const FilterOption = ({
     )
 }
 
-const FilterGroup = ({
-    title,
-    options = [],
-    value,
-    onChange,
-    name,
-}) => {
+const FilterGroup = ({ title, options = [], value, onChange, name }) => {
     return (
         <div>
             <h3
@@ -147,15 +136,10 @@ const FilterGroup = ({
                         key={option?.value}
                         id={`${name}-${option?.value}`}
                         label={option?.label}
-                        checked={
-                            value === option?.value
-                        }
+                        checked={value === option?.value}
                         onChange={() => {
                             onChange?.(
-                                value ===
-                                    option?.value
-                                    ? ""
-                                    : option?.value
+                                value === option?.value ? "" : option?.value
                             )
                         }}
                     />
@@ -234,7 +218,6 @@ const CourseFilters = ({
                         "
                     >
                         <RotateCcw size={12} />
-
                         Reset
                     </button>
                 )}

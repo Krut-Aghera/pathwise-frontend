@@ -62,10 +62,7 @@ const CoursePurchaseCard = ({ course }) => {
                 {course?.thumbnail?.url ? (
                     <img
                         src={course.thumbnail.url}
-                        alt={
-                            course?.title ??
-                            "Course thumbnail"
-                        }
+                        alt={course?.title ?? "Course thumbnail"}
                         className="
                             h-full
                             w-full
@@ -125,7 +122,6 @@ const CoursePurchaseCard = ({ course }) => {
                         size={10}
                         className="fill-current text-accent-secondary"
                     />
-
                     Preview available
                 </div>
             </div>

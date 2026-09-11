@@ -173,10 +173,7 @@ const CoursePreviewModal = ({ lecture, onClose }) => {
                         Preview lecture
                     </p>
 
-                    <Maximize2
-                        size={15}
-                        className="text-text-muted"
-                    />
+                    <Maximize2 size={15} className="text-text-muted" />
                 </div>
             </div>
         </div>

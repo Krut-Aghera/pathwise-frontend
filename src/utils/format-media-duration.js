@@ -5,7 +5,7 @@ const formatDuration = (seconds) => {
     if (
         seconds === null ||
         seconds === undefined ||
-        Number.isNaN(Number(seconds))
+        !Number.isFinite(Number(seconds))
     ) {
         return "Not available"
     }

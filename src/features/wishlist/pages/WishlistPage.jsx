@@ -1,6 +1,6 @@
 import { Heart, Trash2 } from "lucide-react"
 
-import CourseCard from "../../course/components/course-public/CourseCard.jsx"
+import CourseCard from "../../course/components/course-public/course-listing/CourseCard.jsx"
 import { wishlistCourses } from "../../../data/wishlistData.js"
 
 const WishlistPage = () => {

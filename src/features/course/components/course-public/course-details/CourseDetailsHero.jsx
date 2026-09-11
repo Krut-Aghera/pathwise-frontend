@@ -26,8 +26,6 @@ const formatNumber = (value = 0) => {
 }
 
 const CourseDetailsHero = ({ course }) => {
-
-    console.log(course)
     const statistics = course?.statistics ?? {}
     const instructor = course?.instructor ?? {}
 
@@ -151,9 +149,7 @@ const CourseDetailsHero = ({ course }) => {
                             </span>
 
                             <span className="text-text-muted">
-                                ({formatNumber(
-                                    statistics?.totalRatings
-                                )}{" "}
+                                ({formatNumber(statistics?.totalRatings)}{" "}
                                 ratings)
                             </span>
                         </div>
@@ -172,9 +168,7 @@ const CourseDetailsHero = ({ course }) => {
                             />
 
                             <span>
-                                {formatNumber(
-                                    statistics?.totalEnrollments
-                                )}{" "}
+                                {formatNumber(statistics?.totalEnrollments)}{" "}
                                 students
                             </span>
                         </div>
@@ -208,13 +202,8 @@ const CourseDetailsHero = ({ course }) => {
                         >
                             {instructor?.profilePicture?.url ? (
                                 <img
-                                    src={
-                                        instructor.profilePicture.url
-                                    }
-                                    alt={
-                                        instructor?.username ??
-                                        "Instructor"
-                                    }
+                                    src={instructor.profilePicture.url}
+                                    alt={instructor?.username ?? "Instructor"}
                                     className="
                                         h-full
                                         w-full
@@ -249,10 +238,10 @@ const CourseDetailsHero = ({ course }) => {
                                 className="
                                     font-medium
                                     text-text-primary
+                                         capitalize
                                 "
                             >
-                                {instructor?.username ??
-                                    "Instructor"}
+                                {instructor?.username ?? "Instructor"}
                             </span>
                         </p>
                     </div>
@@ -480,10 +469,7 @@ const CourseDetailsHero = ({ course }) => {
                             text-text-secondary
                         "
                     >
-                        <Globe2
-                            size={16}
-                            className="text-accent-secondary"
-                        />
+                        <Globe2 size={16} className="text-accent-secondary" />
 
                         <span>
                             Language:{" "}

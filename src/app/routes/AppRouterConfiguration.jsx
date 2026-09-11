@@ -58,8 +58,11 @@ const routerConfig = createBrowserRouter(
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<HomePage />} />
                 <Route path="about" element={<AboutPage />} />
-                <Route path="courses" element={<CoursesPage />}/>
-                <Route path="courses/:courseId" element={<CourseDetailsPage />}/>
+                <Route path="courses" element={<CoursesPage />} />
+                <Route
+                    path="courses/:courseId"
+                    element={<CourseDetailsPage />}
+                />
             </Route>
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}

@@ -68,11 +68,10 @@ const CourseDetailsContent = ({ course }) => {
                             sm:grid-cols-2
                         "
                     >
-                        {course.learningOutcomes.map(
-                            (outcome, index) => (
-                                <li
-                                    key={`${outcome}-${index}`}
-                                    className="
+                        {course.learningOutcomes.map((outcome, index) => (
+                            <li
+                                key={`${outcome}-${index}`}
+                                className="
                                         flex
                                         items-start
                                         gap-2
@@ -82,20 +81,19 @@ const CourseDetailsContent = ({ course }) => {
                                         leading-6
                                         text-text-secondary
                                     "
-                                >
-                                    <Check
-                                        size={16}
-                                        className="
+                            >
+                                <Check
+                                    size={16}
+                                    className="
                                             mt-1
                                             shrink-0
                                             text-status-success
                                         "
-                                    />
+                                />
 
-                                    <span>{outcome}</span>
-                                </li>
-                            )
-                        )}
+                                <span>{outcome}</span>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             )}
@@ -116,11 +114,10 @@ const CourseDetailsContent = ({ course }) => {
                     </h3>
 
                     <ul className="mt-3 space-y-2">
-                        {course.targetAudience.map(
-                            (item, index) => (
-                                <li
-                                    key={`${item}-${index}`}
-                                    className="
+                        {course.targetAudience.map((item, index) => (
+                            <li
+                                key={`${item}-${index}`}
+                                className="
                                         flex
                                         items-start
                                         gap-2
@@ -130,20 +127,19 @@ const CourseDetailsContent = ({ course }) => {
                                         leading-6
                                         text-text-secondary
                                     "
-                                >
-                                    <CircleAlert
-                                        size={15}
-                                        className="
+                            >
+                                <CircleAlert
+                                    size={15}
+                                    className="
                                             mt-1
                                             shrink-0
                                             text-accent-secondary
                                         "
-                                    />
+                                />
 
-                                    <span>{item}</span>
-                                </li>
-                            )
-                        )}
+                                <span>{item}</span>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             )}
@@ -164,11 +160,10 @@ const CourseDetailsContent = ({ course }) => {
                     </h3>
 
                     <ul className="mt-3 space-y-2">
-                        {course.requirements.map(
-                            (requirement, index) => (
-                                <li
-                                    key={`${requirement}-${index}`}
-                                    className="
+                        {course.requirements.map((requirement, index) => (
+                            <li
+                                key={`${requirement}-${index}`}
+                                className="
                                         flex
                                         items-start
                                         gap-2
@@ -178,9 +173,9 @@ const CourseDetailsContent = ({ course }) => {
                                         leading-6
                                         text-text-secondary
                                     "
-                                >
-                                    <span
-                                        className="
+                            >
+                                <span
+                                    className="
                                             mt-2
                                             h-1.5
                                             w-1.5
@@ -188,14 +183,11 @@ const CourseDetailsContent = ({ course }) => {
                                             rounded-full
                                             bg-text-muted
                                         "
-                                    />
+                                />
 
-                                    <span>
-                                        {requirement}
-                                    </span>
-                                </li>
-                            )
-                        )}
+                                <span>{requirement}</span>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             )}

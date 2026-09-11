@@ -95,9 +95,7 @@ const CourseDetailsPage = () => {
                 {/* Main column */}
 
                 <div className="min-w-0">
-                    <CourseDetailsHero
-                        course={currentCourse}
-                    />
+                    <CourseDetailsHero course={currentCourse} />
 
                     <div
                         className="
@@ -111,9 +109,7 @@ const CourseDetailsPage = () => {
                         "
                     >
                         <div className="space-y-12">
-                            <CourseDetailsContent
-                                course={currentCourse}
-                            />
+                            <CourseDetailsContent course={currentCourse} />
 
                             <CourseCurriculum
                                 sections={currentCourse?.sections}
@@ -137,9 +133,7 @@ const CourseDetailsPage = () => {
                         lg:pt-12
                     "
                 >
-                    <CoursePurchaseCard
-                        course={currentCourse}
-                    />
+                    <CoursePurchaseCard course={currentCourse} />
                 </aside>
             </div>
 
@@ -158,9 +152,7 @@ const CourseDetailsPage = () => {
                     lg:hidden
                 "
             >
-                <CoursePurchaseCard
-                    course={currentCourse}
-                />
+                <CoursePurchaseCard course={currentCourse} />
             </div>
 
             {/* Preview modal */}

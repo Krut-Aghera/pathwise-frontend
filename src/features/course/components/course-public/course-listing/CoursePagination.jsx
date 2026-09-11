@@ -1,43 +1,22 @@
-import {
-    ChevronLeft,
-    ChevronRight,
-} from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
-const CoursePagination = ({
-    pagination,
-    onPageChange,
-    disabled = false,
-}) => {
-    const currentPage =
-        pagination?.currentPage ?? 1
+const CoursePagination = ({ pagination, onPageChange, disabled = false }) => {
+    const currentPage = pagination?.currentPage ?? 1
 
-    const totalPages =
-        pagination?.totalPages ?? 1
+    const totalPages = pagination?.totalPages ?? 1
 
-    const hasNextPage =
-        pagination?.hasNextPage ?? false
+    const hasNextPage = pagination?.hasNextPage ?? false
 
-    const hasPreviousPage =
-        pagination?.hasPreviousPage ?? false
+    const hasPreviousPage = pagination?.hasPreviousPage ?? false
 
     const getPageNumbers = () => {
         const pages = []
 
-        const startPage = Math.max(
-            1,
-            currentPage - 2
-        )
+        const startPage = Math.max(1, currentPage - 2)
 
-        const endPage = Math.min(
-            totalPages,
-            currentPage + 2
-        )
+        const endPage = Math.min(totalPages, currentPage + 2)
 
-        for (
-            let page = startPage;
-            page <= endPage;
-            page += 1
-        ) {
+        for (let page = startPage; page <= endPage; page += 1) {
             pages.push(page)
         }
 
@@ -58,15 +37,8 @@ const CoursePagination = ({
 
             <button
                 type="button"
-                onClick={() =>
-                    onPageChange?.(
-                        currentPage - 1
-                    )
-                }
-                disabled={
-                    !hasPreviousPage ||
-                    disabled
-                }
+                onClick={() => onPageChange?.(currentPage - 1)}
+                disabled={!hasPreviousPage || disabled}
                 aria-label="Previous page"
                 className="
                     flex
@@ -99,24 +71,15 @@ const CoursePagination = ({
             {/* Page numbers */}
 
             {getPageNumbers().map((page) => {
-                const isCurrentPage =
-                    page === currentPage
+                const isCurrentPage = page === currentPage
 
                 return (
                     <button
                         key={page}
                         type="button"
-                        onClick={() =>
-                            onPageChange?.(
-                                page
-                            )
-                        }
+                        onClick={() => onPageChange?.(page)}
                         disabled={disabled}
-                        aria-current={
-                            isCurrentPage
-                                ? "page"
-                                : undefined
-                        }
+                        aria-current={isCurrentPage ? "page" : undefined}
                         className={`
                             flex
                             h-9
@@ -166,15 +129,8 @@ const CoursePagination = ({
 
             <button
                 type="button"
-                onClick={() =>
-                    onPageChange?.(
-                        currentPage + 1
-                    )
-                }
-                disabled={
-                    !hasNextPage ||
-                    disabled
-                }
+                onClick={() => onPageChange?.(currentPage + 1)}
+                disabled={!hasNextPage || disabled}
                 aria-label="Next page"
                 className="
                     flex

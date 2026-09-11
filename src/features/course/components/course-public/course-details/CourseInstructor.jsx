@@ -94,6 +94,7 @@ const CourseInstructor = ({ instructor }) => {
                             text-lg
                             font-semibold
                             text-text-primary
+                            capitalize
 
                             sm:text-xl
                         "
