@@ -185,7 +185,7 @@ const Header = () => {
                     ) : (
                         <>
                             <NavLink
-                                to="/learning"
+                                to="/my-learning"
                                 className={({ isActive }) => `
                                     inline-flex
                                     items-center
@@ -381,7 +381,7 @@ const Header = () => {
                             "
                             >
                                 <NavLink
-                                    to="/learning"
+                                    to="/my-learning"
                                     onClick={closeMobileMenu}
                                     className={({ isActive }) => `
                                         flex
