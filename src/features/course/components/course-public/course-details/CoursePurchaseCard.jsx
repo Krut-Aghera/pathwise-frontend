@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 
 import Button from "../../../../../components/ui/Button"
+import formatDuration from "../../../../../utils/format-media-duration"
 
 const formatPrice = (price = 0) => {
     return new Intl.NumberFormat("en-IN", {
@@ -18,20 +19,7 @@ const formatPrice = (price = 0) => {
     }).format(price)
 }
 
-const formatDuration = (seconds = 0) => {
-    const totalSeconds = Number(seconds) || 0
-
-    const hours = Math.floor(totalSeconds / 3600)
-    const minutes = Math.floor((totalSeconds % 3600) / 60)
-
-    if (hours > 0) {
-        return `${hours}h ${minutes}m`
-    }
-
-    return `${minutes}m`
-}
-
-const CoursePurchaseCard = ({ course }) => {
+const CoursePurchaseCard = ({ course, onEnroll, isEnrolling = false }) => {
     const statistics = course?.statistics ?? {}
 
     const totalLectures = statistics?.totalLectures ?? 0
@@ -152,26 +140,18 @@ const CoursePurchaseCard = ({ course }) => {
 
                 <Button
                     type="button"
+                    onClick={() => onEnroll?.(course?._id)}
+                    loading={isEnrolling}
                     className="
-                        group
                         mt-3
                         h-10
                         w-full
                         rounded-lg
                         font-semibold
                         text-white
-                    "
+                "
                 >
-                    <span>Enroll Now</span>
-
-                    <ArrowRight
-                        size={15}
-                        className="
-                            transition-transform
-                            duration-200
-                            group-hover:translate-x-0.5
-                        "
-                    />
+                    Enroll Now
                 </Button>
 
                 {/* Course value */}

@@ -9,6 +9,7 @@ import { USER_ROLE } from "../../features/user/userConstants"
 
 import AppLayout from "../../layouts/AppLayout"
 import AuthLayout from "../../layouts/AuthLayout"
+import UserAuthLayout from "../../layouts/UserAuthLayout"
 
 import GuestOnlyRoutes from "./GuestOnlyRoutes"
 import ProtectedRoutes from "./ProtectedRoutes"
@@ -23,7 +24,10 @@ import CourseDetailsPage from "../../features/course/pages/course-public-pages/C
 
 import LoginPage from "../../features/auth/pages/LoginPage"
 import SignupPage from "../../features/auth/pages/SignupPage"
+import VerifyEmailPage from "../../features/auth/pages/VerifyEmailPage"
 import ForgotPasswordPage from "../../features/auth/pages/ForgotPasswordPage"
+import ResetPasswordPage from "../../features/auth/pages/ResetPasswordPage"
+import ChangePasswordPage from "../../features/auth/pages/ChangePasswordPage"
 
 import UserDashboardPage from "../../features/user/pages/UserDashboardPage"
 import WishlistPage from "../../features/wishlist/pages/WishlistPage"
@@ -44,10 +48,9 @@ import LectureCreatePage from "../../features/lecture/pages/LectureCreatePage"
 import LectureUpdatePage from "../../features/lecture/pages/LectureUpdatePage"
 import LectureVideoUploadPage from "../../features/lecture/pages/LectureVideoUploadPage"
 import LectureManagementPage from "../../features/lecture/pages/LectureManagementPage"
-import VerifyEmailPage from "../../features/auth/pages/VerifyEmailPage"
-import ChangePasswordPage from "../../features/auth/pages/ChangePasswordPage"
-import UserAuthLayout from "../../layouts/UserAuthLayout"
-import ResetPasswordPage from "../../features/auth/pages/ResetPasswordPage"
+
+import CheckoutPage from "../../features/enrollment-workflow/pages/CheckoutPage"
+import CheckoutVerificationPage from "../../features/enrollment-workflow/pages/CheckoutVerificationPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -109,17 +112,20 @@ const routerConfig = createBrowserRouter(
                 </Route>
 
                 <Route element={<AppLayout />}>
-                    <Route
-                        path="auth/change-password"
-                        element={<ChangePasswordPage />}
-                    />
-                    <Route
-                        path="auth/verify-email/:token"
-                        element={<VerifyEmailPage />}
-                    />
                     <Route path="dashboard" element={<UserDashboardPage />} />
+
                     <Route path="wishlist" element={<WishlistPage />} />
+
+                    <Route
+                        path="/checkout/:orderId"
+                        element={<CheckoutPage />}
+                    />
                 </Route>
+
+                <Route
+                    path="/checkout/:orderId/verify"
+                    element={<CheckoutVerificationPage />}
+                />
             </Route>
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}

@@ -10,13 +10,9 @@ const normalizeHttpError = (error) => {
 
         return new HttpError({
             statusCode: errorResponseData?.statusCode ?? error.response.status,
-
             code: errorResponseData?.code ?? null,
-
             message: errorResponseData?.message ?? "Something went wrong.",
-
             errors: errorResponseData?.errors ?? [],
-
             details: errorResponseData?.details ?? null,
         })
     }

@@ -5,6 +5,9 @@ import userApi from "../../features/user/userApi"
 import courseApi from "../../features/course/courseApi"
 import sectionApi from "../../features/section/sectionApi"
 import lectureApi from "../../features/lecture/lectureApi"
+import enrollmentApi from "../../features/enrollment-workflow/enrollmentApi"
+import orderApi from "../../features/enrollment-workflow/orderApi"
+import paymentApi from "../../features/enrollment-workflow/paymentApi"
 
 const store = configureStore({
     reducer: {
@@ -13,6 +16,9 @@ const store = configureStore({
         [courseApi.reducerPath]: courseApi.reducer,
         [sectionApi.reducerPath]: sectionApi.reducer,
         [lectureApi.reducerPath]: lectureApi.reducer,
+        [enrollmentApi.reducerPath]: enrollmentApi.reducer,
+        [orderApi.reducerPath]: orderApi.reducer,
+        [paymentApi.reducerPath]: paymentApi.reducer,
     },
 
     middleware: (getDefaultMiddleware) =>
@@ -21,7 +27,10 @@ const store = configureStore({
             userApi.middleware,
             courseApi.middleware,
             sectionApi.middleware,
-            lectureApi.middleware
+            lectureApi.middleware,
+            enrollmentApi.middleware,
+            orderApi.middleware,
+            paymentApi.middleware
         ),
 })
 

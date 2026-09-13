@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import ActionError from "../../../../components/ui/ActionError.jsx"
 import ErrorState from "../../../../components/ui/ErrorState.jsx"
 
 import useCourse from "../../hooks/useCourse.js"
+import useEnrollmentWorkflow from "../../../enrollment-workflow/hooks/useEnrollmentWorkflow.js"
 
 import CourseCurriculum from "../../components/course-public/course-details/CourseCurriculum.jsx"
 import CourseDetailsContent from "../../components/course-public/course-details/CourseDetailsContent.jsx"
@@ -16,6 +17,7 @@ import CoursePurchaseCard from "../../components/course-public/course-details/Co
 
 const CourseDetailsPage = () => {
     const { courseId } = useParams()
+    const navigate = useNavigate()
 
     const {
         fetchCurrentCourse,
@@ -25,7 +27,10 @@ const CourseDetailsPage = () => {
         currentCourseError,
     } = useCourse()
 
+    const { startEnrollment, isStartingEnrollment } = useEnrollmentWorkflow()
+
     const [previewLecture, setPreviewLecture] = useState(null)
+    const [enrollmentError, setEnrollmentError] = useState(null)
 
     const loadCourse = useCallback(async () => {
         if (!courseId) {
@@ -38,6 +43,40 @@ const CourseDetailsPage = () => {
     useEffect(() => {
         loadCourse()
     }, [loadCourse])
+
+    const handleEnroll = useCallback(
+        async (selectedCourseId) => {
+            if (!selectedCourseId || isStartingEnrollment) {
+                return
+            }
+
+            setEnrollmentError(null)
+
+            const result = await startEnrollment(selectedCourseId)
+
+            if (!result.success) {
+                setEnrollmentError(result.error)
+                return
+            }
+
+            const order = result.data?.data
+
+            if (!order?._id) {
+                setEnrollmentError({
+                    message: "Unable to start enrollment. Please try again.",
+                })
+
+                return
+            }
+
+            navigate(`/checkout/${order._id}`, {
+                state: {
+                    order,
+                },
+            })
+        },
+        [isStartingEnrollment, startEnrollment, navigate]
+    )
 
     const handlePreviewLecture = useCallback((lecture) => {
         if (!lecture?.isPreviewFree || !lecture?.video?.url) {
@@ -77,7 +116,11 @@ const CourseDetailsPage = () => {
 
     return (
         <main className="min-h-screen bg-background-base">
-            {/* Desktop layout */}
+            {enrollmentError && (
+                <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+                    <ActionError error={enrollmentError} />
+                </div>
+            )}
 
             <div
                 className="
@@ -87,13 +130,10 @@ const CourseDetailsPage = () => {
                     max-w-7xl
                     grid-cols-1
                     gap-10
-
                     lg:grid-cols-[minmax(0,1fr)_360px]
                     lg:px-8
                 "
             >
-                {/* Main column */}
-
                 <div className="min-w-0">
                     <CourseDetailsHero course={currentCourse} />
 
@@ -101,9 +141,7 @@ const CourseDetailsPage = () => {
                         className="
                             px-4
                             py-10
-
                             sm:px-6
-
                             lg:px-0
                             lg:py-12
                         "
@@ -124,8 +162,6 @@ const CourseDetailsPage = () => {
                     </div>
                 </div>
 
-                {/* Purchase card */}
-
                 <aside
                     className="
                         hidden
@@ -133,11 +169,13 @@ const CourseDetailsPage = () => {
                         lg:pt-12
                     "
                 >
-                    <CoursePurchaseCard course={currentCourse} />
+                    <CoursePurchaseCard
+                        course={currentCourse}
+                        onEnroll={handleEnroll}
+                        isEnrolling={isStartingEnrollment}
+                    />
                 </aside>
             </div>
-
-            {/* Mobile purchase card */}
 
             <div
                 className="
@@ -146,16 +184,16 @@ const CourseDetailsPage = () => {
                     max-w-7xl
                     px-4
                     pb-10
-
                     sm:px-6
-
                     lg:hidden
                 "
             >
-                <CoursePurchaseCard course={currentCourse} />
+                <CoursePurchaseCard
+                    course={currentCourse}
+                    onEnroll={handleEnroll}
+                    isEnrolling={isStartingEnrollment}
+                />
             </div>
-
-            {/* Preview modal */}
 
             <CoursePreviewModal
                 lecture={previewLecture}

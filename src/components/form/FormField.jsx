@@ -1,4 +1,4 @@
-import mergeClass from "../../utils/tailwind-cn.js"
+import mergeClass from "../../utils/tailwind-cn"
 
 const FormField = ({
     label,

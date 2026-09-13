@@ -41,7 +41,7 @@ const CoursePreviewModal = ({ lecture, onClose }) => {
             className="
                 fixed
                 inset-0
-                z-[100]
+                z-100
                 flex
                 items-center
                 justify-center
