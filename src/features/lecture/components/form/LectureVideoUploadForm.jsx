@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { FileVideo, X } from "lucide-react"
 
 import formatFileSize from "../../../../utils/format-media-size"
-import VideoPlayer from "../../../../components/video/VideoPlaye"
+import VideoPlayer from "../../../../components/video/VideoPlayer"
 
 import FormActions from "../../../../components/form/FormActions"
 import LectureFormVideoUploadField from "../form-children/LectureFormVideoUploadField"

@@ -9,7 +9,7 @@ const LearningLectureItem = ({
     onSelect,
 }) => {
     const lectureProgress = progress?.lectures?.find(
-        (item) => item.lecture === lecture._id
+        (item) => item.lecture?.toString() === lecture._id?.toString()
     )
 
     const isCompleted = lectureProgress?.isCompleted ?? false

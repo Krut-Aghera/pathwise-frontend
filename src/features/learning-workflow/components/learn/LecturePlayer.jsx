@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
-import VideoPlayer from "../../../../components/video/VideoPlaye"
+import VideoPlayer from "../../../../components/video/VideoPlayer"
 
 const PROGRESS_SAVE_INTERVAL = 10000
 
@@ -23,6 +23,54 @@ const LecturePlayer = ({
     const playerRef = useRef(null)
 
     /*
+     * Tracks whether Video.js has actually created and exposed
+     * the player instance through onReady.
+     */
+
+    const [isPlayerReady, setIsPlayerReady] = useState(false)
+
+    /*
+     * ============================================================
+     * Latest callback refs
+     * ============================================================
+     *
+     * Progress updates cause React state changes in useProgress.
+     *
+     * Keep the latest callbacks in refs so those state changes
+     * do not force the Video.js event listeners to be recreated.
+     */
+
+    const onProgressUpdatedRef = useRef(onProgressUpdated)
+
+    const onLectureCompletedRef = useRef(onLectureCompleted)
+
+    useEffect(() => {
+        onProgressUpdatedRef.current = onProgressUpdated
+
+        onLectureCompletedRef.current = onLectureCompleted
+    }, [onProgressUpdated, onLectureCompleted])
+
+    /*
+     * ============================================================
+     * Latest progress ref
+     * ============================================================
+     *
+     * `progress` changes after every successful PATCH.
+     *
+     * We need access to the latest progress when a lecture changes,
+     * but we must NOT make the lecture initialization effect depend
+     * directly on `progress`.
+     *
+     * Otherwise every PATCH would cause that effect to run again.
+     */
+
+    const progressRef = useRef(progress)
+
+    useEffect(() => {
+        progressRef.current = progress
+    }, [progress])
+
+    /*
      * ============================================================
      * Current lecture
      * ============================================================
@@ -38,8 +86,8 @@ const LecturePlayer = ({
      * These refs are the source of truth while the video is
      * playing.
      *
-     * We intentionally do NOT reset these whenever the React
-     * progress object changes after a PATCH.
+     * They must NOT be reset whenever React receives a new
+     * progress object after a PATCH.
      */
 
     const lastPositionRef = useRef(0)
@@ -70,6 +118,14 @@ const LecturePlayer = ({
      * ============================================================
      * Find saved progress for selected lecture
      * ============================================================
+     *
+     * IMPORTANT:
+     *
+     * This callback reads progress from progressRef instead of
+     * depending directly on the React `progress` object.
+     *
+     * Therefore its identity only changes when the selected
+     * lecture changes.
      */
 
     const getLectureProgress = useCallback(() => {
@@ -80,13 +136,13 @@ const LecturePlayer = ({
         }
 
         return (
-            progress?.lectures?.find((item) => {
+            progressRef.current?.lectures?.find((item) => {
                 const progressLectureId = item?.lecture?._id ?? item?.lecture
 
-                return progressLectureId === lectureId
+                return progressLectureId?.toString() === lectureId?.toString()
             }) ?? null
         )
-    }, [progress, selectedLecture?._id])
+    }, [selectedLecture?._id])
 
     /*
      * ============================================================
@@ -149,7 +205,7 @@ const LecturePlayer = ({
             watchedDurationRef.current = watchedDuration
 
             /*
-             * Update this BEFORE awaiting the API request.
+             * Update this before awaiting the API request.
              *
              * This prevents another interval from deciding that
              * the same position still needs to be saved.
@@ -157,14 +213,14 @@ const LecturePlayer = ({
 
             lastSavedPositionRef.current = currentTime
 
-            await onProgressUpdated?.({
+            await onProgressUpdatedRef.current?.({
                 courseId,
                 lectureId,
                 lastPosition: currentTime,
                 watchedDuration,
             })
         },
-        [courseId, selectedLecture?._id, onProgressUpdated]
+        [courseId, selectedLecture?._id]
     )
 
     /*
@@ -179,6 +235,7 @@ const LecturePlayer = ({
         }
 
         progressSaveIntervalRef.current = setInterval(() => {
+
             /*
              * Only save while the video is actually playing.
              *
@@ -216,10 +273,13 @@ const LecturePlayer = ({
      *
      * IMPORTANT:
      *
-     * This effect only depends on the lecture ID.
+     * This effect must NOT depend on the React `progress` object.
      *
-     * A successful PATCH changes `progress`, but must NOT reset
-     * the local playback state.
+     * A successful PATCH changes `progress`, but that must NOT
+     * reset the player or remove the event listeners.
+     *
+     * `getLectureProgress()` reads the latest progress through
+     * progressRef.
      */
 
     useEffect(() => {
@@ -247,6 +307,15 @@ const LecturePlayer = ({
             : null
 
         /*
+         * A new lecture gets a new Video.js instance.
+         *
+         * The new player is not ready until VideoPlayer calls
+         * onReady, so reset the player-ready state here.
+         */
+
+        setIsPlayerReady(false)
+
+        /*
          * Stop the previous lecture's timer.
          */
 
@@ -262,7 +331,7 @@ const LecturePlayer = ({
     useEffect(() => {
         const player = playerRef.current
 
-        if (!player || !selectedLecture?._id) {
+        if (!isPlayerReady || !player || !selectedLecture?._id) {
             return
         }
 
@@ -363,7 +432,7 @@ const LecturePlayer = ({
             completingLectureIdRef.current = lectureId
 
             try {
-                const result = await onLectureCompleted?.({
+                const result = await onLectureCompletedRef.current?.({
                     courseId,
                     lectureId,
                 })
@@ -403,14 +472,15 @@ const LecturePlayer = ({
             player.off("ended", handleEnded)
 
             stopProgressInterval()
+
         }
     }, [
+        isPlayerReady,
         selectedLecture?._id,
         courseId,
         saveProgress,
         startProgressInterval,
         stopProgressInterval,
-        onLectureCompleted,
     ])
 
     /*
@@ -422,6 +492,13 @@ const LecturePlayer = ({
     const handleReady = useCallback(
         (player) => {
             playerRef.current = player
+
+            /*
+             * Tell React that the actual Video.js instance is now
+             * available.
+             */
+
+            setIsPlayerReady(true)
 
             const lectureId = selectedLecture?._id
 
@@ -458,24 +535,12 @@ const LecturePlayer = ({
                     return
                 }
 
-                /*
-                 * Restore the exact saved position.
-                 *
-                 * We intentionally do NOT reset a completed
-                 * lecture to 0.
-                 */
-
                 const safePosition = Math.min(
                     savedPosition,
                     Math.max(duration - 0.5, 0)
                 )
 
                 player.currentTime(safePosition)
-
-                /*
-                 * Keep the local refs synchronized with the
-                 * restored position.
-                 */
 
                 lastPositionRef.current = safePosition
 
@@ -527,7 +592,7 @@ const LecturePlayer = ({
                     Number.isFinite(duration) &&
                     duration > 0
                 ) {
-                    onProgressUpdated?.({
+                    onProgressUpdatedRef.current?.({
                         courseId,
                         lectureId,
                         lastPosition: currentTime,
@@ -543,7 +608,7 @@ const LecturePlayer = ({
 
             playerRef.current = null
         }
-    }, [courseId, onProgressUpdated, stopProgressInterval])
+    }, [courseId, stopProgressInterval])
 
     /*
      * ============================================================

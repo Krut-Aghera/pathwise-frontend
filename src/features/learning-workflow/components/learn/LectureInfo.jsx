@@ -42,8 +42,8 @@ const LectureInfo = ({ lecture, progressMeta }) => {
                             text-text-muted
                         "
                     >
-                        {progressMeta.completedLectures ?? 0} of{" "}
-                        {progressMeta.totalLectures ?? 0} completed
+                        {progressMeta?.course?.completedLectures ?? 0} of{" "}
+                        {progressMeta?.course?.totalLectures ?? 0} completed
                     </span>
                 )}
             </div>

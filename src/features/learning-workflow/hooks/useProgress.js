@@ -77,8 +77,8 @@ const useProgress = () => {
 
     const syncProgress = useCallback((response) => {
         setProgress(response?.data ?? null)
+        setProgressMeta(response?.meta ?? null)
 
-        setProgressMeta(response?.meta?.calculated ?? null)
     }, [])
 
     ///////////////////////////////////////////////////////////////

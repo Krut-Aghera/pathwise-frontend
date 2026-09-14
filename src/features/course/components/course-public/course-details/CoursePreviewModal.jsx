@@ -1,7 +1,7 @@
 import { Maximize2, X } from "lucide-react"
 import { useEffect } from "react"
 
-import VideoPlayer from "../../../../../components/video/VideoPlaye"
+import VideoPlayer from "../../../../../components/video/VideoPlayer"
 
 const CoursePreviewModal = ({ lecture, onClose }) => {
     useEffect(() => {

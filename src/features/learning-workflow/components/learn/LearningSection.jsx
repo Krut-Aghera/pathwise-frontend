@@ -16,7 +16,7 @@ const LearningSection = ({
 
     const completedCount = lectures.filter((lecture) => {
         const lectureProgress = progress?.lectures?.find(
-            (item) => item.lecture === lecture._id
+            (item) => item.lecture?.toString() === lecture._id?.toString()
         )
 
         return lectureProgress?.isCompleted
@@ -24,7 +24,6 @@ const LearningSection = ({
 
     const isSectionComplete =
         lectures.length > 0 && completedCount === lectures.length
-
     return (
         <section
             className="
@@ -52,25 +51,27 @@ const LearningSection = ({
 
                 <span
                     className={`
-                        flex
-                        h-7
-                        w-7
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-md
-                        border
-                        font-body
-                        text-[10px]
-                        font-semibold
-                        ${
-                            isSectionComplete
-                                ? "border-status-success/30 bg-status-success/10 text-status-success"
-                                : "border-border-subtle bg-background-elevated text-text-muted"
-                        }
-                    `}
+        flex
+        h-7
+        w-7
+        shrink-0
+        items-center
+        justify-center
+        rounded-md
+        border
+        font-body
+        text-[10px]
+        font-semibold
+        ${
+            isSectionComplete
+                ? "border-status-success/30 bg-status-success/10 text-status-success"
+                : "border-border-subtle bg-background-elevated text-text-muted"
+        }
+    `}
                 >
-                    {String(sectionNumber).padStart(2, "0")}
+                    {isSectionComplete
+                        ? "✓"
+                        : String(sectionNumber).padStart(2, "0")}
                 </span>
 
                 {/* Section info */}

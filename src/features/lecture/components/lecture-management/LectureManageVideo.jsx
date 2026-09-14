@@ -3,7 +3,7 @@ import { FileVideo, Upload, Trash2 } from "lucide-react"
 
 import Button from "../../../../components/ui/Button.jsx"
 import ConfirmDialog from "../../../../components/ui/ConfirmDialog.jsx"
-import VideoPlayer from "../../../../components/video/VideoPlaye.jsx"
+import VideoPlayer from "../../../../components/video/VideoPlayer.jsx"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////

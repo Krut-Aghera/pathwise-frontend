@@ -7,9 +7,9 @@ const LearningSidebar = ({
     progressMeta,
     onLectureSelect,
 }) => {
-    const completedLectures = progressMeta?.completedLectures ?? 0
+    const completedLectures = progressMeta?.course?.completedLectures ?? 0
 
-    const totalLectures = progressMeta?.totalLectures ?? 0
+    const totalLectures = progressMeta?.course?.totalLectures ?? 0
 
     return (
         <aside
@@ -19,7 +19,7 @@ const LearningSidebar = ({
                 border-b
                 border-border-subtle
                 bg-background-surface
-                lg:w-[22rem]
+                lg:w-88
                 lg:border-b-0
                 lg:border-r
             "
@@ -109,9 +109,7 @@ const LearningSidebar = ({
                                 duration-500
                             "
                             style={{
-                                width: `${
-                                    progressMeta?.progressPercentage ?? 0
-                                }%`,
+                                width: `${progressMeta?.course?.progressPercentage ?? 0}%`,
                             }}
                         />
                     </div>
