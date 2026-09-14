@@ -350,7 +350,7 @@ const LectureManageVideo = ({
                 >
                     <p
                         className="
-                        break-words
+                        wrap-break-word
 
                         font-body
                         text-sm

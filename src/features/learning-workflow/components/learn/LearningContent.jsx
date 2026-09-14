@@ -1,4 +1,3 @@
-import LectureInfo from "./LectureInfo"
 import LecturePlayer from "./LecturePlayer"
 
 const LearningContent = ({
@@ -6,7 +5,6 @@ const LearningContent = ({
     lecture,
     selectedLecture,
     progress,
-    progressMeta,
     isLoading = false,
     isReady = false,
     onProgressUpdated,
@@ -15,23 +13,38 @@ const LearningContent = ({
     return (
         <section
             className="
+                order-1
+                min-h-0
                 min-w-0
+                w-full
                 flex-1
+                overflow-hidden
                 bg-background-base
+                lg:order-2
             "
         >
             <div
                 className="
                     mx-auto
+                    flex
+                    min-h-0
                     w-full
-                    max-w-7xl
-                    px-4
-                    py-5
-                    sm:px-6
-                    sm:py-7
-                    lg:px-10
-                    lg:py-8
-                    xl:px-12
+                    max-w-full
+                    flex-1
+                    flex-col
+                    justify-center
+                    px-3
+                    py-3
+                    sm:max-w-180
+                    sm:px-5
+                    sm:py-4
+                    md:max-w-220
+                    md:px-6
+                    md:py-5
+                    lg:max-w-250
+                    lg:px-6
+                    lg:py-6
+                    xl:max-w-270
                 "
             >
                 <LecturePlayer
@@ -43,11 +56,6 @@ const LearningContent = ({
                     isReady={isReady}
                     onProgressUpdated={onProgressUpdated}
                     onLectureCompleted={onLectureCompleted}
-                />
-
-                <LectureInfo
-                    lecture={lecture ?? selectedLecture}
-                    progressMeta={progressMeta}
                 />
             </div>
         </section>

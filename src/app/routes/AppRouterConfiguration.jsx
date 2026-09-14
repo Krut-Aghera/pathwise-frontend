@@ -122,14 +122,13 @@ const routerConfig = createBrowserRouter(
                         path="/checkout/:orderId"
                         element={<CheckoutPage />}
                     />
+                    <Route path="/my-learning" element={<MyLearningPage />} />
                 </Route>
 
                 <Route
                     path="/checkout/:orderId/verify"
                     element={<CheckoutVerificationPage />}
                 />
-
-                <Route path="/my-learning" element={<MyLearningPage />} />
 
                 <Route
                     path="/courses/:courseId/learn"

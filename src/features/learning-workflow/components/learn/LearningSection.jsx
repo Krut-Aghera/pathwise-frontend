@@ -22,56 +22,54 @@ const LearningSection = ({
         return lectureProgress?.isCompleted
     }).length
 
-    const isSectionComplete =
-        lectures.length > 0 && completedCount === lectures.length
     return (
         <section
             className="
                 border-b
-                border-border-subtle
+                border-border-subtle/70
             "
         >
             <button
                 type="button"
                 onClick={() => setOpen((current) => !current)}
                 className="
-                    group
-                    flex
-                    w-full
-                    items-center
-                    gap-3
-                    px-5
-                    py-4
-                    text-left
-                    transition
-                    hover:bg-background-elevated/60
+                     group
+    flex
+    w-full
+    items-center
+    gap-3
+    px-4
+    py-3
+    text-left
+    transition
+    hover:bg-background-elevated/40
+    sm:px-5
+    sm:py-4
                 "
             >
                 {/* Section number */}
 
                 <span
-                    className={`
-        flex
-        h-7
-        w-7
-        shrink-0
-        items-center
-        justify-center
-        rounded-md
-        border
-        font-body
-        text-[10px]
-        font-semibold
-        ${
-            isSectionComplete
-                ? "border-status-success/30 bg-status-success/10 text-status-success"
-                : "border-border-subtle bg-background-elevated text-text-muted"
-        }
-    `}
+                    className="
+                        flex
+                        h-7
+                        w-7
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-lg
+                        border
+                        border-border-subtle
+                        bg-background-elevated/50
+                        font-body
+                        text-[10px]
+                        font-semibold
+                        text-text-muted
+                        transition
+                        group-hover:text-text-secondary
+                    "
                 >
-                    {isSectionComplete
-                        ? "✓"
-                        : String(sectionNumber).padStart(2, "0")}
+                    {String(sectionNumber).padStart(2, "0")}
                 </span>
 
                 {/* Section info */}
@@ -81,8 +79,9 @@ const LearningSection = ({
                         className="
                             truncate
                             font-body
-                            text-sm
-                            font-medium
+                            text-[13px]
+                            font-semibold
+                            tracking-[-0.01em]
                             text-text-primary
                         "
                     >
@@ -93,7 +92,8 @@ const LearningSection = ({
                         className="
                             mt-1
                             font-body
-                            text-[11px]
+                            text-[10px]
+                            font-medium
                             text-text-muted
                         "
                     >
@@ -105,7 +105,8 @@ const LearningSection = ({
 
                 {open ? (
                     <ChevronDown
-                        size={16}
+                        size={15}
+                        strokeWidth={1.8}
                         className="
                             shrink-0
                             text-text-muted
@@ -115,7 +116,8 @@ const LearningSection = ({
                     />
                 ) : (
                     <ChevronRight
-                        size={16}
+                        size={15}
+                        strokeWidth={1.8}
                         className="
                             shrink-0
                             text-text-muted
@@ -127,7 +129,12 @@ const LearningSection = ({
             </button>
 
             {open && (
-                <div className="pb-2">
+                <div
+                    className="
+                        px-2
+                        pb-2
+                    "
+                >
                     {lectures.map((lecture) => (
                         <LearningLectureItem
                             key={lecture._id}

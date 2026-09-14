@@ -17,10 +17,11 @@ const LearningHeader = ({ course, progressMeta }) => {
                 top-0
                 z-40
                 border-b
-                border-border-subtle
-                bg-background-base/90
-                backdrop-blur-xl
+                border-border-subtle/80
+                bg-background-base/95
                 py-3
+                shadow-[0_1px_0_rgba(255,255,255,0.02)]
+                backdrop-blur-2xl
             "
         >
             <div
@@ -40,19 +41,30 @@ const LearningHeader = ({ course, progressMeta }) => {
                 {/* Course identity */}
 
                 <div className="min-w-0">
-                    <p
-                        className="
-                            mb-1
-                            font-body
-                            text-[12px]
-                            font-semibold
-                            uppercase
-                            tracking-[0.16em]
-                            text-accent-secondary
-                        "
-                    >
-                        Learning
-                    </p>
+                    <div className="mb-1.5 flex items-center gap-2">
+                        <span
+                            className="
+                                h-1.5
+                                w-1.5
+                                rounded-full
+                                bg-accent-secondary
+                                shadow-[0_0_8px_rgba(6,182,212,0.45)]
+                            "
+                        />
+
+                        <p
+                            className="
+                                font-body
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.18em]
+                                text-text-secondary
+                            "
+                        >
+                            Learning
+                        </p>
+                    </div>
 
                     <h1
                         className="
@@ -60,6 +72,7 @@ const LearningHeader = ({ course, progressMeta }) => {
                             font-accent
                             text-sm
                             font-semibold
+                            leading-tight
                             text-text-primary
                             sm:text-lg
                         "
@@ -83,20 +96,23 @@ const LearningHeader = ({ course, progressMeta }) => {
                         <p
                             className="
                                 font-body
-                                text-xs
-                                text-text-secondary
+                                text-[10px]
+                                font-medium
+                                uppercase
+                                tracking-[0.12em]
+                                text-text-muted
                             "
                         >
-                            Course progress
+                            Progress
                         </p>
 
                         <p
                             className="
-                                mt-0.5
+                                mt-1
                                 font-body
                                 text-xs
                                 font-medium
-                                text-text-primary
+                                text-text-secondary
                             "
                         >
                             {completedLectures} of {totalLectures} lectures
@@ -105,20 +121,20 @@ const LearningHeader = ({ course, progressMeta }) => {
 
                     <div
                         className={`
-                            relative
-                            flex
-                            h-10
-                            w-10
-                            items-center
-                            justify-center
-                            rounded-full
-                            border
-                            ${
-                                isCourseComplete
-                                    ? "border-status-success/40 bg-status-success/10"
-                                    : "border-border-subtle bg-background-surface"
-                            }
-                        `}
+        relative
+        flex
+        h-11
+        w-11.5
+        items-center
+        justify-center
+        rounded-[10px]
+        border
+        ${
+            isCourseComplete
+                ? "border-status-success/30 bg-status-success/10"
+                : "border-border-subtle bg-background-surface/80"
+        }
+    `}
                         title={
                             isCourseComplete
                                 ? "Course completed"
@@ -127,7 +143,7 @@ const LearningHeader = ({ course, progressMeta }) => {
                     >
                         {isCourseComplete ? (
                             <CheckCircle2
-                                size={21}
+                                size={20}
                                 strokeWidth={2}
                                 className="text-status-success"
                             />
@@ -136,17 +152,16 @@ const LearningHeader = ({ course, progressMeta }) => {
                                 <svg
                                     viewBox="0 0 36 36"
                                     className="
-                                        absolute
-                                        inset-0
-                                        h-full
-                                        w-full
-                                        -rotate-90
-                                    "
+                    absolute
+                    h-9
+                    w-9
+                    -rotate-90
+                "
                                 >
                                     <circle
                                         cx="18"
                                         cy="18"
-                                        r="15"
+                                        r="14"
                                         fill="none"
                                         stroke="currentColor"
                                         strokeWidth="2"
@@ -156,10 +171,10 @@ const LearningHeader = ({ course, progressMeta }) => {
                                     <circle
                                         cx="18"
                                         cy="18"
-                                        r="15"
+                                        r="14"
                                         fill="none"
                                         stroke="currentColor"
-                                        strokeWidth="2"
+                                        strokeWidth="1"
                                         strokeLinecap="round"
                                         strokeDasharray="94.2"
                                         strokeDashoffset={
@@ -172,21 +187,22 @@ const LearningHeader = ({ course, progressMeta }) => {
                                                 100
                                         }
                                         className="
-                                            text-accent-primary
-                                            transition-all
-                                            duration-500
-                                        "
+                        text-accent-primary
+                        transition-all
+                        duration-500
+                    "
                                     />
                                 </svg>
 
                                 <span
                                     className="
-                                        relative
-                                        font-body
-                                        text-[10px]
-                                        font-semibold
-                                        text-text-primary
-                                    "
+                    relative
+                    font-body
+                    text-[10px]
+                    font-semibold
+                    tracking-tight
+                    text-text-primary
+                "
                                 >
                                     {Math.round(progressPercentage)}
                                 </span>

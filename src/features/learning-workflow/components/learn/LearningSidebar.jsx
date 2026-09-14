@@ -14,21 +14,31 @@ const LearningSidebar = ({
     return (
         <aside
             className="
-                w-full
-                shrink-0
-                border-b
-                border-border-subtle
-                bg-background-surface
-                lg:w-88
-                lg:border-b-0
-                lg:border-r
+             order-2
+        flex
+        min-h-0
+        w-full
+        shrink-0
+        flex-col
+        border-t
+        border-border-subtle
+        bg-background-surface
+        lg:order-1
+        lg:w-88
+        lg:border-r
+        lg:border-t-0
             "
         >
             <div
                 className="
-                    max-h-[calc(100vh-4.25rem)]
-                    overflow-y-auto
-                    scrollbar-thin
+                      min-h-0
+        max-h-[42vh]
+        flex-1
+        overflow-y-auto
+        scrollbar-thin
+        scrollbar-track-transparent
+        scrollbar-thumb-background-elevated
+        lg:max-h-none
                 "
             >
                 {/* Sidebar heading */}
@@ -36,9 +46,13 @@ const LearningSidebar = ({
                 <div
                     className="
                         border-b
-                        border-border-subtle
-                        px-5
-                        py-5
+        border-border-subtle
+        bg-background-surface
+        px-4
+        py-3
+        sm:px-5
+        sm:py-4
+        lg:py-5
                     "
                 >
                     <div
@@ -49,12 +63,13 @@ const LearningSidebar = ({
                             gap-4
                         "
                     >
-                        <div>
+                        <div className="min-w-0">
                             <p
                                 className="
                                     font-accent
                                     text-sm
                                     font-semibold
+                                    tracking-tight
                                     text-text-primary
                                 "
                             >
@@ -65,8 +80,8 @@ const LearningSidebar = ({
                                 className="
                                     mt-1
                                     font-body
-                                    text-xs
-                                    text-text-secondary
+                                    text-[11px]
+                                    text-text-muted
                                 "
                             >
                                 {completedLectures} of {totalLectures} completed
@@ -75,11 +90,12 @@ const LearningSidebar = ({
 
                         <span
                             className="
-                                rounded-full
+                                shrink-0
+                                rounded-md
                                 border
                                 border-border-subtle
-                                bg-background-elevated
-                                px-2.5
+                                bg-background-elevated/60
+                                px-2
                                 py-1
                                 font-body
                                 text-[10px]
@@ -87,7 +103,7 @@ const LearningSidebar = ({
                                 text-text-secondary
                             "
                         >
-                            {totalLectures} lectures
+                            {totalLectures}
                         </span>
                     </div>
 
@@ -117,7 +133,7 @@ const LearningSidebar = ({
 
                 {/* Sections */}
 
-                <div>
+                <div className="pb-3">
                     {sections.map((section, index) => (
                         <LearningSection
                             key={section._id}

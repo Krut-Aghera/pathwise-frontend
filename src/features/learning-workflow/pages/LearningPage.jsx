@@ -580,7 +580,10 @@ const LearningPage = () => {
     return (
         <div
             className="
-                min-h-screen
+                flex
+                h-screen
+                flex-col
+                overflow-hidden
                 bg-background-base
                 text-text-primary
             "
@@ -592,11 +595,13 @@ const LearningPage = () => {
 
             <main
                 className="
-                    flex
-                    min-h-[calc(100vh-4.25rem)]
-                    flex-col
-                    lg:flex-row
-                "
+        flex
+        min-h-0
+        flex-1
+        flex-col
+        overflow-hidden
+        lg:flex-row
+    "
             >
                 <LearningSidebar
                     sections={sections}

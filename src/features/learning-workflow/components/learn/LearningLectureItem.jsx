@@ -32,14 +32,15 @@ const LearningLectureItem = ({
                 w-full
                 items-start
                 gap-3
-                px-5
+                rounded-lg
+                px-3
                 py-3
                 text-left
                 transition
                 ${
                     selected
-                        ? "bg-accent-primary/10"
-                        : "hover:bg-background-elevated/70"
+                        ? "bg-accent-primary/10 shadow-[inset_0_0_0_1px_rgba(99,102,241,0.14)]"
+                        : "hover:bg-background-elevated/50"
                 }
             `}
         >
@@ -50,8 +51,8 @@ const LearningLectureItem = ({
                     className="
                         absolute
                         left-0
-                        top-2
-                        bottom-2
+                        top-2.5
+                        bottom-2.5
                         w-0.5
                         rounded-r-full
                         bg-accent-primary
@@ -71,15 +72,15 @@ const LearningLectureItem = ({
                             items-center
                             justify-center
                             rounded-full
-                            bg-status-success/15
+                            border
+                            border-status-success/20
+                            bg-status-success/10
                         "
                     >
                         <Check
-                            size={12}
+                            size={11}
                             strokeWidth={2.5}
-                            className="
-                                text-status-success
-                            "
+                            className="text-status-success"
                         />
                     </span>
                 ) : selected ? (
@@ -92,10 +93,12 @@ const LearningLectureItem = ({
                             justify-center
                             rounded-full
                             bg-accent-primary/15
+                            ring-1
+                            ring-accent-primary/20
                         "
                     >
                         <Play
-                            size={10}
+                            size={9}
                             fill="currentColor"
                             className="
                                 translate-x-[0.5px]
@@ -121,8 +124,9 @@ const LearningLectureItem = ({
             <div className="min-w-0 flex-1">
                 <p
                     className={`
+                        truncate
                         font-body
-                        text-sm
+                        text-[13px]
                         leading-5
                         ${
                             selected
@@ -141,7 +145,8 @@ const LearningLectureItem = ({
                         items-center
                         gap-2
                         font-body
-                        text-[11px]
+                        text-[10px]
+                        font-medium
                         text-text-muted
                     "
                 >
@@ -149,7 +154,7 @@ const LearningLectureItem = ({
 
                     {progressPercentage > 0 && !isCompleted && (
                         <>
-                            <span>·</span>
+                            <span className="text-border-subtle">•</span>
 
                             <span>{Math.round(progressPercentage)}%</span>
                         </>
@@ -157,7 +162,7 @@ const LearningLectureItem = ({
 
                     {isCompleted && (
                         <>
-                            <span>·</span>
+                            <span className="text-border-subtle">•</span>
 
                             <span
                                 className="
@@ -175,20 +180,20 @@ const LearningLectureItem = ({
                 {progressPercentage > 0 && !isCompleted && (
                     <div
                         className="
-                                mt-2.5
-                                h-0.5
-                                overflow-hidden
-                                rounded-full
-                                bg-background-elevated
-                            "
+                            mt-2.5
+                            h-0.5
+                            overflow-hidden
+                            rounded-full
+                            bg-background-elevated
+                        "
                     >
                         <div
                             className="
-                                    h-full
-                                    rounded-full
-                                    bg-accent-primary
-                                    transition-all
-                                "
+                                h-full
+                                rounded-full
+                                bg-accent-primary
+                                transition-all
+                            "
                             style={{
                                 width: `${progressPercentage}%`,
                             }}

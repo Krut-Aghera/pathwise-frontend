@@ -235,7 +235,6 @@ const LecturePlayer = ({
         }
 
         progressSaveIntervalRef.current = setInterval(() => {
-
             /*
              * Only save while the video is actually playing.
              *
@@ -279,7 +278,7 @@ const LecturePlayer = ({
      * reset the player or remove the event listeners.
      *
      * `getLectureProgress()` reads the latest progress through
-     * progressRef.
+     * `progressRef`.
      */
 
     useEffect(() => {
@@ -472,7 +471,6 @@ const LecturePlayer = ({
             player.off("ended", handleEnded)
 
             stopProgressInterval()
-
         }
     }, [
         isPlayerReady,
@@ -613,44 +611,55 @@ const LecturePlayer = ({
     /*
      * ============================================================
      * UI states
-     * ============================================================
-     */
+     * ============================================================ */
 
     if (isLoading) {
         return (
             <div
                 className="
-                    flex
-                    aspect-video
-                    w-full
-                    items-center
-                    justify-center
-                    overflow-hidden
-                    rounded-xl
-                    border
-                    border-border-subtle
-                    bg-background-surface
+                relative
+                flex
+               aspect-video
+                w-full
+                items-center
+                justify-center
+                overflow-hidden
+                rounded-xl
+                border
+                border-border-subtle
+                bg-background-surface
+                shadow-[0_16px_40px_rgba(0,0,0,0.22)]
                 "
             >
-                <div className="text-center">
+                <div
+                    className="
+                        absolute
+                        inset-0
+                        bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.06),transparent_45%)]
+                    "
+                />
+
+                <div className="relative text-center">
                     <div
                         className="
                             mx-auto
-                            h-8
-                            w-8
+                            h-9
+                            w-9
                             animate-spin
                             rounded-full
                             border-2
-                            border-border-subtle
+                            border-background-elevated
                             border-t-accent-primary
                         "
                     />
 
                     <p
                         className="
-                            mt-4
+                            mt-5
                             font-body
-                            text-sm
+                            text-xs
+                            font-medium
+                            tracking-wide
                             text-text-secondary
                         "
                     >
@@ -665,31 +674,42 @@ const LecturePlayer = ({
         return (
             <div
                 className="
-                    flex
-                    aspect-video
-                    w-full
-                    items-center
-                    justify-center
-                    overflow-hidden
-                    rounded-xl
-                    border
-                    border-border-subtle
-                    bg-background-surface
+                relative
+                flex
+                aspect-video
+                w-full
+                items-center
+                justify-center
+                overflow-hidden
+                rounded-xl
+                border
+                border-border-subtle
+                bg-background-surface
                 "
             >
-                <div className="text-center">
+                <div
+                    className="
+                        absolute
+                        inset-0
+                        bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.07),transparent_42%)]
+                    "
+                />
+
+                <div className="relative text-center">
                     <div
                         className="
                             mx-auto
                             flex
-                            h-12
-                            w-12
+                            h-14
+                            w-14
                             items-center
                             justify-center
-                            rounded-full
+                            rounded-2xl
                             border
                             border-border-subtle
                             bg-background-elevated
+                            shadow-lg
+                            shadow-black/10
                         "
                     >
                         <span
@@ -698,16 +718,17 @@ const LecturePlayer = ({
                                 w-2
                                 rounded-full
                                 bg-accent-primary
+                                shadow-[0_0_14px_rgba(99,102,241,0.7)]
                             "
                         />
                     </div>
 
                     <p
                         className="
-                            mt-4
+                            mt-5
                             font-body
                             text-sm
-                            font-medium
+                            font-semibold
                             text-text-primary
                         "
                     >
@@ -716,7 +737,7 @@ const LecturePlayer = ({
 
                     <p
                         className="
-                            mt-1
+                            mt-1.5
                             font-body
                             text-xs
                             text-text-muted
@@ -734,13 +755,15 @@ const LecturePlayer = ({
     return (
         <div
             className="
-                overflow-hidden
-                rounded-xl
-                border
-                border-border-subtle
-                bg-black
-                shadow-2xl
-                shadow-black/20
+            aspect-video
+            w-full
+            overflow-hidden
+            rounded-xl
+            border
+            border-border-subtle
+            bg-black
+            shadow-[0_16px_40px_rgba(0,0,0,0.28)]
+
             "
         >
             <VideoPlayer
