@@ -51,8 +51,8 @@ import LectureManagementPage from "../../features/lecture/pages/LectureManagemen
 
 import CheckoutPage from "../../features/enrollment-workflow/pages/CheckoutPage"
 import CheckoutVerificationPage from "../../features/enrollment-workflow/pages/CheckoutVerificationPage"
-import EnrolledCoursePage from "../../features/learning-workflow/pages/EnrolledCoursePage"
 import MyLearningPage from "../../features/learning-workflow/pages/MyLearningPage"
+import LearningPage from "../../features/learning-workflow/pages/LearningPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -132,8 +132,8 @@ const routerConfig = createBrowserRouter(
                 <Route path="/my-learning" element={<MyLearningPage />} />
 
                 <Route
-                    path="/courses/courseId/learn"
-                    element={<EnrolledCoursePage />}
+                    path="/courses/:courseId/learn"
+                    element={<LearningPage />}
                 />
             </Route>
 
