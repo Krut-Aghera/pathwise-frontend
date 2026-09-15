@@ -33,18 +33,18 @@ const LearningSection = ({
                 type="button"
                 onClick={() => setOpen((current) => !current)}
                 className="
-                     group
-    flex
-    w-full
-    items-center
-    gap-3
-    px-4
-    py-3
-    text-left
-    transition
-    hover:bg-background-elevated/40
-    sm:px-5
-    sm:py-4
+                    group
+                    flex
+                    w-full
+                    items-center
+                    gap-3
+                    px-4
+                    py-3
+                    text-left
+                    transition
+                    hover:bg-background-elevated/40
+                    sm:px-5
+                    sm:py-4
                 "
             >
                 {/* Section number */}

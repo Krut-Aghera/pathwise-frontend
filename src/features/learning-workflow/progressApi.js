@@ -89,6 +89,7 @@ const progressApi = createApi({
 
 export const {
     useLazyFetchCourseProgressQuery,
+    useFetchCourseProgressQuery,
     useInitializeLectureProgressMutation,
     useUpdateLectureProgressMutation,
     useCompleteLectureProgressMutation,

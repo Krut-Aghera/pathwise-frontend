@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react"
 
-import {
+import store from "../../../app/store/store.js"
+
+import progressApi, {
     useLazyFetchCourseProgressQuery,
     useInitializeLectureProgressMutation,
     useUpdateLectureProgressMutation,
@@ -100,8 +102,8 @@ const useProgress = () => {
 
                 return {
                     success: true,
-                    data: response.data,
-                    meta: response.meta?.calculated ?? null,
+                    data: response?.data,
+                    meta: response?.meta ?? null,
                 }
             } catch (error) {
                 return {
@@ -112,6 +114,54 @@ const useProgress = () => {
         },
         [fetchCourseProgressQuery, syncProgress]
     )
+
+    ///////////////////////////////////////////////////////////////
+    // Fetch multiple course progress
+
+    const fetchCourseProgresses = useCallback(async (courseIds) => {
+        if (!Array.isArray(courseIds) || courseIds.length === 0) {
+            return []
+        }
+
+        const validCourseIds = [...new Set(courseIds.filter(Boolean))]
+
+        const results = await Promise.all(
+            validCourseIds.map(async (courseId) => {
+                const query = store.dispatch(
+                    progressApi.endpoints.fetchCourseProgress.initiate(
+                        courseId,
+                        {
+                            subscribe: true,
+                            forceRefetch: true,
+                        }
+                    )
+                )
+
+                try {
+                    const response = await query.unwrap()
+
+                    return {
+                        courseId,
+                        success: true,
+                        data: response?.data ?? null,
+                        meta: response?.meta ?? null,
+                    }
+                } catch (error) {
+                    return {
+                        courseId,
+                        success: false,
+                        data: null,
+                        meta: null,
+                        error,
+                    }
+                } finally {
+                    query.unsubscribe()
+                }
+            })
+        )
+
+        return results
+    }, [])
 
     ///////////////////////////////////////////////////////////////
     // Initialize lecture progress
@@ -135,8 +185,8 @@ const useProgress = () => {
 
                 return {
                     success: true,
-                    data: response.data,
-                    meta: response.meta?.calculated ?? null,
+                    data: response?.data,
+                    meta: response?.meta ?? null,
                 }
             } catch (error) {
                 return {
@@ -172,8 +222,8 @@ const useProgress = () => {
 
                 return {
                     success: true,
-                    data: response.data,
-                    meta: response.meta?.calculated ?? null,
+                    data: response?.data,
+                    meta: response?.meta ?? null,
                 }
             } catch (error) {
                 return {
@@ -207,8 +257,8 @@ const useProgress = () => {
 
                 return {
                     success: true,
-                    data: response.data,
-                    meta: response.meta?.calculated ?? null,
+                    data: response?.data,
+                    meta: response?.meta ?? null,
                 }
             } catch (error) {
                 return {
@@ -260,6 +310,7 @@ const useProgress = () => {
         // Actions
 
         fetchCourseProgress,
+        fetchCourseProgresses,
         initializeLectureProgress,
         updateLectureProgress,
         completeLectureProgress,

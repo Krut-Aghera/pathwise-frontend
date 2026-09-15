@@ -10,36 +10,34 @@ const EnrollmentEmptyState = () => {
     return (
         <div
             className="
-                flex
-                min-h-[360px]
-                flex-col
-                items-center
-                justify-center
                 rounded-xl
                 border
-                border-dashed
                 border-border-subtle
                 bg-background-surface
                 px-6
-                py-12
+                py-14
                 text-center
+                sm:px-10
             "
         >
             <div
                 className="
+                    mx-auto
                     flex
-                    h-14
-                    w-14
+                    h-12
+                    w-12
                     items-center
                     justify-center
-                    rounded-full
-                    bg-background-elevated
+                    rounded-lg
+                    border
+                    border-accent-primary/20
+                    bg-accent-primary/10
                     font-accent
-                    text-xl
+                    text-lg
                     text-accent-primary
                 "
             >
-                —
+                →
             </div>
 
             <h2
@@ -51,11 +49,12 @@ const EnrollmentEmptyState = () => {
                     text-text-primary
                 "
             >
-                Your learning journey starts here
+                Start your learning journey
             </h2>
 
             <p
                 className="
+                    mx-auto
                     mt-2
                     max-w-md
                     font-body
@@ -64,28 +63,35 @@ const EnrollmentEmptyState = () => {
                     text-text-secondary
                 "
             >
-                You haven't enrolled in any courses yet. Explore the available
-                courses and start learning something new.
+                You haven't enrolled in any courses yet. Explore Pathwise and
+                find something worth learning.
             </p>
 
             <button
                 type="button"
                 onClick={handleExploreCourses}
                 className="
+                    group
                     mt-6
-                    rounded-lg
-                    bg-accent-primary
-                    px-5
-                    py-2.5
+                    inline-flex
+                    items-center
+                    gap-2
                     font-body
                     text-sm
                     font-medium
-                    text-white
-                    transition
-                    hover:opacity-90
+                    text-accent-primary
                 "
             >
                 Explore courses
+                <span
+                    className="
+                        transition-transform
+                        duration-200
+                        group-hover:translate-x-1
+                    "
+                >
+                    →
+                </span>
             </button>
         </div>
     )

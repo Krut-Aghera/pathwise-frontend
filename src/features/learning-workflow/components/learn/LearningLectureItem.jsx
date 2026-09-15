@@ -37,6 +37,7 @@ const LearningLectureItem = ({
                 py-3
                 text-left
                 transition
+                cursor-pointer
                 ${
                     selected
                         ? "bg-accent-primary/10 shadow-[inset_0_0_0_1px_rgba(99,102,241,0.14)]"
