@@ -1,3 +1,4 @@
+import mergeClass from "../../utils/tailwind-cn"
 import Button from "../ui/Button"
 
 const FormActions = ({
@@ -5,6 +6,7 @@ const FormActions = ({
     loading = false,
     submitLabel = "Submit",
     disabled = false,
+    submitClassName,
 }) => {
     ///////////////////////////////////////////////////////////////
     // Button states
@@ -70,30 +72,33 @@ const FormActions = ({
                 type="submit"
                 loading={loading}
                 disabled={submitDisabled}
-                className="
-                    w-full
+                className={mergeClass(
+                    `
+                        w-full
 
-                    border
-                    border-status-success
+                        border
+                        border-status-success
 
-                    bg-status-success
-                    text-background-base
+                        bg-status-success
+                        text-background-base
 
-                    shadow-sm
+                        shadow-sm
 
-                    transition-all
-                    duration-200
+                        transition-all
+                        duration-200
 
-                    hover:opacity-90
-                    hover:shadow-md
+                        hover:opacity-90
+                        hover:shadow-md
 
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-status-success
-                    focus-visible:ring-offset-2
+                        focus-visible:outline-none
+                        focus-visible:ring-2
+                        focus-visible:ring-status-success
+                        focus-visible:ring-offset-2
 
-                    sm:w-auto
-                "
+                        sm:w-auto
+                    `,
+                    submitClassName
+                )}
             >
                 {submitLabel}
             </Button>

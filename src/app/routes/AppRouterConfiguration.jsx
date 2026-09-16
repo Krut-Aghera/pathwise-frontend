@@ -53,6 +53,12 @@ import CheckoutPage from "../../features/enrollment-workflow/pages/CheckoutPage"
 import CheckoutVerificationPage from "../../features/enrollment-workflow/pages/CheckoutVerificationPage"
 import MyLearningPage from "../../features/learning-workflow/pages/MyLearningPage"
 import LearningPage from "../../features/learning-workflow/pages/LearningPage"
+import UsernameUpdatePage from "../../features/user/pages/UsernameUpdatePage"
+import EmailChangePage from "../../features/user/pages/EmailUpdatePage"
+import ConfirmEmailUpdatePage from "../../features/user/pages/ConfirmEmailUpdatePage"
+import InstructorAccessPage from "../../features/user/pages/InstructorAccessPage"
+import ConfirmInstructorAccessPage from "../../features/user/pages/ConfirmInstructorAccessPage"
+import AccountDeactivationPage from "../../features/user/pages/AccountDeactivationPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -110,6 +116,35 @@ const routerConfig = createBrowserRouter(
                     <Route
                         path="verify-email/:token"
                         element={<VerifyEmailPage />}
+                    />
+                </Route>
+
+                <Route path="user" element={<UserAuthLayout />}>
+                    <Route
+                        path="update-username"
+                        element={<UsernameUpdatePage />}
+                    />
+
+                    <Route path="update-email" element={<EmailChangePage />} />
+
+                    <Route
+                        path="update-email/:token"
+                        element={<ConfirmEmailUpdatePage />}
+                    />
+
+                    <Route
+                        path="instructor-access"
+                        element={<InstructorAccessPage />}
+                    />
+
+                    <Route
+                        path="instructor-access/:token"
+                        element={<ConfirmInstructorAccessPage />}
+                    />
+
+                    <Route
+                        path="account/deactive"
+                        element={<AccountDeactivationPage />}
                     />
                 </Route>
 

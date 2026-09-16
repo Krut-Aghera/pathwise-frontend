@@ -52,7 +52,7 @@ const MyLearningPage = () => {
                         progressMeta: result.meta ?? null,
                     }
                 })
-          
+
                 setProgressByCourseId(progressMap)
             } finally {
                 if (isActive) {

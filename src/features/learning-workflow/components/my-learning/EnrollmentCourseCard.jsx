@@ -154,10 +154,7 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                                     text-status-danger
                                 "
                             >
-                                <CircleAlert
-                                    size={14}
-                                    className="shrink-0"
-                                />
+                                <CircleAlert size={14} className="shrink-0" />
 
                                 <span>Course unavailable</span>
                             </div>
@@ -272,10 +269,7 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                                         text-text-muted
                                     "
                                 >
-                                    <BookOpen
-                                        size={13}
-                                        className="shrink-0"
-                                    />
+                                    <BookOpen size={13} className="shrink-0" />
 
                                     <span className="truncate">
                                         {completedLectures} / {totalLectures}{" "}
@@ -366,7 +360,6 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                                 "
                             >
                                 Continue learning
-
                                 <ArrowRight
                                     size={14}
                                     className="

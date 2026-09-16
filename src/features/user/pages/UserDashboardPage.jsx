@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import UserDashboardHeader from "../components/user-dashboard/UserDashboardHeader"
 import UserLearningOverview from "../components/user-dashboard/UserLearningOverview"
 import UserAccountStatus from "../components/user-dashboard/UserAccountStatus"
 import UserProfileSummary from "../components/user-dashboard/UserProfileSummary"
@@ -17,11 +16,10 @@ const UserDashboardPage = () => {
     const { userLogout, isLogoutLoading } = useSession()
 
     const [emailVerificationError, setEmailVerificationError] = useState("")
-
     const [isEmailVerificationSent, setIsEmailVerificationSent] =
         useState(false)
 
-    // Request email verification
+    const navigate = useNavigate()
 
     const handleRequestEmailVerification = async () => {
         if (isRequestEmailVerificationLoading) {
@@ -42,8 +40,6 @@ const UserDashboardPage = () => {
         }
     }
 
-    // Logout
-
     const handleLogout = async () => {
         if (isLogoutLoading) {
             return
@@ -52,59 +48,65 @@ const UserDashboardPage = () => {
         await userLogout()
     }
 
-    const navigate = useNavigate()
-
-    // Navigate to change password
-
     const handleChangePassword = () => {
         navigate("/auth/change-password")
     }
 
-    ///////////////////////////////////////////////////////////////
-    // Render
+    const handleUpdateUsername = () => {
+        navigate("/user/update-username")
+    }
+
+    const handleUpdateEmail = () => {
+        navigate("/user/update-email")
+    }
+
+    const handleAccountDeactivation = () => {
+        navigate("/user/account/deactive")
+    }
 
     return (
         <main
             className="
-            min-h-[calc(100vh-4rem)]
-            bg-background-base
+                min-h-[calc(100vh-4rem)]
+                bg-background-base
             "
         >
             <div
                 className="
-                mx-auto
-                w-full
-                max-w-7xl
-                px-4
-                py-6
+                    mx-auto
+                    flex
+                    w-full
+                    max-w-7xl
+                    flex-col
+                    px-4
+                    py-5
 
-                sm:px-6
-                sm:py-8
+                    sm:px-6
+                    sm:py-6
 
-                lg:px-8
-                lg:py-10
+                    lg:min-h-[calc(100vh-4rem)]
+                    lg:px-8
+                    lg:py-7
                 "
             >
-                {/* Header */}
+                {/* Profile */}
+                <UserProfileSummary />
 
-                <UserDashboardHeader />
-
-                {/* Dashboard content */}
-
+                {/* Learning + Account Status */}
                 <div
                     className="
-                    mt-6
-                    space-y-8
+                        mt-5
+                        grid
+                        min-w-0
+                        grid-cols-1
+                        gap-5
 
-                    lg:mt-8
-                    lg:space-y-10
+                        lg:mt-6
+                        lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.8fr)]
+                        lg:gap-6
                     "
                 >
-                    {/* Learning overview */}
-
                     <UserLearningOverview />
-
-                    {/* Account status */}
 
                     <UserAccountStatus
                         onRequestEmailVerification={
@@ -119,30 +121,20 @@ const UserDashboardPage = () => {
                             setEmailVerificationError("")
                         }
                     />
+                </div>
 
-                    {/* Profile */}
-
-                    <UserProfileSummary />
-
-                    {/* Account management */}
-
-                    <section>
-                        <div
-                            className="
-                            mb-4
-                            flex
-                            flex-col
-                            gap-1
-                            "
-                        >
+                {/* Account Management */}
+                <section className="mt-5 lg:mt-6">
+                    <div className="mb-3 flex items-end justify-between gap-4">
+                        <div>
                             <p
                                 className="
-                                font-body
-                                text-[10px]
-                                font-semibold
-                                uppercase
-                                tracking-[0.16em]
-                                text-accent-primary
+                                    font-body
+                                    text-[10px]
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.18em]
+                                    text-accent-primary
                                 "
                             >
                                 Account
@@ -150,37 +142,44 @@ const UserDashboardPage = () => {
 
                             <h2
                                 className="
-                                font-accent
-                                text-xl
-                                font-semibold
-                                tracking-tight
-                                text-text-primary
+                                    mt-1
+                                    font-accent
+                                    text-lg
+                                    font-semibold
+                                    tracking-tight
+                                    text-text-primary
                                 "
                             >
-                                Manage your account
+                                Account management
                             </h2>
+                        </div>
 
-                            <p
-                                className="
-                                max-w-2xl
+                        <p
+                            className="
+                                hidden
+                                max-w-sm
+                                text-right
                                 font-body
                                 text-xs
                                 leading-5
                                 text-text-secondary
-                                "
-                            >
-                                Update your personal information and security
-                                settings.
-                            </p>
-                        </div>
 
-                        <UserAccountManagement
-                            onLogout={handleLogout}
-                            isLogoutLoading={isLogoutLoading}
-                            onChangePassword={handleChangePassword}
-                        />
-                    </section>
-                </div>
+                                sm:block
+                            "
+                        >
+                            Manage your profile, security, and session.
+                        </p>
+                    </div>
+
+                    <UserAccountManagement
+                        onLogout={handleLogout}
+                        isLogoutLoading={isLogoutLoading}
+                        onChangePassword={handleChangePassword}
+                        onUpdateUsername={handleUpdateUsername}
+                        onUpdateEmail={handleUpdateEmail}
+                        onAccountDectivation={handleAccountDeactivation}
+                    />
+                </section>
             </div>
         </main>
     )
