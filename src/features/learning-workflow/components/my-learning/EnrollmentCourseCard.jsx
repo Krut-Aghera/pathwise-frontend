@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom"
-import { ArrowRight, BookOpen, ConeIcon } from "lucide-react"
+import { ArrowRight, BookOpen, CircleAlert } from "lucide-react"
 
 const EnrollmentCourseCard = ({ enrollment }) => {
     const navigate = useNavigate()
+
     const course = enrollment?.course
-    const progressData = enrollment?.progress
     const progressMeta = enrollment?.progressMeta
+
+    const isCourseRemoved = !course
 
     const completedLectures = progressMeta?.course?.completedLectures ?? 0
     const totalLectures = progressMeta?.course?.totalLectures ?? 0
@@ -14,27 +16,34 @@ const EnrollmentCourseCard = ({ enrollment }) => {
     )
 
     const handleOpenCourse = () => {
+        if (isCourseRemoved) {
+            return
+        }
+
         navigate(`/courses/${course._id}/learn`)
     }
 
     const isCompleted = progressPercentage >= 100
-   
+
     return (
         <article
-            role="button"
-            tabIndex={0}
+            role={isCourseRemoved ? undefined : "button"}
+            tabIndex={isCourseRemoved ? undefined : 0}
             onClick={handleOpenCourse}
             onKeyDown={(event) => {
+                if (isCourseRemoved) {
+                    return
+                }
+
                 if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault()
                     handleOpenCourse()
                 }
             }}
-            className="
+            className={`
                 group
                 flex
                 h-full
-                cursor-pointer
                 flex-col
                 overflow-hidden
 
@@ -46,9 +55,16 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                 transition-all
                 duration-300
 
-                hover:border-accent-primary/30
-                hover:bg-background-elevated/70
-            "
+                ${
+                    isCourseRemoved
+                        ? "opacity-80"
+                        : `
+                            cursor-pointer
+                            hover:border-accent-primary/30
+                            hover:bg-background-elevated/70
+                        `
+                }
+            `}
         >
             {/* Thumbnail */}
 
@@ -90,7 +106,9 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                             text-text-muted
                         "
                     >
-                        No thumbnail
+                        {isCourseRemoved
+                            ? "Course unavailable"
+                            : "No thumbnail"}
                     </div>
                 )}
 
@@ -117,160 +135,251 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                     py-4
                 "
             >
-                {/* Title */}
+                {isCourseRemoved ? (
+                    <>
+                        {/* Removed course message */}
 
-                <div
-                    className="
-                        flex
-                        items-start
-                    "
-                >
-                    <h3
-                        className="
-                            min-h-12
-                            min-w-0
-                            flex-1
+                        <div className="flex flex-1 flex-col">
+                            <div
+                                className="
+                                    flex
+                                    items-center
+                                    gap-2
 
-                            overflow-hidden
+                                    font-body
+                                    text-xs
+                                    font-medium
+                                    uppercase
+                                    tracking-[0.12em]
+                                    text-status-danger
+                                "
+                            >
+                                <CircleAlert
+                                    size={14}
+                                    className="shrink-0"
+                                />
 
-                            font-accent
-                            text-base
-                            font-semibold
-                            leading-6
-                            text-text-primary
+                                <span>Course unavailable</span>
+                            </div>
 
-                            line-clamp-2
+                            <h3
+                                className="
+                                    mt-3
+                                    font-accent
+                                    text-base
+                                    font-semibold
+                                    leading-6
+                                    text-text-primary
+                                "
+                            >
+                                This course has been removed by the instructor.
+                            </h3>
 
-                            transition-colors
-                            duration-300
+                            <p
+                                className="
+                                    mt-2
+                                    font-body
+                                    text-xs
+                                    leading-5
+                                    text-text-muted
+                                "
+                            >
+                                You can no longer access the course content.
+                            </p>
+                        </div>
 
-                            group-hover:text-accent-primary
-                        "
-                    >
-                        {course?.title ?? "Untitled course"}
-                    </h3>
-                </div>
+                        {/* Footer */}
 
-                {/* Progress */}
+                        <div
+                            className="
+                                mt-4
+                                flex
+                                items-center
 
-                <div className="mt-4">
-                    <div
-                        className="
-                            flex
-                            items-center
-                            justify-between
-                            gap-3
+                                border-t
+                                border-border-subtle
+                                pt-3.5
+                            "
+                        >
+                            <span
+                                className="
+                                    font-body
+                                    text-xs
+                                    text-text-muted
+                                "
+                            >
+                                Enrollment retained
+                            </span>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {/* Title */}
 
-                            font-body
-                            text-[11px]
-                        "
-                    >
                         <div
                             className="
                                 flex
-                                min-w-0
-                                items-center
-                                gap-1.5
-
-                                text-text-muted
+                                items-start
                             "
                         >
-                            <BookOpen size={13} className="shrink-0" />
+                            <h3
+                                className="
+                                    min-h-12
+                                    min-w-0
+                                    flex-1
 
-                            <span className="truncate">
-                                {completedLectures} / {totalLectures} lectures
-                            </span>
+                                    overflow-hidden
+
+                                    font-accent
+                                    text-base
+                                    font-semibold
+                                    leading-6
+                                    text-text-primary
+
+                                    line-clamp-2
+
+                                    transition-colors
+                                    duration-300
+
+                                    group-hover:text-accent-primary
+                                "
+                            >
+                                {course?.title ?? "Untitled course"}
+                            </h3>
                         </div>
 
-                        <span
-                            className="
-                                shrink-0
-                                font-medium
-                                text-accent-primary
-                            "
-                        >
-                            {progressPercentage}% completed
-                        </span>
-                    </div>
+                        {/* Progress */}
 
-                    <div
-                        className="
-                            mt-2
-                            h-1.5
-                            overflow-hidden
-                            rounded-full
-                            bg-background-elevated
-                        "
-                    >
+                        <div className="mt-4">
+                            <div
+                                className="
+                                    flex
+                                    items-center
+                                    justify-between
+                                    gap-3
+
+                                    font-body
+                                    text-[11px]
+                                "
+                            >
+                                <div
+                                    className="
+                                        flex
+                                        min-w-0
+                                        items-center
+                                        gap-1.5
+
+                                        text-text-muted
+                                    "
+                                >
+                                    <BookOpen
+                                        size={13}
+                                        className="shrink-0"
+                                    />
+
+                                    <span className="truncate">
+                                        {completedLectures} / {totalLectures}{" "}
+                                        lectures
+                                    </span>
+                                </div>
+
+                                <span
+                                    className="
+                                        shrink-0
+                                        font-medium
+                                        text-accent-primary
+                                    "
+                                >
+                                    {progressPercentage}% completed
+                                </span>
+                            </div>
+
+                            <div
+                                className="
+                                    mt-2
+                                    h-1.5
+                                    overflow-hidden
+                                    rounded-full
+                                    bg-background-elevated
+                                "
+                            >
+                                <div
+                                    className="
+                                        h-full
+                                        rounded-full
+                                        bg-accent-primary
+
+                                        transition-all
+                                        duration-500
+                                    "
+                                    style={{
+                                        width: `${Math.min(
+                                            progressPercentage,
+                                            100
+                                        )}%`,
+                                    }}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+
                         <div
                             className="
-                                h-full
-                                rounded-full
-                                bg-accent-primary
+                                mt-4
+                                flex
+                                items-center
+                                justify-between
 
-                                transition-all
-                                duration-500
+                                border-t
+                                border-border-subtle
+                                pt-3.5
                             "
-                            style={{
-                                width: `${Math.min(progressPercentage, 100)}%`,
-                            }}
-                        />
-                    </div>
-                </div>
+                        >
+                            <span
+                                className="
+                                    font-body
+                                    text-xs
+                                    text-text-muted
+                                "
+                            >
+                                {isCompleted
+                                    ? "Course completed"
+                                    : "Keep learning"}
+                            </span>
 
-                {/* Footer */}
+                            <span
+                                className="
+                                    inline-flex
+                                    items-center
+                                    gap-1.5
 
-                <div
-                    className="
-                        mt-4
-                        flex
-                        items-center
-                        justify-between
+                                    font-body
+                                    text-xs
+                                    font-medium
+                                    text-text-secondary
 
-                        border-t
-                        border-border-subtle
-                        pt-3.5
-                    "
-                >
-                    <span
-                        className="
-                            font-body
-                            text-xs
-                            text-text-muted
-                        "
-                    >
-                        {isCompleted ? "Course completed" : "Keep learning"}
-                    </span>
+                                    transition-colors
+                                    duration-200
 
-                    <span
-                        className="
-                            inline-flex
-                            items-center
-                            gap-1.5
+                                    group-hover:text-accent-primary
+                                "
+                            >
+                                Continue learning
 
-                            font-body
-                            text-xs
-                            font-medium
-                            text-text-secondary
+                                <ArrowRight
+                                    size={14}
+                                    className="
+                                        transition-transform
+                                        duration-200
 
-                            transition-colors
-                            duration-200
-
-                            group-hover:text-accent-primary
-                        "
-                    >
-                        Continue learning
-                        <ArrowRight
-                            size={14}
-                            className="
-                                transition-transform
-                                duration-200
-
-                                group-hover:translate-x-1
-                            "
-                        />
-                    </span>
-                </div>
+                                        group-hover:translate-x-1
+                                    "
+                                />
+                            </span>
+                        </div>
+                    </>
+                )}
             </div>
         </article>
     )

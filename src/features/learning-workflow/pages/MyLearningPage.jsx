@@ -11,7 +11,6 @@ import EnrollmentSkeleton from "../components/my-learning/EnrollmentSkeleton.jsx
 
 const MyLearningPage = () => {
     const { enrollments, isLoading, isError, error } = useEnrollment()
-
     const { fetchCourseProgresses } = useProgress()
 
     const [progressByCourseId, setProgressByCourseId] = useState({})
