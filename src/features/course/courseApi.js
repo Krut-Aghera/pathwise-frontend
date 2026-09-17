@@ -74,6 +74,16 @@ const courseApi = createApi({
             providesTags: ["Course"],
         }),
 
+        // GET /courses/removed
+        fetchRemovedCourses: builder.query({
+            query: () => ({
+                url: "/removed",
+                method: "GET",
+            }),
+
+            providesTags: ["Course"],
+        }),
+
         // GET /courses/mine/:courseId
         fetchInstructorCourse: builder.query({
             query: (courseId) => ({
@@ -219,6 +229,9 @@ export const {
     // Instructor course queries
     useFetchInstructorCoursesQuery,
     useLazyFetchInstructorCoursesQuery,
+
+    useFetchRemovedCoursesQuery,
+    useLazyFetchRemovedCoursesQuery,
 
     useFetchInstructorCourseQuery,
     useLazyFetchInstructorCourseQuery,

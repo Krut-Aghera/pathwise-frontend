@@ -1,97 +1,223 @@
-// import DashboardSideVisual from "../components/user-dashboard/DashboardSideVisual.jsx"
+import { useEffect } from "react"
 
 import InstructorDashboardHeader from "../components/instructor-dashboard/InstructorDashboardHeader"
 import InstructorStats from "../components/instructor-dashboard/InstructorStats"
-import InstructorCoursePerformance from "../components/instructor-dashboard/InstructorCoursePerformance"
-import InstructorDraftCourses from "../components/instructor-dashboard/InstructorDraftCourses"
+import InstructorWorkspace from "../components/instructor-dashboard/InstructorWorkspace"
 import InstructorDeletedCourses from "../components/instructor-dashboard/InstructorDeletedCourses"
-import InstructorQuickActions from "../components/instructor-dashboard/InstructorQuickActions"
-import {
-    instructorDashboardStats,
-    instructorPublishedCourses,
-    instructorDraftCourses,
-    instructorDeletedCourses,
-} from "../../../data/instructorDashboardData.js"
+
+import useCourse from "../../course/hooks/useCourse.js"
+
+import ErrorState from "../../../components/ui/ErrorState.jsx"
+
+import { instructorDashboardStats } from "../../../data/instructorDashboardData.js"
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 const InstructorDashboardPage = () => {
+    const {
+        fetchInstructorCourses,
+        instructorCourses: courses = [],
+        isInstructorCoursesLoading: isCoursesLoading,
+        isInstructorCoursesError: isCoursesError,
+        instructorCoursesError: coursesError,
+
+        fetchRemovedCourses,
+        removedCourses = [],
+        isRemovedCoursesLoading,
+        isRemovedCoursesError,
+        removedCoursesError,
+    } = useCourse()
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Fetch instructor courses
+
+    useEffect(() => {
+        fetchInstructorCourses()
+    }, [])
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Fetch removed courses
+
+    useEffect(() => {
+        fetchRemovedCourses()
+    }, [])
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Error state
+
+    if (isCoursesError || isRemovedCoursesError) {
+        const error = coursesError || removedCoursesError
+
+        const errorMessage =
+            error?.errors?.[0]?.message ||
+            error?.message ||
+            "Unable to load your courses."
+
+        const handleRetry = () => {
+            if (isCoursesError) {
+                fetchInstructorCourses()
+            }
+
+            if (isRemovedCoursesError) {
+                fetchRemovedCourses()
+            }
+        }
+
+        return (
+            <main
+                className="
+                    min-h-[calc(100vh-4rem)]
+                    bg-background-base
+                "
+            >
+                <div
+                    className="
+                        mx-auto
+                        flex
+                        min-h-[calc(100vh-4rem)]
+                        w-full
+                        max-w-7xl
+                        items-center
+                        justify-center
+                        px-4
+                        py-6
+
+                        sm:px-6
+
+                        lg:px-8
+                    "
+                >
+                    <div className="w-full max-w-xl">
+                        <ErrorState
+                            message={errorMessage}
+                            onRetry={handleRetry}
+                        />
+                    </div>
+                </div>
+            </main>
+        )
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Derived course lists
+
+    const draftCourses = courses.filter(
+        (course) => course?.status?.toUpperCase() === "DRAFT"
+    )
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Render
+
     return (
-        <div
+        <main
             className="
-            min-h-[calc(100vh-4rem)]
-            bg-background-base
-        "
+                min-h-[calc(100vh-4rem)]
+                bg-background-base
+            "
         >
             <div
                 className="
-                mx-auto
-                flex
-                w-full
-                max-w-7xl
-                flex-row
+                    mx-auto
+                    flex
+                    w-full
+                    max-w-7xl
+                    flex-col
+                    px-4
+                    py-5
 
-                gap-4
+                    sm:px-6
+                    sm:py-6
 
-                px-3
-                py-6
-
-                sm:gap-6
-                sm:px-6
-                sm:py-8
-
-                lg:gap-8
-                lg:px-8
-            "
-            >
-                {/* Sidebar visual */}
-
-                {/* <DashboardSideVisual /> */}
-
-                {/* Main */}
-
-                <main
-                    className="
-                    min-w-0
-                    flex-1
+                    lg:min-h-[calc(100vh-4rem)]
+                    lg:px-8
+                    lg:py-7
                 "
-                >
-                    <div className="space-y-8">
-                        {/* Header */}
+            >
+                {/* Instructor profile / workspace header */}
 
-                        <InstructorDashboardHeader />
+                <InstructorDashboardHeader />
 
-                        {/* Statistics */}
+                {/* Instructor overview */}
 
-                        <InstructorStats stats={instructorDashboardStats} />
+                <section className="mt-5 lg:mt-6">
+                    <div
+                        className="
+                            mb-3
+                            flex
+                            items-end
+                            justify-between
+                            gap-4
+                        "
+                    >
+                        <div>
+                            <p
+                                className="
+                                    font-body
+                                    text-[10px]
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.18em]
+                                    text-accent-secondary
+                                "
+                            >
+                                Overview
+                            </p>
 
-                        {/* Course workspace */}
+                            <h2
+                                className="
+                                    mt-1
+                                    font-accent
+                                    text-lg
+                                    font-semibold
+                                    tracking-tight
+                                    text-text-primary
+                                "
+                            >
+                                Instructor overview
+                            </h2>
+                        </div>
 
-                        <InstructorQuickActions />
+                        <p
+                            className="
+                                hidden
+                                max-w-sm
+                                text-right
+                                font-body
+                                text-xs
+                                leading-5
+                                text-text-secondary
 
-                        {/* Published courses */}
-
-                        <InstructorCoursePerformance
-                            courses={instructorPublishedCourses}
-                        />
-
-                        {/* Draft courses */}
-
-                        {instructorDraftCourses.length > 0 && (
-                            <InstructorDraftCourses
-                                courses={instructorDraftCourses}
-                            />
-                        )}
-
-                        {/* Deleted courses */}
-
-                        {instructorDeletedCourses.length > 0 && (
-                            <InstructorDeletedCourses
-                                courses={instructorDeletedCourses}
-                            />
-                        )}
+                                sm:block
+                            "
+                        >
+                            A quick look at your courses, learners, and
+                            earnings.
+                        </p>
                     </div>
-                </main>
+
+                    <InstructorStats stats={instructorDashboardStats} />
+                </section>
+
+                {/* Course workspace */}
+
+                <section className="mt-5 lg:mt-6">
+                    <InstructorWorkspace
+                        draftCourses={draftCourses}
+                        allCourses={courses}
+                        isLoading={isCoursesLoading}
+                    />
+                </section>
+
+                {/* Deleted courses */}
+
+                {!isRemovedCoursesLoading && removedCourses.length > 0 && (
+                    <section className="mt-5 lg:mt-6">
+                        <InstructorDeletedCourses courses={removedCourses} />
+                    </section>
+                )}
             </div>
-        </div>
+        </main>
     )
 }
 

@@ -1,130 +1,145 @@
-import { ArchiveX, RotateCcw } from "lucide-react"
+import { ArchiveX } from "lucide-react"
 
-import { Link } from "react-router-dom"
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
-const InstructorDeletedCourses = ({ courses }) => {
+const InstructorDeletedCourses = ({ courses = [] }) => {
+    if (courses.length === 0) {
+        return null
+    }
+
     return (
-        <section>
-            <div className="mb-4">
-                <p
-                    className="
-                    font-body
-                    text-xs
-                    font-medium
-                    uppercase
-                    tracking-wider
-                    text-status-danger
+        <div>
+            <div
+                className="
+                    mb-3
+                    flex
+                    items-end
+                    justify-between
+                    gap-4
                 "
-                >
-                    Archive
-                </p>
+            >
+                <div>
+                    <p
+                        className="
+                            font-body
+                            text-[10px]
+                            font-semibold
+                            uppercase
+                            tracking-[0.18em]
+                            text-status-danger
+                        "
+                    >
+                        Archive
+                    </p>
 
-                <h2
+                    <h2
+                        className="
+                            mt-1
+                            font-accent
+                            text-lg
+                            font-semibold
+                            tracking-tight
+                            text-text-primary
+                        "
+                    >
+                        Deleted courses
+                    </h2>
+                </div>
+
+                <span
                     className="
-                    mt-1
-                    font-accent
-                    text-xl
-                    font-bold
-                    text-text-primary
-                "
+                        rounded-full
+                        bg-status-danger/10
+                        px-2
+                        py-1
+                        font-body
+                        text-[9px]
+                        font-semibold
+                        uppercase
+                        tracking-wider
+                        text-status-danger
+                    "
                 >
-                    Deleted courses
-                </h2>
+                    {courses.length}{" "}
+                    {courses.length === 1 ? "course" : "courses"}
+                </span>
             </div>
 
-            <div className="space-y-3">
-                {courses.map((course) => (
+            <div className="space-y-2.5">
+                {courses.map((course, index) => (
                     <article
-                        key={course.id}
+                        key={index}
                         className="
                             rounded-xl
                             border
                             border-status-danger/15
                             bg-status-danger/5
-                            p-4
+                            px-4
+                            py-3.5
                         "
                     >
                         <div
                             className="
-                            flex
-                            flex-col
-                            gap-4
-
-                            sm:flex-row
-                            sm:items-center
-                            sm:justify-between
-                        "
+                                flex
+                                min-w-0
+                                items-center
+                                gap-3
+                            "
                         >
-                            <div>
-                                <div
-                                    className="
+                            {/* Icon */}
+
+                            <div
+                                className="
                                     flex
+                                    h-9
+                                    w-9
+                                    shrink-0
                                     items-center
-                                    gap-2
+                                    justify-center
+                                    rounded-lg
+                                    border
+                                    border-status-danger/20
+                                    bg-status-danger/10
                                     text-status-danger
                                 "
-                                >
-                                    <ArchiveX size={14} />
+                            >
+                                <ArchiveX size={16} strokeWidth={1.7} />
+                            </div>
 
-                                    <span
-                                        className="
-                                        font-body
-                                        text-[10px]
-                                        font-medium
-                                    "
-                                    >
-                                        Deleted
-                                    </span>
-                                </div>
+                            {/* Course information */}
 
+                            <div className="min-w-0">
                                 <h3
                                     className="
-                                    mt-2
-                                    font-accent
-                                    text-sm
-                                    font-semibold
-                                    text-text-primary
-                                "
+                                        truncate
+                                        font-accent
+                                        text-sm
+                                        font-semibold
+                                        text-text-primary
+                                    "
                                 >
                                     {course.title}
                                 </h3>
 
                                 <p
                                     className="
-                                    mt-1
-                                    font-body
-                                    text-xs
-                                    text-text-muted
-                                "
+                                        mt-0.5
+                                        truncate
+                                        font-body
+                                        text-[10px]
+                                        text-text-muted
+                                    "
                                 >
-                                    Deleted {course.deletedAt}
+                                    {course.subtitle ||
+                                        "No subtitle available."}
                                 </p>
                             </div>
-
-                            <Link
-                                to={`/instructor/courses/${course.id}`}
-                                className="
-                                    inline-flex
-                                    shrink-0
-                                    items-center
-                                    gap-1.5
-                                    font-body
-                                    text-xs
-                                    font-medium
-                                    text-status-danger
-                                    transition
-
-                                    hover:opacity-80
-                                "
-                            >
-                                <RotateCcw size={14} />
-                                Manage
-                            </Link>
                         </div>
                     </article>
                 ))}
             </div>
-        </section>
+        </div>
     )
 }
 

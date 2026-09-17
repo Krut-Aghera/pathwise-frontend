@@ -33,7 +33,6 @@ const AccountDeactivationPage = () => {
     // Confirm deactivation
 
     const handleConfirmDeactivation = async (formData) => {
-        console.log(formData)
         const response = await confirmAccountDeactivation(formData)
 
         navigate("/auth/login", {

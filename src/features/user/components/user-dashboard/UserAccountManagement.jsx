@@ -18,21 +18,24 @@ const UserAccountManagement = ({
             description: user?.username || "Update username",
             icon: UserRound,
             onClick: onUpdateUsername,
-            iconClass: "text-accent-primary bg-accent-primary/10",
+            iconClass:
+                "text-accent-primary bg-accent-primary/10 border border-accent-primary/30",
         },
         {
             label: "Email",
             description: user?.email || "Update email",
             icon: AtSign,
             onClick: onUpdateEmail,
-            iconClass: "text-accent-secondary bg-accent-secondary/10",
+            iconClass:
+                "text-accent-secondary bg-accent-secondary/10 border border-accent-secondary/30",
         },
         {
             label: "Password",
             description: "Change your password",
             icon: KeyRound,
             onClick: onChangePassword,
-            iconClass: "text-accent-unique bg-accent-unique/10",
+            iconClass:
+                "text-accent-unique bg-accent-unique/10 border border-accent-unique/30",
         },
         {
             label: "Sign out",
@@ -40,7 +43,8 @@ const UserAccountManagement = ({
             icon: LogOut,
             onClick: onLogout,
             loading: isLogoutLoading,
-            iconClass: "text-text-secondary bg-background-surface",
+            iconClass:
+                "text-status-danger bg-status-danger/10 border border-status-danger/30",
         },
     ]
 
@@ -77,6 +81,7 @@ const UserAccountManagement = ({
                                 group
                                 flex
                                 min-w-0
+                                cursor-pointer
                                 items-center
                                 gap-3
                                 px-4
@@ -163,39 +168,40 @@ const UserAccountManagement = ({
             {/* Danger zone */}
             <div
                 className="
+                    flex
+                    flex-col
+                    gap-4
                     border-t
                     border-status-danger/15
                     bg-status-danger/5
                     px-4
-                    py-3
+                    py-3.5
+
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                    sm:gap-6
+                    sm:px-5
                 "
             >
-                <button
-                    type="button"
-                    onClick={onAccountDectivation}
-                    className="
-                        flex
-                        w-full
-                        items-center
-                        gap-3
-                        text-left
-                        transition-colors
-                    "
-                >
+                {/* Danger information */}
+                <div className="flex min-w-0 items-center gap-3">
                     <div
                         className="
                             flex
-                            h-8
-                            w-8
+                            h-9
+                            w-9
                             shrink-0
                             items-center
                             justify-center
                             rounded-lg
+                            border
+                            border-status-danger/20
                             bg-status-danger/10
                             text-status-danger
                         "
                     >
-                        <ShieldAlert size={16} strokeWidth={1.7} />
+                        <ShieldAlert size={17} strokeWidth={1.7} />
                     </div>
 
                     <div className="min-w-0">
@@ -215,12 +221,43 @@ const UserAccountManagement = ({
                                 mt-0.5
                                 font-body
                                 text-[10px]
+                                leading-4
                                 text-text-secondary
                             "
                         >
                             Permanently deactivate your Pathwise account.
                         </p>
                     </div>
+                </div>
+
+                {/* Deactivation button */}
+                <button
+                    type="button"
+                    onClick={onAccountDectivation}
+                    className="
+                        inline-flex
+                        h-9
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-lg
+                        border
+                        bg-status-danger
+                        px-3.5
+                        font-body
+                        text-xs
+                        font-semibold
+                        text-background-elevated
+                        transition-all
+                        duration-200
+                        hover:bg-status-danger/80
+                        active:bg-status-danger/70
+                        cursor-pointer
+
+                        sm:w-auto
+                    "
+                >
+                    Deactivate account
                 </button>
             </div>
         </div>

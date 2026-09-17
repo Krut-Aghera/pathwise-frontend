@@ -1,44 +1,113 @@
-import InstructorStatCard from "./InstructorStatCard"
+import { BookOpen, IndianRupee, UsersRound } from "lucide-react"
 
 const InstructorStats = ({ stats }) => {
+    const statistics = [
+        {
+            label: "Total courses",
+            value: stats.totalCourses,
+            icon: BookOpen,
+            iconClass: "text-accent-secondary bg-accent-secondary/10",
+        },
+        {
+            label: "Total learners",
+            value: stats.totalEnrollments,
+            icon: UsersRound,
+            iconClass: "text-accent-unique bg-accent-unique/10",
+        },
+        {
+            label: "Total revenue",
+            value: stats.totalRevenue,
+            icon: IndianRupee,
+            iconClass: "text-status-success bg-status-success/10",
+        },
+    ]
+
     return (
-        <section
+        <div
             className="
-            grid
-            grid-cols-2
-            gap-4
-
-            xl:grid-cols-4
-        "
+                overflow-hidden
+                rounded-xl
+                border
+                border-border-subtle
+            "
         >
-            <InstructorStatCard
-                label="Total courses"
-                value={stats.totalCourses}
-                description="Courses in your workspace"
-                accent="secondary"
-            />
+            <div
+                className="
+                    grid
+                    grid-cols-1
 
-            <InstructorStatCard
-                label="Published"
-                value={stats.publishedCourses}
-                description="Currently available to learners"
-                accent="primary"
-            />
+                    sm:grid-cols-3
+                "
+            >
+                {statistics.map((stat, index) => {
+                    const Icon = stat.icon
 
-            <InstructorStatCard
-                label="Enrollments"
-                value={stats.totalEnrollments}
-                description="Total learners enrolled"
-                accent="unique"
-            />
+                    return (
+                        <div
+                            key={stat.label}
+                            className={`
+                                min-w-0
+                                bg-background-elevated
+                                px-3
+                                py-3.5
+                                transition-colors
+                                hover:bg-background-elevated/80
 
-            <InstructorStatCard
-                label="Total revenue"
-                value={stats.totalRevenue}
-                description="Generated from your courses"
-                accent="secondary"
-            />
-        </section>
+                                ${
+                                    index !== statistics.length - 1
+                                        ? "border-b border-border-subtle sm:border-b-0 sm:border-r"
+                                        : ""
+                                }
+                            `}
+                        >
+                            <div className="flex items-center gap-2.5">
+                                <div
+                                    className={`
+                                        flex
+                                        h-8
+                                        w-8
+                                        shrink-0
+                                        items-center
+                                        justify-center
+                                        rounded-lg
+                                        ${stat.iconClass}
+                                    `}
+                                >
+                                    <Icon size={15} strokeWidth={1.8} />
+                                </div>
+
+                                <div className="min-w-0">
+                                    <p
+                                        className="
+                                            truncate
+                                            font-body
+                                            text-[10px]
+                                            leading-4
+                                            text-text-secondary
+                                        "
+                                    >
+                                        {stat.label}
+                                    </p>
+
+                                    <p
+                                        className="
+                                            mt-0.5
+                                            font-accent
+                                            text-lg
+                                            font-semibold
+                                            leading-none
+                                            text-text-primary
+                                        "
+                                    >
+                                        {stat.value}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+        </div>
     )
 }
 

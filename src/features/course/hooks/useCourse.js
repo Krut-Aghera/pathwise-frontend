@@ -5,6 +5,7 @@ import {
     useLazyFetchCurrentCourseQuery,
     useLazyFetchInstructorCoursesQuery,
     useLazyFetchInstructorCourseQuery,
+    useLazyFetchRemovedCoursesQuery,
 } from "../courseApi.js"
 
 const useCourse = () => {
@@ -49,6 +50,20 @@ const useCourse = () => {
             reset: resetInstructorCourses,
         },
     ] = useLazyFetchInstructorCoursesQuery()
+
+    // Instructor removed courses
+    const [
+        fetchRemovedCoursesQuery,
+        {
+            data: removedCoursesResponse,
+            isLoading: isRemovedCoursesLoading,
+            isFetching: isRemovedCoursesFetching,
+            isSuccess: isRemovedCoursesSuccess,
+            isError: isRemovedCoursesError,
+            error: removedCoursesError,
+            reset: resetRemovedCourses,
+        },
+    ] = useLazyFetchRemovedCoursesQuery()
 
     // Instructor current course
     const [
@@ -131,6 +146,25 @@ const useCourse = () => {
     )
 
     ///////////////////////////////////////////////////////////////
+    // Fetch instructor removed courses
+
+    const fetchRemovedCourses = useCallback(async () => {
+        try {
+            const result = await fetchRemovedCoursesQuery().unwrap()
+
+            return {
+                success: true,
+                data: result,
+            }
+        } catch (error) {
+            return {
+                success: false,
+                error,
+            }
+        }
+    }, [fetchRemovedCoursesQuery])
+
+    ///////////////////////////////////////////////////////////////
     // Fetch instructor current course
 
     const fetchInstructorCourse = useCallback(
@@ -167,6 +201,8 @@ const useCourse = () => {
     const instructorCoursesPagination =
         instructorCoursesResponse?.meta?.pagination ?? null
 
+    const removedCourses = removedCoursesResponse?.data ?? []
+
     const instructorCourse = instructorCourseResponse?.data ?? null
 
     ///////////////////////////////////////////////////////////////
@@ -176,12 +212,14 @@ const useCourse = () => {
         isCoursesLoading ||
         isCurrentCourseLoading ||
         isInstructorCoursesLoading ||
+        isRemovedCoursesLoading ||
         isInstructorCourseLoading
 
     const isFetching =
         isCoursesFetching ||
         isCurrentCourseFetching ||
         isInstructorCoursesFetching ||
+        isRemovedCoursesFetching ||
         isInstructorCourseFetching
 
     return {
@@ -222,6 +260,18 @@ const useCourse = () => {
         instructorCoursesError,
 
         resetInstructorCourses,
+
+        // Instructor removed courses
+        fetchRemovedCourses,
+        removedCourses,
+
+        isRemovedCoursesLoading,
+        isRemovedCoursesFetching,
+        isRemovedCoursesSuccess,
+        isRemovedCoursesError,
+        removedCoursesError,
+
+        resetRemovedCourses,
 
         // Instructor current course
         fetchInstructorCourse,

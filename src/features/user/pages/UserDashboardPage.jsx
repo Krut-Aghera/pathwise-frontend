@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 
 import UserLearningOverview from "../components/user-dashboard/UserLearningOverview"
 import UserAccountStatus from "../components/user-dashboard/UserAccountStatus"
-import UserProfileSummary from "../components/user-dashboard/UserProfileSummary"
+import UserDashboardHeader from "../components/user-dashboard/UserDashboardHeader"
 import UserAccountManagement from "../components/user-dashboard/UserAccountManagement"
 
 import useAuthManagement from "../../auth/hooks/useAuthManagement"
@@ -90,7 +90,17 @@ const UserDashboardPage = () => {
                 "
             >
                 {/* Profile */}
-                <UserProfileSummary />
+                <UserDashboardHeader
+                    onRequestEmailVerification={handleRequestEmailVerification}
+                    isRequestEmailVerificationLoading={
+                        isRequestEmailVerificationLoading
+                    }
+                    emailVerificationError={emailVerificationError}
+                    isEmailVerificationSent={isEmailVerificationSent}
+                    onDismissEmailVerificationError={() =>
+                        setEmailVerificationError("")
+                    }
+                />
 
                 {/* Learning + Account Status */}
                 <div
@@ -108,19 +118,7 @@ const UserDashboardPage = () => {
                 >
                     <UserLearningOverview />
 
-                    <UserAccountStatus
-                        onRequestEmailVerification={
-                            handleRequestEmailVerification
-                        }
-                        isRequestEmailVerificationLoading={
-                            isRequestEmailVerificationLoading
-                        }
-                        emailVerificationError={emailVerificationError}
-                        isEmailVerificationSent={isEmailVerificationSent}
-                        onDismissEmailVerificationError={() =>
-                            setEmailVerificationError("")
-                        }
-                    />
+                    <UserAccountStatus />
                 </div>
 
                 {/* Account Management */}

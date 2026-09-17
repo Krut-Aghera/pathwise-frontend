@@ -34,7 +34,6 @@ const ConfirmAccountDeactivationContent = ({
         try {
             await onSubmit(formData)
         } catch (error) {
-            console.log(error)
             const backendErrors = error?.errors
 
             if (Array.isArray(backendErrors)) {
