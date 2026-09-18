@@ -1,10 +1,8 @@
-import { BookOpen, CheckCircle2, Clock3, TrendingUp } from "lucide-react"
+import { BookOpen, CheckCircle2 } from "lucide-react"
 
 const UserLearningOverview = ({
     enrolledCourses = 0,
     completedCourses = 0,
-    learningHours = 0,
-    overallProgress = 0,
 }) => {
     const statistics = [
         {
@@ -18,18 +16,6 @@ const UserLearningOverview = ({
             value: completedCourses,
             icon: CheckCircle2,
             iconClass: "text-status-success bg-status-success/10",
-        },
-        {
-            label: "Learning hours",
-            value: learningHours,
-            icon: Clock3,
-            iconClass: "text-accent-secondary bg-accent-secondary/10",
-        },
-        {
-            label: "Overall progress",
-            value: `${overallProgress}%`,
-            icon: TrendingUp,
-            iconClass: "text-accent-unique bg-accent-unique/10",
         },
     ]
 
@@ -91,17 +77,15 @@ const UserLearningOverview = ({
                         rounded-xl
                         border
                         border-border-subtle
-
-                        sm:grid-cols-4
                     "
                 >
-                    {statistics.map((stat, index) => {
+                    {statistics.map((stat) => {
                         const Icon = stat.icon
 
                         return (
                             <div
                                 key={stat.label}
-                                className={`
+                                className="
                                     min-w-0
                                     bg-background-elevated
                                     px-3
@@ -109,24 +93,9 @@ const UserLearningOverview = ({
                                     transition-colors
                                     hover:bg-background-elevated/80
 
-                                    ${
-                                        index < 2
-                                            ? "border-b border-border-subtle"
-                                            : ""
-                                    }
-
-                                    ${
-                                        index % 2 === 0
-                                            ? "border-r border-border-subtle"
-                                            : ""
-                                    }
-
-                                    sm:border-b-0
-                                    sm:border-r
-                                    sm:border-border-subtle
-
-                                    sm:last:border-r-0
-                                `}
+                                    first:border-r
+                                    first:border-border-subtle
+                                "
                             >
                                 <div className="flex items-center gap-2.5">
                                     <div

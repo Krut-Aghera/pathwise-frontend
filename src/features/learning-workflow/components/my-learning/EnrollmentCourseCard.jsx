@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom"
 import { ArrowRight, BookOpen, CircleAlert } from "lucide-react"
 
 const EnrollmentCourseCard = ({ enrollment }) => {
+    const removedCourseTumbnail = import.meta.env.VITE_REMOVED_COURSE_THUMBNAIL
+
     const navigate = useNavigate()
 
     const course = enrollment?.course
@@ -55,10 +57,9 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                 transition-all
                 duration-300
 
-                ${
-                    isCourseRemoved
-                        ? "opacity-80"
-                        : `
+                ${isCourseRemoved
+                    ? "opacity-80"
+                    : `
                             cursor-pointer
                             hover:border-accent-primary/30
                             hover:bg-background-elevated/70
@@ -70,57 +71,45 @@ const EnrollmentCourseCard = ({ enrollment }) => {
 
             <div
                 className="
-                    relative
-                    aspect-video
-                    shrink-0
-                    overflow-hidden
-                    bg-background-elevated
-                "
+        relative
+        aspect-video
+        shrink-0
+        overflow-hidden
+        bg-background-elevated
+    "
             >
-                {course?.thumbnail?.url ? (
-                    <img
-                        src={course.thumbnail.url}
-                        alt={course?.title}
-                        className="
-                            h-full
-                            w-full
-                            object-cover
-
-                            transition-transform
-                            duration-500
-
-                            group-hover:scale-105
-                        "
-                    />
-                ) : (
-                    <div
-                        className="
-                            flex
-                            h-full
-                            w-full
-                            items-center
-                            justify-center
-
-                            font-accent
-                            text-sm
-                            text-text-muted
-                        "
-                    >
-                        {isCourseRemoved
+                <img
+                    src={
+                        isCourseRemoved
+                            ? removedCourseTumbnail
+                            : course?.thumbnail?.url
+                    }
+                    alt={
+                        isCourseRemoved
                             ? "Course unavailable"
-                            : "No thumbnail"}
-                    </div>
-                )}
+                            : course?.title
+                    }
+                    className="
+            h-full
+            w-full
+            object-cover
+
+            transition-transform
+            duration-500
+
+            group-hover:scale-105
+        "
+                />
 
                 <div
                     className="
-                        absolute
-                        inset-0
-                        bg-linear-to-t
-                        from-black/35
-                        via-transparent
-                        to-transparent
-                    "
+            absolute
+            inset-0
+            bg-linear-to-t
+            from-black/35
+            via-transparent
+            to-transparent
+        "
                 />
             </div>
 

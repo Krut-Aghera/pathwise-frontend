@@ -6,15 +6,26 @@ import InstructorWorkspace from "../components/instructor-dashboard/InstructorWo
 import InstructorDeletedCourses from "../components/instructor-dashboard/InstructorDeletedCourses"
 
 import useCourse from "../../course/hooks/useCourse.js"
+import useDashboard from "../../user/hooks/useDashboard.js"
+import useSession from "../../auth/hooks/useSession.js"
 
 import ErrorState from "../../../components/ui/ErrorState.jsx"
-
-import { instructorDashboardStats } from "../../../data/instructorDashboardData.js"
+import formatINR from "../../../utils/format-currency.js"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 const InstructorDashboardPage = () => {
+    const { user } = useSession()
+
+    const {
+        fetchInstructorDashboard,
+        instructorDashboard,
+        isInstructorDashboardLoading,
+        isInstructorDashboardError,
+        instructorDashboardError,
+    } = useDashboard()
+
     const {
         fetchInstructorCourses,
         instructorCourses: courses = [],
@@ -28,6 +39,17 @@ const InstructorDashboardPage = () => {
         isRemovedCoursesError,
         removedCoursesError,
     } = useCourse()
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Fetch instructor dashboard
+
+    useEffect(() => {
+        if (!user?._id) {
+            return
+        }
+
+        fetchInstructorDashboard(user._id)
+    }, [user?._id, fetchInstructorDashboard])
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Fetch instructor courses
@@ -46,15 +68,26 @@ const InstructorDashboardPage = () => {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Error state
 
-    if (isCoursesError || isRemovedCoursesError) {
-        const error = coursesError || removedCoursesError
+    if (
+        isInstructorDashboardError ||
+        isCoursesError ||
+        isRemovedCoursesError
+    ) {
+        const error =
+            instructorDashboardError ||
+            coursesError ||
+            removedCoursesError
 
         const errorMessage =
             error?.errors?.[0]?.message ||
             error?.message ||
-            "Unable to load your courses."
+            "Unable to load your dashboard."
 
         const handleRetry = () => {
+            if (isInstructorDashboardError && user?._id) {
+                fetchInstructorDashboard(user._id)
+            }
+
             if (isCoursesError) {
                 fetchInstructorCourses()
             }
@@ -105,6 +138,26 @@ const InstructorDashboardPage = () => {
     const draftCourses = courses.filter(
         (course) => course?.status?.toUpperCase() === "DRAFT"
     )
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Dashboard statistics
+
+    const dashboardStats = {
+        totalPublishedCourses:
+            instructorDashboard?.totalPublishedCourses ?? 0,
+
+        totalDraftCourses:
+            instructorDashboard?.totalDraftCourses ?? 0,
+
+        totalDeletedCourses:
+            instructorDashboard?.totalDeletedCourses ?? 0,
+
+        totalEnrollments:
+            instructorDashboard?.totalEnrollments ?? 0,
+
+        totalRevenue:
+            formatINR(instructorDashboard?.totalRevenue ?? 0,)
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Render
@@ -196,7 +249,10 @@ const InstructorDashboardPage = () => {
                         </p>
                     </div>
 
-                    <InstructorStats stats={instructorDashboardStats} />
+                    <InstructorStats
+                        stats={dashboardStats}
+                        isLoading={isInstructorDashboardLoading}
+                    />
                 </section>
 
                 {/* Course workspace */}

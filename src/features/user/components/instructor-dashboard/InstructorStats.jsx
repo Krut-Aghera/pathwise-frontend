@@ -1,12 +1,30 @@
-import { BookOpen, IndianRupee, UsersRound } from "lucide-react"
+import {
+    BookOpen,
+    CircleDashed,
+    IndianRupee,
+    Trash2,
+    UsersRound,
+} from "lucide-react"
 
-const InstructorStats = ({ stats }) => {
+const InstructorStats = ({ stats, isLoading = false }) => {
     const statistics = [
         {
-            label: "Total courses",
-            value: stats.totalCourses,
+            label: "Published courses",
+            value: stats.totalPublishedCourses,
             icon: BookOpen,
             iconClass: "text-accent-secondary bg-accent-secondary/10",
+        },
+        {
+            label: "Draft courses",
+            value: stats.totalDraftCourses,
+            icon: CircleDashed,
+            iconClass: "text-accent-primary bg-accent-primary/10",
+        },
+        {
+            label: "Deleted courses",
+            value: stats.totalDeletedCourses,
+            icon: Trash2,
+            iconClass: "text-status-danger bg-status-danger/10",
         },
         {
             label: "Total learners",
@@ -36,7 +54,9 @@ const InstructorStats = ({ stats }) => {
                     grid
                     grid-cols-1
 
-                    sm:grid-cols-3
+                    sm:grid-cols-2
+
+                    lg:grid-cols-5
                 "
             >
                 {statistics.map((stat, index) => {
@@ -56,6 +76,24 @@ const InstructorStats = ({ stats }) => {
                                 ${
                                     index !== statistics.length - 1
                                         ? "border-b border-border-subtle sm:border-b-0 sm:border-r"
+                                        : ""
+                                }
+
+                                ${
+                                    index === 1
+                                        ? "sm:border-r-0 lg:border-r"
+                                        : ""
+                                }
+
+                                ${
+                                    index === 2
+                                        ? "sm:border-r lg:border-r"
+                                        : ""
+                                }
+
+                                ${
+                                    index === 3
+                                        ? "sm:border-r-0 lg:border-r"
                                         : ""
                                 }
                             `}
@@ -99,7 +137,7 @@ const InstructorStats = ({ stats }) => {
                                             text-text-primary
                                         "
                                     >
-                                        {stat.value}
+                                        {isLoading ? "—" : stat.value}
                                     </p>
                                 </div>
                             </div>

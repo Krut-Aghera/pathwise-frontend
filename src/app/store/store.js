@@ -9,6 +9,7 @@ import enrollmentApi from "../../features/enrollment-workflow/enrollmentApi"
 import orderApi from "../../features/enrollment-workflow/orderApi"
 import paymentApi from "../../features/enrollment-workflow/paymentApi"
 import progressApi from "../../features/learning-workflow/progressApi"
+import dashboardApi from "../../features/user/dashboardApi"
 
 const store = configureStore({
     reducer: {
@@ -21,6 +22,7 @@ const store = configureStore({
         [orderApi.reducerPath]: orderApi.reducer,
         [paymentApi.reducerPath]: paymentApi.reducer,
         [progressApi.reducerPath]: progressApi.reducer,
+        [dashboardApi.reducerPath]: dashboardApi.reducer,
     },
 
     middleware: (getDefaultMiddleware) =>
@@ -33,7 +35,8 @@ const store = configureStore({
             enrollmentApi.middleware,
             orderApi.middleware,
             paymentApi.middleware,
-            progressApi.middleware
+            progressApi.middleware,
+            dashboardApi.middleware
         ),
 })
 

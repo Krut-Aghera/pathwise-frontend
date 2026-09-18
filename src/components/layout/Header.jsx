@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { NavLink, Link } from "react-router-dom"
-import { BookOpen, Heart, UserRound } from "lucide-react"
+import { BookOpen, Heart, UserRound, ShieldCheck } from "lucide-react"
 import useSession from "../../features/auth/hooks/useSession"
 
 import pathwise_main_logo from "../../assets/pathwise_main_logo.png"
@@ -8,7 +8,9 @@ import pathwise_main_logo from "../../assets/pathwise_main_logo.png"
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    const { isAuthenticated } = useSession()
+    const { user, isAuthenticated } = useSession()
+
+    const isAdmin = user?.role === "admin"
 
     const closeMobileMenu = () => {
         setIsMenuOpen(false)
@@ -220,6 +222,46 @@ const Header = () => {
                                 My Learning
                             </NavLink>
 
+                            {/* Admin panel */}
+
+                            {isAdmin && (
+                                <NavLink
+                                    to="/admin/dashboard"
+                                    className={({ isActive }) => `
+                                        inline-flex
+                                        items-center
+                                        gap-2
+                                        rounded-md
+                                        px-3
+                                        py-2
+                                        font-body
+                                        text-sm
+                                        font-medium
+                                        transition
+
+                                        ${
+                                            isActive
+                                                ? `
+                                                    bg-accent-primary/10
+                                                    text-accent-primary
+                                                `
+                                                : `
+                                                    text-text-secondary
+                                                    hover:bg-background-surface
+                                                    hover:text-accent-primary
+                                                `
+                                        }
+                                    `}
+                                >
+                                    <ShieldCheck
+                                        size={17}
+                                        strokeWidth={1.8}
+                                        aria-hidden="true"
+                                    />
+                                    Admin Panel
+                                </NavLink>
+                            )}
+
                             <NavLink
                                 to="/wishlist"
                                 aria-label="Wishlist"
@@ -417,6 +459,49 @@ const Header = () => {
                                         Learning
                                     </span>
                                 </NavLink>
+
+                                {isAdmin && (
+                                    <NavLink
+                                        to="/admin/dashboard"
+                                        onClick={closeMobileMenu}
+                                        className={({ isActive }) => `
+                                            flex
+                                            flex-col
+                                            items-center
+                                            justify-center
+                                            gap-1.5
+                                            rounded-md
+                                            border
+                                            px-2
+                                            py-3
+                                            transition
+
+                                            ${
+                                                isActive
+                                                    ? `
+                                                        border-accent-primary/30
+                                                        bg-accent-primary/10
+                                                        text-accent-primary
+                                                    `
+                                                    : `
+                                                        border-border-subtle
+                                                        bg-background-base
+                                                        text-text-secondary
+                                                        hover:text-accent-primary
+                                                    `
+                                            }
+                                        `}
+                                    >
+                                        <ShieldCheck
+                                            size={18}
+                                            strokeWidth={1.8}
+                                        />
+
+                                        <span className="text-xs font-medium">
+                                            Admin
+                                        </span>
+                                    </NavLink>
+                                )}
 
                                 <NavLink
                                     to="/wishlist"

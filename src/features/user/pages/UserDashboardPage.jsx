@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import UserLearningOverview from "../components/user-dashboard/UserLearningOverview"
@@ -8,18 +8,41 @@ import UserAccountManagement from "../components/user-dashboard/UserAccountManag
 
 import useAuthManagement from "../../auth/hooks/useAuthManagement"
 import useSession from "../../auth/hooks/useSession"
+import useDashboard from "../hooks/useDashboard"
 
 const UserDashboardPage = () => {
     const { userRequestEmailVerification, isRequestEmailVerificationLoading } =
         useAuthManagement()
 
-    const { userLogout, isLogoutLoading } = useSession()
+    const { userLogout, isLogoutLoading, user } = useSession()
+
+    const {
+        fetchStudentDashboard,
+        studentDashboard,
+        isStudentDashboardLoading,
+        isStudentDashboardError,
+        studentDashboardError,
+    } = useDashboard()
 
     const [emailVerificationError, setEmailVerificationError] = useState("")
     const [isEmailVerificationSent, setIsEmailVerificationSent] =
         useState(false)
 
     const navigate = useNavigate()
+
+    ///////////////////////////////////////////////////////////////
+    // Fetch student dashboard
+
+    useEffect(() => {
+        if (!user?._id) {
+            return
+        }
+
+        fetchStudentDashboard(user._id)
+    }, [user?._id, fetchStudentDashboard])
+
+    ///////////////////////////////////////////////////////////////
+    // Request email verification
 
     const handleRequestEmailVerification = async () => {
         if (isRequestEmailVerificationLoading) {
@@ -40,6 +63,9 @@ const UserDashboardPage = () => {
         }
     }
 
+    ///////////////////////////////////////////////////////////////
+    // Logout
+
     const handleLogout = async () => {
         if (isLogoutLoading) {
             return
@@ -47,6 +73,9 @@ const UserDashboardPage = () => {
 
         await userLogout()
     }
+
+    ///////////////////////////////////////////////////////////////
+    // Account navigation
 
     const handleChangePassword = () => {
         navigate("/auth/change-password")
@@ -63,6 +92,15 @@ const UserDashboardPage = () => {
     const handleAccountDeactivation = () => {
         navigate("/user/account/deactive")
     }
+
+    ///////////////////////////////////////////////////////////////
+    // Dashboard data
+
+    const enrolledCourses =
+        studentDashboard?.totalEnrolledCourses ?? 0
+
+    const completedCourses =
+        studentDashboard?.totalCompletedCourses ?? 0
 
     return (
         <main
@@ -116,7 +154,10 @@ const UserDashboardPage = () => {
                         lg:gap-6
                     "
                 >
-                    <UserLearningOverview />
+                    <UserLearningOverview
+                        enrolledCourses={enrolledCourses}
+                        completedCourses={completedCourses}
+                    />
 
                     <UserAccountStatus />
                 </div>

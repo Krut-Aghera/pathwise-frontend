@@ -59,6 +59,7 @@ import ConfirmEmailUpdatePage from "../../features/user/pages/ConfirmEmailUpdate
 import InstructorAccessPage from "../../features/user/pages/InstructorAccessPage"
 import ConfirmInstructorAccessPage from "../../features/user/pages/ConfirmInstructorAccessPage"
 import AccountDeactivationPage from "../../features/user/pages/AccountDeactivationPage"
+import AdminDashboardPage from "../../features/user/pages/AdminDashboardPage"
 
 const routerConfig = createBrowserRouter(
     createRoutesFromElements(
@@ -253,8 +254,18 @@ const routerConfig = createBrowserRouter(
             {/* Admin Only Routes */}
 
             <Route
-                element={<ProtectedRoutes allowedRoles={[USER_ROLE.ADMIN]} />}
-            ></Route>
+                element={
+                    <ProtectedRoutes
+                        allowedRoles={[USER_ROLE.ADMIN]}
+                    />
+                }
+            >
+
+                <Route element={<AppLayout />}>
+                    <Route path="admin/dashboard" element={<AdminDashboardPage />} />
+                </Route>
+
+            </Route>
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}
             {/* Error Routes*/}
