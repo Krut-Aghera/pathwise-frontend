@@ -85,11 +85,7 @@ const InstructorStats = ({ stats, isLoading = false }) => {
                                         : ""
                                 }
 
-                                ${
-                                    index === 2
-                                        ? "sm:border-r lg:border-r"
-                                        : ""
-                                }
+                                ${index === 2 ? "sm:border-r lg:border-r" : ""}
 
                                 ${
                                     index === 3

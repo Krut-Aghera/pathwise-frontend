@@ -68,15 +68,9 @@ const InstructorDashboardPage = () => {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // Error state
 
-    if (
-        isInstructorDashboardError ||
-        isCoursesError ||
-        isRemovedCoursesError
-    ) {
+    if (isInstructorDashboardError || isCoursesError || isRemovedCoursesError) {
         const error =
-            instructorDashboardError ||
-            coursesError ||
-            removedCoursesError
+            instructorDashboardError || coursesError || removedCoursesError
 
         const errorMessage =
             error?.errors?.[0]?.message ||
@@ -143,20 +137,15 @@ const InstructorDashboardPage = () => {
     // Dashboard statistics
 
     const dashboardStats = {
-        totalPublishedCourses:
-            instructorDashboard?.totalPublishedCourses ?? 0,
+        totalPublishedCourses: instructorDashboard?.totalPublishedCourses ?? 0,
 
-        totalDraftCourses:
-            instructorDashboard?.totalDraftCourses ?? 0,
+        totalDraftCourses: instructorDashboard?.totalDraftCourses ?? 0,
 
-        totalDeletedCourses:
-            instructorDashboard?.totalDeletedCourses ?? 0,
+        totalDeletedCourses: instructorDashboard?.totalDeletedCourses ?? 0,
 
-        totalEnrollments:
-            instructorDashboard?.totalEnrollments ?? 0,
+        totalEnrollments: instructorDashboard?.totalEnrollments ?? 0,
 
-        totalRevenue:
-            formatINR(instructorDashboard?.totalRevenue ?? 0,)
+        totalRevenue: formatINR(instructorDashboard?.totalRevenue ?? 0),
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////

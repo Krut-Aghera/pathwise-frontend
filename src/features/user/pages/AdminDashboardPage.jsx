@@ -11,7 +11,6 @@ import useSession from "../../auth/hooks/useSession.js"
 import ErrorState from "../../../components/ui/ErrorState.jsx"
 import formatINR from "../../../utils/format-currency.js"
 
-
 const AdminDashboardPage = () => {
     const { user } = useSession()
 
@@ -63,8 +62,7 @@ const AdminDashboardPage = () => {
         totalStudents: adminDashboard?.totalStudents ?? 0,
         totalEnrollments: adminDashboard?.totalEnrollments ?? 0,
         totalRevenue: formatINR(adminDashboard?.totalRevenue ?? 0),
-        totalRemovedCourses:
-            adminDashboard?.totalRemovedCourses ?? 0,
+        totalRemovedCourses: adminDashboard?.totalRemovedCourses ?? 0,
     }
 
     const instructors = adminDashboard?.instructors ?? []

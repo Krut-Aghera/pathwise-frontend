@@ -1,9 +1,4 @@
-import {
-    AtSign,
-    CalendarDays,
-    ShieldCheck,
-    UserRound,
-} from "lucide-react"
+import { AtSign, CalendarDays, ShieldCheck, UserRound } from "lucide-react"
 
 import useSession from "../../../auth/hooks/useSession"
 

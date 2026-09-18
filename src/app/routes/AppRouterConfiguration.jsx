@@ -254,17 +254,14 @@ const routerConfig = createBrowserRouter(
             {/* Admin Only Routes */}
 
             <Route
-                element={
-                    <ProtectedRoutes
-                        allowedRoles={[USER_ROLE.ADMIN]}
-                    />
-                }
+                element={<ProtectedRoutes allowedRoles={[USER_ROLE.ADMIN]} />}
             >
-
                 <Route element={<AppLayout />}>
-                    <Route path="admin/dashboard" element={<AdminDashboardPage />} />
+                    <Route
+                        path="admin/dashboard"
+                        element={<AdminDashboardPage />}
+                    />
                 </Route>
-
             </Route>
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}

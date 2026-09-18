@@ -57,9 +57,10 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                 transition-all
                 duration-300
 
-                ${isCourseRemoved
-                    ? "opacity-80"
-                    : `
+                ${
+                    isCourseRemoved
+                        ? "opacity-80"
+                        : `
                             cursor-pointer
                             hover:border-accent-primary/30
                             hover:bg-background-elevated/70
@@ -84,11 +85,7 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                             ? removedCourseTumbnail
                             : course?.thumbnail?.url
                     }
-                    alt={
-                        isCourseRemoved
-                            ? "Course unavailable"
-                            : course?.title
-                    }
+                    alt={isCourseRemoved ? "Course unavailable" : course?.title}
                     className="
             h-full
             w-full

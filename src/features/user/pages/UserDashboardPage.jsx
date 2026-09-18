@@ -96,11 +96,9 @@ const UserDashboardPage = () => {
     ///////////////////////////////////////////////////////////////
     // Dashboard data
 
-    const enrolledCourses =
-        studentDashboard?.totalEnrolledCourses ?? 0
+    const enrolledCourses = studentDashboard?.totalEnrolledCourses ?? 0
 
-    const completedCourses =
-        studentDashboard?.totalCompletedCourses ?? 0
+    const completedCourses = studentDashboard?.totalCompletedCourses ?? 0
 
     return (
         <main

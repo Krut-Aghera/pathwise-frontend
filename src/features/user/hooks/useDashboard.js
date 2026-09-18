@@ -56,9 +56,7 @@ const useDashboard = () => {
         async (instructorId) => {
             try {
                 const result =
-                    await fetchInstructorDashboardQuery(
-                        instructorId
-                    ).unwrap()
+                    await fetchInstructorDashboardQuery(instructorId).unwrap()
 
                 return {
                     success: true,
@@ -103,8 +101,7 @@ const useDashboard = () => {
     const fetchAdminDashboard = useCallback(
         async (adminId) => {
             try {
-                const result =
-                    await fetchAdminDashboardQuery(adminId).unwrap()
+                const result = await fetchAdminDashboardQuery(adminId).unwrap()
 
                 return {
                     success: true,
@@ -124,19 +121,13 @@ const useDashboard = () => {
     // Data
 
     const instructorDashboard =
-        instructorDashboardResponse?.data ??
-        instructorDashboardResponse ??
-        null
+        instructorDashboardResponse?.data ?? instructorDashboardResponse ?? null
 
     const studentDashboard =
-        studentDashboardResponse?.data ??
-        studentDashboardResponse ??
-        null
+        studentDashboardResponse?.data ?? studentDashboardResponse ?? null
 
     const adminDashboard =
-        adminDashboardResponse?.data ??
-        adminDashboardResponse ??
-        null
+        adminDashboardResponse?.data ?? adminDashboardResponse ?? null
 
     ///////////////////////////////////////////////////////////////
     // Overall state

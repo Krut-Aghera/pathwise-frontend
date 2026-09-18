@@ -183,10 +183,7 @@ const AdminWorkspace = ({
                             <div className="flex items-center justify-between rounded-lg bg-background-elevated px-3 py-3">
                                 <div className="flex items-center gap-2.5">
                                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-secondary/10 text-accent-secondary">
-                                        <BookOpen
-                                            size={15}
-                                            strokeWidth={1.8}
-                                        />
+                                        <BookOpen size={15} strokeWidth={1.8} />
                                     </div>
 
                                     <div>
@@ -238,10 +235,7 @@ const AdminWorkspace = ({
                         <div className="flex items-center justify-between gap-4 border-b border-border-subtle px-4 py-3.5">
                             <div className="flex min-w-0 items-center gap-3">
                                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-secondary/10 text-accent-secondary">
-                                    <BookOpen
-                                        size={17}
-                                        strokeWidth={1.8}
-                                    />
+                                    <BookOpen size={17} strokeWidth={1.8} />
                                 </div>
 
                                 <div className="min-w-0">
@@ -287,7 +281,9 @@ const AdminWorkspace = ({
                                                         <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
                                                             <p className="font-body text-[10px] capitalize text-text-muted">
                                                                 By{" "}
-                                                                {course.instructor}
+                                                                {
+                                                                    course.instructor
+                                                                }
                                                             </p>
 
                                                             <span className="text-[10px] text-border-subtle">
