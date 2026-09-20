@@ -55,11 +55,12 @@ const CourseDetailsPage = () => {
             const result = await startEnrollment(selectedCourseId)
 
             if (!result.success) {
-                setEnrollmentError(result.error)
+                setEnrollmentError(result.error?.message)
                 return
             }
 
             const order = result.data?.data
+            console.log(order)
 
             if (!order?._id) {
                 setEnrollmentError({
@@ -77,7 +78,6 @@ const CourseDetailsPage = () => {
         },
         [isStartingEnrollment, startEnrollment, navigate]
     )
-
     const handlePreviewLecture = useCallback((lecture) => {
         if (!lecture?.isPreviewFree || !lecture?.video?.url) {
             return
@@ -118,7 +118,10 @@ const CourseDetailsPage = () => {
         <main className="min-h-screen bg-background-base">
             {enrollmentError && (
                 <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
-                    <ActionError error={enrollmentError} />
+                    <ActionError
+                        open={Boolean(enrollmentError)}
+                        message={enrollmentError}
+                    />
                 </div>
             )}
 

@@ -74,6 +74,19 @@ const routerConfig = createBrowserRouter(
                     path="courses/:courseId"
                     element={<CourseDetailsPage />}
                 />
+                <Route
+                    path="verify-email/:token"
+                    element={<VerifyEmailPage />}
+                />
+                <Route
+                    path="update-email/:token"
+                    element={<ConfirmEmailUpdatePage />}
+                />
+                <Route
+                    path="instructor-access/:token"
+                    element={<ConfirmInstructorAccessPage />}
+                />
+
             </Route>
 
             {/* ////////////////////////////////////////////////////////////////////////////// */}
@@ -113,10 +126,7 @@ const routerConfig = createBrowserRouter(
                         path="change-password"
                         element={<ChangePasswordPage />}
                     />
-                    <Route
-                        path="verify-email/:token"
-                        element={<VerifyEmailPage />}
-                    />
+
                 </Route>
 
                 <Route path="user" element={<UserAuthLayout />}>
@@ -126,22 +136,10 @@ const routerConfig = createBrowserRouter(
                     />
 
                     <Route path="update-email" element={<EmailChangePage />} />
-
-                    <Route
-                        path="update-email/:token"
-                        element={<ConfirmEmailUpdatePage />}
-                    />
-
                     <Route
                         path="instructor-access"
                         element={<InstructorAccessPage />}
                     />
-
-                    <Route
-                        path="instructor-access/:token"
-                        element={<ConfirmInstructorAccessPage />}
-                    />
-
                     <Route
                         path="account/deactive"
                         element={<AccountDeactivationPage />}
