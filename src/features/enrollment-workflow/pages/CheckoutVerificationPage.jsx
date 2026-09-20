@@ -159,6 +159,10 @@ const CheckoutVerificationPage = () => {
         navigate("/dashboard")
     }, [navigate])
 
+    const handleGoToMyLearning = useCallback(() => {
+        navigate("/my-learning")
+    }, [navigate])
+
     /*
      * Keep the page from showing an incomplete state
      * while the route itself is invalid.
@@ -227,10 +231,19 @@ const CheckoutVerificationPage = () => {
                 />
 
                 {!isVerifying && (
-                    <div className="mt-6">
+                    <div
+                        className="
+                            mt-6
+                            flex
+                            flex-col
+                            items-center
+                            gap-3
+                            sm:flex-row
+                        "
+                    >
                         <button
                             type="button"
-                            onClick={handleReturn}
+                            onClick={handleGoToMyLearning}
                             disabled={isCompletingEnrollment}
                             className="
                                 rounded-lg
@@ -243,6 +256,31 @@ const CheckoutVerificationPage = () => {
                                 text-white
                                 transition
                                 hover:opacity-90
+                                disabled:cursor-not-allowed
+                                disabled:opacity-50
+                            "
+                        >
+                            Go to My Learning
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={handleReturn}
+                            disabled={isCompletingEnrollment}
+                            className="
+                                rounded-lg
+                                border
+                                border-border-subtle
+                                bg-background-surface
+                                px-5
+                                py-2.5
+                                font-body
+                                text-sm
+                                font-medium
+                                text-text-primary
+                                transition
+                                hover:border-accent-primary/30
+                                hover:bg-background-elevated
                                 disabled:cursor-not-allowed
                                 disabled:opacity-50
                             "

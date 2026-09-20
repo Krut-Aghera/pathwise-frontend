@@ -60,7 +60,6 @@ const CourseDetailsPage = () => {
             }
 
             const order = result.data?.data
-            console.log(order)
 
             if (!order?._id) {
                 setEnrollmentError({

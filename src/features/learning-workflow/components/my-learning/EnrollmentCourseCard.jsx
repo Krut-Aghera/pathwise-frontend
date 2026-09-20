@@ -49,22 +49,21 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                 flex-col
                 overflow-hidden
 
+                cursor-pointer
                 rounded-xl
                 border
                 border-border-subtle
                 bg-background-surface
-
+                hover:bg-background-elevated/70
+                
                 transition-all
                 duration-300
-
-                ${
-                    isCourseRemoved
-                        ? "opacity-80"
-                        : `
-                            cursor-pointer
-                            hover:border-accent-primary/30
-                            hover:bg-background-elevated/70
-                        `
+                
+                ${isCourseRemoved
+                    ? "opacity-80"
+                    : progressPercentage === 100
+                        ? "hover:border-status-success/30"
+                        : "hover:border-accent-primary/30"
                 }
             `}
         >
@@ -206,26 +205,30 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                             "
                         >
                             <h3
-                                className="
+                                className={`
                                     min-h-12
                                     min-w-0
                                     flex-1
-
+                                    
                                     overflow-hidden
-
+                                    
                                     font-accent
                                     text-base
                                     font-semibold
                                     leading-6
                                     text-text-primary
-
+                                    
                                     line-clamp-2
-
+                                    
                                     transition-colors
                                     duration-300
-
-                                    group-hover:text-accent-primary
-                                "
+                                    
+                                     ${progressPercentage === 100
+                                        ? "group-hover:text-status-success"
+                                        : "group-hover:text-accent-primary"
+                                    }
+                                    
+                                `}
                             >
                                 {course?.title ?? "Untitled course"}
                             </h3>
@@ -264,11 +267,15 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                                 </div>
 
                                 <span
-                                    className="
+                                    className={`
                                         shrink-0
                                         font-medium
-                                        text-accent-primary
-                                    "
+                                          ${progressPercentage === 100
+                                            ? "text-status-success"
+                                            : "text-accent-primary"
+                                        }
+                                    `}
+
                                 >
                                     {progressPercentage}% completed
                                 </span>
@@ -284,14 +291,17 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                                 "
                             >
                                 <div
-                                    className="
+                                    className={`
                                         h-full
                                         rounded-full
-                                        bg-accent-primary
-
+                                        ${progressPercentage === 100
+                                            ? "bg-status-success/70"
+                                            : "bg-accent-primary/70"
+                                        }
+                                        
                                         transition-all
                                         duration-500
-                                    "
+                                    `}
                                     style={{
                                         width: `${Math.min(
                                             progressPercentage,
@@ -329,21 +339,25 @@ const EnrollmentCourseCard = ({ enrollment }) => {
                             </span>
 
                             <span
-                                className="
+                                className={`
                                     inline-flex
                                     items-center
                                     gap-1.5
-
+                                    
                                     font-body
                                     text-xs
                                     font-medium
                                     text-text-secondary
-
+                                    
                                     transition-colors
                                     duration-200
+                                    
+                                    ${progressPercentage === 100
+                                        ? "group-hover:text-status-success"
+                                        : "group-hover:text-accent-primary"
 
-                                    group-hover:text-accent-primary
-                                "
+                                    }
+                                `}
                             >
                                 Continue learning
                                 <ArrowRight

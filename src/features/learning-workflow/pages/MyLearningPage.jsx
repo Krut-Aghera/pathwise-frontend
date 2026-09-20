@@ -82,6 +82,8 @@ const MyLearningPage = () => {
     const isPageLoading =
         isLoading || (isProgressLoading && enrollmentsWithProgress.length === 0)
 
+
+    
     return (
         <main className="min-h-screen bg-background-base">
             <div

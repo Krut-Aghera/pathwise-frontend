@@ -25,11 +25,12 @@ const CourseCreatePage = () => {
     // Submit
     const handleSubmit = async (multipartFormData) => {
         const result = await createCourse(multipartFormData)
+
         if (!result.success) {
-            return
+            return result
         }
 
-        navigate(`/instructor/courses/${result?.data?._id}/manage`)
+        navigate(`/instructor/courses/${result?.data?.data?._id}/manage`)
     }
 
     // Cancel

@@ -1,12 +1,6 @@
 import { Clock3, LockKeyhole, ReceiptText } from "lucide-react"
+import formatINR from "../../../utils/format-currency"
 
-const formatPrice = (amount = 0, currency = "INR") => {
-    return new Intl.NumberFormat("en-IN", {
-        style: "currency",
-        currency,
-        maximumFractionDigits: 0,
-    }).format(Number(amount) || 0)
-}
 
 const formatExpiry = (expiresAt) => {
     if (!expiresAt) {
@@ -57,7 +51,7 @@ const CheckoutOrderSummary = ({ order }) => {
                 rounded-xl
                 border
                 border-border-subtle
-                bg-background-elevated
+                bg-background-surface
             "
         >
             {/* Header */}
@@ -203,7 +197,7 @@ const CheckoutOrderSummary = ({ order }) => {
                                 text-text-primary
                             "
                         >
-                            {formatPrice(order?.amount, order?.currency)}
+                            {formatINR(order?.amount, order?.currency)}
                         </span>
                     </div>
 
@@ -235,7 +229,7 @@ const CheckoutOrderSummary = ({ order }) => {
                                 text-text-primary
                             "
                         >
-                            {formatPrice(order?.amount, order?.currency)}
+                            {formatINR(order?.amount, order?.currency)}
                         </span>
                     </div>
                 </div>
