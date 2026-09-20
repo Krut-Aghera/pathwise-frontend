@@ -262,38 +262,7 @@ const Header = () => {
                                 </NavLink>
                             )}
 
-                            <NavLink
-                                to="/wishlist"
-                                aria-label="Wishlist"
-                                title="Wishlist"
-                                className={({ isActive }) => `
-                                    inline-flex
-                                    items-center
-                                    justify-center
-                                    rounded-md
-                                    p-2
-                                    transition
-
-                                    ${
-                                        isActive
-                                            ? `
-                                                bg-background-surface
-                                                text-text-primary
-                                            `
-                                            : `
-                                                text-text-secondary
-                                                hover:bg-background-surface
-                                                hover:text-text-primary
-                                            `
-                                    }
-                                `}
-                            >
-                                <Heart
-                                    size={18}
-                                    strokeWidth={1.8}
-                                    aria-hidden="true"
-                                />
-                            </NavLink>
+                    
 
                             <NavLink
                                 to="/dashboard"
@@ -503,43 +472,7 @@ const Header = () => {
                                     </NavLink>
                                 )}
 
-                                <NavLink
-                                    to="/wishlist"
-                                    onClick={closeMobileMenu}
-                                    className={({ isActive }) => `
-                                        flex
-                                        flex-col
-                                        items-center
-                                        justify-center
-                                        gap-1.5
-                                        rounded-md
-                                        border
-                                        px-2
-                                        py-3
-                                        transition
-
-                                        ${
-                                            isActive
-                                                ? `
-                                                    border-accent-primary/30
-                                                    bg-background-base
-                                                    text-text-primary
-                                                `
-                                                : `
-                                                    border-border-subtle
-                                                    bg-background-base
-                                                    text-text-secondary
-                                                    hover:text-text-primary
-                                                `
-                                        }
-                                    `}
-                                >
-                                    <Heart size={18} strokeWidth={1.8} />
-
-                                    <span className="text-xs font-medium">
-                                        Wishlist
-                                    </span>
-                                </NavLink>
+                           
 
                                 <NavLink
                                     to="/dashboard"

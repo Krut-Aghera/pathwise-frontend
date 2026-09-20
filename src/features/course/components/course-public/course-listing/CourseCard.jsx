@@ -7,11 +7,11 @@ import {
     Layers3,
     UserRound,
 } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 const CourseCard = ({ course, onClick }) => {
-    const [isWishlisted, setIsWishlisted] = useState(
-        course?.isWishlisted ?? false
-    )
+
+    const navigate = useNavigate()
 
     const levelConfig = {
         beginner: {
@@ -50,27 +50,28 @@ const CourseCard = ({ course, onClick }) => {
 
     const LevelIcon = currentLevel.icon
 
-    const handleWishlistToggle = (event) => {
-        event.preventDefault()
-        event.stopPropagation()
 
-        setIsWishlisted((current) => !current)
-    }
+    ///////////////////////////////////////////////////////////////
+    // Course click
 
     const handleCourseClick = () => {
-        if (!onClick) {
+        const courseId = course?._id ?? course?.id
+
+        if (!courseId) {
             return
         }
 
-        onClick(course)
+        navigate(`/courses/${courseId}`)
     }
 
     return (
         <article
+            onClick={handleCourseClick}
             className="
                 group
                 flex
                 h-full
+                cursor-pointer
                 flex-col
                 overflow-hidden
 
@@ -135,7 +136,7 @@ const CourseCard = ({ course, onClick }) => {
                     py-4
                 "
             >
-                {/* Title + Wishlist */}
+                {/* Title */}
 
                 <div
                     className="
@@ -169,46 +170,7 @@ const CourseCard = ({ course, onClick }) => {
                         {course?.title ?? "Untitled course"}
                     </h3>
 
-                    {/* Wishlist */}
 
-                    <button
-                        type="button"
-                        onClick={handleWishlistToggle}
-                        aria-label={
-                            isWishlisted
-                                ? `Remove ${
-                                      course?.title ?? "course"
-                                  } from wishlist`
-                                : `Add ${course?.title ?? "course"} to wishlist`
-                        }
-                        aria-pressed={isWishlisted}
-                        className={`
-                            flex
-                            h-8
-                            w-8
-                            shrink-0
-                            items-center
-                            justify-center
-
-                            cursor-pointer
-                            rounded-md
-
-                            transition-colors
-                            duration-200
-
-                            ${
-                                isWishlisted
-                                    ? "text-status-success"
-                                    : "text-text-muted hover:text-status-success"
-                            }
-                        `}
-                    >
-                        <Heart
-                            size={18}
-                            strokeWidth={1.8}
-                            fill={isWishlisted ? "currentColor" : "none"}
-                        />
-                    </button>
                 </div>
 
                 {/* Instructor */}
@@ -226,10 +188,14 @@ const CourseCard = ({ course, onClick }) => {
                         text-text-secondary
                     "
                 >
-                    <UserRound size={13} className="shrink-0" />
+                    <UserRound
+                        size={13}
+                        className="shrink-0"
+                    />
 
                     <span className="truncate">
-                        {course?.instructor?.username ?? "Unknown instructor"}
+                        {course?.instructor?.username ??
+                            "Unknown instructor"}
                     </span>
                 </div>
 
@@ -324,15 +290,11 @@ const CourseCard = ({ course, onClick }) => {
 
                     {/* View Course */}
 
-                    <button
-                        type="button"
-                        onClick={handleCourseClick}
+                    <span
                         className="
                             inline-flex
                             items-center
                             gap-1.5
-
-                            cursor-pointer
 
                             font-body
                             text-xs
@@ -342,10 +304,11 @@ const CourseCard = ({ course, onClick }) => {
                             transition-colors
                             duration-200
 
-                            hover:text-accent-primary
+                            group-hover:text-accent-primary
                         "
                     >
                         View Course
+
                         <ArrowRight
                             size={14}
                             className="
@@ -355,7 +318,7 @@ const CourseCard = ({ course, onClick }) => {
                                 group-hover:translate-x-1
                             "
                         />
-                    </button>
+                    </span>
                 </div>
             </div>
         </article>

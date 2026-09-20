@@ -30,7 +30,6 @@ import ResetPasswordPage from "../../features/auth/pages/ResetPasswordPage"
 import ChangePasswordPage from "../../features/auth/pages/ChangePasswordPage"
 
 import UserDashboardPage from "../../features/user/pages/UserDashboardPage"
-import WishlistPage from "../../features/wishlist/pages/WishlistPage"
 
 import InstructorDashboardPage from "../../features/user/pages/InstructorDashboardPage"
 import InstructorCourseListingPage from "../../features/course/pages/course-instructor-pages/InstructorCourseListingPage"
@@ -151,8 +150,6 @@ const routerConfig = createBrowserRouter(
 
                 <Route element={<AppLayout />}>
                     <Route path="dashboard" element={<UserDashboardPage />} />
-
-                    <Route path="wishlist" element={<WishlistPage />} />
 
                     <Route
                         path="/checkout/:orderId"

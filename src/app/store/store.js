@@ -36,7 +36,7 @@ const store = configureStore({
             orderApi.middleware,
             paymentApi.middleware,
             progressApi.middleware,
-            dashboardApi.middleware
+            dashboardApi.middleware,
         ),
 })
 

@@ -29,7 +29,7 @@ const CourseCreatePage = () => {
             return
         }
 
-        navigate(`/instructor/courses`)
+        navigate(`/instructor/courses/${result?.data?._id}/manage`)
     }
 
     // Cancel
