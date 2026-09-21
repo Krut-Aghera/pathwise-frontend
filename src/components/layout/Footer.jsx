@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom"
-
 const Footer = () => {
     return (
         <footer
@@ -16,19 +14,20 @@ const Footer = () => {
                 w-full
                 max-w-7xl
                 flex-col
-                gap-6
+                gap-4
                 px-4
                 py-8
+                text-center
                 sm:px-6
                 lg:flex-row
                 lg:items-center
                 lg:justify-between
                 lg:px-8
+                lg:text-left
             "
             >
                 <div>
-                    <Link
-                        to="/"
+                    <span
                         className="
                             font-accent
                             text-lg
@@ -37,7 +36,7 @@ const Footer = () => {
                         "
                     >
                         pathwise
-                    </Link>
+                    </span>
 
                     <p
                         className="
@@ -47,49 +46,9 @@ const Footer = () => {
                         text-text-muted
                     "
                     >
-                        Learn. Build. Grow.
+                        Learn. Build. Grow. Empowering learners worldwide with curated path-based education.
                     </p>
                 </div>
-
-                <nav
-                    className="
-                    flex
-                    flex-wrap
-                    gap-x-5
-                    gap-y-2
-                    font-body
-                    text-xs
-                    text-text-muted
-                "
-                >
-                    <Link
-                        to="/courses"
-                        className="transition hover:text-text-secondary"
-                    >
-                        Courses
-                    </Link>
-
-                    <Link
-                        to="/learning-paths"
-                        className="transition hover:text-text-secondary"
-                    >
-                        Learning Paths
-                    </Link>
-
-                    <Link
-                        to="/auth/login"
-                        className="transition hover:text-text-secondary"
-                    >
-                        Log in
-                    </Link>
-
-                    <Link
-                        to="/auth/signup"
-                        className="transition hover:text-text-secondary"
-                    >
-                        Sign up
-                    </Link>
-                </nav>
 
                 <p
                     className="
@@ -98,7 +57,7 @@ const Footer = () => {
                     text-text-muted
                 "
                 >
-                    © 2026 Pathwise
+                    © 2026 Pathwise. All rights reserved.
                 </p>
             </div>
         </footer>

@@ -136,9 +136,9 @@ const CoursePreviewModal = ({ lecture, onClose }) => {
                     </button>
                 </div>
 
-                {/* Video */}
+                {/* Video container with overlay */}
 
-                <div className="bg-black">
+                <div className="relative bg-black">
                     <VideoPlayer
                         src={videoUrl}
                         poster={lecture?.video?.thumbnailUrl}
@@ -147,6 +147,36 @@ const CoursePreviewModal = ({ lecture, onClose }) => {
                         preload="metadata"
                         className="w-full"
                     />
+
+                    {/* Disclaimer Overlay on top of the video */}
+                    <div
+                        className="
+                            pointer-events-none
+                            absolute
+                            top-25
+                            left-1/2
+                            z-20
+                            -translate-x-1/2
+                            rounded-md
+                           border-2
+                            border-status-danger/70
+                            bg-background-base/90
+                            px-3
+                            py-1.5
+                            text-center
+                            font-body
+                            tracking-wide
+                            text-[12px]
+                            leading-4
+                            text-text-secondary
+                            backdrop-blur-md
+                            shadow-lg
+                            max-w-[90%]
+                            sm:max-w-xl
+                        "
+                    >
+                        <span className="font-medium text-status-warning">Disclaimer:</span> I do not claim any authority over the video and its content. The whole authority solely belongs to the respective YouTuber and YouTube channel. This video is used here strictly for demonstration purposes.
+                    </div>
                 </div>
 
                 {/* Footer */}

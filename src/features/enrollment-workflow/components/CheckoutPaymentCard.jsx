@@ -89,6 +89,25 @@ const CheckoutPaymentCard = ({
                     </div>
                 </div>
 
+                {/* Service restriction note positioned above the button */}
+                <div
+                    className="
+                        mt-4
+                        rounded-lg
+                        border
+                        border-status-warning/25
+                        bg-status-warning/10
+                        px-3.5
+                        py-2.5
+                        font-body
+                        text-xs
+                        font-medium
+                        text-status-warning
+                    "
+                >
+                    Only Netbanking and Wallet services are available for this transaction.
+                </div>
+
                 <Button
                     type="button"
                     onClick={onPayment}
@@ -96,7 +115,7 @@ const CheckoutPaymentCard = ({
                     loadingText="Preparing payment..."
                     disabled={isDisabled}
                     className="
-                        mt-5
+                        mt-4
                         h-11
                         w-full
                         rounded-lg

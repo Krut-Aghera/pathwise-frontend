@@ -197,8 +197,8 @@ const LearningPage = () => {
 
         const lastAccessedLecture = lastAccessedLectureId
             ? publishedLectures.find(
-                  (lecture) => lecture._id === lastAccessedLectureId
-              )
+                (lecture) => lecture._id === lastAccessedLectureId
+            )
             : null
 
         const initialLecture = lastAccessedLecture ?? publishedLectures[0]
@@ -595,13 +595,13 @@ const LearningPage = () => {
 
             <main
                 className="
-        flex
-        min-h-0
-        flex-1
-        flex-col
-        overflow-hidden
-        lg:flex-row
-    "
+                    flex
+                    min-h-0
+                    flex-1
+                    flex-col
+                    overflow-hidden
+                    lg:flex-row
+                "
             >
                 <LearningSidebar
                     sections={sections}
@@ -611,21 +611,54 @@ const LearningPage = () => {
                     onLectureSelect={handleLectureSelect}
                 />
 
-                <LearningContent
-                    courseId={courseId}
-                    lecture={studentLecture}
-                    selectedLecture={selectedLecture}
-                    progress={progress}
-                    progressMeta={progressMeta}
-                    isLoading={
-                        isInitializingLecture ||
-                        isStudentLectureLoading ||
-                        isStudentLectureFetching
-                    }
-                    isReady={isStudentLectureSuccess}
-                    onProgressUpdated={handleProgressUpdated}
-                    onLectureCompleted={handleLectureCompleted}
-                />
+                {/* Wrapper relative to allow absolute positioning of the overlay */}
+                <div className="relative flex flex-1 flex-col overflow-hidden">
+                    <LearningContent
+                        courseId={courseId}
+                        lecture={studentLecture}
+                        selectedLecture={selectedLecture}
+                        progress={progress}
+                        progressMeta={progressMeta}
+                        isLoading={
+                            isInitializingLecture ||
+                            isStudentLectureLoading ||
+                            isStudentLectureFetching
+                        }
+                        isReady={isStudentLectureSuccess}
+                        onProgressUpdated={handleProgressUpdated}
+                        onLectureCompleted={handleLectureCompleted}
+                    />
+
+                    {/* Disclaimer Overlay */}
+                    <div
+                        className="
+                            pointer-events-none
+                            absolute
+                            top-25
+                            left-1/2
+                            z-20
+                            -translate-x-1/2
+                            rounded-lg
+                            border-2
+                            border-status-danger/70
+                            bg-background-base/90
+                            px-3
+                            py-1.5
+                            text-center
+                            font-body
+                            tracking-wide
+                            text-[12px]
+                            leading-4
+                            text-text-secondary
+                            backdrop-blur-sm
+                            shadow-md
+                            max-w-[90%]
+                            sm:max-w-xl
+                        "
+                    >
+                        <span className="font-medium text-status-warning">Disclaimer:</span> I do not claim any authority over the video and its content. The whole authority solely belongs to the respective YouTuber and YouTube channel. This video is used here strictly for demonstration purposes.
+                    </div>
+                </div>
             </main>
         </div>
     )
