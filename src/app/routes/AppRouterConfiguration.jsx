@@ -75,15 +75,15 @@ const routerConfig = createBrowserRouter(
                     element={<CourseDetailsPage />}
                 />
                 <Route
-                    path="verify-email/:token"
+                    path="auth/verify-email/:token"
                     element={<VerifyEmailPage />}
                 />
                 <Route
-                    path="update-email/:token"
+                    path="user/update-email/:token"
                     element={<ConfirmEmailUpdatePage />}
                 />
                 <Route
-                    path="instructor-access/:token"
+                    path="user/instructor-access/:token"
                     element={<ConfirmInstructorAccessPage />}
                 />
 
