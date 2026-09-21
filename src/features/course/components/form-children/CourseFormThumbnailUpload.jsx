@@ -78,6 +78,18 @@ const CourseFormThumbnailUpload = ({ register, errors, validationRules }) => {
                     "
                     {...register("thumbnail", validationRules)}
                 />
+
+                <p
+                    className="
+                        mt-2
+                        font-body
+                        text-[14px]
+                        leading-5
+                        text-status-warning
+                    "
+                >
+                    Maximum file size: 10 MB.
+                </p>
             </FormField>
         </section>
     )

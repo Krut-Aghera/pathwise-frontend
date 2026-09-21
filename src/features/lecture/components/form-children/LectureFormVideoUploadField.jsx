@@ -75,6 +75,18 @@ const LectureFormVideoUploadField = ({ register, errors, validationRules }) => {
                     "
                     {...register("video", validationRules)}
                 />
+
+                <p
+                    className="
+                        mt-2
+                        font-body
+                        text-[14px]
+                        leading-5
+                        text-status-warning
+                    "
+                >
+                    Maximum file size: 100 MB.
+                </p>
             </FormField>
         </section>
     )

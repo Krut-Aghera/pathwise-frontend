@@ -162,21 +162,7 @@ const LectureManageVideo = ({
                         sm:w-auto
                     "
                     >
-                        {!hasVideo && (
-                            <Button
-                                type="button"
-                                onClick={onUploadVideo}
-                                disabled={removing}
-                                className="
-                                    w-full
-                                    sm:w-auto
-                                "
-                            >
-                                <Upload size={15} />
-                                Upload Video
-                            </Button>
-                        )}
-
+                    
                         {hasVideo && (
                             <Button
                                 type="button"
