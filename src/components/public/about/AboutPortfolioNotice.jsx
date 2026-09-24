@@ -94,7 +94,7 @@ const AboutPortfolioNotice = () => {
                             >
                                 Payments are connected to the{" "}
                                 <strong className="text-text-primary">
-                                    Cashfree sandbox/test environment
+                                    Razorpay test environment
                                 </strong>
                                 . No real money or real transactions are
                                 involved. The payment flow exists to demonstrate

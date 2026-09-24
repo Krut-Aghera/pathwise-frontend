@@ -15,6 +15,7 @@ const useSession = () => {
     const {
         data: userResponse,
         isLoading: isAuthInitializing,
+        isSuccess: isAuthSuccess,
         isError: isAuthError,
         refetch: refetchCurrentUser,
     } = useGetCurrentUserQuery()
@@ -32,6 +33,8 @@ const useSession = () => {
     // Derived authentication state
 
     const isAuthenticated = Boolean(user)
+
+    const isAuthResolved = isAuthSuccess || isAuthError
 
     ///////////////////////////////////////////////////////////////
     // Signup
@@ -75,6 +78,7 @@ const useSession = () => {
         // Authentication state
         isAuthenticated,
         isAuthInitializing,
+        isAuthResolved,
         isAuthError,
 
         // Session actions

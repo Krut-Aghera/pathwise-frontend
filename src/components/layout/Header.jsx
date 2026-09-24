@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { NavLink, Link } from "react-router-dom"
-import { BookOpen, Heart, UserRound, ShieldCheck } from "lucide-react"
+import { BookOpen, UserRound, ShieldCheck } from "lucide-react"
 import useSession from "../../features/auth/hooks/useSession"
 
 import pathwise_main_logo from "../../assets/pathwise_main_logo.png"
@@ -8,7 +8,11 @@ import pathwise_main_logo from "../../assets/pathwise_main_logo.png"
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    const { user, isAuthenticated } = useSession()
+    const {
+        user,
+        isAuthenticated,
+        isAuthResolved,
+    } = useSession()
 
     const isAdmin = user?.role === "admin"
 
@@ -140,7 +144,46 @@ const Header = () => {
                     md:flex
                 "
                 >
-                    {!isAuthenticated ? (
+                    {!isAuthResolved ? (
+                        /* Auth loading skeleton */
+
+                        <div
+                            className="
+                            flex
+                            items-center
+                            gap-2
+                            animate-pulse
+                        "
+                            aria-hidden="true"
+                        >
+                            <div
+                                className="
+                                h-9
+                                w-16
+                                rounded-md
+                                bg-background-surface
+                            "
+                            />
+
+                            <div
+                                className="
+                                h-9
+                                w-24
+                                rounded-md
+                                bg-background-surface
+                            "
+                            />
+
+                            <div
+                                className="
+                                h-9
+                                w-9
+                                rounded-md
+                                bg-background-surface
+                            "
+                            />
+                        </div>
+                    ) : !isAuthenticated ? (
                         <>
                             <Link
                                 to="/auth/login"
@@ -262,8 +305,6 @@ const Header = () => {
                                 </NavLink>
                             )}
 
-                    
-
                             <NavLink
                                 to="/dashboard"
                                 aria-label="User Dashboard"
@@ -306,7 +347,9 @@ const Header = () => {
                     type="button"
                     onClick={() => setIsMenuOpen((current) => !current)}
                     aria-label={
-                        isMenuOpen ? "Close navigation" : "Open navigation"
+                        isMenuOpen
+                            ? "Close navigation"
+                            : "Open navigation"
                     }
                     aria-expanded={isMenuOpen}
                     className="
@@ -379,7 +422,46 @@ const Header = () => {
 
                         {/* Authenticated mobile actions */}
 
-                        {isAuthenticated ? (
+                        {!isAuthResolved ? (
+                            /* Auth loading skeleton */
+
+                            <div
+                                className="
+                                mt-3
+                                grid
+                                grid-cols-3
+                                gap-2
+                                border-t
+                                border-border-subtle
+                                pt-4
+                                animate-pulse
+                            "
+                                aria-hidden="true"
+                            >
+                                <div
+                                    className="
+                                    h-20
+                                    rounded-md
+                                    bg-background-base
+                                "
+                                />
+
+                                <div
+                                    className="
+                                    h-20
+                                    rounded-md
+                                "    bg-background-base
+                                />
+
+                                <div
+                                    className="
+                                    h-20
+                                    rounded-md
+                                    bg-background-base
+                                "
+                                />
+                            </div>
+                        ) : isAuthenticated ? (
                             <div
                                 className="
                                 mt-3
@@ -422,7 +504,10 @@ const Header = () => {
                                         }
                                     `}
                                 >
-                                    <BookOpen size={18} strokeWidth={1.8} />
+                                    <BookOpen
+                                        size={18}
+                                        strokeWidth={1.8}
+                                    />
 
                                     <span className="text-xs font-medium">
                                         Learning
@@ -472,8 +557,6 @@ const Header = () => {
                                     </NavLink>
                                 )}
 
-                           
-
                                 <NavLink
                                     to="/dashboard"
                                     onClick={closeMobileMenu}
@@ -505,7 +588,10 @@ const Header = () => {
                                         }
                                     `}
                                 >
-                                    <UserRound size={18} strokeWidth={1.8} />
+                                    <UserRound
+                                        size={18}
+                                        strokeWidth={1.8}
+                                    />
 
                                     <span className="text-xs font-medium">
                                         Account

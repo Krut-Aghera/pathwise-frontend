@@ -16,7 +16,7 @@ import {
 export const systemAreas = [
     {
         icon: ShieldCheck,
-        label: "Authentication",
+        label: "Authentication & Authorization",
     },
     {
         icon: Users,
@@ -24,16 +24,20 @@ export const systemAreas = [
     },
     {
         icon: Mail,
-        label: "Email Notifications",
+        label: "Email Based Communication",
+    },
+    {
+        icon: Cloud,
+        label: "Media Handling",
     },
     {
         icon: ShoppingCart,
         label: "Enrollment & Payment",
     },
     {
-        icon: Cloud,
-        label: "Media Handling",
-    },
+        icon: Activity,
+        label: "Progress Tracking",
+    }
 ]
 
 export const reasons = [
@@ -82,7 +86,7 @@ export const creatorCapabilities = [
 export const engineeringFeatures = [
     {
         icon: ShieldCheck,
-        title: "Authentication",
+        title: "Authentication & Authorization",
         description:
             "Secure authentication with access and refresh token responsibilities, protected sessions, verification, and role-based authorization.",
     },
@@ -100,7 +104,7 @@ export const engineeringFeatures = [
     },
     {
         icon: Mail,
-        title: "Email Notifications",
+        title: "Email Based Communication",
         description:
             "Email-based workflows support account-related communication such as registration, verification, and authentication events.",
     },
@@ -122,6 +126,18 @@ export const engineeringFeatures = [
         description:
             "Lecture position, watched duration, completion state, and overall course progress are persisted for the learner.",
     },
+    {
+        icon: Database,
+        title: "Data Modeling",
+        description:
+            "The application models relationships between users, courses, sections, lectures, orders, enrollment, and learning progress.",
+    },
+    {
+        icon: Rocket,
+        title: "Deployment & Infrastructure",
+        description:
+            "The application is deployed to a production environment with considerations for security, reliability, and performance.",
+    }
 ]
 
 export const technologies = [
@@ -145,6 +161,6 @@ export const technologies = [
     {
         category: "Services & Infrastructure",
         icon: Cloud,
-        items: ["Cloudinary", "Cashfree", "Sender", "Vercel", "Railway"],
+        items: ["Cloudinary", "Razorpay", "Sender", "Vercel", "Veeble Ubuntu", "Nginx", "PM2", "MongoDB Atlas", "Cloudflare"],
     },
 ]

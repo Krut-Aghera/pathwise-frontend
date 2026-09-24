@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 import useCourse from "../features/course/hooks/useCourse"
 
 import HomeHero from "../components/public/home/HomeHero"
-import LearningPaths from "../components/public/home/LearningPath"
 import WhyPathwise from "../components/public/home/WhyPathwise"
 import FeaturedCourses from "../components/public/home/FeaturedCourses"
 
@@ -52,8 +51,6 @@ const HomePage = () => {
                 isError={isCoursesError}
                 onCourseClick={handleCourseDetailsPage}
             />
-
-            <LearningPaths />
 
             <WhyPathwise />
         </div>
